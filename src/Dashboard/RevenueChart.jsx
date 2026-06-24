@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useMemo } from 'react'
 import { motion } from 'framer-motion'
 import {
   AreaChart,
@@ -9,7 +9,7 @@ import {
   Tooltip,
   ResponsiveContainer,
 } from 'recharts'
-import { TrendingUp } from 'lucide-react'
+import { TrendingUp, TrendingDown, DollarSign } from 'lucide-react'
 
 const RevenueChart = () => {
   const [data] = useState([
@@ -22,14 +22,34 @@ const RevenueChart = () => {
     { month: 'Jul', revenue: 12500 },
   ])
 
+  const stats = useMemo(() => {
+    const total = data.reduce((sum, item) => sum + item.revenue, 0)
+    const average = total / data.length
+    const max = Math.max(...data.map(item => item.revenue))
+    const min = Math.min(...data.map(item => item.revenue))
+    const lastMonth = data[data.length - 1]?.revenue || 0
+    const previousMonth = data[data.length - 2]?.revenue || 0
+    const change = previousMonth > 0 ? ((lastMonth - previousMonth) / previousMonth * 100) : 0
+    
+    return { total, average, max, min, change, lastMonth, previousMonth }
+  }, [data])
+
   const CustomTooltip = ({ active, payload, label }) => {
     if (active && payload && payload.length) {
+      const value = payload[0].value
+      const isPositive = value >= 0
+      
       return (
-        <div className="bg-white/95 backdrop-blur-sm p-3 rounded-xl shadow-xl border border-slate-200/60">
-          <p className="text-sm font-semibold text-slate-800">{label}</p>
-          <p className="text-sm text-[#6D28D9] font-bold">
-            ${payload[0].value.toLocaleString()}
+        <div className="bg-white/95 backdrop-blur-sm p-3 sm:p-4 rounded-xl shadow-2xl border border-slate-200/60 min-w-[140px] sm:min-w-[160px]">
+          <p className="text-sm font-semibold text-slate-800 mb-1.5">{label}</p>
+          <p className="text-lg sm:text-xl font-bold text-[#6D28D9]">
+            ${value.toLocaleString()}
           </p>
+          <div className="mt-2 pt-2 border-t border-slate-100">
+            <p className="text-xs text-slate-500">
+              {isPositive ? '↑' : '↓'} {isPositive ? 'Positive' : 'Negative'} trend
+            </p>
+          </div>
         </div>
       )
     }
@@ -40,53 +60,146 @@ const RevenueChart = () => {
     <motion.div
       initial={{ opacity: 0, scale: 0.95 }}
       animate={{ opacity: 1, scale: 1 }}
-      transition={{ duration: 0.5, delay: 0.2 }}
-      className="bg-white rounded-2xl p-6 border border-slate-200/60 shadow-xl shadow-slate-200/30"
+      transition={{ duration: 0.5, delay: 0.2, ease: "easeOut" }}
+      className="bg-white rounded-2xl p-4 sm:p-5 md:p-6 border border-slate-200/60 shadow-xl shadow-slate-200/30 hover:shadow-2xl transition-shadow duration-300 h-full flex flex-col"
     >
-      <div className="flex items-center justify-between mb-6">
-        <div>
-          <h3 className="text-lg font-bold text-slate-800">Revenue Overview</h3>
-          <p className="text-sm text-slate-500">Monthly income trend</p>
+      {/* Header */}
+      <div className="flex flex-col sm:flex-row sm:items-start md:items-center justify-between gap-3 sm:gap-4 mb-4 sm:mb-5 md:mb-6">
+        <div className="flex-1 min-w-0">
+          <h3 className="text-base sm:text-lg md:text-xl font-bold text-slate-800 truncate">
+            Revenue Overview
+          </h3>
+          <p className="text-xs sm:text-sm text-slate-500 mt-0.5">
+            Monthly income trend
+          </p>
         </div>
-        <div className="flex items-center gap-2 px-3 py-1.5 bg-emerald-50 rounded-lg">
-          <TrendingUp className="w-4 h-4 text-emerald-600" />
-          <span className="text-sm font-semibold text-emerald-600">+12.5%</span>
+        <div className="flex items-center gap-2 flex-shrink-0 flex-wrap">
+          <div className={`
+            flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3 py-1 sm:py-1.5 
+            rounded-lg transition-colors duration-200
+            ${stats.change >= 0 ? 'bg-emerald-50 hover:bg-emerald-100' : 'bg-red-50 hover:bg-red-100'}
+          `}>
+            {stats.change >= 0 ? (
+              <TrendingUp className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-emerald-600" />
+            ) : (
+              <TrendingDown className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-red-600" />
+            )}
+            <span className={`
+              text-xs sm:text-sm font-semibold whitespace-nowrap
+              ${stats.change >= 0 ? 'text-emerald-600' : 'text-red-600'}
+            `}>
+              {stats.change >= 0 ? '+' : ''}{stats.change.toFixed(1)}%
+            </span>
+          </div>
+          <div className="flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3 py-1 sm:py-1.5 bg-[#6D28D9]/10 rounded-lg hover:bg-[#6D28D9]/15 transition-colors duration-200">
+            <DollarSign className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#6D28D9]" />
+            <span className="text-xs sm:text-sm font-semibold text-[#6D28D9] whitespace-nowrap">
+              ${stats.total.toLocaleString()}
+            </span>
+          </div>
         </div>
       </div>
 
-      <div className="h-72">
+      {/* Quick Stats Row */}
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-3 mb-4 sm:mb-5 md:mb-6">
+        <div className="bg-slate-50 rounded-lg p-2 sm:p-3">
+          <p className="text-[10px] sm:text-xs text-slate-500">Average</p>
+          <p className="text-xs sm:text-sm font-semibold text-slate-700">
+            ${stats.average.toFixed(0)}
+          </p>
+        </div>
+        <div className="bg-slate-50 rounded-lg p-2 sm:p-3">
+          <p className="text-[10px] sm:text-xs text-slate-500">Highest</p>
+          <p className="text-xs sm:text-sm font-semibold text-emerald-600">
+            ${stats.max.toLocaleString()}
+          </p>
+        </div>
+        <div className="bg-slate-50 rounded-lg p-2 sm:p-3">
+          <p className="text-[10px] sm:text-xs text-slate-500">Lowest</p>
+          <p className="text-xs sm:text-sm font-semibold text-red-500">
+            ${stats.min.toLocaleString()}
+          </p>
+        </div>
+        <div className="bg-slate-50 rounded-lg p-2 sm:p-3">
+          <p className="text-[10px] sm:text-xs text-slate-500">Current</p>
+          <p className="text-xs sm:text-sm font-semibold text-[#6D28D9]">
+            ${stats.lastMonth.toLocaleString()}
+          </p>
+        </div>
+      </div>
+
+      {/* Chart Container */}
+      <div className="flex-1 min-h-[200px] sm:min-h-[240px] md:min-h-[280px] lg:min-h-[320px] w-full">
         <ResponsiveContainer width="100%" height="100%">
-          <AreaChart data={data}>
+          <AreaChart 
+            data={data}
+            margin={{ top: 10, right: 10, left: 0, bottom: 5 }}
+          >
             <defs>
               <linearGradient id="revenueGradient" x1="0" y1="0" x2="0" y2="1">
                 <stop offset="5%" stopColor="#6D28D9" stopOpacity={0.3} />
                 <stop offset="95%" stopColor="#6D28D9" stopOpacity={0} />
               </linearGradient>
             </defs>
-            <CartesianGrid strokeDasharray="3 3" stroke="#f1f5f9" />
+            <CartesianGrid 
+              strokeDasharray="3 3" 
+              stroke="#f1f5f9" 
+              vertical={false}
+            />
             <XAxis 
               dataKey="month" 
               axisLine={false}
               tickLine={false}
-              tick={{ fill: '#94a3b8', fontSize: 12 }}
+              tick={{ fill: '#94a3b8', fontSize: 11 }}
+              tickMargin={8}
             />
             <YAxis 
               axisLine={false}
               tickLine={false}
-              tick={{ fill: '#94a3b8', fontSize: 12 }}
-              tickFormatter={(value) => `$${value}`}
+              tick={{ fill: '#94a3b8', fontSize: 11 }}
+              tickFormatter={(value) => `$${value/1000}k`}
+              tickMargin={8}
             />
-            <Tooltip content={CustomTooltip } />
+            <Tooltip 
+              content={CustomTooltip}
+              cursor={{ stroke: '#e2e8f0', strokeWidth: 1 }}
+            />
             <Area
               type="monotone"
               dataKey="revenue"
               stroke="#6D28D9"
               strokeWidth={3}
               fill="url(#revenueGradient)"
-              activeDot={{ r: 8, fill: '#6D28D9' }}
+              activeDot={{ 
+                r: 6,
+                fill: '#6D28D9',
+                stroke: '#fff',
+                strokeWidth: 2
+              }}
+              animationDuration={1000}
+              animationEasing="ease-out"
             />
           </AreaChart>
         </ResponsiveContainer>
+      </div>
+
+      {/* Footer Stats */}
+      <div className="mt-3 sm:mt-4 pt-3 sm:pt-4 border-t border-slate-100">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+          <p className="text-[10px] sm:text-xs text-slate-500">
+            Total revenue for the period
+          </p>
+          <div className="flex items-center gap-4">
+            <div className="flex items-center gap-1.5">
+              <div className="w-2 h-2 rounded-full bg-[#6D28D9]" />
+              <span className="text-[10px] sm:text-xs text-slate-600">Monthly revenue</span>
+            </div>
+            <div className="flex items-center gap-1.5">
+              <div className="w-2 h-2 rounded-full bg-emerald-500" />
+              <span className="text-[10px] sm:text-xs text-slate-600">Trending up</span>
+            </div>
+          </div>
+        </div>
       </div>
     </motion.div>
   )
