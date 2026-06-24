@@ -23,7 +23,13 @@ import {
   X,
 } from "lucide-react";
 
-const Sidebar = ({ sidebarOpen, toggleSidebar, closeSidebar }) => {
+const Sidebar = ({ 
+  sidebarOpen, 
+  toggleSidebar, 
+  closeSidebar,
+  isCollapsed,
+  setIsCollapsed 
+}) => {
   const [openMenus, setOpenMenus] = useState({
     properties: true,
     users: false,
@@ -36,7 +42,13 @@ const Sidebar = ({ sidebarOpen, toggleSidebar, closeSidebar }) => {
     reports: false,
     admin: false,
   });
+  
+  const [hoveredItem, setHoveredItem] = useState(null);
+  const [hoveredParent, setHoveredParent] = useState(null);
+  const [tooltipPosition, setTooltipPosition] = useState({ x: 0, y: 0 });
   const sidebarRef = useRef(null);
+  const tooltipTimeoutRef = useRef(null);
+  const subMenuTimeoutRef = useRef(null);
 
   const toggleMenu = (menu) => {
     setOpenMenus((prev) => ({
@@ -74,6 +86,18 @@ const Sidebar = ({ sidebarOpen, toggleSidebar, closeSidebar }) => {
     return () => document.removeEventListener("keydown", handleEscape);
   }, [sidebarOpen, closeSidebar]);
 
+  // Clear timeouts on unmount
+  useEffect(() => {
+    return () => {
+      if (tooltipTimeoutRef.current) {
+        clearTimeout(tooltipTimeoutRef.current);
+      }
+      if (subMenuTimeoutRef.current) {
+        clearTimeout(subMenuTimeoutRef.current);
+      }
+    };
+  }, []);
+
   const navItems = [{ to: "/", icon: LayoutDashboard, label: "Dashboard" }];
 
   const mainMenuItems = [
@@ -82,9 +106,10 @@ const Sidebar = ({ sidebarOpen, toggleSidebar, closeSidebar }) => {
       icon: Building2,
       label: "Properties",
       items: [
-        { to: "/properties/listed", label: "Listed Properties" },
-        { to: "/properties/portfolio", label: "Buildings Portfolio" },
-        { to: "/properties/units", label: "Single Units" },
+        { to: "/properties/listed", label: "All Property" },
+        { to: "/properties/portfolio", label: "All Unit" },
+        { to: "/properties/units", label: "Own Property" },
+        { to: "/properties/units", label: "Lease Property" },
       ],
     },
     {
@@ -196,11 +221,145 @@ const Sidebar = ({ sidebarOpen, toggleSidebar, closeSidebar }) => {
   );
 
   const linkClass = ({ isActive }) =>
-    `flex items-center gap-3 px-3 py-2 rounded-lg transition-all duration-300 text-sm ${
+    `flex items-center gap-3 px-3 py-2 rounded-lg transition-all duration-300 text-sm relative ${
       isActive
-        ? "bg-indigo-50 text-indigo-700 font-semibold shadow-sm"
-        : "text-slate-600 hover:bg-slate-100 hover:text-slate-900"
-    }`;
+        ? "bg-gray-200 text-indigo-700 font-semibold shadow-sm"
+        : "text-slate-600 hover:bg-gray-100 hover:text-slate-900"
+    } ${isCollapsed ? "justify-center" : ""}`;
+
+  // Tooltip component - Gray background
+  const Tooltip = ({ label, position }) => {
+    if (!label || !isCollapsed) return null;
+    // Don't show tooltip for items with sub-menus
+    const hasSubMenu = [...mainMenuItems, ...managementItems, ...communicationItems].some(
+      m => m.label === label && m.items
+    );
+    if (hasSubMenu) return null;
+    
+    return (
+      <div
+        className="fixed z-50 px-3 py-2 bg-gray-200 text-slate-800 text-sm font-medium rounded-lg shadow-lg pointer-events-none whitespace-nowrap transition-opacity duration-200"
+        style={{
+          left: position.x,
+          top: position.y,
+          transform: 'translateY(-50%)',
+          opacity: hoveredItem === label ? 1 : 0,
+        }}
+      >
+        {label}
+      </div>
+    );
+  };
+
+  // Handle icon click to expand sidebar
+  const handleItemClick = () => {
+    if (isCollapsed) {
+      setIsCollapsed(false);
+    }
+    closeSidebar();
+  };
+
+  // Get tooltip position - right next to icon
+  const getTooltipPosition = (e, label) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    setTooltipPosition({
+      x: rect.right + 4,
+      y: rect.top + rect.height / 2,
+    });
+    setHoveredItem(label);
+  };
+
+  // Handle mouse leave - hide tooltip with delay
+  const handleMouseLeave = () => {
+    if (tooltipTimeoutRef.current) {
+      clearTimeout(tooltipTimeoutRef.current);
+    }
+    if (subMenuTimeoutRef.current) {
+      clearTimeout(subMenuTimeoutRef.current);
+    }
+    tooltipTimeoutRef.current = setTimeout(() => {
+      setHoveredItem(null);
+      setHoveredParent(null);
+    }, 150);
+  };
+
+  // Handle mouse enter - clear timeout and show tooltip
+  const handleMouseEnter = (e, label, hasSubMenu = false) => {
+    if (tooltipTimeoutRef.current) {
+      clearTimeout(tooltipTimeoutRef.current);
+    }
+    if (subMenuTimeoutRef.current) {
+      clearTimeout(subMenuTimeoutRef.current);
+    }
+    if (isCollapsed) {
+      getTooltipPosition(e, label);
+      if (hasSubMenu) {
+        setHoveredParent(label);
+      }
+    }
+  };
+
+  // Render sub-menu items in a popup beside the icon
+  const renderSubMenuPopup = (items, parentLabel, position) => {
+    if (!isCollapsed) return null;
+    if (hoveredParent !== parentLabel) return null;
+    if (!items || items.length === 0) return null;
+    
+    return (
+      <div
+        className="fixed z-50 bg-white border border-slate-200 rounded-lg shadow-xl py-1 min-w-[180px] max-w-[220px]"
+        style={{
+          left: position.x + 12,
+          top: position.y - ((items.length * 36) / 2) + 10,
+        }}
+        onMouseEnter={() => {
+          if (subMenuTimeoutRef.current) {
+            clearTimeout(subMenuTimeoutRef.current);
+          }
+          if (tooltipTimeoutRef.current) {
+            clearTimeout(tooltipTimeoutRef.current);
+          }
+          setHoveredParent(parentLabel);
+        }}
+        onMouseLeave={() => {
+          subMenuTimeoutRef.current = setTimeout(() => {
+            setHoveredParent(null);
+            setHoveredItem(null);
+          }, 150);
+        }}
+      >
+        {items.map((item, index) => (
+          <NavLink
+            key={item.to}
+            to={item.to}
+            className={({ isActive }) =>
+              `flex items-center gap-2 px-4 py-2.5 text-sm ${
+                isActive
+                  ? "bg-gray-200 text-indigo-700 font-semibold"
+                  : "text-slate-600 hover:bg-gray-100 hover:text-slate-900"
+              } transition-colors duration-200 border-b border-slate-100 last:border-0`
+            }
+            onClick={() => {
+              closeSidebar();
+              setHoveredParent(null);
+              setHoveredItem(null);
+              if (isCollapsed) {
+                setIsCollapsed(false);
+              }
+            }}
+          >
+            <span className="text-[10px] text-slate-400">└</span>
+            {item.label}
+          </NavLink>
+        ))}
+      </div>
+    );
+  };
+
+  // Check if menu has sub-items
+  const hasSubItems = (menu) => {
+    return menu.items && menu.items.length > 0;
+  };
 
   return (
     <>
@@ -223,27 +382,32 @@ const Sidebar = ({ sidebarOpen, toggleSidebar, closeSidebar }) => {
       <aside
         ref={sidebarRef}
         className={`
-          w-64 h-screen bg-white border-r border-slate-200 
+          h-screen bg-white border-r border-slate-200 
           flex flex-col flex-shrink-0
-          transition-transform duration-300 ease-in-out
+          transition-all duration-500 ease-in-out
           fixed lg:relative
           top-0 left-0
           z-50
           shadow-lg lg:shadow-none
           ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'}
           lg:translate-x-0
+          ${isCollapsed ? 'w-16' : 'w-64'}
         `}
       >
         {/* Logo */}
-        <div className="p-4 border-b border-slate-200 flex-shrink-0 flex items-center justify-between">
-          <div className="flex items-center gap-2.5">
-            <div className="w-8 h-8 bg-indigo-600 rounded-lg flex items-center justify-center text-white">
+        <div className={`p-4 border-b border-slate-200 flex-shrink-0 flex items-center transition-all duration-500 ${
+          isCollapsed ? 'justify-center' : 'justify-between'
+        }`}>
+          <div className={`flex items-center gap-2.5 transition-all duration-500 ${isCollapsed ? 'justify-center' : ''}`}>
+            <div className="w-8 h-8 bg-indigo-600 rounded-lg flex items-center justify-center text-white flex-shrink-0">
               <Home className="w-4 h-4" />
             </div>
-            <div>
-              <h1 className="text-lg font-bold text-slate-900">PropDaller</h1>
-              <p className="text-[10px] text-slate-500">Management System</p>
-            </div>
+            {!isCollapsed && (
+              <div className="transition-all duration-500">
+                <h1 className="text-lg font-bold text-slate-900">PropDaller</h1>
+                <p className="text-[10px] text-slate-500">Management System</p>
+              </div>
+            )}
           </div>
 
           {/* Close button - mobile only */}
@@ -260,9 +424,24 @@ const Sidebar = ({ sidebarOpen, toggleSidebar, closeSidebar }) => {
         <nav className="flex-1 p-3 overflow-y-auto">
           {/* Dashboard */}
           {navItems.map((item) => (
-            <NavLink key={item.to} to={item.to} className={linkClass} onClick={closeSidebar}>
-              <item.icon className="w-4 h-4 text-slate-500" />
-              {item.label}
+            <NavLink
+              key={item.to}
+              to={item.to}
+              className={({ isActive }) =>
+                `flex items-center gap-3 px-3 py-2 rounded-lg transition-all duration-300 text-sm relative ${
+                  isActive
+                    ? "bg-gray-200 text-indigo-700 font-semibold shadow-sm"
+                    : "text-slate-600 hover:bg-gray-100 hover:text-slate-900"
+                } ${isCollapsed ? "justify-center" : ""}`
+              }
+              onClick={handleItemClick}
+              onMouseEnter={(e) => handleMouseEnter(e, item.label, false)}
+              onMouseLeave={handleMouseLeave}
+            >
+              <item.icon className="w-4 h-4 flex-shrink-0" />
+              {!isCollapsed && (
+                <span className="truncate">{item.label}</span>
+              )}
             </NavLink>
           ))}
 
@@ -271,35 +450,82 @@ const Sidebar = ({ sidebarOpen, toggleSidebar, closeSidebar }) => {
             {mainMenuItems.map((menu) => (
               <div key={menu.id}>
                 {menu.isLink ? (
-                  <NavLink to={menu.to} className={linkClass} onClick={closeSidebar}>
-                    <menu.icon className="w-4 h-4 text-slate-500" />
-                    {menu.label}
+                  <NavLink
+                    to={menu.to}
+                    className={({ isActive }) =>
+                      `flex items-center gap-3 px-3 py-2 rounded-lg transition-all duration-300 text-sm relative ${
+                        isActive
+                          ? "bg-gray-200 text-indigo-700 font-semibold shadow-sm"
+                          : "text-slate-600 hover:bg-gray-100 hover:text-slate-900"
+                      } ${isCollapsed ? "justify-center" : ""}`
+                    }
+                    onClick={handleItemClick}
+                    onMouseEnter={(e) => handleMouseEnter(e, menu.label, false)}
+                    onMouseLeave={handleMouseLeave}
+                  >
+                    <menu.icon className="w-4 h-4 flex-shrink-0" />
+                    {!isCollapsed && (
+                      <span className="truncate">{menu.label}</span>
+                    )}
                   </NavLink>
                 ) : (
-                  <>
+                  <div>
                     <button
-                      onClick={() => toggleMenu(menu.id)}
-                      className="w-full flex items-center justify-between px-3 py-2 rounded-lg text-sm text-slate-600 hover:bg-slate-100 transition"
+                      onClick={() => {
+                        if (isCollapsed) {
+                          setIsCollapsed(false);
+                        } else {
+                          toggleMenu(menu.id);
+                        }
+                      }}
+                      className={`w-full flex items-center ${
+                        isCollapsed ? "justify-center" : "justify-between"
+                      } px-3 py-2 rounded-lg text-sm ${
+                        openMenus[menu.id] ? "bg-gray-200" : ""
+                      } text-slate-600 hover:bg-gray-100 transition-all duration-300 relative group`}
+                      onMouseEnter={(e) => handleMouseEnter(e, menu.label, true)}
+                      onMouseLeave={handleMouseLeave}
                     >
-                      <div className="flex items-center gap-3">
-                        <menu.icon className="w-4 h-4 text-slate-500" />
-                        {menu.label}
+                      <div className={`flex items-center gap-3`}>
+                        <menu.icon className="w-4 h-4 flex-shrink-0" />
+                        {!isCollapsed && (
+                          <span className="truncate">{menu.label}</span>
+                        )}
                       </div>
-                      {openMenus[menu.id] ? (
-                        <ChevronDown className="w-4 h-4" />
-                      ) : (
-                        <ChevronRight className="w-4 h-4" />
+                      {!isCollapsed && (
+                        <div className="flex-shrink-0">
+                          {openMenus[menu.id] ? (
+                            <ChevronDown className="w-4 h-4" />
+                          ) : (
+                            <ChevronRight className="w-4 h-4" />
+                          )}
+                        </div>
                       )}
                     </button>
 
-                    {openMenus[menu.id] && (
+                    {/* Sub-menu popup for collapsed mode */}
+                    {isCollapsed && hasSubItems(menu) && (
+                      renderSubMenuPopup(menu.items, menu.label, tooltipPosition)
+                    )}
+
+                    {openMenus[menu.id] && !isCollapsed && (
                       <div className="ml-2">
                         {menu.items.map((item, i) => (
                           <TreeLines
                             key={item.to}
                             isLast={i === menu.items.length - 1}
                           >
-                            <NavLink to={item.to} className={linkClass} onClick={closeSidebar}>
+                            <NavLink
+                              to={item.to}
+                              className={({ isActive }) =>
+                                `flex items-center gap-3 px-3 py-2 rounded-lg transition-all duration-300 text-sm relative ${
+                                  isActive
+                                    ? "bg-gray-200 text-indigo-700 font-semibold shadow-sm"
+                                    : "text-slate-600 hover:bg-gray-100 hover:text-slate-900"
+                                }`
+                              }
+                              onClick={handleItemClick}
+                            >
                               <span className="text-[10px] text-slate-400">└</span>
                               {item.label}
                             </NavLink>
@@ -307,7 +533,7 @@ const Sidebar = ({ sidebarOpen, toggleSidebar, closeSidebar }) => {
                         ))}
                       </div>
                     )}
-                  </>
+                  </div>
                 )}
               </div>
             ))}
@@ -318,28 +544,60 @@ const Sidebar = ({ sidebarOpen, toggleSidebar, closeSidebar }) => {
             {managementItems.map((menu) => (
               <div key={menu.id}>
                 <button
-                  onClick={() => toggleMenu(menu.id)}
-                  className="w-full flex items-center justify-between px-3 py-2 rounded-lg text-sm text-slate-600 hover:bg-slate-100 transition"
+                  onClick={() => {
+                    if (isCollapsed) {
+                      setIsCollapsed(false);
+                    } else {
+                      toggleMenu(menu.id);
+                    }
+                  }}
+                  className={`w-full flex items-center ${
+                    isCollapsed ? "justify-center" : "justify-between"
+                  } px-3 py-2 rounded-lg text-sm ${
+                    openMenus[menu.id] ? "bg-gray-200" : ""
+                  } text-slate-600 hover:bg-gray-100 transition-all duration-300 relative group`}
+                  onMouseEnter={(e) => handleMouseEnter(e, menu.label, true)}
+                  onMouseLeave={handleMouseLeave}
                 >
-                  <div className="flex items-center gap-3">
-                    <menu.icon className="w-4 h-4 text-slate-500" />
-                    {menu.label}
+                  <div className={`flex items-center gap-3`}>
+                    <menu.icon className="w-4 h-4 flex-shrink-0" />
+                    {!isCollapsed && (
+                      <span className="truncate">{menu.label}</span>
+                    )}
                   </div>
-                  {openMenus[menu.id] ? (
-                    <ChevronDown className="w-4 h-4" />
-                  ) : (
-                    <ChevronRight className="w-4 h-4" />
+                  {!isCollapsed && (
+                    <div className="flex-shrink-0">
+                      {openMenus[menu.id] ? (
+                        <ChevronDown className="w-4 h-4" />
+                      ) : (
+                        <ChevronRight className="w-4 h-4" />
+                      )}
+                    </div>
                   )}
                 </button>
 
-                {openMenus[menu.id] && (
+                {isCollapsed && hasSubItems(menu) && (
+                  renderSubMenuPopup(menu.items, menu.label, tooltipPosition)
+                )}
+
+                {openMenus[menu.id] && !isCollapsed && (
                   <div className="ml-2">
                     {menu.items.map((item, i) => (
                       <TreeLines
                         key={item.to}
                         isLast={i === menu.items.length - 1}
                       >
-                        <NavLink to={item.to} className={linkClass} onClick={closeSidebar}>
+                        <NavLink
+                          to={item.to}
+                          className={({ isActive }) =>
+                            `flex items-center gap-3 px-3 py-2 rounded-lg transition-all duration-300 text-sm relative ${
+                              isActive
+                                ? "bg-gray-200 text-indigo-700 font-semibold shadow-sm"
+                                : "text-slate-600 hover:bg-gray-100 hover:text-slate-900"
+                            }`
+                          }
+                          onClick={handleItemClick}
+                        >
                           <span className="text-[10px] text-slate-400">└</span>
                           {item.label}
                         </NavLink>
@@ -356,28 +614,60 @@ const Sidebar = ({ sidebarOpen, toggleSidebar, closeSidebar }) => {
             {communicationItems.map((menu) => (
               <div key={menu.id}>
                 <button
-                  onClick={() => toggleMenu(menu.id)}
-                  className="w-full flex items-center justify-between px-3 py-2 rounded-lg text-sm text-slate-600 hover:bg-slate-100 transition"
+                  onClick={() => {
+                    if (isCollapsed) {
+                      setIsCollapsed(false);
+                    } else {
+                      toggleMenu(menu.id);
+                    }
+                  }}
+                  className={`w-full flex items-center ${
+                    isCollapsed ? "justify-center" : "justify-between"
+                  } px-3 py-2 rounded-lg text-sm ${
+                    openMenus[menu.id] ? "bg-gray-200" : ""
+                  } text-slate-600 hover:bg-gray-100 transition-all duration-300 relative group`}
+                  onMouseEnter={(e) => handleMouseEnter(e, menu.label, true)}
+                  onMouseLeave={handleMouseLeave}
                 >
-                  <div className="flex items-center gap-3">
-                    <menu.icon className="w-4 h-4 text-slate-500" />
-                    {menu.label}
+                  <div className={`flex items-center gap-3`}>
+                    <menu.icon className="w-4 h-4 flex-shrink-0" />
+                    {!isCollapsed && (
+                      <span className="truncate">{menu.label}</span>
+                    )}
                   </div>
-                  {openMenus[menu.id] ? (
-                    <ChevronDown className="w-4 h-4" />
-                  ) : (
-                    <ChevronRight className="w-4 h-4" />
+                  {!isCollapsed && (
+                    <div className="flex-shrink-0">
+                      {openMenus[menu.id] ? (
+                        <ChevronDown className="w-4 h-4" />
+                      ) : (
+                        <ChevronRight className="w-4 h-4" />
+                      )}
+                    </div>
                   )}
                 </button>
 
-                {openMenus[menu.id] && (
+                {isCollapsed && hasSubItems(menu) && (
+                  renderSubMenuPopup(menu.items, menu.label, tooltipPosition)
+                )}
+
+                {openMenus[menu.id] && !isCollapsed && (
                   <div className="ml-2">
                     {menu.items.map((item, i) => (
                       <TreeLines
                         key={item.to}
                         isLast={i === menu.items.length - 1}
                       >
-                        <NavLink to={item.to} className={linkClass} onClick={closeSidebar}>
+                        <NavLink
+                          to={item.to}
+                          className={({ isActive }) =>
+                            `flex items-center gap-3 px-3 py-2 rounded-lg transition-all duration-300 text-sm relative ${
+                              isActive
+                                ? "bg-gray-200 text-indigo-700 font-semibold shadow-sm"
+                                : "text-slate-600 hover:bg-gray-100 hover:text-slate-900"
+                            }`
+                          }
+                          onClick={handleItemClick}
+                        >
                           <span className="text-[10px] text-slate-400">└</span>
                           {item.label}
                         </NavLink>
@@ -389,25 +679,58 @@ const Sidebar = ({ sidebarOpen, toggleSidebar, closeSidebar }) => {
             ))}
           </div>
 
-          {/* Security & Admin */}
+          {/* Security & Admin - FIXED: No text, only icon */}
           <div className="mt-5 space-y-1">
             <div>
               <button
-                onClick={() => toggleMenu("admin")}
-                className="w-full flex items-center justify-between px-3 py-2 rounded-lg text-sm text-slate-600 hover:bg-slate-100 transition"
+                onClick={() => {
+                  if (isCollapsed) {
+                    setIsCollapsed(false);
+                  } else {
+                    toggleMenu("admin");
+                  }
+                }}
+                className={`w-full flex items-center ${
+                  isCollapsed ? "justify-center" : "justify-between"
+                } px-3 py-2 rounded-lg text-sm ${
+                  openMenus.admin ? "bg-gray-200" : ""
+                } text-slate-600 hover:bg-gray-100 transition-all duration-300 relative group`}
+                onMouseEnter={(e) => handleMouseEnter(e, "Admin", true)}
+                onMouseLeave={handleMouseLeave}
               >
-                <div className="flex items-center gap-3">
-                  <Shield className="w-4 h-4 text-slate-500" />
-                  Admin
+                <div className={`flex items-center ${isCollapsed ? "" : "gap-3"}`}>
+                  <Shield className="w-4 h-4 flex-shrink-0" />
+                  {/* Text COMPLETELY REMOVED when collapsed - only show when expanded */}
+                  {!isCollapsed && (
+                    <span className="truncate">Admin</span>
+                  )}
                 </div>
-                {openMenus.admin ? (
-                  <ChevronDown className="w-4 h-4" />
-                ) : (
-                  <ChevronRight className="w-4 h-4" />
+                {/* Chevron ONLY shows when expanded */}
+                {!isCollapsed && (
+                  <div className="flex-shrink-0">
+                    {openMenus.admin ? (
+                      <ChevronDown className="w-4 h-4" />
+                    ) : (
+                      <ChevronRight className="w-4 h-4" />
+                    )}
+                  </div>
                 )}
               </button>
 
-              {openMenus.admin && (
+              {/* Sub-menu popup for collapsed mode */}
+              {isCollapsed && hoveredParent === "Admin" && (
+                renderSubMenuPopup(
+                  [
+                    { to: "/admin/team", label: "Admin Team" },
+                    { to: "/admin/permissions", label: "Permissions" },
+                    { to: "/admin/audit", label: "Audit Logs" },
+                  ],
+                  "Admin",
+                  tooltipPosition
+                )
+              )}
+
+              {openMenus.admin && !isCollapsed && (
                 <div className="ml-2">
                   {[
                     { to: "/admin/team", label: "Admin Team" },
@@ -415,7 +738,17 @@ const Sidebar = ({ sidebarOpen, toggleSidebar, closeSidebar }) => {
                     { to: "/admin/audit", label: "Audit Logs" },
                   ].map((item, i) => (
                     <TreeLines key={item.to} isLast={i === 2}>
-                      <NavLink to={item.to} className={linkClass} onClick={closeSidebar}>
+                      <NavLink
+                        to={item.to}
+                        className={({ isActive }) =>
+                          `flex items-center gap-3 px-3 py-2 rounded-lg transition-all duration-300 text-sm relative ${
+                            isActive
+                              ? "bg-gray-200 text-indigo-700 font-semibold shadow-sm"
+                              : "text-slate-600 hover:bg-gray-100 hover:text-slate-900"
+                          }`
+                        }
+                        onClick={handleItemClick}
+                      >
                         <span className="text-[10px] text-slate-400">└</span>
                         {item.label}
                       </NavLink>
@@ -429,32 +762,56 @@ const Sidebar = ({ sidebarOpen, toggleSidebar, closeSidebar }) => {
           {/* Bottom Items */}
           <div className="mt-5 border-t border-slate-200 pt-4 space-y-1">
             {bottomItems.map((item) => (
-              <NavLink key={item.to} to={item.to} className={linkClass} onClick={closeSidebar}>
-                <item.icon className="w-4 h-4 text-slate-500" />
-                {item.label}
+              <NavLink
+                key={item.to}
+                to={item.to}
+                className={({ isActive }) =>
+                  `flex items-center gap-3 px-3 py-2 rounded-lg transition-all duration-300 text-sm relative ${
+                    isActive
+                      ? "bg-gray-200 text-indigo-700 font-semibold shadow-sm"
+                      : "text-slate-600 hover:bg-gray-100 hover:text-slate-900"
+                  } ${isCollapsed ? "justify-center" : ""}`
+                }
+                onClick={handleItemClick}
+                onMouseEnter={(e) => handleMouseEnter(e, item.label, false)}
+                onMouseLeave={handleMouseLeave}
+              >
+                <item.icon className="w-4 h-4 flex-shrink-0" />
+                {!isCollapsed && (
+                  <span className="truncate">{item.label}</span>
+                )}
               </NavLink>
             ))}
           </div>
         </nav>
 
         {/* Footer */}
-        <div className="p-4 border-t border-slate-200 flex items-center gap-3 flex-shrink-0">
-          <div className="w-9 h-9 bg-indigo-600 text-white rounded-full flex items-center justify-center text-sm font-semibold">
+        <div className={`p-4 border-t border-slate-200 flex items-center gap-3 flex-shrink-0 transition-all duration-500 ${
+          isCollapsed ? 'justify-center' : ''
+        }`}>
+          <div className="w-9 h-9 bg-indigo-600 text-white rounded-full flex items-center justify-center text-sm font-semibold flex-shrink-0">
             AS
           </div>
-          <div className="flex-1 min-w-0">
-            <p className="text-sm font-semibold text-slate-900 truncate">
-              Alex Sterling
-            </p>
-            <p className="text-xs text-slate-500 truncate">Senior Manager</p>
-          </div>
-          <button 
-            className="p-1.5 rounded-lg hover:bg-slate-100 transition text-slate-400 hover:text-slate-600"
-            aria-label="Logout"
-          >
-            <LogOut className="w-4 h-4" />
-          </button>
+          {!isCollapsed && (
+            <div className="flex items-center gap-3 flex-1 min-w-0 transition-all duration-500">
+              <div className="flex-1 min-w-0">
+                <p className="text-sm font-semibold text-slate-900 truncate">
+                  Alex Sterling
+                </p>
+                <p className="text-xs text-slate-500 truncate">Senior Manager</p>
+              </div>
+              <button 
+                className="p-1.5 rounded-lg hover:bg-slate-100 transition text-slate-400 hover:text-slate-600"
+                aria-label="Logout"
+              >
+                <LogOut className="w-4 h-4" />
+              </button>
+            </div>
+          )}
         </div>
+
+        {/* Tooltip - Only for items without sub-menus */}
+        <Tooltip label={hoveredItem} position={tooltipPosition} />
       </aside>
     </>
   );

@@ -8,9 +8,12 @@ import {
   Moon,
   Sun,
   Menu,
+  LogOut,
+  ChevronLeft,
+  ChevronRight,
 } from "lucide-react";
 
-const Navbar = ({ onToggleSidebar }) => {
+const Navbar = ({ onToggleSidebar, onToggleCollapse, isCollapsed }) => {
   const [isDark, setIsDark] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const menuRef = useRef(null);
@@ -45,13 +48,26 @@ const Navbar = ({ onToggleSidebar }) => {
       <div className="flex items-center justify-between gap-3">
         {/* LEFT SIDE */}
         <div className="flex items-center gap-3">
-          {/* MOBILE MENU BUTTON - Only visible on mobile/tablet */}
+          {/* MOBILE MENU BUTTON - Three line menu */}
           <button
             onClick={onToggleSidebar}
             className="p-2 rounded-xl hover:bg-slate-100 transition lg:hidden"
             aria-label="Toggle sidebar"
           >
             <Menu className="w-5 h-5 text-slate-600" />
+          </button>
+
+          {/* COLLAPSE TOGGLE - Desktop only - Separate menu icon */}
+          <button
+            onClick={onToggleCollapse}
+            className="hidden lg:flex p-2 rounded-xl hover:bg-slate-100 transition text-slate-600"
+            aria-label={isCollapsed ? "Expand sidebar" : "Collapse sidebar"}
+          >
+            {isCollapsed ? (
+              <ChevronRight className="w-5 h-5" />
+            ) : (
+              <ChevronLeft className="w-5 h-5" />
+            )}
           </button>
 
           {/* SEARCH */}
