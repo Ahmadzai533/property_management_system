@@ -1,27 +1,23 @@
-import { Routes, Route, Navigate } from 'react-router-dom'
-import DashboardLayout from '../components/layout/DashboardLayout'
-import Dashboard from '../pages/Dashboard'
+import { Routes, Route, Navigate } from "react-router-dom";
+import DashboardLayout from "../components/layout/DashboardLayout";
+import Dashboard from "../pages/Dashboard";
+import { TenantRoute } from "./tenants";
 
 const AppRoutes = () => {
   return (
     <Routes>
       <Route path="/" element={<DashboardLayout />}>
-        {/* Dashboard Home Route */}
+        {/* Dashboard Home */}
         <Route index element={<Dashboard />} />
-        
-        {/* Future routes can be added here */}
-        {/* <Route path="properties" element={<Properties />} /> */}
-        {/* <Route path="tenants" element={<Tenants />} /> */}
-        {/* <Route path="contracts" element={<Contracts />} /> */}
-        {/* <Route path="calendar" element={<Calendar />} /> */}
-        {/* <Route path="settings" element={<Settings />} /> */}
-        {/* <Route path="help" element={<Help />} /> */}
-        
-        {/* Catch all - redirect to dashboard */}
+
+        {/* Tenant Module */}
+        <Route path="owner/tenant/*" element={<TenantRoute />} />
+
+        {/* Catch All */}
         <Route path="*" element={<Navigate to="/" replace />} />
       </Route>
     </Routes>
-  )
-}
+  );
+};
 
-export default AppRoutes
+export default AppRoutes;

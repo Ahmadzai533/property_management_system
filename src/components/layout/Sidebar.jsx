@@ -101,8 +101,12 @@ const Sidebar = ({ sidebarOpen, toggleSidebar, closeSidebar }) => {
       id: "tenants",
       icon: Users,
       label: "Tenants",
-      isLink: true,
-      to: "/tenants",
+      // isLink: true,
+      items: [
+        { to: "/tenants/list", label: "All tenants" },
+        { to: "/tenants/roles", label: "tenants History" },
+      
+      ],
     },
     {
       id: "maintainers",
