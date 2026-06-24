@@ -1,12 +1,24 @@
 import { useState, useMemo } from 'react'
-import { motion } from 'framer-motion'
-import { Search, ChevronUp, ChevronDown, CheckCircle, Clock, AlertCircle } from 'lucide-react'
+import { motion, AnimatePresence } from 'framer-motion'
+import { 
+  Search, 
+  ChevronUp, 
+  ChevronDown, 
+  CheckCircle, 
+  Clock, 
+  AlertCircle,
+  Filter,
+  X,
+  ChevronLeft,
+  ChevronRight
+} from 'lucide-react'
 
 const UpcomingRentTable = () => {
   const [searchTerm, setSearchTerm] = useState('')
   const [sortField, setSortField] = useState('dueDate')
   const [sortDirection, setSortDirection] = useState('asc')
   const [currentPage, setCurrentPage] = useState(1)
+  const [statusFilter, setStatusFilter] = useState('All')
   const itemsPerPage = 5
 
   const [data] = useState([
@@ -17,20 +29,31 @@ const UpcomingRentTable = () => {
     { id: 5, tenant: 'Maria Garcia', property: 'Sunset Villa #2A', dueDate: '2026-07-05', amount: 2100, status: 'Pending' },
     { id: 6, tenant: 'Robert Kim', property: 'Ocean View #8B', dueDate: '2026-06-22', amount: 2950, status: 'Paid' },
     { id: 7, tenant: 'Lisa Park', property: 'City Heights #10D', dueDate: '2026-07-08', amount: 1650, status: 'Pending' },
+    { id: 8, tenant: 'David Wong', property: 'Mountain Lodge #4', dueDate: '2026-06-30', amount: 2200, status: 'Overdue' },
+    { id: 9, tenant: 'Amanda Lee', property: 'Sunset Villa #1C', dueDate: '2026-07-12', amount: 2600, status: 'Pending' },
+    { id: 10, tenant: 'Thomas Brown', property: 'Ocean View #9D', dueDate: '2026-06-18', amount: 3100, status: 'Paid' },
   ])
 
   const statusColors = {
-    Paid: { bg: 'bg-emerald-100', text: 'text-emerald-700', icon: CheckCircle },
-    Pending: { bg: 'bg-amber-100', text: 'text-amber-700', icon: Clock },
-    Overdue: { bg: 'bg-red-100', text: 'text-red-700', icon: AlertCircle },
+    Paid: { bg: 'bg-emerald-100', text: 'text-emerald-700', border: 'border-emerald-200', icon: CheckCircle },
+    Pending: { bg: 'bg-amber-100', text: 'text-amber-700', border: 'border-amber-200', icon: Clock },
+    Overdue: { bg: 'bg-red-100', text: 'text-red-700', border: 'border-red-200', icon: AlertCircle },
   }
 
+  const statusOptions = ['All', 'Paid', 'Pending', 'Overdue']
+
   const filteredData = useMemo(() => {
-    return data.filter(item =>
+    let result = data.filter(item =>
       item.tenant.toLowerCase().includes(searchTerm.toLowerCase()) ||
       item.property.toLowerCase().includes(searchTerm.toLowerCase())
     )
-  }, [data, searchTerm])
+    
+    if (statusFilter !== 'All') {
+      result = result.filter(item => item.status === statusFilter)
+    }
+    
+    return result
+  }, [data, searchTerm, statusFilter])
 
   const sortedData = useMemo(() => {
     return [...filteredData].sort((a, b) => {
@@ -42,18 +65,24 @@ const UpcomingRentTable = () => {
         bVal = Number(bVal)
       }
       
+      if (sortField === 'dueDate') {
+        aVal = new Date(aVal)
+        bVal = new Date(bVal)
+      }
+      
       if (aVal < bVal) return sortDirection === 'asc' ? -1 : 1
       if (aVal > bVal) return sortDirection === 'asc' ? 1 : -1
       return 0
     })
   }, [filteredData, sortField, sortDirection])
 
+  const totalItems = sortedData.length
+  const totalPages = Math.ceil(totalItems / itemsPerPage)
+  
   const paginatedData = useMemo(() => {
     const startIndex = (currentPage - 1) * itemsPerPage
     return sortedData.slice(startIndex, startIndex + itemsPerPage)
   }, [sortedData, currentPage])
-
-  const totalPages = Math.ceil(sortedData.length / itemsPerPage)
 
   const handleSort = (field) => {
     if (sortField === field) {
@@ -67,119 +96,275 @@ const UpcomingRentTable = () => {
   const getStatusIcon = (status) => {
     const statusConfig = statusColors[status]
     const Icon = statusConfig.icon
-    return <Icon className={`w-4 h-4 ${statusConfig.text}`} />
+    return <Icon className={`w-3.5 h-3.5 sm:w-4 sm:h-4 ${statusConfig.text}`} />
+  }
+
+  const getStatusCount = (status) => {
+    if (status === 'All') return data.length
+    return data.filter(item => item.status === status).length
+  }
+
+  const clearFilters = () => {
+    setSearchTerm('')
+    setStatusFilter('All')
+    setCurrentPage(1)
+  }
+
+  const goToPage = (page) => {
+    setCurrentPage(Math.max(1, Math.min(page, totalPages)))
   }
 
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5, delay: 0.4 }}
-      className="bg-white rounded-2xl p-6 border border-slate-200/60 shadow-xl shadow-slate-200/30"
+      transition={{ duration: 0.5, delay: 0.4, ease: "easeOut" }}
+      className="bg-white rounded-2xl p-4 sm:p-5 md:p-6 border border-slate-200/60 shadow-xl shadow-slate-200/30 hover:shadow-2xl transition-shadow duration-300"
     >
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
-        <div>
-          <h3 className="text-lg font-bold text-slate-800">Upcoming Rent</h3>
-          <p className="text-sm text-slate-500">Due rent payments</p>
-        </div>
-        <div className="relative flex-1 md:max-w-xs">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
-          <input
-            type="text"
-            placeholder="Search tenants or properties..."
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full pl-10 pr-4 py-2 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#6D28D9]/20 focus:border-[#6D28D9] transition-all"
-          />
-        </div>
-      </div>
-
-      <div className="overflow-x-auto">
-        <table className="w-full">
-          <thead>
-            <tr className="border-b border-slate-200">
-              {['Tenant', 'Property', 'Due Date', 'Amount', 'Status'].map((header, index) => {
-                const fieldMap = ['tenant', 'property', 'dueDate', 'amount', 'status']
-                const field = fieldMap[index]
-                return (
-                  <th
-                    key={header}
-                    className="text-left text-xs font-semibold text-slate-500 uppercase tracking-wider py-3 px-4 cursor-pointer hover:text-slate-700 transition-colors"
-                    onClick={() => handleSort(field)}
-                  >
-                    <div className="flex items-center gap-1">
-                      {header}
-                      {sortField === field && (
-                        sortDirection === 'asc' ? 
-                          <ChevronUp className="w-3 h-3" /> : 
-                          <ChevronDown className="w-3 h-3" />
-                      )}
-                    </div>
-                  </th>
-                )
-              })}
-            </tr>
-          </thead>
-          <tbody>
-            {paginatedData.map((item, index) => {
-              const statusConfig = statusColors[item.status]
-              return (
-                <motion.tr
-                  key={item.id}
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: index * 0.05 }}
-                  className="border-b border-slate-100 hover:bg-slate-50 transition-colors"
-                >
-                  <td className="py-3 px-4 text-sm font-medium text-slate-800">
-                    {item.tenant}
-                  </td>
-                  <td className="py-3 px-4 text-sm text-slate-600">
-                    {item.property}
-                  </td>
-                  <td className="py-3 px-4 text-sm text-slate-600">
-                    {new Date(item.dueDate).toLocaleDateString('en-US', { 
-                      month: 'short', 
-                      day: 'numeric', 
-                      year: 'numeric' 
-                    })}
-                  </td>
-                  <td className="py-3 px-4 text-sm font-semibold text-slate-800">
-                    ${item.amount.toLocaleString()}
-                  </td>
-                  <td className="py-3 px-4">
-                    <div className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-lg text-xs font-semibold ${statusConfig.bg} ${statusConfig.text}`}>
-                      {getStatusIcon(item.status)}
-                      {item.status}
-                    </div>
-                  </td>
-                </motion.tr>
-              )
-            })}
-          </tbody>
-        </table>
-      </div>
-
-      {totalPages > 1 && (
-        <div className="flex items-center justify-between mt-6 pt-4 border-t border-slate-200">
-          <p className="text-sm text-slate-500">
-            Showing {((currentPage - 1) * itemsPerPage) + 1} to{' '}
-            {Math.min(currentPage * itemsPerPage, sortedData.length)} of {sortedData.length} entries
+      {/* Header */}
+      <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 mb-4 sm:mb-5 md:mb-6">
+        <div className="flex-1 min-w-0">
+          <h3 className="text-base sm:text-lg md:text-xl font-bold text-slate-800 truncate">
+            Upcoming Rent
+          </h3>
+          <p className="text-xs sm:text-sm text-slate-500 mt-0.5">
+            {totalItems} due rent payment{totalItems !== 1 ? 's' : ''}
           </p>
-          <div className="flex gap-2">
-            {Array.from({ length: totalPages }, (_, i) => i + 1).map(page => (
+        </div>
+        
+        <div className="flex flex-col sm:flex-row gap-3 w-full lg:w-auto">
+          {/* Search */}
+          <div className="relative flex-1 sm:min-w-[200px] lg:min-w-[250px]">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+            <input
+              type="text"
+              placeholder="Search tenants or properties..."
+              value={searchTerm}
+              onChange={(e) => {
+                setSearchTerm(e.target.value)
+                setCurrentPage(1)
+              }}
+              className="w-full pl-9 pr-4 py-2 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#6D28D9]/20 focus:border-[#6D28D9] transition-all duration-300"
+            />
+            {searchTerm && (
               <button
-                key={page}
-                onClick={() => setCurrentPage(page)}
-                className={`px-3.5 py-1.5 rounded-lg text-sm font-semibold transition-all ${
-                  currentPage === page
+                onClick={() => {
+                  setSearchTerm('')
+                  setCurrentPage(1)
+                }}
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 transition-colors"
+              >
+                <X className="w-4 h-4" />
+              </button>
+            )}
+          </div>
+
+          {/* Status Filter */}
+          <div className="flex items-center gap-1 sm:gap-1.5 overflow-x-auto pb-1 sm:pb-0">
+            <Filter className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-slate-400 flex-shrink-0" />
+            {statusOptions.map(status => (
+              <button
+                key={status}
+                onClick={() => {
+                  setStatusFilter(status)
+                  setCurrentPage(1)
+                }}
+                className={`
+                  px-2 sm:px-3 py-1 rounded-lg text-xs sm:text-sm font-medium 
+                  transition-all duration-200 whitespace-nowrap
+                  ${statusFilter === status
                     ? 'bg-[#6D28D9] text-white shadow-lg shadow-[#6D28D9]/30'
                     : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
-                }`}
+                  }
+                `}
               >
-                {page}
+                {status} ({getStatusCount(status)})
               </button>
             ))}
+            {(searchTerm || statusFilter !== 'All') && (
+              <button
+                onClick={clearFilters}
+                className="px-2 sm:px-3 py-1 rounded-lg text-xs sm:text-sm font-medium bg-red-50 text-red-600 hover:bg-red-100 transition-colors whitespace-nowrap"
+              >
+                Clear
+              </button>
+            )}
+          </div>
+        </div>
+      </div>
+
+      {/* Table */}
+      <div className="overflow-x-auto -mx-4 sm:mx-0">
+        <div className="min-w-full inline-block align-middle">
+          <table className="min-w-full">
+            <thead>
+              <tr className="border-b border-slate-200">
+                {['Tenant', 'Property', 'Due Date', 'Amount', 'Status'].map((header, index) => {
+                  const fieldMap = ['tenant', 'property', 'dueDate', 'amount', 'status']
+                  const field = fieldMap[index]
+                  return (
+                    <th
+                      key={header}
+                      className="text-left text-xs font-semibold text-slate-500 uppercase tracking-wider py-3 px-3 sm:px-4 cursor-pointer hover:text-slate-700 transition-colors group"
+                      onClick={() => handleSort(field)}
+                    >
+                      <div className="flex items-center gap-1">
+                        <span>{header}</span>
+                        <div className="flex flex-col opacity-0 group-hover:opacity-100 transition-opacity">
+                          <ChevronUp className={`w-2.5 h-2.5 ${sortField === field && sortDirection === 'asc' ? 'text-[#6D28D9]' : 'text-slate-400'}`} />
+                          <ChevronDown className={`w-2.5 h-2.5 -mt-0.5 ${sortField === field && sortDirection === 'desc' ? 'text-[#6D28D9]' : 'text-slate-400'}`} />
+                        </div>
+                        {sortField === field && (
+                          <span className="text-[10px] text-[#6D28D9] ml-0.5">
+                            {sortDirection === 'asc' ? '↑' : '↓'}
+                          </span>
+                        )}
+                      </div>
+                    </th>
+                  )
+                })}
+              </tr>
+            </thead>
+            <tbody>
+              <AnimatePresence mode="wait">
+                {paginatedData.length > 0 ? (
+                  paginatedData.map((item, index) => {
+                    const statusConfig = statusColors[item.status]
+                    return (
+                      <motion.tr
+                        key={item.id}
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -10 }}
+                        transition={{ delay: index * 0.05, duration: 0.3 }}
+                        className="border-b border-slate-100 hover:bg-slate-50 transition-colors group"
+                      >
+                        <td className="py-3 px-3 sm:px-4">
+                          <div>
+                            <p className="text-sm font-medium text-slate-800 truncate max-w-[120px] sm:max-w-none">
+                              {item.tenant}
+                            </p>
+                          </div>
+                        </td>
+                        <td className="py-3 px-3 sm:px-4">
+                          <p className="text-sm text-slate-600 truncate max-w-[120px] sm:max-w-none">
+                            {item.property}
+                          </p>
+                        </td>
+                        <td className="py-3 px-3 sm:px-4">
+                          <p className="text-sm text-slate-600 whitespace-nowrap">
+                            {new Date(item.dueDate).toLocaleDateString('en-US', { 
+                              month: 'short', 
+                              day: 'numeric', 
+                              year: 'numeric' 
+                            })}
+                          </p>
+                        </td>
+                        <td className="py-3 px-3 sm:px-4">
+                          <p className="text-sm font-semibold text-slate-800 whitespace-nowrap">
+                            ${item.amount.toLocaleString()}
+                          </p>
+                        </td>
+                        <td className="py-3 px-3 sm:px-4">
+                          <div className={`inline-flex items-center gap-1.5 px-2 sm:px-3 py-1 rounded-lg text-[10px] sm:text-xs font-semibold ${statusConfig.bg} ${statusConfig.text} border ${statusConfig.border}`}>
+                            {getStatusIcon(item.status)}
+                            <span className="hidden xs:inline">{item.status}</span>
+                            <span className="xs:hidden">
+                              {item.status === 'Paid' ? '✓' : item.status === 'Pending' ? '⏳' : '⚠'}
+                            </span>
+                          </div>
+                        </td>
+                      </motion.tr>
+                    )
+                  })
+                ) : (
+                  <tr>
+                    <td colSpan="5" className="py-8 text-center">
+                      <div className="flex flex-col items-center gap-2">
+                        <div className="p-3 bg-slate-50 rounded-full">
+                          <Search className="w-6 h-6 text-slate-400" />
+                        </div>
+                        <p className="text-sm font-medium text-slate-600">No results found</p>
+                        <p className="text-xs text-slate-400">Try adjusting your search or filters</p>
+                      </div>
+                    </td>
+                  </tr>
+                )}
+              </AnimatePresence>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      {/* Pagination */}
+      {totalPages > 1 && (
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mt-4 sm:mt-6 pt-3 sm:pt-4 border-t border-slate-200">
+          <p className="text-xs sm:text-sm text-slate-500 text-center sm:text-left">
+            Showing {((currentPage - 1) * itemsPerPage) + 1} to{' '}
+            {Math.min(currentPage * itemsPerPage, totalItems)} of {totalItems} entries
+          </p>
+          <div className="flex items-center justify-center gap-1 sm:gap-2">
+            <button
+              onClick={() => goToPage(currentPage - 1)}
+              disabled={currentPage === 1}
+              className={`
+                p-1.5 sm:p-2 rounded-lg transition-all duration-200
+                ${currentPage === 1 
+                  ? 'text-slate-300 cursor-not-allowed' 
+                  : 'text-slate-600 hover:bg-slate-100 active:scale-95'
+                }
+              `}
+            >
+              <ChevronLeft className="w-4 h-4 sm:w-5 sm:h-5" />
+            </button>
+            
+            {Array.from({ length: Math.min(totalPages, 5) }, (_, i) => {
+              let pageNum
+              if (totalPages <= 5) {
+                pageNum = i + 1
+              } else if (currentPage <= 3) {
+                pageNum = i + 1
+              } else if (currentPage >= totalPages - 2) {
+                pageNum = totalPages - 4 + i
+              } else {
+                pageNum = currentPage - 2 + i
+              }
+              
+              if (pageNum > 0 && pageNum <= totalPages) {
+                return (
+                  <button
+                    key={pageNum}
+                    onClick={() => goToPage(pageNum)}
+                    className={`
+                      min-w-[32px] sm:min-w-[36px] h-8 sm:h-9 px-2 sm:px-3 
+                      rounded-lg text-xs sm:text-sm font-semibold 
+                      transition-all duration-200
+                      ${currentPage === pageNum
+                        ? 'bg-[#6D28D9] text-white shadow-lg shadow-[#6D28D9]/30'
+                        : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
+                      }
+                    `}
+                  >
+                    {pageNum}
+                  </button>
+                )
+              }
+              return null
+            })}
+            
+            <button
+              onClick={() => goToPage(currentPage + 1)}
+              disabled={currentPage === totalPages}
+              className={`
+                p-1.5 sm:p-2 rounded-lg transition-all duration-200
+                ${currentPage === totalPages 
+                  ? 'text-slate-300 cursor-not-allowed' 
+                  : 'text-slate-600 hover:bg-slate-100 active:scale-95'
+                }
+              `}
+            >
+              <ChevronRight className="w-4 h-4 sm:w-5 sm:h-5" />
+            </button>
           </div>
         </div>
       )}
