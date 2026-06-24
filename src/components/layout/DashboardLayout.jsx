@@ -1,32 +1,38 @@
+import { useState } from "react";
 import { Outlet } from "react-router-dom";
 import Sidebar from "./Sidebar";
 import Navbar from "./Navbar";
-import { motion } from "framer-motion";
 
 const DashboardLayout = () => {
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+
+  const toggleSidebar = () => {
+    setSidebarOpen(!sidebarOpen);
+  };
+
+  const closeSidebar = () => {
+    setSidebarOpen(false);
+  };
+
   return (
-    <div className="flex h-screen overflow-hidden bg-slate-50 dark:bg-slate-900 transition-colors duration-300">
-      {/* Sidebar (fixed height, no scroll) */}
-      <Sidebar />
+    <div className="flex h-screen overflow-hidden bg-slate-50">
+      {/* SIDEBAR */}
+      <Sidebar
+        sidebarOpen={sidebarOpen}
+        toggleSidebar={toggleSidebar}
+        closeSidebar={closeSidebar}
+      />
 
-      {/* Main Content (ONLY SCROLL AREA) */}
-      <main className="flex-1 min-w-0 flex flex-col h-screen overflow-hidden">
-        {/* Navbar stays fixed inside main */}
-        <Navbar />
+      {/* MAIN CONTENT */}
+      <div className="flex-1 flex flex-col min-w-0 overflow-hidden">
+        {/* NAVBAR */}
+        <Navbar onToggleSidebar={toggleSidebar} />
 
-        {/* Scrollable content area */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{
-            duration: 0.5,
-            ease: "easeOut",
-          }}
-          className="flex-1 overflow-y-auto p-4 md:p-6"
-        >
+        {/* CONTENT - ONLY THIS SCROLLS */}
+        <main className="flex-1 overflow-y-auto p-4 md:p-6">
           <Outlet />
-        </motion.div>
-      </main>
+        </main>
+      </div>
     </div>
   );
 };

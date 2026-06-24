@@ -1,6 +1,6 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { NavLink } from "react-router-dom";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import {
   LayoutDashboard,
   Building2,
@@ -20,9 +20,10 @@ import {
   Bell,
   BarChart3,
   Shield,
+  X,
 } from "lucide-react";
 
-const Sidebar = () => {
+const Sidebar = ({ sidebarOpen, toggleSidebar, closeSidebar }) => {
   const [openMenus, setOpenMenus] = useState({
     properties: true,
     users: false,
@@ -35,6 +36,7 @@ const Sidebar = () => {
     reports: false,
     admin: false,
   });
+  const sidebarRef = useRef(null);
 
   const toggleMenu = (menu) => {
     setOpenMenus((prev) => ({
@@ -42,6 +44,35 @@ const Sidebar = () => {
       [menu]: !prev[menu],
     }));
   };
+
+  // Close sidebar when clicking outside on mobile
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (
+        sidebarOpen &&
+        window.innerWidth < 1024 &&
+        sidebarRef.current &&
+        !sidebarRef.current.contains(e.target)
+      ) {
+        closeSidebar();
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [sidebarOpen, closeSidebar]);
+
+  // Close sidebar when escape key is pressed
+  useEffect(() => {
+    const handleEscape = (e) => {
+      if (e.key === "Escape" && sidebarOpen) {
+        closeSidebar();
+      }
+    };
+
+    document.addEventListener("keydown", handleEscape);
+    return () => document.removeEventListener("keydown", handleEscape);
+  }, [sidebarOpen, closeSidebar]);
 
   const navItems = [{ to: "/", icon: LayoutDashboard, label: "Dashboard" }];
 
@@ -173,99 +204,232 @@ const Sidebar = () => {
 
   return (
     <>
-      {/* Overlay */}
-      <div className="lg:hidden fixed inset-0 bg-black/20 z-40" />
+      {/* Overlay - only visible on mobile when sidebar is open */}
+      <AnimatePresence>
+        {sidebarOpen && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
+            className="fixed inset-0 bg-black/30 z-40 lg:hidden"
+            onClick={closeSidebar}
+            aria-hidden="true"
+          />
+        )}
+      </AnimatePresence>
 
-      <motion.aside
-        initial={{ x: -280 }}
-        animate={{ x: 0 }}
-        transition={{ duration: 0.5, ease: "easeOut" }}
-        className="fixed lg:static w-64 h-screen bg-white border-r border-slate-200 flex flex-col z-50 shadow-sm"
+      {/* Sidebar */}
+      <aside
+        ref={sidebarRef}
+        className={`
+          w-64 h-screen bg-white border-r border-slate-200 
+          flex flex-col flex-shrink-0
+          transition-transform duration-300 ease-in-out
+          fixed lg:relative
+          top-0 left-0
+          z-50
+          shadow-lg lg:shadow-none
+          ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'}
+          lg:translate-x-0
+        `}
       >
         {/* Logo */}
-        <div className="p-4 border-b border-slate-200 flex-shrink-0">
+        <div className="p-4 border-b border-slate-200 flex-shrink-0 flex items-center justify-between">
           <div className="flex items-center gap-2.5">
             <div className="w-8 h-8 bg-indigo-600 rounded-lg flex items-center justify-center text-white">
               <Home className="w-4 h-4" />
             </div>
             <div>
               <h1 className="text-lg font-bold text-slate-900">PropDaller</h1>
-              <p className="text-[10px] text-slate-500">
-                Management System
-              </p>
+              <p className="text-[10px] text-slate-500">Management System</p>
             </div>
           </div>
+
+          {/* Close button - mobile only */}
+          <button
+            onClick={closeSidebar}
+            className="lg:hidden p-1 rounded-lg hover:bg-slate-100 transition"
+            aria-label="Close sidebar"
+          >
+            <X className="w-5 h-5 text-slate-500" />
+          </button>
         </div>
 
-        {/* Nav */}
+        {/* Navigation */}
         <nav className="flex-1 p-3 overflow-y-auto">
           {/* Dashboard */}
           {navItems.map((item) => (
-            <NavLink key={item.to} to={item.to} className={linkClass}>
+            <NavLink key={item.to} to={item.to} className={linkClass} onClick={closeSidebar}>
               <item.icon className="w-4 h-4 text-slate-500" />
               {item.label}
             </NavLink>
           ))}
 
-          {/* Sections */}
-          {[
-            mainMenuItems,
-            managementItems,
-            communicationItems,
-          ].map((section, sIdx) => (
-            <div key={sIdx} className="mt-5 space-y-1">
-              {section.map((menu) => (
-                <div key={menu.id}>
-                  {menu.isLink ? (
-                    <NavLink to={menu.to} className={linkClass}>
-                      <menu.icon className="w-4 h-4 text-slate-500" />
-                      {menu.label}
-                    </NavLink>
-                  ) : (
-                    <>
-                      <button
-                        onClick={() => toggleMenu(menu.id)}
-                        className="w-full flex items-center justify-between px-3 py-2 rounded-lg text-sm text-slate-600 hover:bg-slate-100"
-                      >
-                        <div className="flex items-center gap-3">
-                          <menu.icon className="w-4 h-4 text-slate-500" />
-                          {menu.label}
-                        </div>
-                        {openMenus[menu.id] ? (
-                          <ChevronDown className="w-4 h-4" />
-                        ) : (
-                          <ChevronRight className="w-4 h-4" />
-                        )}
-                      </button>
-
-                      {openMenus[menu.id] && (
-                        <div className="ml-2">
-                          {menu.items.map((item, i) => (
-                            <TreeLines
-                              key={item.to}
-                              isLast={i === menu.items.length - 1}
-                            >
-                              <NavLink to={item.to} className={linkClass}>
-                                <span className="text-[10px] text-slate-400">
-                                  └
-                                </span>
-                                {item.label}
-                              </NavLink>
-                            </TreeLines>
-                          ))}
-                        </div>
+          {/* Main Menu */}
+          <div className="mt-5 space-y-1">
+            {mainMenuItems.map((menu) => (
+              <div key={menu.id}>
+                {menu.isLink ? (
+                  <NavLink to={menu.to} className={linkClass} onClick={closeSidebar}>
+                    <menu.icon className="w-4 h-4 text-slate-500" />
+                    {menu.label}
+                  </NavLink>
+                ) : (
+                  <>
+                    <button
+                      onClick={() => toggleMenu(menu.id)}
+                      className="w-full flex items-center justify-between px-3 py-2 rounded-lg text-sm text-slate-600 hover:bg-slate-100 transition"
+                    >
+                      <div className="flex items-center gap-3">
+                        <menu.icon className="w-4 h-4 text-slate-500" />
+                        {menu.label}
+                      </div>
+                      {openMenus[menu.id] ? (
+                        <ChevronDown className="w-4 h-4" />
+                      ) : (
+                        <ChevronRight className="w-4 h-4" />
                       )}
-                    </>
-                  )}
-                </div>
-              ))}
-            </div>
-          ))}
+                    </button>
 
-          {/* Bottom */}
-          <div className="mt-6 border-t border-slate-200 pt-4 space-y-1">
+                    {openMenus[menu.id] && (
+                      <div className="ml-2">
+                        {menu.items.map((item, i) => (
+                          <TreeLines
+                            key={item.to}
+                            isLast={i === menu.items.length - 1}
+                          >
+                            <NavLink to={item.to} className={linkClass} onClick={closeSidebar}>
+                              <span className="text-[10px] text-slate-400">└</span>
+                              {item.label}
+                            </NavLink>
+                          </TreeLines>
+                        ))}
+                      </div>
+                    )}
+                  </>
+                )}
+              </div>
+            ))}
+          </div>
+
+          {/* Management & Operations */}
+          <div className="mt-5 space-y-1">
+            {managementItems.map((menu) => (
+              <div key={menu.id}>
+                <button
+                  onClick={() => toggleMenu(menu.id)}
+                  className="w-full flex items-center justify-between px-3 py-2 rounded-lg text-sm text-slate-600 hover:bg-slate-100 transition"
+                >
+                  <div className="flex items-center gap-3">
+                    <menu.icon className="w-4 h-4 text-slate-500" />
+                    {menu.label}
+                  </div>
+                  {openMenus[menu.id] ? (
+                    <ChevronDown className="w-4 h-4" />
+                  ) : (
+                    <ChevronRight className="w-4 h-4" />
+                  )}
+                </button>
+
+                {openMenus[menu.id] && (
+                  <div className="ml-2">
+                    {menu.items.map((item, i) => (
+                      <TreeLines
+                        key={item.to}
+                        isLast={i === menu.items.length - 1}
+                      >
+                        <NavLink to={item.to} className={linkClass} onClick={closeSidebar}>
+                          <span className="text-[10px] text-slate-400">└</span>
+                          {item.label}
+                        </NavLink>
+                      </TreeLines>
+                    ))}
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+
+          {/* Communication & Intel */}
+          <div className="mt-5 space-y-1">
+            {communicationItems.map((menu) => (
+              <div key={menu.id}>
+                <button
+                  onClick={() => toggleMenu(menu.id)}
+                  className="w-full flex items-center justify-between px-3 py-2 rounded-lg text-sm text-slate-600 hover:bg-slate-100 transition"
+                >
+                  <div className="flex items-center gap-3">
+                    <menu.icon className="w-4 h-4 text-slate-500" />
+                    {menu.label}
+                  </div>
+                  {openMenus[menu.id] ? (
+                    <ChevronDown className="w-4 h-4" />
+                  ) : (
+                    <ChevronRight className="w-4 h-4" />
+                  )}
+                </button>
+
+                {openMenus[menu.id] && (
+                  <div className="ml-2">
+                    {menu.items.map((item, i) => (
+                      <TreeLines
+                        key={item.to}
+                        isLast={i === menu.items.length - 1}
+                      >
+                        <NavLink to={item.to} className={linkClass} onClick={closeSidebar}>
+                          <span className="text-[10px] text-slate-400">└</span>
+                          {item.label}
+                        </NavLink>
+                      </TreeLines>
+                    ))}
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+
+          {/* Security & Admin */}
+          <div className="mt-5 space-y-1">
+            <div>
+              <button
+                onClick={() => toggleMenu("admin")}
+                className="w-full flex items-center justify-between px-3 py-2 rounded-lg text-sm text-slate-600 hover:bg-slate-100 transition"
+              >
+                <div className="flex items-center gap-3">
+                  <Shield className="w-4 h-4 text-slate-500" />
+                  Admin
+                </div>
+                {openMenus.admin ? (
+                  <ChevronDown className="w-4 h-4" />
+                ) : (
+                  <ChevronRight className="w-4 h-4" />
+                )}
+              </button>
+
+              {openMenus.admin && (
+                <div className="ml-2">
+                  {[
+                    { to: "/admin/team", label: "Admin Team" },
+                    { to: "/admin/permissions", label: "Permissions" },
+                    { to: "/admin/audit", label: "Audit Logs" },
+                  ].map((item, i) => (
+                    <TreeLines key={item.to} isLast={i === 2}>
+                      <NavLink to={item.to} className={linkClass} onClick={closeSidebar}>
+                        <span className="text-[10px] text-slate-400">└</span>
+                        {item.label}
+                      </NavLink>
+                    </TreeLines>
+                  ))}
+                </div>
+              )}
+            </div>
+          </div>
+
+          {/* Bottom Items */}
+          <div className="mt-5 border-t border-slate-200 pt-4 space-y-1">
             {bottomItems.map((item) => (
-              <NavLink key={item.to} to={item.to} className={linkClass}>
+              <NavLink key={item.to} to={item.to} className={linkClass} onClick={closeSidebar}>
                 <item.icon className="w-4 h-4 text-slate-500" />
                 {item.label}
               </NavLink>
@@ -274,19 +438,24 @@ const Sidebar = () => {
         </nav>
 
         {/* Footer */}
-        <div className="p-4 border-t border-slate-200 flex items-center gap-3">
-          <div className="w-9 h-9 bg-indigo-600 text-white rounded-full flex items-center justify-center">
+        <div className="p-4 border-t border-slate-200 flex items-center gap-3 flex-shrink-0">
+          <div className="w-9 h-9 bg-indigo-600 text-white rounded-full flex items-center justify-center text-sm font-semibold">
             AS
           </div>
-          <div className="flex-1">
-            <p className="text-sm font-semibold text-slate-900">
+          <div className="flex-1 min-w-0">
+            <p className="text-sm font-semibold text-slate-900 truncate">
               Alex Sterling
             </p>
-            <p className="text-xs text-slate-500">Senior Manager</p>
+            <p className="text-xs text-slate-500 truncate">Senior Manager</p>
           </div>
-          <LogOut className="w-4 h-4 text-slate-500" />
+          <button 
+            className="p-1.5 rounded-lg hover:bg-slate-100 transition text-slate-400 hover:text-slate-600"
+            aria-label="Logout"
+          >
+            <LogOut className="w-4 h-4" />
+          </button>
         </div>
-      </motion.aside>
+      </aside>
     </>
   );
 };
