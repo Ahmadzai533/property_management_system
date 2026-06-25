@@ -18,6 +18,26 @@ const Navbar = ({ onToggleSidebar, onToggleCollapse, isCollapsed }) => {
   const [isOpen, setIsOpen] = useState(false);
   const menuRef = useRef(null);
 
+  useEffect(() => {
+    const storedTheme = localStorage.getItem("theme");
+    const prefersDark = window.matchMedia?.(
+      "(prefers-color-scheme: dark)",
+    ).matches;
+    const initialDark = storedTheme ? storedTheme === "dark" : prefersDark;
+    setIsDark(initialDark);
+  }, []);
+
+  useEffect(() => {
+    const root = document.documentElement;
+    if (isDark) {
+      root.classList.add("dark");
+      localStorage.setItem("theme", "dark");
+    } else {
+      root.classList.remove("dark");
+      localStorage.setItem("theme", "light");
+    }
+  }, [isDark]);
+
   // Close dropdown when clicking outside
   useEffect(() => {
     const handleClickOutside = (e) => {
@@ -27,8 +47,7 @@ const Navbar = ({ onToggleSidebar, onToggleCollapse, isCollapsed }) => {
     };
 
     document.addEventListener("mousedown", handleClickOutside);
-    return () =>
-      document.removeEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
   return (
@@ -38,6 +57,7 @@ const Navbar = ({ onToggleSidebar, onToggleCollapse, isCollapsed }) => {
       transition={{ duration: 0.4, ease: "easeOut" }}
       className="
         bg-white/80 backdrop-blur-xl 
+        dark:bg-slate-950/90 dark:border-slate-700 dark:text-slate-100
         border-b border-slate-200/60 
         sticky top-0 z-40 
         px-3 sm:px-4 md:px-6 
@@ -51,16 +71,16 @@ const Navbar = ({ onToggleSidebar, onToggleCollapse, isCollapsed }) => {
           {/* MOBILE MENU BUTTON - Three line menu */}
           <button
             onClick={onToggleSidebar}
-            className="p-2 rounded-xl hover:bg-slate-100 transition lg:hidden"
+            className="p-2 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 transition lg:hidden"
             aria-label="Toggle sidebar"
           >
-            <Menu className="w-5 h-5 text-slate-600" />
+            <Menu className="w-5 h-5 text-slate-600 dark:text-slate-300" />
           </button>
 
           {/* COLLAPSE TOGGLE - Desktop only - Separate menu icon */}
           <button
             onClick={onToggleCollapse}
-            className="hidden lg:flex p-2 rounded-xl hover:bg-slate-100 transition text-slate-600"
+            className="hidden lg:flex p-2 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 transition text-slate-600 dark:text-slate-300"
             aria-label={isCollapsed ? "Expand sidebar" : "Collapse sidebar"}
           >
             {isCollapsed ? (
@@ -82,6 +102,7 @@ const Navbar = ({ onToggleSidebar, onToggleCollapse, isCollapsed }) => {
                 rounded-xl text-sm 
                 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 
                 focus:border-indigo-500 
+                dark:bg-slate-900 dark:border-slate-700 dark:text-slate-100 dark:placeholder:text-slate-500
                 transition
               "
             />
@@ -97,6 +118,7 @@ const Navbar = ({ onToggleSidebar, onToggleCollapse, isCollapsed }) => {
               p-2 rounded-xl 
               bg-slate-50 border border-slate-200 
               hover:bg-slate-100 transition
+              dark:bg-slate-800 dark:border-slate-700 dark:hover:bg-slate-700
             "
             aria-label="Toggle dark mode"
           >
@@ -108,19 +130,25 @@ const Navbar = ({ onToggleSidebar, onToggleCollapse, isCollapsed }) => {
           </button>
 
           {/* NOTIFICATIONS */}
-          <button className="
+          <button
+            className="
             p-2 rounded-xl 
             bg-slate-50 border border-slate-200 
             hover:bg-slate-100 relative
             transition
-          " aria-label="Notifications">
-            <Bell className="w-4 h-4 text-slate-600" />
-            <span className="
+            dark:bg-slate-800 dark:border-slate-700 dark:hover:bg-slate-700
+          "
+            aria-label="Notifications"
+          >
+            <Bell className="w-4 h-4 text-slate-600 dark:text-slate-300" />
+            <span
+              className="
               absolute -top-1 -right-1 
               w-4 h-4 text-[10px] 
               bg-red-500 text-white 
               rounded-full flex items-center justify-center
-            ">
+            "
+            >
               3
             </span>
           </button>
@@ -135,20 +163,27 @@ const Navbar = ({ onToggleSidebar, onToggleCollapse, isCollapsed }) => {
                 bg-slate-50 border border-slate-200 
                 rounded-xl hover:bg-slate-100
                 transition
+                dark:bg-slate-800 dark:border-slate-700 dark:hover:bg-slate-700
               "
               aria-label="Profile menu"
             >
-              <div className="
+              <div
+                className="
                 w-8 h-8 bg-indigo-600 
                 rounded-lg flex items-center justify-center 
                 text-white text-sm font-bold
-              ">
+              "
+              >
                 JD
               </div>
 
               <div className="hidden sm:block text-left">
-                <p className="text-sm font-semibold">John Doe</p>
-                <p className="text-xs text-slate-500">Admin</p>
+                <p className="text-sm font-semibold dark:text-slate-100">
+                  John Doe
+                </p>
+                <p className="text-xs text-slate-500 dark:text-slate-400">
+                  Admin
+                </p>
               </div>
 
               <ChevronDown className="w-4 h-4 text-slate-400" />
@@ -167,32 +202,41 @@ const Navbar = ({ onToggleSidebar, onToggleCollapse, isCollapsed }) => {
                   rounded-xl shadow-xl 
                   overflow-hidden
                   z-50
+                  dark:bg-slate-950 dark:border-slate-700
                 "
               >
-                <div className="p-3 border-b border-slate-100">
-                  <p className="font-semibold text-sm">John Doe</p>
-                  <p className="text-xs text-slate-500">
+                <div className="p-3 border-b border-slate-100 dark:border-slate-700">
+                  <p className="font-semibold text-sm dark:text-slate-100">
+                    John Doe
+                  </p>
+                  <p className="text-xs text-slate-500 dark:text-slate-400">
                     john.doe@example.com
                   </p>
                 </div>
 
-                <button className="
+                <button
+                  className="
                   w-full text-left px-4 py-2 
                   hover:bg-slate-50 
                   flex items-center gap-2
                   transition
-                ">
+                  dark:hover:bg-slate-700 dark:text-slate-100
+                "
+                >
                   <User className="w-4 h-4" />
                   Profile
                 </button>
 
-                <button className="
+                <button
+                  className="
                   w-full text-left px-4 py-2 
                   hover:bg-slate-50 
                   flex items-center gap-2
                   text-red-600
                   transition
-                ">
+                  dark:hover:bg-slate-700 dark:text-slate-100
+                "
+                >
                   <LogOut className="w-4 h-4" />
                   Logout
                 </button>

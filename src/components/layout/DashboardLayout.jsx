@@ -20,7 +20,7 @@ const DashboardLayout = () => {
   };
 
   return (
-    <div className="flex h-screen overflow-hidden bg-slate-50">
+    <div className="flex h-screen overflow-hidden bg-slate-50 dark:bg-slate-950">
       {/* SIDEBAR */}
       <Sidebar
         sidebarOpen={sidebarOpen}

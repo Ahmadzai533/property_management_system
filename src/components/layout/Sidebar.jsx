@@ -60,8 +60,9 @@ const Sidebar = ({
 
   // Active classes
   const activeClass =
-    "bg-blue-100 text-blue-700 font-semibold shadow-sm border border-blue-200";
-  const inactiveClass = "text-slate-600 hover:bg-gray-100 hover:text-slate-900";
+    "bg-blue-100 text-blue-700 font-semibold shadow-sm border border-blue-200 dark:bg-slate-800 dark:text-slate-100 dark:border-slate-700";
+  const inactiveClass =
+    "text-slate-600 hover:bg-gray-100 hover:text-slate-900 dark:text-slate-300 dark:hover:bg-slate-800 dark:hover:text-slate-100";
 
   // Check if menu is active based on current path
   const isMenuActive = (menu) => {
@@ -421,7 +422,7 @@ const Sidebar = ({
 
     return (
       <div
-        className="fixed z-50 bg-white border border-slate-200 rounded-lg shadow-xl py-1 min-w-[180px] max-w-[220px]"
+        className="fixed z-50 bg-white border border-slate-200 rounded-lg shadow-xl py-1 min-w-[180px] max-w-[220px] dark:bg-slate-950 dark:border-slate-700 dark:shadow-slate-950/20"
         style={{
           left: position.x + 12,
           top: position.y - (items.length * 36) / 2 + 10,
@@ -480,7 +481,7 @@ const Sidebar = ({
     if (menu.basePath) {
       return location.pathname === menu.basePath
         ? activeClass
-        : "text-slate-600 hover:bg-gray-100";
+        : "text-slate-600 hover:bg-gray-100 dark:text-slate-300 dark:hover:bg-slate-800 dark:hover:text-slate-100";
     }
 
     if (isMenuActive(menu)) {
@@ -511,7 +512,7 @@ const Sidebar = ({
       <aside
         ref={sidebarRef}
         className={`
-          h-screen bg-white border-r border-slate-200 
+          h-screen bg-white border-r border-slate-200 dark:bg-slate-950 dark:border-slate-800
           flex flex-col flex-shrink-0
           transition-all duration-200 ease-in-out
           fixed lg:relative
@@ -525,7 +526,7 @@ const Sidebar = ({
       >
         {/* Logo */}
         <div
-          className={`p-4 border-b border-slate-200 flex-shrink-0 flex items-center transition-all duration-200 ${
+          className={`p-4 border-b border-slate-200 dark:border-slate-800 flex-shrink-0 flex items-center transition-all duration-200 ${
             isCollapsed ? "justify-center" : "justify-between"
           }`}
         >
@@ -537,8 +538,12 @@ const Sidebar = ({
             </div>
             {!isCollapsed && (
               <div className="transition-all duration-500">
-                <h1 className="text-lg font-bold text-slate-900">PropDaller</h1>
-                <p className="text-[10px] text-slate-500">Management System</p>
+                <h1 className="text-lg font-bold text-slate-900 dark:text-slate-100">
+                  PropDaller
+                </h1>
+                <p className="text-[10px] text-slate-500 dark:text-slate-400">
+                  Management System
+                </p>
               </div>
             )}
           </div>
@@ -546,7 +551,7 @@ const Sidebar = ({
           {/* Close button - mobile only */}
           <button
             onClick={closeSidebar}
-            className="lg:hidden p-1 rounded-lg hover:bg-slate-100 transition"
+            className="lg:hidden p-1 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition"
             aria-label="Close sidebar"
           >
             <X className="w-5 h-5 text-slate-500" />
@@ -852,7 +857,7 @@ const Sidebar = ({
           </div>
 
           {/* Bottom Items */}
-          <div className="mt-5 border-t border-slate-200 pt-4 space-y-1">
+          <div className="mt-5 border-t border-slate-200 dark:border-slate-800 pt-4 space-y-1">
             {bottomItems.map((item) => (
               <NavLink
                 key={item.to}
@@ -881,15 +886,15 @@ const Sidebar = ({
           {!isCollapsed && (
             <div className="flex items-center gap-3 flex-1 min-w-0 transition-all duration-500">
               <div className="flex-1 min-w-0">
-                <p className="text-sm font-semibold text-slate-900 truncate">
+                <p className="text-sm font-semibold text-slate-900 dark:text-slate-100 truncate">
                   Alex Sterling
                 </p>
-                <p className="text-xs text-slate-500 truncate">
+                <p className="text-xs text-slate-500 dark:text-slate-400 truncate">
                   Senior Manager
                 </p>
               </div>
               <button
-                className="p-1.5 rounded-lg hover:bg-slate-100 transition text-slate-400 hover:text-slate-600"
+                className="p-1.5 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition text-slate-400 hover:text-slate-600 dark:text-slate-300 dark:hover:text-slate-100"
                 aria-label="Logout"
               >
                 <LogOut className="w-4 h-4" />
