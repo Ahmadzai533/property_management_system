@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import { NavLink, useLocation } from "react-router-dom";
+import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   LayoutDashboard,
@@ -31,19 +31,25 @@ const Sidebar = ({
   setIsCollapsed,
 }) => {
   const location = useLocation();
+  const navigate = useNavigate();
 
-  const [openMenus, setOpenMenus] = useState({
-    properties: true,
-    users: false,
-    maintainers: false,
-    finance: false,
-    agreements: false,
-    bookings: false,
-    feedback: false,
-    notices: false,
-    reports: false,
-    admin: false,
-  });
+  const getInitialOpenMenus = () => {
+    return {
+      properties: location.pathname.startsWith("/properties"),
+      users: location.pathname.startsWith("/users"),
+      tenants: location.pathname.startsWith("/tenants"),
+      maintainers: location.pathname.startsWith("/maintainers"),
+      finance: location.pathname.startsWith("/finance"),
+      agreements: location.pathname.startsWith("/agreements"),
+      bookings: location.pathname.startsWith("/bookings"),
+      feedback: location.pathname.startsWith("/feedback"),
+      notices: location.pathname.startsWith("/notices"),
+      reports: location.pathname.startsWith("/reports"),
+      admin: location.pathname.startsWith("/admin"),
+    };
+  };
+
+  const [openMenus, setOpenMenus] = useState(getInitialOpenMenus);
 
   const [hoveredItem, setHoveredItem] = useState(null);
   const [hoveredParent, setHoveredParent] = useState(null);
@@ -60,6 +66,7 @@ const Sidebar = ({
   // Check if menu is active based on current path
   const isMenuActive = (menu) => {
     if (!menu.items) return false;
+    if (menu.basePath && location.pathname === menu.basePath) return true;
     return menu.items.some((item) => location.pathname.startsWith(item.to));
   };
 
@@ -87,18 +94,63 @@ const Sidebar = ({
     return adminPaths.some((path) => location.pathname.startsWith(path));
   };
 
+  const pointerMenuDownRef = useRef(false);
+
+  const closeAllMenus = (prev) => {
+    return Object.keys(prev).reduce((acc, key) => {
+      acc[key] = false;
+      return acc;
+    }, {});
+  };
+
   const toggleMenu = (menu) => {
     setOpenMenus((prev) => {
       const isOpen = prev[menu];
-      const next = Object.keys(prev).reduce((acc, key) => {
-        acc[key] = false;
-        return acc;
-      }, {});
+      const next = closeAllMenus(prev);
       if (!isOpen) {
         next[menu] = true;
       }
       return next;
     });
+  };
+
+  const openOnlyMenu = (menuId) => {
+    setOpenMenus((prev) => {
+      const next = closeAllMenus(prev);
+      next[menuId] = true;
+      return next;
+    });
+  };
+
+  const toggleParentMenu = (menuId, menu) => {
+    if (isCollapsed) {
+      setIsCollapsed(false);
+      openOnlyMenu(menuId);
+    } else {
+      if (menu?.basePath) {
+        navigate(menu.basePath);
+      }
+      toggleMenu(menuId);
+    }
+    setHoveredItem(null);
+    setHoveredParent(null);
+  };
+
+  const handleParentMenuPointerDown = (menuId, menu, event) => {
+    event.preventDefault();
+    pointerMenuDownRef.current = true;
+    toggleParentMenu(menuId, menu);
+  };
+
+  const handleParentMenuClick = (menuId, menu, event) => {
+    if (event) {
+      event.preventDefault();
+    }
+    if (pointerMenuDownRef.current) {
+      pointerMenuDownRef.current = false;
+      return;
+    }
+    toggleParentMenu(menuId, menu);
   };
 
   // Close sidebar when clicking outside on mobile
@@ -117,6 +169,11 @@ const Sidebar = ({
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [sidebarOpen, closeSidebar]);
+
+  // Keep open menu state in sync with route changes
+  useEffect(() => {
+    setOpenMenus(getInitialOpenMenus());
+  }, [location.pathname]);
 
   // Close sidebar when escape key is pressed
   useEffect(() => {
@@ -147,6 +204,7 @@ const Sidebar = ({
   const mainMenuItems = [
     {
       id: "properties",
+      basePath: "/properties",
       icon: Building2,
       label: "Properties",
       items: [
@@ -158,6 +216,7 @@ const Sidebar = ({
     },
     {
       id: "users",
+      basePath: "/users",
       icon: UserCog,
       label: "Users & Roles",
       items: [
@@ -168,11 +227,12 @@ const Sidebar = ({
     },
     {
       id: "tenants",
+      basePath: "/tenants",
       icon: Users,
       label: "Tenants",
       items: [
         { to: "/tenants/list", label: "All tenants" },
-        { to: "/tenants/roles", label: "tenants History" },
+        { to: "/tenants/roles", label: "Tenants History" },
       ],
     },
     {
@@ -269,8 +329,9 @@ const Sidebar = ({
   const getNavLinkClass =
     (to, exact = false) =>
     ({ isActive }) => {
-      const active =
-        isActive || (!exact && location.pathname.startsWith(to) && to !== "/");
+      const active = exact
+        ? location.pathname === to
+        : location.pathname === to || location.pathname.startsWith(`${to}/`);
       return `flex items-center gap-3 px-3 py-2 rounded-lg transition-all duration-150 text-sm relative ${
         active ? activeClass : inactiveClass
       } ${isCollapsed ? "justify-center" : ""}`;
@@ -308,6 +369,7 @@ const Sidebar = ({
     if (isCollapsed) {
       setIsCollapsed(false);
     }
+    setOpenMenus((prev) => closeAllMenus(prev));
     closeSidebar();
   };
 
@@ -415,9 +477,16 @@ const Sidebar = ({
 
   // Get active class for parent button
   const getParentActiveClass = (menu) => {
-    if (isMenuActive(menu) || openMenus[menu.id]) {
+    if (menu.basePath) {
+      return location.pathname === menu.basePath
+        ? activeClass
+        : "text-slate-600 hover:bg-gray-100";
+    }
+
+    if (isMenuActive(menu)) {
       return activeClass;
     }
+
     return "text-slate-600 hover:bg-gray-100";
   };
 
@@ -507,21 +576,11 @@ const Sidebar = ({
             {mainMenuItems.map((menu) => (
               <div key={menu.id}>
                 <button
-                  onClick={() => {
-                    if (isCollapsed) {
-                      setIsCollapsed(false);
-                      setOpenMenus((prev) => {
-                        const next = Object.keys(prev).reduce((acc, key) => {
-                          acc[key] = false;
-                          return acc;
-                        }, {});
-                        next[menu.id] = true;
-                        return next;
-                      });
-                    } else {
-                      toggleMenu(menu.id);
-                    }
-                  }}
+                  type="button"
+                  onPointerDown={(e) =>
+                    handleParentMenuPointerDown(menu.id, menu, e)
+                  }
+                  onClick={(e) => handleParentMenuClick(menu.id, menu, e)}
                   className={`w-full flex items-center ${
                     isCollapsed ? "justify-center" : "justify-between"
                   } px-3 py-2 rounded-lg text-sm transition-all duration-200 relative group ${getParentActiveClass(
@@ -580,21 +639,11 @@ const Sidebar = ({
             {managementItems.map((menu) => (
               <div key={menu.id}>
                 <button
-                  onClick={() => {
-                    if (isCollapsed) {
-                      setIsCollapsed(false);
-                      setOpenMenus((prev) => {
-                        const next = Object.keys(prev).reduce((acc, key) => {
-                          acc[key] = false;
-                          return acc;
-                        }, {});
-                        next[menu.id] = true;
-                        return next;
-                      });
-                    } else {
-                      toggleMenu(menu.id);
-                    }
-                  }}
+                  type="button"
+                  onPointerDown={(e) =>
+                    handleParentMenuPointerDown(menu.id, menu, e)
+                  }
+                  onClick={(e) => handleParentMenuClick(menu.id, menu, e)}
                   className={`w-full flex items-center ${
                     isCollapsed ? "justify-center" : "justify-between"
                   } px-3 py-2 rounded-lg text-sm transition-all duration-200 relative group ${getParentActiveClass(
@@ -652,21 +701,11 @@ const Sidebar = ({
             {communicationItems.map((menu) => (
               <div key={menu.id}>
                 <button
-                  onClick={() => {
-                    if (isCollapsed) {
-                      setIsCollapsed(false);
-                      setOpenMenus((prev) => {
-                        const next = Object.keys(prev).reduce((acc, key) => {
-                          acc[key] = false;
-                          return acc;
-                        }, {});
-                        next[menu.id] = true;
-                        return next;
-                      });
-                    } else {
-                      toggleMenu(menu.id);
-                    }
-                  }}
+                  type="button"
+                  onPointerDown={(e) =>
+                    handleParentMenuPointerDown(menu.id, menu, e)
+                  }
+                  onClick={(e) => handleParentMenuClick(menu.id, menu, e)}
                   className={`w-full flex items-center ${
                     isCollapsed ? "justify-center" : "justify-between"
                   } px-3 py-2 rounded-lg text-sm transition-all duration-200 relative group ${getParentActiveClass(
@@ -723,21 +762,27 @@ const Sidebar = ({
           <div className="mt-5 space-y-1">
             <div>
               <button
-                onClick={() => {
-                  if (isCollapsed) {
-                    setIsCollapsed(false);
-                    setOpenMenus((prev) => {
-                      const next = Object.keys(prev).reduce((acc, key) => {
-                        acc[key] = false;
-                        return acc;
-                      }, {});
-                      next.admin = true;
-                      return next;
-                    });
-                  } else {
-                    toggleMenu("admin");
-                  }
-                }}
+                type="button"
+                onPointerDown={(e) =>
+                  handleParentMenuPointerDown(
+                    "admin",
+                    {
+                      id: "admin",
+                      basePath: null,
+                    },
+                    e,
+                  )
+                }
+                onClick={(e) =>
+                  handleParentMenuClick(
+                    "admin",
+                    {
+                      id: "admin",
+                      basePath: null,
+                    },
+                    e,
+                  )
+                }
                 className={`w-full flex items-center ${
                   isCollapsed ? "justify-center" : "justify-between"
                 } px-3 py-2 rounded-lg text-sm transition-all duration-200 relative group ${getParentActiveClass(

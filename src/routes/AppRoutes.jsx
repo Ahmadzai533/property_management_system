@@ -3,6 +3,8 @@ import DashboardLayout from "../components/layout/DashboardLayout";
 import Dashboard from "../pages/Dashboard";
 import Properties from "../pages/Properties";
 import { TenantRoute } from "./tenants";
+import { UsersRoute } from "./users";
+import { TenantsRoute } from "./tenantsRoute";
 
 const AppRoutes = () => {
   return (
@@ -14,8 +16,14 @@ const AppRoutes = () => {
         {/* Properties Module */}
         <Route path="properties/*" element={<Properties />} />
 
-        {/* Tenant Module */}
+        {/* Owner Tenant Module */}
         <Route path="owner/tenant/*" element={<TenantRoute />} />
+
+        {/* Users Module */}
+        <Route path="users/*" element={<UsersRoute />} />
+
+        {/* Tenants Module */}
+        <Route path="tenants/*" element={<TenantsRoute />} />
 
         {/* Catch All */}
         <Route path="*" element={<Navigate to="/" replace />} />
