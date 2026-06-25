@@ -128,7 +128,7 @@ const Sidebar = ({
       label: "Tenants",
       // isLink: true,
       items: [
-        { to: "/tenants/list", label: "All tenants" },
+        { to: "/tenants", label: "All tenants" },
         { to: "/tenants/roles", label: "tenants History" },
       
       ],

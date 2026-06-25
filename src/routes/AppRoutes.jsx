@@ -1,8 +1,7 @@
 import { Routes, Route, Navigate } from "react-router-dom";
 import DashboardLayout from "../components/layout/DashboardLayout";
 import Dashboard from "../pages/Dashboard";
-import { TenantRoute } from "./tenants";
-
+import TenantForm from "../pages/tenants/pages/inFormationform";
 const AppRoutes = () => {
   return (
     <Routes>
@@ -11,7 +10,7 @@ const AppRoutes = () => {
         <Route index element={<Dashboard />} />
 
         {/* Tenant Module */}
-        <Route path="owner/tenant/*" element={<TenantRoute />} />
+        <Route path="tenants" element={<TenantForm />} />
 
         {/* Catch All */}
         <Route path="*" element={<Navigate to="/" replace />} />
