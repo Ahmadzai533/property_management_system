@@ -1,49 +1,50 @@
-import { motion } from 'framer-motion'
-import { Building2, Users, FileText, DollarSign, Plus } from 'lucide-react'
-import StatsCard from '../Dashboard/StatsCard'
-import RevenueChart from '../Dashboard/RevenueChart'
-import OccupancyChart from '../Dashboard/OccupancyChart'
-import RecentActivity from '../Dashboard/RecentActivity'
-import UpcomingRentTable from '../Dashboard/UpcomingRentTable'
-import MaintenanceOverview from '../Dashboard/MaintenanceOverview'
-import Button from '../common/Button'
+import { motion } from "framer-motion";
+import { Building2, Users, FileText, DollarSign, Plus } from "lucide-react";
+import StatsCard from "../Dashboard/StatsCard";
+import RevenueChart from "../Dashboard/RevenueChart";
+import OccupancyChart from "../Dashboard/OccupancyChart";
+import RecentActivity from "../Dashboard/RecentActivity";
+import UpcomingRentTable from "../Dashboard/UpcomingRentTable";
+import MaintenanceOverview from "../Dashboard/MaintenanceOverview";
+import Button from "../common/Button";
+import Breadcrumb from "../components/common/Breadcrumb";
 
 const Dashboard = () => {
   const stats = [
     {
-      title: 'Total Properties',
-      value: '42',
+      title: "Total Properties",
+      value: "42",
       icon: Building2,
       change: 8.5,
     },
     {
-      title: 'Active Tenants',
-      value: '38',
+      title: "Active Tenants",
+      value: "38",
       icon: Users,
       change: 12.3,
     },
     {
-      title: 'Ongoing Contracts',
-      value: '35',
+      title: "Ongoing Contracts",
+      value: "35",
       icon: FileText,
       change: -3.2,
     },
     {
-      title: 'Monthly Revenue',
-      value: '$12,500',
+      title: "Monthly Revenue",
+      value: "$12,500",
       icon: DollarSign,
       change: 15.7,
       gradient: true,
     },
-  ]
+  ];
 
   return (
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      transition={{ 
+      transition={{
         duration: 0.5,
-        ease: "easeOut"
+        ease: "easeOut",
       }}
       className="space-y-5 sm:space-y-6 lg:space-y-8"
     >
@@ -51,15 +52,16 @@ const Dashboard = () => {
       <motion.div
         initial={{ opacity: 0, y: -10 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ 
+        transition={{
           duration: 0.4,
           delay: 0.1,
-          ease: "easeOut"
+          ease: "easeOut",
         }}
         className="flex flex-col md:flex-row md:items-center justify-between gap-4"
       >
         <div className="min-w-0">
-          <h1 className="text-2xl md:text-3xl font-bold text-slate-800 tracking-tight">
+          <Breadcrumb />
+          <h1 className="text-2xl md:text-3xl font-bold text-slate-800 tracking-tight mt-3">
             Dashboard Overview
           </h1>
           <p className="text-sm md:text-base text-slate-500 mt-1 truncate">
@@ -67,21 +69,21 @@ const Dashboard = () => {
           </p>
         </div>
         <div className="flex flex-wrap items-center gap-2 sm:gap-3 flex-shrink-0">
-          <Button 
-            icon={Plus} 
+          <Button
+            icon={Plus}
             className="shadow-lg shadow-[#6D28D9]/30 text-xs sm:text-sm px-3 sm:px-4 py-2 sm:py-2.5"
           >
             Add Property
           </Button>
-          <Button 
-            variant="secondary" 
+          <Button
+            variant="secondary"
             icon={Plus}
             className="text-xs sm:text-sm px-3 sm:px-4 py-2 sm:py-2.5"
           >
             Add Tenant
           </Button>
-          <Button 
-            variant="success" 
+          <Button
+            variant="success"
             icon={Plus}
             className="text-xs sm:text-sm px-3 sm:px-4 py-2 sm:py-2.5"
           >
@@ -98,15 +100,15 @@ const Dashboard = () => {
               key={stat.title}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ 
+              transition={{
                 duration: 0.4,
                 delay: 0.1 + index * 0.05,
-                ease: "easeOut"
+                ease: "easeOut",
               }}
             >
               <StatsCard
                 {...stat}
-                color={index === 3 ? '#8B5CF6' : '#6D28D9'}
+                color={index === 3 ? "#8B5CF6" : "#6D28D9"}
               />
             </motion.div>
           ))}
@@ -119,10 +121,10 @@ const Dashboard = () => {
           <motion.div
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
-            transition={{ 
+            transition={{
               duration: 0.5,
               delay: 0.2,
-              ease: "easeOut"
+              ease: "easeOut",
             }}
           >
             <RevenueChart />
@@ -130,10 +132,10 @@ const Dashboard = () => {
           <motion.div
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
-            transition={{ 
+            transition={{
               duration: 0.5,
               delay: 0.3,
-              ease: "easeOut"
+              ease: "easeOut",
             }}
           >
             <OccupancyChart />
@@ -147,10 +149,10 @@ const Dashboard = () => {
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ 
+            transition={{
               duration: 0.5,
               delay: 0.3,
-              ease: "easeOut"
+              ease: "easeOut",
             }}
             className="lg:col-span-2"
           >
@@ -159,10 +161,10 @@ const Dashboard = () => {
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ 
+            transition={{
               duration: 0.5,
               delay: 0.4,
-              ease: "easeOut"
+              ease: "easeOut",
             }}
           >
             <MaintenanceOverview />
@@ -175,17 +177,17 @@ const Dashboard = () => {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ 
+          transition={{
             duration: 0.5,
             delay: 0.5,
-            ease: "easeOut"
+            ease: "easeOut",
           }}
         >
           <UpcomingRentTable />
         </motion.div>
       </section>
     </motion.div>
-  )
-}
+  );
+};
 
-export default Dashboard
+export default Dashboard;

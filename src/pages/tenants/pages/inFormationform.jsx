@@ -129,8 +129,7 @@ const TenantForm = () => {
         transition={{ duration: 0.5 }}
         className="w-full "
       >
-        <h1>this is add section </h1>
-
+        
         <div className="bg-white rounded-2xl shadow-xl overflow-hidden">
             {/* <h1>Ad</h1> */}
           {/* Header */}
