@@ -5,8 +5,23 @@
 @tailwind utilities;
 
 @layer base {
-  * {
+  *,
+  *::before,
+  *::after {
     border-color: #e2e8f0;
+    transition:
+      background-color 0.35s ease,
+      color 0.35s ease,
+      border-color 0.35s ease,
+      fill 0.35s ease,
+      stroke 0.35s ease;
+  }
+
+  html,
+  body {
+    transition:
+      background-color 0.35s ease,
+      color 0.35s ease;
   }
 
   body {
@@ -29,14 +44,17 @@
 
   html.dark .bg-white {
     background-color: #0f172a !important;
+    transition: background-color 0.35s ease;
   }
 
   html.dark .bg-white\/95 {
     background-color: rgba(15, 23, 42, 0.95) !important;
+    transition: background-color 0.35s ease;
   }
 
   html.dark .bg-white\/70 {
     background-color: rgba(15, 23, 42, 0.7) !important;
+    transition: background-color 0.35s ease;
   }
 
   html.dark .bg-slate-50 {
