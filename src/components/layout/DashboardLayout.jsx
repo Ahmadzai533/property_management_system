@@ -1,47 +1,49 @@
-import { useState } from "react";
-import { Outlet } from "react-router-dom";
-import Sidebar from "./Sidebar";
+import { useState, useEffect } from "react";
+import { Outlet, useLocation } from "react-router-dom";
 import Navbar from "./Navbar";
+import Sidebar from "./Sidebar";
 
 const DashboardLayout = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [isCollapsed, setIsCollapsed] = useState(false);
+  const location = useLocation();
 
-  const toggleSidebar = () => {
-    setSidebarOpen(!sidebarOpen);
-  };
-
-  const closeSidebar = () => {
+  // Automatically close mobile sidebar on route change
+  useEffect(() => {
     setSidebarOpen(false);
-  };
+  }, [location]);
 
-  const toggleCollapse = () => {
-    setIsCollapsed(!isCollapsed);
-  };
+  const toggleSidebar = () => setSidebarOpen(!sidebarOpen);
+  const closeSidebar = () => setSidebarOpen(false);
+  const toggleCollapse = () => setIsCollapsed(!isCollapsed);
 
   return (
-    <div className="flex h-screen overflow-hidden bg-slate-50 dark:bg-slate-950">
-      {/* SIDEBAR */}
-      <Sidebar
-        sidebarOpen={sidebarOpen}
-        toggleSidebar={toggleSidebar}
-        closeSidebar={closeSidebar}
+    <div className="flex flex-col h-screen overflow-hidden bg-slate-50 dark:bg-slate-950">
+      {/* Navbar: Fixed height */}
+      <Navbar
+        onToggleSidebar={toggleSidebar}
         isCollapsed={isCollapsed}
-        setIsCollapsed={setIsCollapsed}
+        onToggleCollapse={toggleCollapse}
       />
-
-      {/* MAIN CONTENT - No margin, sidebar is fixed/relative */}
-      <div className="flex-1 flex flex-col min-w-0 overflow-hidden">
-        {/* NAVBAR */}
-        <Navbar
-          onToggleSidebar={toggleSidebar}
-          onToggleCollapse={toggleCollapse}
+      
+      <div className="flex flex-1 overflow-hidden relative w-full">
+        {/* Sidebar */}
+        <Sidebar
+          sidebarOpen={sidebarOpen}
+          toggleSidebar={toggleSidebar}
+          closeSidebar={closeSidebar}
           isCollapsed={isCollapsed}
+          setIsCollapsed={setIsCollapsed}
         />
 
-        {/* CONTENT - ONLY THIS SCROLLS */}
-        <main className="flex-1 overflow-y-auto p-4 md:p-6">
-          <Outlet />
+        {/* Main Content: Explicit width rules prevent layout compression shaking */}
+        <main 
+          className={`flex-1 overflow-y-auto p-3 sm:p-4 md:p-6 transition-all duration-200 ease-in-out w-full min-w-full lg:min-w-0
+            ${isCollapsed ? "lg:pl-[64px]" : "lg:pl-[256px]"} pl-0`}
+        >
+          <div className="max-w-7xl mx-auto">
+            <Outlet />
+          </div>
         </main>
       </div>
     </div>
