@@ -52,9 +52,10 @@ const Sidebar = ({
   const [tooltipPosition, setTooltipPosition] = useState({ x: 0, y: 0 });
   const sidebarRef = useRef(null);
   const popupRef = useRef(null);
+  const tooltipAllowedItems = ["Settings", "Help & Support"];
 
   const [isLarge, setIsLarge] = useState(
-    typeof window !== "undefined" ? window.innerWidth >= 1024 : true
+    typeof window !== "undefined" ? window.innerWidth >= 1024 : true,
   );
 
   useEffect(() => {
@@ -154,9 +155,11 @@ const Sidebar = ({
       label: "Properties",
       items: [
         { to: "/properties/listed", label: "All Property" },
-        { to: "/properties/portfolio", label: "All Unit" },
-        { to: "/properties/own-property", label: "Own Property" },
-        { to: "/properties/lease-property", label: "Lease Property" },
+        { to: "/properties/own", label: "Own Properties" },
+         { to: "/properties/lease", label: "Lease Property" },
+        { to: "/properties/units", label: "All Unit" },
+       
+        
       ],
     },
     {
@@ -261,52 +264,82 @@ const Sidebar = ({
 
   const TreeLines = ({ isLast, children }) => (
     <div className="relative pl-7 py-0.5">
-      <div className={`absolute left-3 top-0 w-[1px] bg-slate-300/70 ${isLast ? "h-3" : "h-full"}`} />
+      <div
+        className={`absolute left-3 top-0 w-[1px] bg-slate-300/70 ${isLast ? "h-3" : "h-full"}`}
+      />
       <div className="absolute left-3 top-3.5 w-4 h-2.5 border-l border-b border-slate-300/70 rounded-bl-[6px]" />
       {children}
     </div>
   );
 
-  const getNavLinkClass = (to) => ({ isActive }) => {
-    const active = location.pathname === to || location.pathname.startsWith(`${to}/`);
-    return `flex items-center gap-3 px-3 py-2 rounded-lg transition-colors duration-200 ease-in-out text-sm relative ${
-      active ? activeClass : inactiveClass
-    } ${isCollapsed && isLarge ? "justify-center px-0 w-10 h-10 mx-auto" : ""}`;
-  };
+  const getNavLinkClass =
+    (to) =>
+    ({ isActive }) => {
+      const active =
+        location.pathname === to || location.pathname.startsWith(`${to}/`);
+      return `flex items-center gap-3 px-3 py-2 rounded-lg transition-colors duration-200 ease-in-out text-sm relative ${
+        active ? activeClass : inactiveClass
+      } ${isCollapsed && isLarge ? "justify-center px-0 w-10 h-10 mx-auto" : ""}`;
+    };
 
   const Tooltip = ({ label, position }) => {
     if (!label || !isCollapsed) return null;
     return (
       <div
         className="fixed z-50 px-3 py-2 text-sm font-medium rounded-lg shadow-lg pointer-events-none whitespace-nowrap bg-slate-900/95 text-white"
-        style={{ left: position.x, top: position.y, transform: "translateY(-50%)" }}
+        style={{
+          left: position.x,
+          top: position.y,
+          transform: "translateY(-50%)",
+        }}
       >
         {label}
       </div>
     );
   };
 
-  const handleMouseEnter = (e, label, hasSubMenu = false) => {
-    if (isCollapsed) {
-      const rect = e.currentTarget.getBoundingClientRect();
-      setTooltipPosition({ x: rect.right + 4, y: rect.top + rect.height / 2 });
-      setHoveredItem(label);
-      if (hasSubMenu) setHoveredParent(label);
-    }
-  };
+ const handleMouseEnter = (e, label, hasSubMenu = false) => {
+  if (!isCollapsed) return;
 
+  const rect = e.currentTarget.getBoundingClientRect();
+
+  setTooltipPosition({
+    x: rect.right + 4,
+    y: rect.top + rect.height / 2,
+  });
+
+  // ✅ ONLY show tooltip for allowed items
+  if (!hasSubMenu && tooltipAllowedItems.includes(label)) {
+    setHoveredItem(label);
+  } else {
+    setHoveredItem(null);
+  }
+
+  if (hasSubMenu) {
+    setHoveredParent(label);
+  }
+};
   const handleMouseLeave = () => {
     setHoveredItem(null);
     setHoveredParent(null);
   };
 
   const renderSubMenuPopup = (items, parentLabel, position) => {
-    if (!isCollapsed || hoveredParent !== parentLabel || !items || items.length === 0) return null;
+    if (
+      !isCollapsed ||
+      hoveredParent !== parentLabel ||
+      !items ||
+      items.length === 0
+    )
+      return null;
     return (
       <div
         ref={popupRef}
         className="fixed z-50 bg-white border border-slate-200 rounded-lg shadow-xl py-1 min-w-[180px] max-w-[220px] dark:bg-slate-950 dark:border-slate-700"
-        style={{ left: position.x + 12, top: position.y - (items.length * 36) / 2 + 10 }}
+        style={{
+          left: position.x + 12,
+          top: position.y - (items.length * 36) / 2 + 10,
+        }}
         onMouseEnter={() => setHoveredParent(parentLabel)}
         onMouseLeave={handleMouseLeave}
       >
@@ -330,8 +363,10 @@ const Sidebar = ({
   };
 
   const getParentActiveClass = (menu) => {
-    if (menu.basePath && location.pathname === menu.basePath) return activeClass;
-    if (menu.items && menu.items.length > 0) return openMenus[menu.id] ? activeClass : inactiveClass;
+    if (menu.basePath && location.pathname === menu.basePath)
+      return activeClass;
+    if (menu.items && menu.items.length > 0)
+      return openMenus[menu.id] ? activeClass : inactiveClass;
     return isMenuActive(menu) ? activeClass : inactiveClass;
   };
 
@@ -372,80 +407,119 @@ const Sidebar = ({
               onMouseLeave={handleMouseLeave}
             >
               <item.icon className="w-4 h-4 flex-shrink-0" />
-              <span className={`inline-block truncate transition-opacity duration-200 ${(isCollapsed && isLarge) ? "opacity-0 w-0 overflow-hidden" : "opacity-100"}`}>
+              <span
+                className={`inline-block truncate transition-opacity duration-200 ${isCollapsed && isLarge ? "opacity-0 w-0 overflow-hidden" : "opacity-100"}`}
+              >
                 {item.label}
               </span>
             </NavLink>
           ))}
 
           {/* Map blocks */}
-          {[mainMenuItems, managementItems, communicationItems].map((menuGroup, index) => (
-            <div className="mt-5 space-y-1" key={index}>
-              {menuGroup.map((menu) => (
-                <div key={menu.id}>
-                  <button
-                    type="button"
-                    onPointerDown={(e) => handleParentMenuPointerDown(menu.id, menu, e)}
-                    onClick={(e) => handleParentMenuClick(menu.id, menu, e)}
-                    className={`w-full flex items-center px-3 py-2 rounded-lg text-sm transition-all duration-200 relative group ${getParentActiveClass(menu)} ${
-                      isCollapsed && isLarge ? "justify-center px-0 w-10 h-10 mx-auto" : "justify-between"
-                    }`}
-                    onMouseEnter={(e) => handleMouseEnter(e, menu.label, true)}
-                    onMouseLeave={handleMouseLeave}
-                  >
-                    <div className={`flex items-center ${isCollapsed && isLarge ? "justify-center" : "gap-3"}`}>
-                      <menu.icon className="w-4 h-4 flex-shrink-0" />
-                      <span className={`inline-block truncate transition-opacity duration-200 ${(isCollapsed && isLarge) ? "opacity-0 w-0 overflow-hidden" : "opacity-100"}`}>
-                        {menu.label}
-                      </span>
-                    </div>
-                    {(!isCollapsed || !isLarge) && (
-                      <div className="flex-shrink-0">
-                        {openMenus[menu.id] ? <ChevronDown className="w-4 h-4" /> : <ChevronRight className="w-4 h-4" />}
-                      </div>
-                    )}
-                  </button>
-
-                  {isCollapsed && isLarge && renderSubMenuPopup(menu.items, menu.label, tooltipPosition)}
-
-                  <AnimatePresence initial={false}>
-                    {openMenus[menu.id] && (!isCollapsed || !isLarge) && (
-                      <motion.div
-                        initial={{ height: 0, opacity: 0 }}
-                        animate={{ height: "auto", opacity: 1 }}
-                        exit={{ height: 0, opacity: 0 }}
-                        transition={{ duration: 0.22 }}
-                        className="ml-2 overflow-hidden"
+          {[mainMenuItems, managementItems, communicationItems].map(
+            (menuGroup, index) => (
+              <div className="mt-5 space-y-1" key={index}>
+                {menuGroup.map((menu) => (
+                  <div key={menu.id}>
+                    <button
+                      type="button"
+                      onPointerDown={(e) =>
+                        handleParentMenuPointerDown(menu.id, menu, e)
+                      }
+                      onClick={(e) => handleParentMenuClick(menu.id, menu, e)}
+                      className={`w-full flex items-center px-3 py-2 rounded-lg text-sm transition-all duration-200 relative group ${getParentActiveClass(menu)} ${
+                        isCollapsed && isLarge
+                          ? "justify-center px-0 w-10 h-10 mx-auto"
+                          : "justify-between"
+                      }`}
+                      onMouseEnter={(e) =>
+                        handleMouseEnter(e, menu.label, true)
+                      }
+                      onMouseLeave={handleMouseLeave}
+                    >
+                      <div
+                        className={`flex items-center ${isCollapsed && isLarge ? "justify-center" : "gap-3"}`}
                       >
-                        {menu.items?.map((item, i) => (
-                          <TreeLines key={item.to} isLast={i === menu.items.length - 1}>
-                            <NavLink to={item.to} className={getNavLinkClass(item.to)} onClick={closeSidebar}>
-                              {item.label}
-                            </NavLink>
-                          </TreeLines>
-                        ))}
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
-                </div>
-              ))}
-            </div>
-          ))}
+                        <menu.icon className="w-4 h-4 flex-shrink-0" />
+                        <span
+                          className={`inline-block truncate transition-opacity duration-200 ${isCollapsed && isLarge ? "opacity-0 w-0 overflow-hidden" : "opacity-100"}`}
+                        >
+                          {menu.label}
+                        </span>
+                      </div>
+                      {(!isCollapsed || !isLarge) && (
+                        <div className="flex-shrink-0">
+                          {openMenus[menu.id] ? (
+                            <ChevronDown className="w-4 h-4" />
+                          ) : (
+                            <ChevronRight className="w-4 h-4" />
+                          )}
+                        </div>
+                      )}
+                    </button>
+
+                    {isCollapsed &&
+                      isLarge &&
+                      renderSubMenuPopup(
+                        menu.items,
+                        menu.label,
+                        tooltipPosition,
+                      )}
+
+                    <AnimatePresence initial={false}>
+                      {openMenus[menu.id] && (!isCollapsed || !isLarge) && (
+                        <motion.div
+                          initial={{ height: 0, opacity: 0 }}
+                          animate={{ height: "auto", opacity: 1 }}
+                          exit={{ height: 0, opacity: 0 }}
+                          transition={{ duration: 0.22 }}
+                          className="ml-2 overflow-hidden"
+                        >
+                          {menu.items?.map((item, i) => (
+                            <TreeLines
+                              key={item.to}
+                              isLast={i === menu.items.length - 1}
+                            >
+                              <NavLink
+                                to={item.to}
+                                className={getNavLinkClass(item.to)}
+                                onClick={closeSidebar}
+                              >
+                                {item.label}
+                              </NavLink>
+                            </TreeLines>
+                          ))}
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+                  </div>
+                ))}
+              </div>
+            ),
+          )}
 
           {/* Admin */}
           <div className="mt-5 space-y-1">
             <div>
               <button
                 type="button"
-                onPointerDown={(e) => handleParentMenuPointerDown("admin", { id: "admin" }, e)}
-                onClick={(e) => handleParentMenuClick("admin", { id: "admin" }, e)}
+                onPointerDown={(e) =>
+                  handleParentMenuPointerDown("admin", { id: "admin" }, e)
+                }
+                onClick={(e) =>
+                  handleParentMenuClick("admin", { id: "admin" }, e)
+                }
                 className={`w-full flex items-center px-3 py-2 rounded-lg text-sm transition-all duration-200 relative group ${openMenus.admin ? activeClass : inactiveClass} ${
-                  isCollapsed && isLarge ? "justify-center px-0 w-10 h-10 mx-auto" : "justify-between"
+                  isCollapsed && isLarge
+                    ? "justify-center px-0 w-10 h-10 mx-auto"
+                    : "justify-between"
                 }`}
                 onMouseEnter={(e) => handleMouseEnter(e, "Admin", true)}
                 onMouseLeave={handleMouseLeave}
               >
-                <div className={`flex items-center ${isCollapsed && isLarge ? "justify-center" : "gap-3"}`}>
+                <div
+                  className={`flex items-center ${isCollapsed && isLarge ? "justify-center" : "gap-3"}`}
+                >
                   <Shield className="w-4 h-4 flex-shrink-0" />
                   <span className={`inline-block truncate transition-opacity duration-200 ${(isCollapsed && isLarge) ? "opacity-0 w-0 overflow-hidden" : "opacity-100"}`}>
                     Admin
@@ -453,16 +527,26 @@ const Sidebar = ({
                 </div>
                 {(!isCollapsed || !isLarge) && (
                   <div className="flex-shrink-0">
-                    {openMenus.admin ? <ChevronDown className="w-4 h-4" /> : <ChevronRight className="w-4 h-4" />}
+                    {openMenus.admin ? (
+                      <ChevronDown className="w-4 h-4" />
+                    ) : (
+                      <ChevronRight className="w-4 h-4" />
+                    )}
                   </div>
                 )}
               </button>
 
-              {isCollapsed && isLarge && renderSubMenuPopup([
-                { to: "/admin/team", label: "Admin Team" },
-                { to: "/admin/permissions", label: "Permissions" },
-                { to: "/admin/audit", label: "Audit Logs" }
-              ], "Admin", tooltipPosition)}
+              {isCollapsed &&
+                isLarge &&
+                renderSubMenuPopup(
+                  [
+                    { to: "/admin/team", label: "Admin Team" },
+                    { to: "/admin/permissions", label: "Permissions" },
+                    { to: "/admin/audit", label: "Audit Logs" },
+                  ],
+                  "Admin",
+                  tooltipPosition,
+                )}
 
               <AnimatePresence initial={false}>
                 {openMenus.admin && (!isCollapsed || !isLarge) && (
@@ -479,7 +563,11 @@ const Sidebar = ({
                       { to: "/admin/audit", label: "Audit Logs" },
                     ].map((item, i) => (
                       <TreeLines key={item.to} isLast={i === 2}>
-                        <NavLink to={item.to} className={getNavLinkClass(item.to)} onClick={closeSidebar}>
+                        <NavLink
+                          to={item.to}
+                          className={getNavLinkClass(item.to)}
+                          onClick={closeSidebar}
+                        >
                           {item.label}
                         </NavLink>
                       </TreeLines>
@@ -502,7 +590,9 @@ const Sidebar = ({
                 onMouseLeave={handleMouseLeave}
               >
                 <item.icon className="w-4 h-4 flex-shrink-0" />
-                <span className={`inline-block truncate transition-opacity duration-200 ${(isCollapsed && isLarge) ? "opacity-0 w-0 overflow-hidden" : "opacity-100"}`}>
+                <span
+                  className={`inline-block truncate transition-opacity duration-200 ${isCollapsed && isLarge ? "opacity-0 w-0 overflow-hidden" : "opacity-100"}`}
+                >
                   {item.label}
                 </span>
               </NavLink>
@@ -511,15 +601,21 @@ const Sidebar = ({
         </nav>
 
         {/* Footer Block */}
-        <div className={`p-4 border-t border-slate-200 dark:border-slate-800 flex items-center gap-3 flex-shrink-0 transition-all duration-200 ${(isCollapsed && isLarge) ? "justify-center" : ""}`}>
+        <div
+          className={`p-4 border-t border-slate-200 dark:border-slate-800 flex items-center gap-3 flex-shrink-0 transition-all duration-200 ${isCollapsed && isLarge ? "justify-center" : ""}`}
+        >
           <div className="w-9 h-9 bg-indigo-600 text-white rounded-full flex items-center justify-center text-sm font-semibold flex-shrink-0">
             AS
           </div>
           {(!isCollapsed || !isLarge) && (
             <div className="flex items-center gap-3 flex-1 min-w-0 transition-all duration-200">
               <div className="flex-1 min-w-0">
-                <p className="text-sm font-semibold text-slate-900 dark:text-slate-100 truncate">Alex Sterling</p>
-                <p className="text-xs text-slate-500 dark:text-slate-400 truncate">Senior Manager</p>
+                <p className="text-sm font-semibold text-slate-900 dark:text-slate-100 truncate">
+                  Alex Sterling
+                </p>
+                <p className="text-xs text-slate-500 dark:text-slate-400 truncate">
+                  Senior Manager
+                </p>
               </div>
               <button className="p-1.5 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition text-slate-400 hover:text-slate-600">
                 <LogOut className="w-4 h-4" />
@@ -527,8 +623,9 @@ const Sidebar = ({
             </div>
           )}
         </div>
-
         <Tooltip label={hoveredItem} position={tooltipPosition} />
+
+        
       </motion.aside>
     </>
   );
