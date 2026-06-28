@@ -6,7 +6,7 @@ import OccupancyChart from "../Dashboard/OccupancyChart";
 import RecentActivity from "../Dashboard/RecentActivity";
 import UpcomingRentTable from "../Dashboard/UpcomingRentTable";
 import MaintenanceOverview from "../Dashboard/MaintenanceOverview";
-import Button from "../common/Button";
+import Button from "../components/common/Button"; // Fixed: removed extra /common
 import Breadcrumb from "../components/common/Breadcrumb";
 
 const Dashboard = () => {
@@ -46,7 +46,7 @@ const Dashboard = () => {
         duration: 0.5,
         ease: "easeOut",
       }}
-      className="space-y-5 sm:space-y-6 lg:space-y-8"
+      className="space-y-5 space-x-2 sm:space-x-4 lg:space-x-3 sm:space-y-6 lg:space-y-8"
     >
       {/* Header Section */}
       <motion.div
@@ -61,10 +61,10 @@ const Dashboard = () => {
       >
         <div className="min-w-0">
           <Breadcrumb />
-          <h1 className="text-2xl md:text-3xl font-bold text-slate-800 tracking-tight mt-3">
+          <h1 className="text-2xl md:text-3xl pl-3 font-bold text-slate-800 dark:text-white tracking-tight mt-3">
             Dashboard Overview
           </h1>
-          <p className="text-sm md:text-base text-slate-500 mt-1 truncate">
+          <p className="text-sm md:text-base text-slate-500 mt-1 pl-3 truncate">
             Welcome back manager. Here's today's performance overview.
           </p>
         </div>
