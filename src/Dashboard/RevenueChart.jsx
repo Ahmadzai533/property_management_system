@@ -40,13 +40,13 @@ const RevenueChart = () => {
       const isPositive = value >= 0
       
       return (
-        <div className="bg-white/95 backdrop-blur-sm p-3 sm:p-4 rounded-xl shadow-2xl border border-slate-200/60 min-w-[140px] sm:min-w-[160px]">
-          <p className="text-sm font-semibold text-slate-800 mb-1.5">{label}</p>
+        <div className="bg-white/95 dark:bg-slate-800/95 backdrop-blur-sm p-3 sm:p-4 rounded-xl shadow-2xl border border-slate-200/60 dark:border-slate-700/60 min-w-[140px] sm:min-w-[160px]">
+          <p className="text-sm font-semibold text-slate-800 dark:text-slate-200 mb-1.5">{label}</p>
           <p className="text-lg sm:text-xl font-bold text-[#6D28D9]">
             ${value.toLocaleString()}
           </p>
-          <div className="mt-2 pt-2 border-t border-slate-100">
-            <p className="text-xs text-slate-500">
+          <div className="mt-2 pt-2 border-t border-slate-100 dark:border-slate-700">
+            <p className="text-xs text-slate-500 dark:text-slate-400">
               {isPositive ? '↑' : '↓'} {isPositive ? 'Positive' : 'Negative'} trend
             </p>
           </div>
@@ -61,15 +61,15 @@ const RevenueChart = () => {
       initial={{ opacity: 0, scale: 0.95 }}
       animate={{ opacity: 1, scale: 1 }}
       transition={{ duration: 0.5, delay: 0.2, ease: "easeOut" }}
-      className="bg-white rounded-2xl p-4 sm:p-5 md:p-6 border border-slate-200/60 shadow-xl shadow-slate-200/30 hover:shadow-2xl transition-shadow duration-300 h-full flex flex-col"
+      className="bg-white dark:bg-slate-800 rounded-2xl p-4 sm:p-5 md:p-6 border border-slate-200/60 dark:border-slate-700/60 shadow-xl shadow-slate-200/30 dark:shadow-slate-800/30 hover:shadow-2xl transition-shadow duration-300 h-full flex flex-col"
     >
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-start md:items-center justify-between gap-3 sm:gap-4 mb-4 sm:mb-5 md:mb-6">
         <div className="flex-1 min-w-0">
-          <h3 className="text-base sm:text-lg md:text-xl font-bold text-slate-800 truncate">
+          <h3 className="text-base sm:text-lg md:text-xl font-bold text-slate-800 dark:text-white truncate">
             Revenue Overview
           </h3>
-          <p className="text-xs sm:text-sm text-slate-500 mt-0.5">
+          <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-0.5">
             Monthly income trend
           </p>
         </div>
@@ -77,21 +77,21 @@ const RevenueChart = () => {
           <div className={`
             flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3 py-1 sm:py-1.5 
             rounded-lg transition-colors duration-200
-            ${stats.change >= 0 ? 'bg-emerald-50 hover:bg-emerald-100' : 'bg-red-50 hover:bg-red-100'}
+            ${stats.change >= 0 ? 'bg-emerald-50 dark:bg-emerald-900/30 hover:bg-emerald-100 dark:hover:bg-emerald-900/50' : 'bg-red-50 dark:bg-red-900/30 hover:bg-red-100 dark:hover:bg-red-900/50'}
           `}>
             {stats.change >= 0 ? (
-              <TrendingUp className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-emerald-600" />
+              <TrendingUp className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-emerald-600 dark:text-emerald-400" />
             ) : (
-              <TrendingDown className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-red-600" />
+              <TrendingDown className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-red-600 dark:text-red-400" />
             )}
             <span className={`
               text-xs sm:text-sm font-semibold whitespace-nowrap
-              ${stats.change >= 0 ? 'text-emerald-600' : 'text-red-600'}
+              ${stats.change >= 0 ? 'text-emerald-600 dark:text-emerald-400' : 'text-red-600 dark:text-red-400'}
             `}>
               {stats.change >= 0 ? '+' : ''}{stats.change.toFixed(1)}%
             </span>
           </div>
-          <div className="flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3 py-1 sm:py-1.5 bg-[#6D28D9]/10 rounded-lg hover:bg-[#6D28D9]/15 transition-colors duration-200">
+          <div className="flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3 py-1 sm:py-1.5 bg-[#6D28D9]/10 dark:bg-[#6D28D9]/20 rounded-lg hover:bg-[#6D28D9]/15 dark:hover:bg-[#6D28D9]/30 transition-colors duration-200">
             <DollarSign className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#6D28D9]" />
             <span className="text-xs sm:text-sm font-semibold text-[#6D28D9] whitespace-nowrap">
               ${stats.total.toLocaleString()}
@@ -102,26 +102,26 @@ const RevenueChart = () => {
 
       {/* Quick Stats Row */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-3 mb-4 sm:mb-5 md:mb-6">
-        <div className="bg-slate-50 rounded-lg p-2 sm:p-3">
-          <p className="text-[10px] sm:text-xs text-slate-500">Average</p>
-          <p className="text-xs sm:text-sm font-semibold text-slate-700">
+        <div className="bg-slate-50 dark:bg-slate-700/50 rounded-lg p-2 sm:p-3">
+          <p className="text-[10px] sm:text-xs text-slate-500 dark:text-slate-400">Average</p>
+          <p className="text-xs sm:text-sm font-semibold text-slate-700 dark:text-slate-300">
             ${stats.average.toFixed(0)}
           </p>
         </div>
-        <div className="bg-slate-50 rounded-lg p-2 sm:p-3">
-          <p className="text-[10px] sm:text-xs text-slate-500">Highest</p>
-          <p className="text-xs sm:text-sm font-semibold text-emerald-600">
+        <div className="bg-slate-50 dark:bg-slate-700/50 rounded-lg p-2 sm:p-3">
+          <p className="text-[10px] sm:text-xs text-slate-500 dark:text-slate-400">Highest</p>
+          <p className="text-xs sm:text-sm font-semibold text-emerald-600 dark:text-emerald-400">
             ${stats.max.toLocaleString()}
           </p>
         </div>
-        <div className="bg-slate-50 rounded-lg p-2 sm:p-3">
-          <p className="text-[10px] sm:text-xs text-slate-500">Lowest</p>
-          <p className="text-xs sm:text-sm font-semibold text-red-500">
+        <div className="bg-slate-50 dark:bg-slate-700/50 rounded-lg p-2 sm:p-3">
+          <p className="text-[10px] sm:text-xs text-slate-500 dark:text-slate-400">Lowest</p>
+          <p className="text-xs sm:text-sm font-semibold text-red-500 dark:text-red-400">
             ${stats.min.toLocaleString()}
           </p>
         </div>
-        <div className="bg-slate-50 rounded-lg p-2 sm:p-3">
-          <p className="text-[10px] sm:text-xs text-slate-500">Current</p>
+        <div className="bg-slate-50 dark:bg-slate-700/50 rounded-lg p-2 sm:p-3">
+          <p className="text-[10px] sm:text-xs text-slate-500 dark:text-slate-400">Current</p>
           <p className="text-xs sm:text-sm font-semibold text-[#6D28D9]">
             ${stats.lastMonth.toLocaleString()}
           </p>
@@ -184,19 +184,19 @@ const RevenueChart = () => {
       </div>
 
       {/* Footer Stats */}
-      <div className="mt-3 sm:mt-4 pt-3 sm:pt-4 border-t border-slate-100">
+      <div className="mt-3 sm:mt-4 pt-3 sm:pt-4 border-t border-slate-100 dark:border-slate-700">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
-          <p className="text-[10px] sm:text-xs text-slate-500">
+          <p className="text-[10px] sm:text-xs text-slate-500 dark:text-slate-400">
             Total revenue for the period
           </p>
           <div className="flex items-center gap-4">
             <div className="flex items-center gap-1.5">
               <div className="w-2 h-2 rounded-full bg-[#6D28D9]" />
-              <span className="text-[10px] sm:text-xs text-slate-600">Monthly revenue</span>
+              <span className="text-[10px] sm:text-xs text-slate-600 dark:text-slate-300">Monthly revenue</span>
             </div>
             <div className="flex items-center gap-1.5">
               <div className="w-2 h-2 rounded-full bg-emerald-500" />
-              <span className="text-[10px] sm:text-xs text-slate-600">Trending up</span>
+              <span className="text-[10px] sm:text-xs text-slate-600 dark:text-slate-300">Trending up</span>
             </div>
           </div>
         </div>
