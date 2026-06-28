@@ -35,7 +35,7 @@ const StatsCard = ({
         ${
           gradient
             ? "gradient-primary text-white shadow-xl shadow-[#6D28D9]/20"
-            : "bg-white border border-slate-200/60 shadow-lg hover:shadow-2xl"
+            : "bg-white dark:bg-slate-800 border border-slate-200/60 dark:border-slate-700/60 shadow-lg hover:shadow-2xl dark:shadow-slate-800/30"
         }
         ${gradient ? "hover:shadow-2xl hover:shadow-[#6D28D9]/30" : ""}
       `}
@@ -47,7 +47,7 @@ const StatsCard = ({
         className={`
           absolute -right-8 -top-8 w-24 sm:w-32 h-24 sm:h-32 
           rounded-full transition-all duration-500
-          ${gradient ? "bg-white/10" : "bg-slate-50"}
+          ${gradient ? "bg-white/10" : "bg-slate-50 dark:bg-slate-700/30"}
         `}
         aria-hidden="true"
       />
@@ -55,7 +55,7 @@ const StatsCard = ({
         className={`
           absolute -right-4 -bottom-4 w-16 sm:w-20 h-16 sm:h-20 
           rounded-full transition-all duration-500
-          ${gradient ? "bg-white/10" : "bg-slate-50/80"}
+          ${gradient ? "bg-white/10" : "bg-slate-50/80 dark:bg-slate-700/20"}
         `}
         aria-hidden="true"
       />
@@ -78,7 +78,7 @@ const StatsCard = ({
               ${
                 gradient
                   ? "bg-white/20 hover:bg-white/30"
-                  : "bg-[#6D28D9]/10 hover:bg-[#6D28D9]/15"
+                  : "bg-[#6D28D9]/10 hover:bg-[#6D28D9]/15 dark:bg-[#6D28D9]/20 dark:hover:bg-[#6D28D9]/30"
               }
             `}
             aria-hidden="true"
@@ -113,8 +113,8 @@ const StatsCard = ({
                 transition-all duration-300 ease-in-out
                 ${
                   isPositive
-                    ? "bg-emerald-100 text-emerald-700 hover:bg-emerald-200"
-                    : "bg-red-100 text-red-700 hover:bg-red-200"
+                    ? "bg-emerald-100 text-emerald-700 hover:bg-emerald-200 dark:bg-emerald-900/50 dark:text-emerald-300 dark:hover:bg-emerald-900/70"
+                    : "bg-red-100 text-red-700 hover:bg-red-200 dark:bg-red-900/50 dark:text-red-300 dark:hover:bg-red-900/70"
                 }
                 ${gradient ? "backdrop-blur-sm bg-opacity-90" : ""}
               `}
@@ -143,7 +143,7 @@ const StatsCard = ({
             className={`
               text-xs sm:text-sm font-medium mb-1 sm:mb-1.5
               truncate transition-colors duration-300
-              ${gradient ? "text-white/80" : "text-slate-500"}
+              ${gradient ? "text-white/80" : "text-slate-500 dark:text-slate-400"}
             `}
           >
             {title}
@@ -152,7 +152,7 @@ const StatsCard = ({
             className={`
               text-xl sm:text-2xl md:text-3xl font-bold
               tracking-tight transition-all duration-300
-              ${gradient ? "text-white" : "text-slate-800"}
+              ${gradient ? "text-white" : "text-slate-800 dark:text-white"}
               break-words
             `}
             aria-label={`Value: ${value}`}
