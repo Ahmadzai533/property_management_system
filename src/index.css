@@ -135,17 +135,85 @@
       0 10px 10px -5px rgba(15, 23, 42, 0.04) !important;
   }
 
-  ::-webkit-scrollbar-track {
-    width: 6px;
-    height: 6px;
+  /* ===== Enterprise Scrollbar ===== */
+  /* Inspired by Linear, Notion, GitHub, Vercel, and Raycast */
+  /* A thin, minimal, floating scrollbar design */
+
+  /* WebKit Browsers (Chrome, Edge, Brave, Safari) */
+  *::-webkit-scrollbar {
+    width: 2px;
+    height: 2px;
+    background: transparent;
   }
 
-  ::-webkit-scrollbar-track {
-    @apply bg-slate-100;
+  *::-webkit-scrollbar-track {
+    background: transparent;
+    margin: 0;
+    border-radius: 9999px;
   }
 
-  ::-webkit-scrollbar-thumb {
-    @apply bg-slate-300 rounded-full hover:bg-slate-400 transition-colors;
+  *::-webkit-scrollbar-thumb {
+    background: #94A3B8; /* slate-500 */
+    border-radius: 9999px;
+    border: none;
+    outline: none;
+    box-shadow: none;
+    transition: background 0.2s ease-in-out;
+  }
+
+  *::-webkit-scrollbar-thumb:hover {
+    background: #94A3B8; /* slate-600 */
+  }
+
+  *::-webkit-scrollbar-thumb:active {
+    background: #94A3B8; /* slate-600 */
+  }
+
+  *::-webkit-scrollbar-corner {
+    background: transparent;
+  }
+
+  /* Firefox */
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: #64748B transparent; /* slate-500 */
+  }
+
+  *:hover {
+    scrollbar-color: #475569 transparent; /* slate-600 */
+  }
+
+  /* Dark Mode Support */
+  @media (prefers-color-scheme: dark) {
+    *::-webkit-scrollbar-thumb {
+      background: #94A3B8; /* slate-400 */
+    }
+
+    *::-webkit-scrollbar-thumb:hover {
+      background: #CBD5E1; /* slate-300 */
+    }
+
+    *::-webkit-scrollbar-thumb:active {
+      background: #CBD5E1; /* slate-300 */
+    }
+
+    * {
+      scrollbar-color: #94A3B8 transparent; /* slate-400 */
+    }
+
+    *:hover {
+      scrollbar-color: #CBD5E1 transparent; /* slate-300 */
+    }
+  }
+
+  /* Ensure scrollbars appear only when needed */
+  * {
+    overflow: -moz-scrollbars-none;
+  }
+
+  *::-webkit-scrollbar {
+    -webkit-appearance: none;
+    appearance: none;
   }
 }
 
