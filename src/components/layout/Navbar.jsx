@@ -81,11 +81,11 @@ const Navbar = ({ onToggleSidebar, isCollapsed, onToggleCollapse }) => {
       onToggleSidebar();
     }
   }}
-  className="p-2 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 transition flex-shrink-0 relative z-50"
+  className="p-2   md:ml-28   rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 transition flex-shrink-0 relative z-50"
   aria-label="Toggle Sidebar"
 >
   {/* On Desktop (lg and up): Toggle between Left and Right based on collapse state */}
-  <div className="hidden lg:block">
+  <div className="hidden lg:block  ">
     {isCollapsed ? (
       <PanelRight className="w-5 h-5 text-slate-600 dark:text-slate-300" />
     ) : (
@@ -95,7 +95,7 @@ const Navbar = ({ onToggleSidebar, isCollapsed, onToggleCollapse }) => {
 
   {/* On Mobile/Tablet (below lg): Always show the mobile menu toggle icon */}
   <div className="block lg:hidden">
-    <PanelRight className="w-5 h-5 text-slate-600 dark:text-slate-300" />
+    <PanelRight className="w-5 h-5 text-slate-600 dark:text-slate-300  " />
   </div>
 </button>
           {/* Search Bar */}
