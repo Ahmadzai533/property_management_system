@@ -1,5 +1,6 @@
 import { Routes, Route, Navigate } from "react-router-dom";
 import DashboardLayout from "../components/layout/DashboardLayout";
+
 import Dashboard from "../Dashboard/Dashboard";
 import Properties from "../pages/Properties";
 import PropertyList from "../pages/Properties/AllPropertyPages/PropertyList";
@@ -20,10 +21,15 @@ import PaymentsInvoices from "../pages/finance/PaymentsInvoices";
 import RentRollLedger from "../pages/finance/RentRollLedger";
 import TransactionHistory from "../pages/finance/TransactionHistory";
 
+
+
+ 
+
 const AppRoutes = () => {
   return (
     <Routes>
       <Route path="/" element={<DashboardLayout />}>
+
         {/* Dashboard Home */}
         <Route index element={<Dashboard />} />
 
@@ -58,8 +64,18 @@ const AppRoutes = () => {
         <Route path="properties/listed" element={<PropertyList />} />
         <Route path="properties/*" element={<Properties />} />
 
+        {/* Owner Tenant Module */}
+        
+
+        {/* Users Module */}
+        
+
+        {/* Tenants Module */}
+        {/* <Route path="tenants/*" element={<TenantsRoute />} /> */}
+
         {/* Catch All */}
         <Route path="*" element={<Navigate to="/" replace />} />
+
       </Route>
     </Routes>
   );

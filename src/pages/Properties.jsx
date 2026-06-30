@@ -11,7 +11,8 @@ const PROPERTIES_DATA = [
     id: "prop-001",
     name: "Sunset Apartments",
     address: "742 Evergreen Terrace, Springfield, IL",
-    image: "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=800&q=80",
+    image:
+      "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=800&q=80",
     status: "occupied",
     type: "apartment",
     monthlyRent: 2450,
@@ -21,7 +22,8 @@ const PROPERTIES_DATA = [
     id: "prop-002",
     name: "Ocean View Condos",
     address: "1200 Pacific Coast Hwy, Malibu, CA",
-    image: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=800&q=80",
+    image:
+      "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=800&q=80",
     status: "leased",
     type: "condo",
     monthlyRent: 4200,
@@ -31,7 +33,8 @@ const PROPERTIES_DATA = [
     id: "prop-003",
     name: "Park Residence",
     address: "88 Central Park West, New York, NY",
-    image: "https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=800&q=80",
+    image:
+      "https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=800&q=80",
     status: "vacant",
     type: "house",
     monthlyRent: 5800,
@@ -41,7 +44,8 @@ const PROPERTIES_DATA = [
     id: "prop-004",
     name: "Riverside Studios",
     address: "455 River Road, Austin, TX",
-    image: "https://images.unsplash.com/photo-1502672260266-1c1e1e936d88?w=800&q=80",
+    image:
+      "https://images.unsplash.com/photo-1502672260266-1c1e1e936d88?w=800&q=80",
     status: "listed",
     type: "studio",
     monthlyRent: 1650,
@@ -51,7 +55,8 @@ const PROPERTIES_DATA = [
     id: "prop-005",
     name: "Green Valley Townhomes",
     address: "19 Maple Lane, Denver, CO",
-    image: "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=800&q=80",
+    image:
+      "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=800&q=80",
     status: "maintenance",
     type: "townhouse",
     monthlyRent: 3100,
@@ -61,7 +66,8 @@ const PROPERTIES_DATA = [
     id: "prop-006",
     name: "City Center Plaza",
     address: "500 Main Street, Chicago, IL",
-    image: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=800&q=80",
+    image:
+      "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=800&q=80",
     status: "occupied",
     type: "commercial",
     monthlyRent: 8900,
@@ -91,7 +97,7 @@ const Properties = () => {
   const handleAddProperty = (newProperty) => {
     const propertyWithId = {
       ...newProperty,
-      id: `prop-${String(properties.length + 1).padStart(3, '0')}`,
+      id: `prop-${String(properties.length + 1).padStart(3, "0")}`,
     };
     setProperties([...properties, propertyWithId]);
     setIsAddModalOpen(false);
@@ -109,8 +115,7 @@ const Properties = () => {
         property.address.toLowerCase().includes(query) ||
         property.id.toLowerCase().includes(query);
 
-      const matchesStatus =
-        !statusFilter || property.status === statusFilter;
+      const matchesStatus = !statusFilter || property.status === statusFilter;
 
       const matchesType =
         !propertyTypeFilter || property.type === propertyTypeFilter;
@@ -170,7 +175,7 @@ const Properties = () => {
               <div className="hidden items-center gap-2 sm:flex">
                 <Building2 className="h-4 w-4 text-blue-200" />
                 <span className="text-sm font-medium">
-                  {new Set(properties.map(p => p.owner)).size} Owners
+                  {new Set(properties.map((p) => p.owner)).size} Owners
                 </span>
               </div>
             </div>
