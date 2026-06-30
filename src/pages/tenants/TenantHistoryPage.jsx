@@ -248,12 +248,12 @@ const TenantTable = () => {
 
   const actionButtonRefs = useRef({});
   const menuRef = useRef(null);
+  const modalRef = useRef(null);
 
   // Click outside handler to close action menu
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (openActionMenu !== null) {
-        // Check if click is on the action button or inside the menu
         const button = actionButtonRefs.current[openActionMenu];
         const menu = menuRef.current;
         
@@ -274,13 +274,45 @@ const TenantTable = () => {
     const handleEsc = (event) => {
       if (event.key === 'Escape') {
         setOpenActionMenu(null);
+        if (isModalOpen) {
+          setIsModalOpen(false);
+        }
       }
     };
     document.addEventListener('keydown', handleEsc);
     return () => {
       document.removeEventListener('keydown', handleEsc);
     };
-  }, []);
+  }, [isModalOpen]);
+
+  // Close modal on outside click - IMPROVED
+  useEffect(() => {
+    const handleClickOutsideModal = (event) => {
+      if (isModalOpen && modalRef.current && !modalRef.current.contains(event.target)) {
+        setIsModalOpen(false);
+      }
+    };
+
+    if (isModalOpen) {
+      document.addEventListener('mousedown', handleClickOutsideModal);
+    }
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutsideModal);
+    };
+  }, [isModalOpen]);
+
+  // Prevent body scroll when modal is open
+  useEffect(() => {
+    if (isModalOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'auto';
+    }
+    return () => {
+      document.body.style.overflow = 'auto';
+    };
+  }, [isModalOpen]);
 
   // Load data
   useEffect(() => {
@@ -299,7 +331,6 @@ const TenantTable = () => {
   useEffect(() => {
     let result = [...tenants];
 
-    // Search
     if (searchTerm) {
       const term = searchTerm.toLowerCase();
       result = result.filter(tenant =>
@@ -310,7 +341,6 @@ const TenantTable = () => {
       );
     }
 
-    // Filters
     if (filters.status) {
       result = result.filter(t => t.status === filters.status);
     }
@@ -393,8 +423,8 @@ const TenantTable = () => {
     setIsModalOpen(true);
     setOpenActionMenu(null);
   };
-    const navigate=useNavigate();
-
+  
+  const navigate = useNavigate();
 
   const handleEdit = (tenant) => {
     showToast(`Edit tenant: ${tenant.fullName}`, 'info');
@@ -446,28 +476,22 @@ const TenantTable = () => {
       return;
     }
 
-
-    // Get the button position to determine if menu should go up or down
     const button = event.currentTarget;
     const rect = button.getBoundingClientRect();
     const viewportHeight = window.innerHeight;
-    const menuHeight = 250; // Approximate menu height
+    const menuHeight = 250;
     
-    // Check if there's enough space below
     const spaceBelow = viewportHeight - rect.bottom;
     const spaceAbove = rect.top;
     
-    // Determine position
     let position = {};
     if (spaceBelow < menuHeight && spaceAbove > menuHeight) {
-      // Open upward
       position = {
         bottom: '100%',
         top: 'auto',
         transformOrigin: 'bottom right',
       };
     } else {
-      // Open downward (default)
       position = {
         top: '100%',
         bottom: 'auto',
@@ -484,16 +508,12 @@ const TenantTable = () => {
   // ============================================================
   if (isLoading) {
     return (
-      <div className="p-3 sm:p-4 md:p-6 space-y-4 sm:space-y-6">
-        <div className="flex flex-col space-y-3 sm:space-y-4">
+      <div className="p-2 sm:p-4 md:p-6 space-y-2 sm:space-y-4">
+        {/* Purple Header Skeleton */}
+        <div className="bg-gradient-to-r from-purple-600 to-purple-800 dark:from-purple-700 dark:to-purple-900 rounded-2xl p-4 sm:p-6 md:p-8">
           <div className="space-y-2">
-            <div className="h-7 sm:h-8 w-36 sm:w-48 bg-gray-200 dark:bg-gray-700 rounded animate-pulse"></div>
-            <div className="h-3 sm:h-4 w-48 sm:w-64 bg-gray-200 dark:bg-gray-700 rounded animate-pulse"></div>
-          </div>
-          <div className="flex flex-wrap gap-2">
-            {[1, 2, 3, 4, 5].map(i => (
-              <div key={i} className="h-9 sm:h-10 w-16 sm:w-20 md:w-24 bg-gray-200 dark:bg-gray-700 rounded animate-pulse"></div>
-            ))}
+            <div className="h-7 sm:h-8 w-36 sm:w-48 bg-purple-400/30 rounded animate-pulse"></div>
+            <div className="h-3 sm:h-4 w-48 sm:w-64 bg-purple-400/20 rounded animate-pulse"></div>
           </div>
         </div>
 
@@ -549,23 +569,22 @@ const TenantTable = () => {
       transition={{ duration: 0.5 }}
       className="p-3 sm:p-4 md:p-6 space-y-4 sm:space-y-6"
     >
-      {/* ===== HEADER ===== */}
-      <div className="flex flex-col space-y-3 sm:space-y-4">
+      {/* ===== PURPLE HEADER ===== */}
+      <div className="bg-gradient-to-r from-purple-600 to-purple-800 dark:from-purple-700 dark:to-purple-900 rounded-2xl p-4 sm:p-6 md:p-8">
         <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3">
           <div>
-            <h1 className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-900 dark:text-white">
+            <h1 className="text-xl sm:text-2xl md:text-3xl font-bold text-white">
               Tenant Management
             </h1>
-            <p className="text-xs sm:text-sm text-gray-500 dark:text-gray-400 mt-0.5 sm:mt-1 hidden xs:block">
+            <p className="text-xs sm:text-sm text-purple-200 mt-0.5 sm:mt-1 hidden xs:block">
               Manage all tenants, properties, and rental records
             </p>
-            <div className="flex items-center gap-1 sm:gap-2 text-xs sm:text-sm text-gray-400 dark:text-gray-500 mt-0.5 sm:mt-1">
+            <div className="flex items-center gap-1 sm:gap-2 text-xs sm:text-sm text-purple-300 mt-0.5 sm:mt-1">
               <span>Dashboard</span>
               <span>/</span>
-              <span >Tenants</span>
+              <span>Tenants</span>
               <span>/</span>
-               <span className="text-gray-600 dark:text-gray-300">history</span>
-
+              <span className="text-white">history</span>
             </div>
           </div>
           
@@ -573,28 +592,27 @@ const TenantTable = () => {
           <div className="sm:hidden flex items-center gap-2">
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="flex items-center gap-1.5 px-3 py-1.5 bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-lg text-xs font-medium"
+              className="flex items-center gap-1.5 px-3 py-1.5 bg-white/20 backdrop-blur-sm text-white rounded-lg text-xs font-medium hover:bg-white/30 transition-colors"
             >
               <Plus className="h-3.5 w-3.5" />
               Add
             </button>
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="p-1.5 rounded-lg bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700"
+              className="p-1.5 rounded-lg bg-white/20 backdrop-blur-sm text-white hover:bg-white/30 transition-colors"
             >
-              <MoreVertical className="h-4 w-4 text-gray-600 dark:text-gray-400" />
+              <MoreVertical className="h-4 w-4" />
             </button>
           </div>
 
           {/* Desktop Actions */}
           <div className="hidden sm:flex flex-wrap gap-2">
             <button
-              onClick={() =>{
-                   navigate('/tenants/form')
-
-               showToast('Add tenant form opens', 'info')
+              onClick={() => {
+                navigate('/tenants/form');
+                showToast('Add tenant form opens', 'info');
               }}
-              className="flex items-center gap-1.5 px-3 py-1.5 md:px-4 md:py-2 bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-lg hover:shadow-lg transition-all hover:scale-105 text-xs md:text-sm font-medium"
+              className="flex items-center gap-1.5 px-3 py-1.5 md:px-4 md:py-2 bg-white text-purple-700 rounded-lg hover:shadow-lg transition-all hover:scale-105 text-xs md:text-sm font-medium"
             >
               <Plus className="h-3.5 w-3.5 md:h-4 md:w-4" />
               <span className="hidden xs:inline">Add Tenant</span>
@@ -602,22 +620,22 @@ const TenantTable = () => {
             </button>
             <button
               onClick={handleExport}
-              className="flex items-center gap-1.5 px-3 py-1.5 md:px-4 md:py-2 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors text-xs md:text-sm font-medium"
+              className="flex items-center gap-1.5 px-3 py-1.5 md:px-4 md:py-2 bg-white/10 backdrop-blur-sm text-white rounded-lg hover:bg-white/20 transition-colors text-xs md:text-sm font-medium"
             >
               <Download className="h-3.5 w-3.5 md:h-4 md:w-4" />
               <span className="hidden md:inline">Export</span>
             </button>
             <button
               onClick={handleRefresh}
-              className="p-1.5 md:p-2 rounded-lg bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
+              className="p-1.5 md:p-2 rounded-lg bg-white/10 backdrop-blur-sm hover:bg-white/20 transition-colors"
             >
-              <RefreshCw className="h-4 w-4 md:h-5 md:w-5 text-gray-600 dark:text-gray-400" />
+              <RefreshCw className="h-4 w-4 md:h-5 md:w-5 text-white" />
             </button>
             <button
               onClick={handlePrint}
-              className="p-1.5 md:p-2 rounded-lg bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
+              className="p-1.5 md:p-2 rounded-lg bg-white/10 backdrop-blur-sm hover:bg-white/20 transition-colors"
             >
-              <Printer className="h-4 w-4 md:h-5 md:w-5 text-gray-600 dark:text-gray-400" />
+              <Printer className="h-4 w-4 md:h-5 md:w-5 text-white" />
             </button>
           </div>
         </div>
@@ -635,8 +653,9 @@ const TenantTable = () => {
                 <button
                   onClick={() => {
                     setIsMobileMenuOpen(false);
+                    navigate('/tenants/form');
                   }}
-                  className="flex items-center justify-center gap-1.5 px-3 py-2 bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-lg text-xs font-medium"
+                  className="flex items-center justify-center gap-1.5 px-3 py-2 bg-white text-purple-700 rounded-lg text-xs font-medium"
                 >
                   <Plus className="h-3.5 w-3.5" />
                   Add Tenant
@@ -646,7 +665,7 @@ const TenantTable = () => {
                     handleExport();
                     setIsMobileMenuOpen(false);
                   }}
-                  className="flex items-center justify-center gap-1.5 px-3 py-2 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-300 rounded-lg text-xs font-medium"
+                  className="flex items-center justify-center gap-1.5 px-3 py-2 bg-white/10 backdrop-blur-sm text-white rounded-lg text-xs font-medium"
                 >
                   <Download className="h-3.5 w-3.5" />
                   Export
@@ -656,7 +675,7 @@ const TenantTable = () => {
                     handleRefresh();
                     setIsMobileMenuOpen(false);
                   }}
-                  className="flex items-center justify-center gap-1.5 px-3 py-2 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-300 rounded-lg text-xs font-medium"
+                  className="flex items-center justify-center gap-1.5 px-3 py-2 bg-white/10 backdrop-blur-sm text-white rounded-lg text-xs font-medium"
                 >
                   <RefreshCw className="h-3.5 w-3.5" />
                   Refresh
@@ -666,7 +685,7 @@ const TenantTable = () => {
                     handlePrint();
                     setIsMobileMenuOpen(false);
                   }}
-                  className="flex items-center justify-center gap-1.5 px-3 py-2 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-300 rounded-lg text-xs font-medium"
+                  className="flex items-center justify-center gap-1.5 px-3 py-2 bg-white/10 backdrop-blur-sm text-white rounded-lg text-xs font-medium"
                 >
                   <Printer className="h-3.5 w-3.5" />
                   Print
@@ -675,10 +694,6 @@ const TenantTable = () => {
             </motion.div>
           )}
         </AnimatePresence>
-
-        <p className="text-xs text-gray-500 dark:text-gray-400 sm:hidden">
-          Manage all tenants, properties, and rental records
-        </p>
       </div>
 
       {/* ===== STATS CARDS ===== */}
@@ -733,7 +748,7 @@ const TenantTable = () => {
               placeholder="Search tenants..."
               value={searchTerm}
               onChange={handleSearch}
-              className="w-full pl-8 sm:pl-10 pr-3 sm:pr-4 py-1.5 sm:py-2 bg-gray-50 dark:bg-gray-700/50 border border-gray-200 dark:border-gray-700 rounded-lg text-xs sm:text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+              className="w-full pl-8 sm:pl-10 pr-3 sm:pr-4 py-1.5 sm:py-2 bg-gray-50 dark:bg-gray-700/50 border border-gray-200 dark:border-gray-700 rounded-lg text-xs sm:text-sm focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all"
             />
           </div>
           <div className="flex gap-1.5 sm:gap-2">
@@ -741,14 +756,14 @@ const TenantTable = () => {
               onClick={() => setIsFilterOpen(!isFilterOpen)}
               className={`flex items-center gap-1 sm:gap-2 px-2.5 sm:px-3 md:px-4 py-1.5 sm:py-2 rounded-lg border transition-all text-xs sm:text-sm ${
                 isFilterOpen
-                  ? 'bg-blue-50 dark:bg-blue-900/30 border-blue-300 dark:border-blue-700 text-blue-700 dark:text-blue-300'
+                  ? 'bg-purple-50 dark:bg-purple-900/30 border-purple-300 dark:border-purple-700 text-purple-700 dark:text-purple-300'
                   : 'bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700'
               }`}
             >
               <Filter className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
               <span className="hidden xs:inline">Filters</span>
               {Object.values(filters).some(v => v) && (
-                <span className="ml-0.5 sm:ml-1 px-1 sm:px-1.5 py-0.5 text-[8px] sm:text-xs bg-blue-100 dark:bg-blue-900/50 text-blue-700 dark:text-blue-300 rounded-full">
+                <span className="ml-0.5 sm:ml-1 px-1 sm:px-1.5 py-0.5 text-[8px] sm:text-xs bg-purple-100 dark:bg-purple-900/50 text-purple-700 dark:text-purple-300 rounded-full">
                   {Object.values(filters).filter(v => v).length}
                 </span>
               )}
@@ -757,7 +772,8 @@ const TenantTable = () => {
               onClick={resetFilters}
               className="px-2.5 sm:px-3 md:px-4 py-1.5 sm:py-2 text-xs sm:text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors"
             >
-              Reset            </button>
+              Reset
+            </button>
           </div>
         </div>
 
@@ -778,7 +794,7 @@ const TenantTable = () => {
                   <select
                     value={filters.status}
                     onChange={(e) => handleFilterChange('status', e.target.value)}
-                    className="w-full px-2 sm:px-3 py-1.5 sm:py-2 bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg text-xs sm:text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full px-2 sm:px-3 py-1.5 sm:py-2 bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg text-xs sm:text-sm focus:ring-2 focus:ring-purple-500 focus:border-transparent"
                   >
                     <option value="">All</option>
                     <option value="Active">Active</option>
@@ -795,7 +811,7 @@ const TenantTable = () => {
                     value={filters.property}
                     onChange={(e) => handleFilterChange('property', e.target.value)}
                     placeholder="Search..."
-                    className="w-full px-2 sm:px-3 py-1.5 sm:py-2 bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg text-xs sm:text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full px-2 sm:px-3 py-1.5 sm:py-2 bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg text-xs sm:text-sm focus:ring-2 focus:ring-purple-500 focus:border-transparent"
                   />
                 </div>
                 <div>
@@ -807,7 +823,7 @@ const TenantTable = () => {
                     value={filters.unit}
                     onChange={(e) => handleFilterChange('unit', e.target.value)}
                     placeholder="Unit..."
-                    className="w-full px-2 sm:px-3 py-1.5 sm:py-2 bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg text-xs sm:text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full px-2 sm:px-3 py-1.5 sm:py-2 bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg text-xs sm:text-sm focus:ring-2 focus:ring-purple-500 focus:border-transparent"
                   />
                 </div>
                 <div>
@@ -819,7 +835,7 @@ const TenantTable = () => {
                     value={filters.minRent}
                     onChange={(e) => handleFilterChange('minRent', e.target.value)}
                     placeholder="0"
-                    className="w-full px-2 sm:px-3 py-1.5 sm:py-2 bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg text-xs sm:text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full px-2 sm:px-3 py-1.5 sm:py-2 bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg text-xs sm:text-sm focus:ring-2 focus:ring-purple-500 focus:border-transparent"
                   />
                 </div>
                 <div>
@@ -831,7 +847,7 @@ const TenantTable = () => {
                     value={filters.maxRent}
                     onChange={(e) => handleFilterChange('maxRent', e.target.value)}
                     placeholder="100000"
-                    className="w-full px-2 sm:px-3 py-1.5 sm:py-2 bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg text-xs sm:text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full px-2 sm:px-3 py-1.5 sm:py-2 bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg text-xs sm:text-sm focus:ring-2 focus:ring-purple-500 focus:border-transparent"
                   />
                 </div>
               </div>
@@ -890,7 +906,7 @@ const TenantTable = () => {
                       <p className="text-xs sm:text-sm text-gray-400 dark:text-gray-500">Try adjusting your search or filters</p>
                       <button
                         onClick={resetFilters}
-                        className="mt-1 sm:mt-2 px-3 sm:px-4 py-1.5 sm:py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-xs sm:text-sm"
+                        className="mt-1 sm:mt-2 px-3 sm:px-4 py-1.5 sm:py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors text-xs sm:text-sm"
                       >
                         Clear Filters
                       </button>
@@ -915,7 +931,7 @@ const TenantTable = () => {
                       </td>
                       <td className="px-2 sm:px-3 md:px-6 py-2 sm:py-3 md:py-4">
                         <div className="flex items-center gap-1.5 sm:gap-2 md:gap-3">
-                          <div className="w-6 h-6 sm:w-7 sm:h-7 md:w-9 md:h-9 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-white font-medium text-[8px] sm:text-[10px] md:text-sm flex-shrink-0">
+                          <div className="w-6 h-6 sm:w-7 sm:h-7 md:w-9 md:h-9 rounded-full bg-gradient-to-br from-purple-500 to-purple-600 flex items-center justify-center text-white font-medium text-[8px] sm:text-[10px] md:text-sm flex-shrink-0">
                             {tenant.fullName.split(' ').map(n => n[0]).join('')}
                           </div>
                           <div className="min-w-0">
@@ -1080,7 +1096,7 @@ const TenantTable = () => {
                       onClick={() => setCurrentPage(pageNum)}
                       className={`w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 rounded-lg text-[10px] sm:text-xs md:text-sm font-medium transition-colors ${
                         currentPage === pageNum
-                          ? 'bg-blue-600 text-white'
+                          ? 'bg-purple-600 text-white'
                           : 'text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700'
                       }`}
                     >
@@ -1102,7 +1118,7 @@ const TenantTable = () => {
                   setItemsPerPage(Number(e.target.value));
                   setCurrentPage(1);
                 }}
-                className="ml-0.5 sm:ml-1 md:ml-2 px-1 sm:px-1.5 md:px-2 py-0.5 sm:py-1 bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg text-[10px] sm:text-xs md:text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="ml-0.5 sm:ml-1 md:ml-2 px-1 sm:px-1.5 md:px-2 py-0.5 sm:py-1 bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-lg text-[10px] sm:text-xs md:text-sm focus:ring-2 focus:ring-purple-500 focus:border-transparent"
               >
                 <option value="5">5</option>
                 <option value="10">10</option>
@@ -1114,7 +1130,7 @@ const TenantTable = () => {
         )}
       </div>
 
-      {/* ===== VIEW MODAL ===== */}
+      {/* ===== VIEW MODAL - IMPROVED OVERFLOW ===== */}
       <AnimatePresence>
         {isModalOpen && selectedTenant && (
           <motion.div
@@ -1122,20 +1138,27 @@ const TenantTable = () => {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-2 sm:p-4"
-            onClick={() => setIsModalOpen(false)}
+            style={{ 
+              overflow: 'hidden',
+              position: 'fixed',
+              top: 0,
+              left: 0,
+              right: 0,
+              bottom: 0,
+            }}
           >
             <motion.div
+              ref={modalRef}
               initial={{ scale: 0.9, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.9, opacity: 0 }}
               transition={{ type: 'spring', damping: 25 }}
-              className="bg-white dark:bg-gray-800 rounded-2xl max-w-5xl w-full max-h-[95vh] sm:max-h-[90vh] overflow-hidden shadow-2xl"
-              onClick={(e) => e.stopPropagation()}
+              className="bg-white dark:bg-gray-800 rounded-2xl max-w-5xl w-full max-h-[95vh] sm:max-h-[90vh] overflow-hidden shadow-2xl flex flex-col"
             >
-              {/* Modal Header */}
-              <div className="p-3 sm:p-4 md:p-6 border-b border-gray-100 dark:border-gray-700 flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-3 md:gap-4">
-                <div className="flex items-center gap-2 sm:gap-3 md:gap-4">
-                  <div className="w-9 h-9 sm:w-10 sm:h-10 md:w-12 md:h-12 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center text-white font-semibold text-sm sm:text-base md:text-lg flex-shrink-0">
+              {/* Modal Header - Fixed */}
+              <div className="flex-shrink-0 p-3 sm:p-4 md:p-6 border-b border-gray-100 dark:border-gray-700 flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-3 md:gap-4">
+                <div className="flex items-center gap-2 sm:gap-3 md:gap-4 min-w-0">
+                  <div className="w-9 h-9 sm:w-10 sm:h-10 md:w-12 md:h-12 rounded-full bg-gradient-to-br from-purple-500 to-purple-600 flex items-center justify-center text-white font-semibold text-sm sm:text-base md:text-lg flex-shrink-0">
                     {selectedTenant.fullName.split(' ').map(n => n[0]).join('')}
                   </div>
                   <div className="min-w-0">
@@ -1155,8 +1178,8 @@ const TenantTable = () => {
                 </button>
               </div>
 
-              {/* Modal Tabs */}
-              <div className="border-b border-gray-100 dark:border-gray-700 px-3 sm:px-4 md:px-6 overflow-x-auto">
+              {/* Modal Tabs - Fixed */}
+              <div className="flex-shrink-0 border-b border-gray-100 dark:border-gray-700 px-3 sm:px-4 md:px-6 overflow-x-auto">
                 <div className="flex gap-2 sm:gap-3 md:gap-6 min-w-max">
                   {[
                     { id: 'profile', label: 'Profile', icon: User },
@@ -1173,7 +1196,7 @@ const TenantTable = () => {
                         onClick={() => setActiveTab(tab.id)}
                         className={`py-2 sm:py-3 px-0.5 sm:px-1 border-b-2 transition-colors flex items-center gap-1 sm:gap-1.5 md:gap-2 whitespace-nowrap text-[10px] sm:text-xs md:text-sm ${
                           activeTab === tab.id
-                            ? 'border-blue-600 text-blue-600 dark:text-blue-400'
+                            ? 'border-purple-600 text-purple-600 dark:text-purple-400'
                             : 'border-transparent text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300'
                         }`}
                       >
@@ -1186,8 +1209,8 @@ const TenantTable = () => {
                 </div>
               </div>
 
-              {/* Modal Content */}
-              <div className="p-3 sm:p-4 md:p-6 overflow-y-auto max-h-[45vh] sm:max-h-[50vh] md:max-h-[60vh]">
+              {/* Modal Content - Scrollable */}
+              <div className="flex-1 overflow-y-auto p-3 sm:p-4 md:p-6">
                 <AnimatePresence mode="wait">
                   <motion.div
                     key={activeTab}
@@ -1377,8 +1400,8 @@ const TenantTable = () => {
                         {selectedTenant.documents.map((doc, idx) => (
                           <div key={idx} className="flex items-center justify-between p-2.5 sm:p-3 md:p-4 bg-gray-50 dark:bg-gray-700/50 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors gap-2">
                             <div className="flex items-center gap-2 sm:gap-3 min-w-0">
-                              <div className="p-1.5 sm:p-2 bg-blue-100 dark:bg-blue-900/30 rounded-lg flex-shrink-0">
-                                <FileText className="h-3.5 w-3.5 sm:h-4 sm:w-4 md:h-5 md:w-5 text-blue-600 dark:text-blue-400" />
+                              <div className="p-1.5 sm:p-2 bg-purple-100 dark:bg-purple-900/30 rounded-lg flex-shrink-0">
+                                <FileText className="h-3.5 w-3.5 sm:h-4 sm:w-4 md:h-5 md:w-5 text-purple-600 dark:text-purple-400" />
                               </div>
                               <div className="min-w-0">
                                 <p className="font-medium text-gray-900 dark:text-white text-[10px] sm:text-xs md:text-sm truncate">{doc.name}</p>
@@ -1402,7 +1425,7 @@ const TenantTable = () => {
                     {activeTab === 'timeline' && (
                       <div className="relative pl-5 sm:pl-6 md:pl-8 space-y-3 sm:space-y-4 md:space-y-6 before:absolute before:left-1.5 sm:before:left-2 before:top-0 before:bottom-0 before:w-0.5 before:bg-gray-200 dark:before:bg-gray-700">
                         {[
-                          { icon: UserPlus, label: 'Tenant Created', date: selectedTenant.registeredDate, color: 'bg-blue-500' },
+                          { icon: UserPlus, label: 'Tenant Created', date: selectedTenant.registeredDate, color: 'bg-purple-500' },
                           { icon: Shield, label: 'Verified', date: selectedTenant.verified ? selectedTenant.registeredDate : null, color: 'bg-green-500' },
                           { icon: Award, label: 'Approved', date: selectedTenant.approved ? selectedTenant.registeredDate : null, color: 'bg-purple-500' },
                           { icon: Home, label: 'Assigned Property', date: selectedTenant.leaseStart, color: 'bg-indigo-500' },
@@ -1472,7 +1495,7 @@ const TenantTable = () => {
         animate={{ scale: 1 }}
         transition={{ delay: 0.5, type: 'spring' }}
         onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-        className="fixed bottom-3 sm:bottom-4 md:bottom-6 left-3 sm:left-4 md:left-6 z-40 p-2 sm:p-2.5 md:p-3 bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-full shadow-lg hover:shadow-xl transition-all hover:scale-110"
+        className="fixed bottom-3 sm:bottom-4 md:bottom-6 left-3 sm:left-4 md:left-6 z-40 p-2 sm:p-2.5 md:p-3 bg-gradient-to-r from-purple-500 to-purple-600 text-white rounded-full shadow-lg hover:shadow-xl transition-all hover:scale-110"
       >
         <ChevronUp className="h-4 w-4 sm:h-5 sm:w-5 md:h-6 md:w-6" />
       </motion.button>

@@ -3,16 +3,14 @@ import DashboardLayout from "../components/layout/DashboardLayout";
 import Dashboard from "../Dashboard/Dashboard";
 import Properties from "../pages/Properties";
 
-import { UsersRoute } from "./users";
-// import TanantRoute from "../pages/tenants/route/route";
-import TenantForm from "../pages/tenants/pages/tanants";
+import TenantForm from "../pages/tenants/tanants";
 
-import DocumentManagement from "../pages/tenants/pages/DocumentManagement";
-import TenantDashboard from "../pages/tenants/pages/tanentsDashboard";
-import TenantDetailsViewModel from "../pages/tenants/pages/viewModel";
-import TenantHistoryPage from "../pages/tenants/pages/TenantHistoryPage";
+import DocumentManagement from "../pages/tenants/DocumentManagement";
+import TenantDashboard from "../pages/tenants/tanentsDashboard";
+import TenantDetailsViewModel from "../pages/tenants/viewModel";
+import TenantHistoryPage from "../pages/tenants/TenantHistoryPage";
 
-import EditTenant from "../pages/tenants/pages/editFormtenant";
+import EditTenant from "../pages/tenants/editFormtenant";
 import MaintainerManagement from "../pages/maintianents/miantanentsPerson";
 
 import PropertyList from "../pages/Properties/AllPropertyPages/PropertyList";
@@ -85,8 +83,7 @@ const AppRoutes = () => {
 <Route path="/tenants/edit" element={<EditTenant/>} />
 <Route path="/maintiannace" element={<MaintainerManagement/>} />
 
-        {/* Users Module */}
-        <Route path="users/*" element={<UsersRoute />} />
+
 
   
 

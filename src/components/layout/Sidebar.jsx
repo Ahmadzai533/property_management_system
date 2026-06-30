@@ -167,8 +167,8 @@ const Sidebar = ({
       icon: Users,
       label: "Tenants",
       items: [
-        { to: "/tanants", label: "All tenants" },
-        { to: "/tenants/roles", label: "Tenants History" },
+        { to: "/tenants", label: "All tenants" },
+        { to: "/tenants/history", label: "Tenants History" },
       ],
     },
     {
