@@ -2,9 +2,9 @@ import { useMemo, useState } from "react";
 import { Building2, Plus, FileText, Home } from "lucide-react";
 import Breadcrumb from "../components/common/Breadcrumb";
 import PropertyCard from "./PropertyCard";
-import PropertyFilter from "./PropertyFilter"; // Changed from PropertyFilters to PropertyFilter
-import AddPropertyModal from "./AddPropertyModal";
-import FloatingActionButton from "./FloatingActionButton";
+import PropertyFilter from "../components/properties/PropertyFilter"; // Changed from PropertyFilters to PropertyFilter
+import AddPropertyModal from "../components/properties/AddPropertyModal";
+import FloatingActionButton from "../components/properties/FloatingActionButton";
 
 const PROPERTIES_DATA = [
   {
