@@ -156,23 +156,11 @@ const Sidebar = ({
       items: [
         { to: "/properties/listed", label: "All Property" },
         { to: "/properties/own", label: "Own Properties" },
-         { to: "/properties/lease", label: "Lease Property" },
+        { to: "/properties/lease", label: "Lease Property" },
         { to: "/properties/units", label: "All Unit" },
-       
-        
       ],
     },
-    {
-      id: "users",
-      basePath: "/users",
-      icon: UserCog,
-      label: "Users & Roles",
-      items: [
-        { to: "/users/list", label: "Users List" },
-        { to: "/users/roles", label: "Roles & Permissions" },
-        { to: "/users/history", label: "Logged History" },
-      ],
-    },
+  
     {
       id: "tenants",
       basePath: "/tenants",
@@ -202,7 +190,7 @@ const Sidebar = ({
       label: "Finance",
       items: [
         { to: "/finance/payments", label: "Payments & Invoices" },
-        { to: "/finance/rent-roll", label: "Rent Roll Ledger" },
+        { to: "/finance/ledger", label: "Rent Roll Ledger" },
         { to: "/finance/transactions", label: "Transaction History" },
       ],
     },
@@ -213,6 +201,17 @@ const Sidebar = ({
       items: [
         { to: "/agreements/leases", label: "Active Leases" },
         { to: "/agreements/contracts", label: "Digital Contracts" },
+      ],
+    },
+      {
+      id: "users",
+      basePath: "/users",
+      icon: UserCog,
+      label: "Users & Roles",
+      items: [
+        { to: "/users/list", label: "Users List" },
+        { to: "/users/roles", label: "Roles & Permissions" },
+        { to: "/users/history", label: "Logged History" },
       ],
     },
     {
@@ -298,27 +297,27 @@ const Sidebar = ({
     );
   };
 
- const handleMouseEnter = (e, label, hasSubMenu = false) => {
-  if (!isCollapsed) return;
+  const handleMouseEnter = (e, label, hasSubMenu = false) => {
+    if (!isCollapsed) return;
 
-  const rect = e.currentTarget.getBoundingClientRect();
+    const rect = e.currentTarget.getBoundingClientRect();
 
-  setTooltipPosition({
-    x: rect.right + 4,
-    y: rect.top + rect.height / 2,
-  });
+    setTooltipPosition({
+      x: rect.right + 4,
+      y: rect.top + rect.height / 2,
+    });
 
-  // ✅ ONLY show tooltip for allowed items
-  if (!hasSubMenu && tooltipAllowedItems.includes(label)) {
-    setHoveredItem(label);
-  } else {
-    setHoveredItem(null);
-  }
+    // ✅ ONLY show tooltip for allowed items
+    if (!hasSubMenu && tooltipAllowedItems.includes(label)) {
+      setHoveredItem(label);
+    } else {
+      setHoveredItem(null);
+    }
 
-  if (hasSubMenu) {
-    setHoveredParent(label);
-  }
-};
+    if (hasSubMenu) {
+      setHoveredParent(label);
+    }
+  };
   const handleMouseLeave = () => {
     setHoveredItem(null);
     setHoveredParent(null);
@@ -521,7 +520,9 @@ const Sidebar = ({
                   className={`flex items-center ${isCollapsed && isLarge ? "justify-center" : "gap-3"}`}
                 >
                   <Shield className="w-4 h-4 flex-shrink-0" />
-                  <span className={`inline-block truncate transition-opacity duration-200 ${(isCollapsed && isLarge) ? "opacity-0 w-0 overflow-hidden" : "opacity-100"}`}>
+                  <span
+                    className={`inline-block truncate transition-opacity duration-200 ${isCollapsed && isLarge ? "opacity-0 w-0 overflow-hidden" : "opacity-100"}`}
+                  >
                     Admin
                   </span>
                 </div>
@@ -624,8 +625,6 @@ const Sidebar = ({
           )}
         </div>
         <Tooltip label={hoveredItem} position={tooltipPosition} />
-
-        
       </motion.aside>
     </>
   );
