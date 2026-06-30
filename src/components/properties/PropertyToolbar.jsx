@@ -1,24 +1,24 @@
 // src/components/properties/PropertyToolbar.jsx
-import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { 
-  Search, 
-  SlidersHorizontal, 
+import React, { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import {
+  Search,
+  SlidersHorizontal,
   X,
   ChevronDown,
-  LayoutGrid,  // Changed from Grid3x3
+  LayoutGrid, // Changed from Grid3x3
   List,
   Download,
-  RefreshCw
-} from 'lucide-react';
-import PropertySearch from './PropertySearch';
-import Button from '../common/Button';
+  RefreshCw,
+} from "lucide-react";
+import PropertySearch from "./PropertySearch";
+import Button from "../common/Button";
 
 const PropertyToolbar = ({
   onSearch,
   onFilterToggle,
   onViewChange,
-  viewMode = 'table',
+  viewMode = "table",
   onExport,
   onRefresh,
   totalResults = 0,
@@ -28,13 +28,13 @@ const PropertyToolbar = ({
   const [isFilterOpen, setIsFilterOpen] = useState(false);
 
   const filterOptions = {
-    status: ['All', 'Active', 'Under Maintenance', 'Vacant', 'Sold'],
-    city: ['All', 'New York', 'Los Angeles', 'Chicago', 'Houston', 'Phoenix'],
-    type: ['All', 'Residential', 'Commercial', 'Industrial', 'Land'],
-    category: ['All', 'Apartment', 'House', 'Villa', 'Townhouse', 'Office'],
-    bedrooms: ['Any', '1', '2', '3', '4', '5+'],
-    bathrooms: ['Any', '1', '2', '3', '4+'],
-    parking: ['Any', '0', '1', '2', '3+'],
+    status: ["All", "Active", "Under Maintenance", "Vacant", "Sold"],
+    city: ["All", "New York", "Los Angeles", "Chicago", "Houston", "Phoenix"],
+    type: ["All", "Residential", "Commercial", "Industrial", "Land"],
+    category: ["All", "Apartment", "House", "Villa", "Townhouse", "Office"],
+    bedrooms: ["Any", "1", "2", "3", "4", "5+"],
+    bathrooms: ["Any", "1", "2", "3", "4+"],
+    parking: ["Any", "0", "1", "2", "3+"],
   };
 
   return (
@@ -56,29 +56,29 @@ const PropertyToolbar = ({
               {Object.keys(filters).length}
             </span>
           </Button>
-          
+
           <div className="flex items-center border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden">
             <button
-              onClick={() => onViewChange('table')}
+              onClick={() => onViewChange("table")}
               className={`p-1.5 transition-colors ${
-                viewMode === 'table'
-                  ? 'bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400'
-                  : 'text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700'
+                viewMode === "table"
+                  ? "bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400"
+                  : "text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700"
               }`}
               aria-label="Table view"
             >
               <List className="h-4 w-4" />
             </button>
             <button
-              onClick={() => onViewChange('grid')}
+              onClick={() => onViewChange("grid")}
               className={`p-1.5 transition-colors ${
-                viewMode === 'grid'
-                  ? 'bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400'
-                  : 'text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700'
+                viewMode === "grid"
+                  ? "bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400"
+                  : "text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700"
               }`}
               aria-label="Grid view"
             >
-              <LayoutGrid className="h-4 w-4" />  {/* Changed from Grid3x3 */}
+              <LayoutGrid className="h-4 w-4" /> {/* Changed from Grid3x3 */}
             </button>
           </div>
 
@@ -107,7 +107,7 @@ const PropertyToolbar = ({
         {isFilterOpen && (
           <motion.div
             initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: 'auto' }}
+            animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.2 }}
             className="overflow-hidden"
@@ -121,10 +121,10 @@ const PropertyToolbar = ({
                     </label>
                     <select
                       className="w-full px-3 py-1.5 text-sm bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:text-white"
-                      value={filters[key] || 'All'}
+                      value={filters[key] || "All"}
                       onChange={(e) => onFilterChange(key, e.target.value)}
                     >
-                      {options.map(option => (
+                      {options.map((option) => (
                         <option key={option} value={option}>
                           {option}
                         </option>
@@ -137,7 +137,7 @@ const PropertyToolbar = ({
                 <Button
                   variant="outline"
                   size="sm"
-                  onClick={() => onFilterChange('reset')}
+                  onClick={() => onFilterChange("reset")}
                   className="gap-2"
                 >
                   <X className="h-4 w-4" />
@@ -151,7 +151,11 @@ const PropertyToolbar = ({
 
       <div className="flex items-center justify-between text-sm">
         <p className="text-gray-500 dark:text-gray-400">
-          Showing <span className="font-medium text-gray-900 dark:text-white">{totalResults}</span> properties
+          Showing{" "}
+          <span className="font-medium text-gray-900 dark:text-white">
+            {totalResults}
+          </span>{" "}
+          properties
         </p>
         <div className="flex items-center gap-2">
           <span className="text-gray-500 dark:text-gray-400">Sort by:</span>
