@@ -1,17 +1,18 @@
 import { useMemo, useState } from "react";
 import { Building2, Plus, FileText, Home } from "lucide-react";
-import Breadcrumb from "../components/common/Breadcrumb";
-import PropertyCard from "./PropertyCard";
-import PropertyFilter from "../components/properties/PropertyFilter"; // Changed from PropertyFilters to PropertyFilter
-import AddPropertyModal from "../components/properties/AddPropertyModal";
-import FloatingActionButton from "../components/properties/FloatingActionButton";
+import Breadcrumb from "../../../components/common/Breadcrumb";
+import PropertyCard from "../../PropertyCard";
+import PropertyFilter from "../../../components/properties/PropertyFilter";
+import AddPropertyModal from "../../../components/properties/AddPropertyModal";
+import FloatingActionButton from "../../../components/properties/FloatingActionButton";
 
 const PROPERTIES_DATA = [
   {
     id: "prop-001",
     name: "Sunset Apartments",
     address: "742 Evergreen Terrace, Springfield, IL",
-    image: "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=800&q=80",
+    image:
+      "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=800&q=80",
     status: "occupied",
     type: "apartment",
     monthlyRent: 2450,
@@ -21,7 +22,8 @@ const PROPERTIES_DATA = [
     id: "prop-002",
     name: "Ocean View Condos",
     address: "1200 Pacific Coast Hwy, Malibu, CA",
-    image: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=800&q=80",
+    image:
+      "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=800&q=80",
     status: "leased",
     type: "condo",
     monthlyRent: 4200,
@@ -31,7 +33,8 @@ const PROPERTIES_DATA = [
     id: "prop-003",
     name: "Park Residence",
     address: "88 Central Park West, New York, NY",
-    image: "https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=800&q=80",
+    image:
+      "https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=800&q=80",
     status: "vacant",
     type: "house",
     monthlyRent: 5800,
@@ -41,7 +44,8 @@ const PROPERTIES_DATA = [
     id: "prop-004",
     name: "Riverside Studios",
     address: "455 River Road, Austin, TX",
-    image: "https://images.unsplash.com/photo-1502672260266-1c1e1e936d88?w=800&q=80",
+    image:
+      "https://images.unsplash.com/photo-1502672260266-1c1e1e936d88?w=800&q=80",
     status: "listed",
     type: "studio",
     monthlyRent: 1650,
@@ -51,7 +55,8 @@ const PROPERTIES_DATA = [
     id: "prop-005",
     name: "Green Valley Townhomes",
     address: "19 Maple Lane, Denver, CO",
-    image: "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=800&q=80",
+    image:
+      "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=800&q=80",
     status: "maintenance",
     type: "townhouse",
     monthlyRent: 3100,
@@ -61,7 +66,8 @@ const PROPERTIES_DATA = [
     id: "prop-006",
     name: "City Center Plaza",
     address: "500 Main Street, Chicago, IL",
-    image: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=800&q=80",
+    image:
+      "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=800&q=80",
     status: "occupied",
     type: "commercial",
     monthlyRent: 8900,
@@ -69,7 +75,7 @@ const PROPERTIES_DATA = [
   },
 ];
 
-const Properties = () => {
+const PropertyList = () => {
   const [properties, setProperties] = useState(PROPERTIES_DATA);
   const [searchTerm, setSearchTerm] = useState("");
   const [statusFilter, setStatusFilter] = useState("");
@@ -91,7 +97,7 @@ const Properties = () => {
   const handleAddProperty = (newProperty) => {
     const propertyWithId = {
       ...newProperty,
-      id: `prop-${String(properties.length + 1).padStart(3, '0')}`,
+      id: `prop-${String(properties.length + 1).padStart(3, "0")}`,
     };
     setProperties([...properties, propertyWithId]);
     setIsAddModalOpen(false);
@@ -109,8 +115,7 @@ const Properties = () => {
         property.address.toLowerCase().includes(query) ||
         property.id.toLowerCase().includes(query);
 
-      const matchesStatus =
-        !statusFilter || property.status === statusFilter;
+      const matchesStatus = !statusFilter || property.status === statusFilter;
 
       const matchesType =
         !propertyTypeFilter || property.type === propertyTypeFilter;
@@ -143,16 +148,16 @@ const Properties = () => {
   const currentOwners = [...new Set(properties.map((p) => p.owner))];
 
   return (
-    <div className="space-y-4 sm:space-y-6 lg:space-y-8 space-x-2 sm:space-x-2 lg:space-x-3">
+    <div className="space-y-4 sm:space-y-6 lg:space-y-8  space-x-2 sm:space-x-2 lg:space-x-3 ">
       {/* Header with Enterprise Stats */}
-      <div className="rounded-2xl ml-2 bg-gradient-to-r bg-[#6D28D9] p-6 text-white shadow-lg dark:bg-[#6D28D9]">
-        <div className="flex flex-col  gap-4 lg:flex-row lg:items-center lg:justify-between">
-          <div className="min-w-0">
-            <Breadcrumb />
+      <div className="rounded-2xl ml-2 bg-gradient-to-r bg-[#6D28D9]  p-6 text-white shadow-lg dark:bg-[#6D28D9]">
+        <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+          <div className="min-w-0 ">
+            <Breadcrumb white={true} />
             <h1 className="mt-2 text-2xl font-bold tracking-tight text-white md:text-3xl">
               Property Portfolio
             </h1>
-            <p className="mt-1 text-sm text-blue-100 md:text-base">
+            <p className="mt-1 text-sm text-white md:text-base">
               Manage and monitor your entire property portfolio
             </p>
           </div>
@@ -170,7 +175,7 @@ const Properties = () => {
               <div className="hidden items-center gap-2 sm:flex">
                 <Building2 className="h-4 w-4 text-blue-200" />
                 <span className="text-sm font-medium">
-                  {new Set(properties.map(p => p.owner)).size} Owners
+                  {new Set(properties.map((p) => p.owner)).size} Owners
                 </span>
               </div>
             </div>
@@ -276,4 +281,4 @@ const Properties = () => {
   );
 };
 
-export default Properties;
+export default PropertyList; // ✅ This line is crucial - make sure it's there

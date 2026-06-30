@@ -1,4 +1,5 @@
 import { Link, useLocation } from "react-router-dom";
+import { ChevronRightIcon } from "lucide-react";
 
 const routeNameMap = {
   owner: "Owner",
@@ -25,7 +26,7 @@ const routeNameMap = {
   admin: "Admin",
 };
 
-const Breadcrumb = () => {
+const Breadcrumb = ({ white = false }) => {
   const location = useLocation();
   const pathSegments = location.pathname.split("/").filter(Boolean);
 
@@ -47,24 +48,42 @@ const Breadcrumb = () => {
     });
   }
 
+  // If white prop is true, always use white text (for gradient backgrounds)
+  // Otherwise use dark/light mode colors
+  const styles = white ? {
+    link: "text-white/70 hover:text-white",
+    active: "text-white font-medium",
+    separator: "text-white/50",
+  } : {
+    link: "text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-200",
+    active: "text-gray-900 dark:text-white font-medium",
+    separator: "text-gray-400 dark:text-gray-500",
+  };
+
   return (
-    <nav className="text-sm text-slate-500" aria-label="Breadcrumb">
+    <nav className="text-sm pl-3" aria-label="Breadcrumb">
       <ol className="flex flex-wrap items-center gap-2">
         {breadcrumbs.map((crumb, index) => (
           <li
             key={`${crumb.name}-${index}`}
             className="flex items-center gap-2"
           >
-            {index > 0 && <span className="text-slate-400">/</span>}
+            {index > 0 && (
+              <span className={styles.separator}>
+                <ChevronRightIcon className="h-4 w-4" />
+              </span>
+            )}
             {crumb.to ? (
               <Link
                 to={crumb.to}
-                className="text-slate-500 hover:text-slate-700 transition"
+                className={styles.link + " transition-colors"}
               >
                 {crumb.name}
               </Link>
             ) : (
-              <span className="font-medium text-slate-700">{crumb.name}</span>
+              <span className={styles.active}>
+                {crumb.name}
+              </span>
             )}
           </li>
         ))}

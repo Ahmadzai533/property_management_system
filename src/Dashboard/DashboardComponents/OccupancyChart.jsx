@@ -40,28 +40,28 @@ const OccupancyChart = () => {
       const occupiedPercent = total > 0 ? ((occupied / total) * 100).toFixed(1) : 0
 
       return (
-        <div className="bg-white/95 backdrop-blur-sm p-3 sm:p-4 rounded-xl shadow-2xl border border-slate-200/60 min-w-[160px] sm:min-w-[180px]">
-          <p className="text-sm font-semibold text-slate-800 mb-2 pb-2 border-b border-slate-100">
+        <div className="bg-white/95 dark:bg-slate-800/95 backdrop-blur-sm p-3 sm:p-4 rounded-xl shadow-2xl border border-slate-200/60 dark:border-slate-700/60 min-w-[160px] sm:min-w-[180px]">
+          <p className="text-sm font-semibold text-slate-800 dark:text-slate-200 mb-2 pb-2 border-b border-slate-100 dark:border-slate-700">
             {label}
           </p>
           <div className="space-y-1.5">
             <div className="flex items-center justify-between gap-4">
               <div className="flex items-center gap-2">
                 <div className="w-2.5 h-2.5 rounded-full bg-emerald-500 flex-shrink-0" />
-                <span className="text-sm text-slate-600">Occupied</span>
+                <span className="text-sm text-slate-600 dark:text-slate-300">Occupied</span>
               </div>
-              <span className="text-sm font-semibold text-emerald-600">{occupied}</span>
+              <span className="text-sm font-semibold text-emerald-600 dark:text-emerald-400">{occupied}</span>
             </div>
             <div className="flex items-center justify-between gap-4">
               <div className="flex items-center gap-2">
                 <div className="w-2.5 h-2.5 rounded-full bg-red-500 flex-shrink-0" />
-                <span className="text-sm text-slate-600">Vacant</span>
+                <span className="text-sm text-slate-600 dark:text-slate-300">Vacant</span>
               </div>
-              <span className="text-sm font-semibold text-red-500">{vacant}</span>
+              <span className="text-sm font-semibold text-red-500 dark:text-red-400">{vacant}</span>
             </div>
-            <div className="pt-1.5 mt-1.5 border-t border-slate-100">
+            <div className="pt-1.5 mt-1.5 border-t border-slate-100 dark:border-slate-700">
               <div className="flex items-center justify-between">
-                <span className="text-xs text-slate-500">Occupancy Rate</span>
+                <span className="text-xs text-slate-500 dark:text-slate-400">Occupancy Rate</span>
                 <span className="text-xs font-bold text-[#6D28D9]">{occupiedPercent}%</span>
               </div>
             </div>
@@ -77,28 +77,28 @@ const OccupancyChart = () => {
       initial={{ opacity: 0, scale: 0.95 }}
       animate={{ opacity: 1, scale: 1 }}
       transition={{ duration: 0.5, delay: 0.3, ease: "easeOut" }}
-      className="bg-white rounded-2xl p-4 sm:p-5 md:p-6 border border-slate-200/60 shadow-xl shadow-slate-200/30 hover:shadow-2xl transition-shadow duration-300 h-full flex flex-col"
+      className="bg-white dark:bg-slate-800 rounded-2xl p-4 sm:p-5 md:p-6 border border-slate-200/60 dark:border-slate-700/60 shadow-xl shadow-slate-200/30 dark:shadow-slate-800/30 hover:shadow-2xl transition-shadow duration-300 h-full flex flex-col"
     >
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-start md:items-center justify-between gap-3 sm:gap-4 mb-4 sm:mb-5 md:mb-6">
         <div className="flex-1 min-w-0">
-          <h3 className="text-base sm:text-lg md:text-xl font-bold text-slate-800 truncate">
+          <h3 className="text-base sm:text-lg md:text-xl font-bold text-slate-800 dark:text-white truncate">
             Occupancy Rate
           </h3>
-          <p className="text-xs sm:text-sm text-slate-500 mt-0.5">
+          <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-0.5">
             Property occupancy status
           </p>
         </div>
         <div className="flex items-center gap-3 flex-shrink-0 flex-wrap">
-          <div className="flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3 py-1 sm:py-1.5 bg-[#6D28D9]/10 rounded-lg hover:bg-[#6D28D9]/15 transition-colors duration-200">
+          <div className="flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3 py-1 sm:py-1.5 bg-[#6D28D9]/10 dark:bg-[#6D28D9]/20 rounded-lg hover:bg-[#6D28D9]/15 dark:hover:bg-[#6D28D9]/30 transition-colors duration-200">
             <Building2 className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#6D28D9]" />
             <span className="text-xs sm:text-sm font-semibold text-[#6D28D9] whitespace-nowrap">
               {occupancyRate}%
             </span>
           </div>
-          <div className="flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3 py-1 sm:py-1.5 bg-slate-50 rounded-lg hover:bg-slate-100 transition-colors duration-200">
-            <Users className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-slate-600" />
-            <span className="text-xs sm:text-sm font-semibold text-slate-700 whitespace-nowrap">
+          <div className="flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3 py-1 sm:py-1.5 bg-slate-50 dark:bg-slate-700/50 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-700/70 transition-colors duration-200">
+            <Users className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-slate-600 dark:text-slate-400" />
+            <span className="text-xs sm:text-sm font-semibold text-slate-700 dark:text-slate-300 whitespace-nowrap">
               {totalOccupied}/{totalUnits}
             </span>
           </div>
@@ -166,17 +166,17 @@ const OccupancyChart = () => {
       </div>
 
       {/* Quick Stats Footer */}
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 mt-3 sm:mt-4 pt-3 sm:pt-4 border-t border-slate-100">
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 mt-3 sm:mt-4 pt-3 sm:pt-4 border-t border-slate-100 dark:border-slate-700">
         {data.map((item) => {
           const total = item.occupied + item.vacant
           const rate = total > 0 ? ((item.occupied / total) * 100).toFixed(0) : 0
           return (
             <div key={item.property} className="flex flex-col">
-              <p className="text-[10px] sm:text-xs text-slate-500 truncate" title={item.property}>
+              <p className="text-[10px] sm:text-xs text-slate-500 dark:text-slate-400 truncate" title={item.property}>
                 {item.property}
               </p>
               <div className="flex items-center gap-1.5 mt-0.5">
-                <div className="flex-1 h-1.5 bg-slate-100 rounded-full overflow-hidden">
+                <div className="flex-1 h-1.5 bg-slate-100 dark:bg-slate-700 rounded-full overflow-hidden">
                   <div 
                     className="h-full rounded-full transition-all duration-500"
                     style={{ 
@@ -185,7 +185,7 @@ const OccupancyChart = () => {
                     }}
                   />
                 </div>
-                <span className="text-[10px] sm:text-xs font-semibold text-slate-700 whitespace-nowrap">
+                <span className="text-[10px] sm:text-xs font-semibold text-slate-700 dark:text-slate-300 whitespace-nowrap">
                   {rate}%
                 </span>
               </div>

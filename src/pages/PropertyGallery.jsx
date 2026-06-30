@@ -1,0 +1,6 @@
+<PropertyGallery
+  images={[
+    "https://example.com/photo1.jpg",
+    "https://example.com/photo2.jpg",
+  ]}
+/>

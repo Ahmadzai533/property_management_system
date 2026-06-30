@@ -5,8 +5,23 @@
 @tailwind utilities;
 
 @layer base {
-  * {
+  *,
+  *::before,
+  *::after {
     border-color: #e2e8f0;
+    transition:
+      background-color 0.35s ease,
+      color 0.35s ease,
+      border-color 0.35s ease,
+      fill 0.35s ease,
+      stroke 0.35s ease;
+  }
+
+  html,
+  body {
+    transition:
+      background-color 0.35s ease,
+      color 0.35s ease;
   }
 
   body {
@@ -23,20 +38,23 @@
   }
 
   html.dark body {
-    background-color: #0f172a;
-    color: #e2e8f0;
+    background-color: #0b1220;
+    color: #f8fafc;
   }
 
   html.dark .bg-white {
     background-color: #0f172a !important;
+    transition: background-color 0.35s ease;
   }
 
   html.dark .bg-white\/95 {
     background-color: rgba(15, 23, 42, 0.95) !important;
+    transition: background-color 0.35s ease;
   }
 
   html.dark .bg-white\/70 {
     background-color: rgba(15, 23, 42, 0.7) !important;
+    transition: background-color 0.35s ease;
   }
 
   html.dark .bg-slate-50 {
@@ -55,10 +73,29 @@
     color: #f8fafc !important;
   }
 
-  html.dark .text-slate-500,
+  html.dark .text-slate-700,
   html.dark .text-slate-600,
-  html.dark .text-slate-400 {
-    color: #cbd5e1 !important;
+  html.dark .text-slate-500,
+  html.dark .text-slate-400,
+  html.dark .text-slate-300 {
+    color: #f8fafc !important;
+  }
+
+  /* Force hover/interactive text to white in dark mode for better contrast */
+  html.dark a,
+  html.dark button,
+  html.dark span,
+  html.dark p,
+  html.dark label,
+  html.dark li {
+    color: #f8fafc !important;
+  }
+
+  html.dark a:hover,
+  html.dark button:hover,
+  html.dark .sidebar-link:hover,
+  html.dark .nav-link:hover {
+    color: #f8fafc !important;
   }
 
   html.dark .border-slate-200,
@@ -98,18 +135,101 @@
       0 10px 10px -5px rgba(15, 23, 42, 0.04) !important;
   }
 
-  ::-webkit-scrollbar-track {
-    width: 6px;
-    height: 6px;
+  /* ===== Enterprise Scrollbar ===== */
+  /* Inspired by Linear, Notion, GitHub, Vercel, and Raycast */
+  /* A thin, minimal, floating scrollbar design */
+
+  /* WebKit Browsers (Chrome, Edge, Brave, Safari) */
+  *::-webkit-scrollbar {
+    width: 2px;
+    height: 2px;
+    background: transparent;
   }
 
-  ::-webkit-scrollbar-track {
-    @apply bg-slate-100;
+  *::-webkit-scrollbar-track {
+    background: transparent;
+    margin: 0;
+    border-radius: 9999px;
   }
 
-  ::-webkit-scrollbar-thumb {
-    @apply bg-slate-300 rounded-full hover:bg-slate-400 transition-colors;
+  *::-webkit-scrollbar-thumb {
+    background: #94A3B8; /* slate-500 */
+    border-radius: 9999px;
+    border: none;
+    outline: none;
+    box-shadow: none;
+    transition: background 0.2s ease-in-out;
   }
+
+  *::-webkit-scrollbar-thumb:hover {
+    background: #94A3B8; /* slate-600 */
+  }
+
+  *::-webkit-scrollbar-thumb:active {
+    background: #94A3B8; /* slate-600 */
+  }
+
+  *::-webkit-scrollbar-corner {
+    background: transparent;
+  }
+
+  /* Firefox */
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: #64748B transparent; /* slate-500 */
+  }
+
+  *:hover {
+    scrollbar-color: #475569 transparent; /* slate-600 */
+  }
+
+  /* Dark Mode Support */
+  @media (prefers-color-scheme: dark) {
+    *::-webkit-scrollbar-thumb {
+      background: #94A3B8; /* slate-400 */
+    }
+
+    *::-webkit-scrollbar-thumb:hover {
+      background: #CBD5E1; /* slate-300 */
+    }
+
+    *::-webkit-scrollbar-thumb:active {
+      background: #CBD5E1; /* slate-300 */
+    }
+
+    * {
+      scrollbar-color: #94A3B8 transparent; /* slate-400 */
+    }
+
+    *:hover {
+      scrollbar-color: #CBD5E1 transparent; /* slate-300 */
+    }
+  }
+
+  /* Ensure scrollbars appear only when needed */
+  * {
+    overflow: -moz-scrollbars-none;
+  }
+
+  *::-webkit-scrollbar {
+    -webkit-appearance: none;
+    appearance: none;
+  }
+}
+
+:root {
+  --accent: #6d28d9;
+  --accent-dark: #7c3aed;
+  --range-track-light: #e6e6e6;
+  --range-track-dark: rgba(255, 255, 255, 0.06);
+}
+
+html.dark {
+  --range-track: var(--range-track-dark);
+}
+
+html:not(.dark) {
+  --range-track: var(--range-track-light);
 }
 
 @layer components {
@@ -135,6 +255,92 @@
 
   .card-hover {
     @apply transition-all duration-300 hover:shadow-2xl hover:-translate-y-1 hover:scale-[1.02];
+  }
+
+  /* Range (slider) styles - thin, modern thumb */
+  input[type="range"] {
+    -webkit-appearance: none;
+    width: 100%;
+    height: 6px;
+    background: var(--range-track);
+    border-radius: 999px;
+    outline: none;
+    transition: background 0.15s ease;
+  }
+  input[type="range"]:focus {
+    outline: none;
+  }
+
+  input[type="range"]::-webkit-slider-runnable-track {
+    height: 6px;
+    background: var(--range-track);
+    border-radius: 999px;
+  }
+  input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    margin-top: -4px;
+    width: 14px;
+    height: 14px;
+    border-radius: 999px;
+    background: var(--accent);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
+    transition:
+      transform 0.12s ease,
+      box-shadow 0.12s ease;
+  }
+  input[type="range"]:hover::-webkit-slider-thumb {
+    transform: scale(1.06);
+  }
+  input[type="range"]:active::-webkit-slider-thumb {
+    transform: scale(1);
+  }
+
+  /* Firefox */
+  input[type="range"]::-moz-range-track {
+    height: 6px;
+    background: var(--range-track);
+    border-radius: 999px;
+  }
+  input[type="range"]::-moz-range-thumb {
+    width: 14px;
+    height: 14px;
+    border-radius: 999px;
+    background: var(--accent);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
+  }
+
+  /* Dark-mode only: change hover/active color without removing borders */
+  /* Sidebar-only hover/active color changes (avoid affecting dashboard cards/other areas) */
+  html.dark aside button:hover,
+  html.dark aside a:hover,
+  html.dark aside .sidebar-link:hover,
+  html.dark aside .card-hover:hover,
+  html.dark aside .rounded-lg:hover,
+  html.dark aside .nav-link:hover,
+  html.dark aside .list-item:hover,
+  html.dark aside .table-row:hover,
+  html.dark aside .hover\:bg-slate-50:hover,
+  html.dark aside .hover\:bg-gray-100:hover,
+  html.dark aside .hover\:bg-slate-100:hover,
+  html.dark aside .hover\:bg-white\/30:hover {
+    /* keep borders intact; only adjust background and text color for contrast */
+    background-color: rgba(109, 40, 217, 0.08) !important; /* subtle accent */
+    color: #fff !important;
+    transition:
+      background-color 0.12s ease,
+      color 0.12s ease;
+  }
+
+  /* Dark-mode active/click states */
+  html.dark aside button:active,
+  html.dark aside a:active,
+  html.dark aside .sidebar-link:active,
+  html.dark aside .card-hover:active,
+  html.dark aside .rounded-lg:active,
+  html.dark aside .active,
+  html.dark aside .bg-slate-50:active {
+    background-color: rgba(109, 40, 217, 0.12) !important;
+    color: #fff !important;
   }
 
   .sidebar-link {

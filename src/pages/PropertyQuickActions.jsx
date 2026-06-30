@@ -1,0 +1,5 @@
+<PropertyQuickActions
+  onView={() => {}}
+  onEdit={() => {}}
+  onDelete={() => {}}
+/>

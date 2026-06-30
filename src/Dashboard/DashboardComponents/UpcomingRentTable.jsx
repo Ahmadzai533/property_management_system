@@ -35,9 +35,9 @@ const UpcomingRentTable = () => {
   ])
 
   const statusColors = {
-    Paid: { bg: 'bg-emerald-100', text: 'text-emerald-700', border: 'border-emerald-200', icon: CheckCircle },
-    Pending: { bg: 'bg-amber-100', text: 'text-amber-700', border: 'border-amber-200', icon: Clock },
-    Overdue: { bg: 'bg-red-100', text: 'text-red-700', border: 'border-red-200', icon: AlertCircle },
+    Paid: { bg: 'bg-emerald-100 dark:bg-emerald-900/30', text: 'text-emerald-700 dark:text-emerald-400', border: 'border-emerald-200 dark:border-emerald-800', icon: CheckCircle },
+    Pending: { bg: 'bg-amber-100 dark:bg-amber-900/30', text: 'text-amber-700 dark:text-amber-400', border: 'border-amber-200 dark:border-amber-800', icon: Clock },
+    Overdue: { bg: 'bg-red-100 dark:bg-red-900/30', text: 'text-red-700 dark:text-red-400', border: 'border-red-200 dark:border-red-800', icon: AlertCircle },
   }
 
   const statusOptions = ['All', 'Paid', 'Pending', 'Overdue']
@@ -119,15 +119,15 @@ const UpcomingRentTable = () => {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, delay: 0.4, ease: "easeOut" }}
-      className="bg-white rounded-2xl p-4 sm:p-5 md:p-6 border border-slate-200/60 shadow-xl shadow-slate-200/30 hover:shadow-2xl transition-shadow duration-300"
+      className="bg-white dark:bg-slate-800 rounded-2xl p-4 sm:p-5 md:p-6 border border-slate-200/60 dark:border-slate-700/60 shadow-xl shadow-slate-200/30 dark:shadow-slate-800/30 hover:shadow-2xl transition-shadow duration-300"
     >
       {/* Header */}
       <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 mb-4 sm:mb-5 md:mb-6">
         <div className="flex-1 min-w-0">
-          <h3 className="text-base sm:text-lg md:text-xl font-bold text-slate-800 truncate">
+          <h3 className="text-base sm:text-lg md:text-xl font-bold text-slate-800 dark:text-white truncate">
             Upcoming Rent
           </h3>
-          <p className="text-xs sm:text-sm text-slate-500 mt-0.5">
+          <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-0.5">
             {totalItems} due rent payment{totalItems !== 1 ? 's' : ''}
           </p>
         </div>
@@ -135,7 +135,7 @@ const UpcomingRentTable = () => {
         <div className="flex flex-col sm:flex-row gap-3 w-full lg:w-auto">
           {/* Search */}
           <div className="relative flex-1 sm:min-w-[200px] lg:min-w-[250px]">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 dark:text-slate-500" />
             <input
               type="text"
               placeholder="Search tenants or properties..."
@@ -144,7 +144,7 @@ const UpcomingRentTable = () => {
                 setSearchTerm(e.target.value)
                 setCurrentPage(1)
               }}
-              className="w-full pl-9 pr-4 py-2 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#6D28D9]/20 focus:border-[#6D28D9] transition-all duration-300"
+              className="w-full pl-9 pr-4 py-2 bg-slate-50 dark:bg-slate-700/50 border border-slate-200 dark:border-slate-600 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#6D28D9]/20 focus:border-[#6D28D9] transition-all duration-300 dark:text-white dark:placeholder:text-slate-400"
             />
             {searchTerm && (
               <button
@@ -152,7 +152,7 @@ const UpcomingRentTable = () => {
                   setSearchTerm('')
                   setCurrentPage(1)
                 }}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 transition-colors"
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 dark:text-slate-500 hover:text-slate-600 dark:hover:text-slate-300 transition-colors"
               >
                 <X className="w-4 h-4" />
               </button>
@@ -161,7 +161,7 @@ const UpcomingRentTable = () => {
 
           {/* Status Filter */}
           <div className="flex items-center gap-1 sm:gap-1.5 overflow-x-auto pb-1 sm:pb-0">
-            <Filter className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-slate-400 flex-shrink-0" />
+            <Filter className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-slate-400 dark:text-slate-500 flex-shrink-0" />
             {statusOptions.map(status => (
               <button
                 key={status}
@@ -174,7 +174,7 @@ const UpcomingRentTable = () => {
                   transition-all duration-200 whitespace-nowrap
                   ${statusFilter === status
                     ? 'bg-[#6D28D9] text-white shadow-lg shadow-[#6D28D9]/30'
-                    : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
+                    : 'bg-slate-100 dark:bg-slate-700/50 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700'
                   }
                 `}
               >
@@ -184,7 +184,7 @@ const UpcomingRentTable = () => {
             {(searchTerm || statusFilter !== 'All') && (
               <button
                 onClick={clearFilters}
-                className="px-2 sm:px-3 py-1 rounded-lg text-xs sm:text-sm font-medium bg-red-50 text-red-600 hover:bg-red-100 transition-colors whitespace-nowrap"
+                className="px-2 sm:px-3 py-1 rounded-lg text-xs sm:text-sm font-medium bg-red-50 dark:bg-red-900/30 text-red-600 dark:text-red-400 hover:bg-red-100 dark:hover:bg-red-900/50 transition-colors whitespace-nowrap"
               >
                 Clear
               </button>
@@ -198,21 +198,21 @@ const UpcomingRentTable = () => {
         <div className="min-w-full inline-block align-middle">
           <table className="min-w-full">
             <thead>
-              <tr className="border-b border-slate-200">
+              <tr className="border-b border-slate-200 dark:border-slate-700">
                 {['Tenant', 'Property', 'Due Date', 'Amount', 'Status'].map((header, index) => {
                   const fieldMap = ['tenant', 'property', 'dueDate', 'amount', 'status']
                   const field = fieldMap[index]
                   return (
                     <th
                       key={header}
-                      className="text-left text-xs font-semibold text-slate-500 uppercase tracking-wider py-3 px-3 sm:px-4 cursor-pointer hover:text-slate-700 transition-colors group"
+                      className="text-left text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider py-3 px-3 sm:px-4 cursor-pointer hover:text-slate-700 dark:hover:text-slate-300 transition-colors group"
                       onClick={() => handleSort(field)}
                     >
                       <div className="flex items-center gap-1">
                         <span>{header}</span>
                         <div className="flex flex-col opacity-0 group-hover:opacity-100 transition-opacity">
-                          <ChevronUp className={`w-2.5 h-2.5 ${sortField === field && sortDirection === 'asc' ? 'text-[#6D28D9]' : 'text-slate-400'}`} />
-                          <ChevronDown className={`w-2.5 h-2.5 -mt-0.5 ${sortField === field && sortDirection === 'desc' ? 'text-[#6D28D9]' : 'text-slate-400'}`} />
+                          <ChevronUp className={`w-2.5 h-2.5 ${sortField === field && sortDirection === 'asc' ? 'text-[#6D28D9]' : 'text-slate-400 dark:text-slate-500'}`} />
+                          <ChevronDown className={`w-2.5 h-2.5 -mt-0.5 ${sortField === field && sortDirection === 'desc' ? 'text-[#6D28D9]' : 'text-slate-400 dark:text-slate-500'}`} />
                         </div>
                         {sortField === field && (
                           <span className="text-[10px] text-[#6D28D9] ml-0.5">
@@ -237,22 +237,22 @@ const UpcomingRentTable = () => {
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: -10 }}
                         transition={{ delay: index * 0.05, duration: 0.3 }}
-                        className="border-b border-slate-100 hover:bg-slate-50 transition-colors group"
+                        className="border-b border-slate-100 dark:border-slate-700/50 hover:bg-slate-50 dark:hover:bg-slate-700/30 transition-colors group"
                       >
                         <td className="py-3 px-3 sm:px-4">
                           <div>
-                            <p className="text-sm font-medium text-slate-800 truncate max-w-[120px] sm:max-w-none">
+                            <p className="text-sm font-medium text-slate-800 dark:text-slate-200 truncate max-w-[120px] sm:max-w-none">
                               {item.tenant}
                             </p>
                           </div>
                         </td>
                         <td className="py-3 px-3 sm:px-4">
-                          <p className="text-sm text-slate-600 truncate max-w-[120px] sm:max-w-none">
+                          <p className="text-sm text-slate-600 dark:text-slate-300 truncate max-w-[120px] sm:max-w-none">
                             {item.property}
                           </p>
                         </td>
                         <td className="py-3 px-3 sm:px-4">
-                          <p className="text-sm text-slate-600 whitespace-nowrap">
+                          <p className="text-sm text-slate-600 dark:text-slate-300 whitespace-nowrap">
                             {new Date(item.dueDate).toLocaleDateString('en-US', { 
                               month: 'short', 
                               day: 'numeric', 
@@ -261,7 +261,7 @@ const UpcomingRentTable = () => {
                           </p>
                         </td>
                         <td className="py-3 px-3 sm:px-4">
-                          <p className="text-sm font-semibold text-slate-800 whitespace-nowrap">
+                          <p className="text-sm font-semibold text-slate-800 dark:text-slate-200 whitespace-nowrap">
                             ${item.amount.toLocaleString()}
                           </p>
                         </td>
@@ -281,11 +281,11 @@ const UpcomingRentTable = () => {
                   <tr>
                     <td colSpan="5" className="py-8 text-center">
                       <div className="flex flex-col items-center gap-2">
-                        <div className="p-3 bg-slate-50 rounded-full">
-                          <Search className="w-6 h-6 text-slate-400" />
+                        <div className="p-3 bg-slate-50 dark:bg-slate-700/50 rounded-full">
+                          <Search className="w-6 h-6 text-slate-400 dark:text-slate-500" />
                         </div>
-                        <p className="text-sm font-medium text-slate-600">No results found</p>
-                        <p className="text-xs text-slate-400">Try adjusting your search or filters</p>
+                        <p className="text-sm font-medium text-slate-600 dark:text-slate-300">No results found</p>
+                        <p className="text-xs text-slate-400 dark:text-slate-500">Try adjusting your search or filters</p>
                       </div>
                     </td>
                   </tr>
@@ -298,8 +298,8 @@ const UpcomingRentTable = () => {
 
       {/* Pagination */}
       {totalPages > 1 && (
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mt-4 sm:mt-6 pt-3 sm:pt-4 border-t border-slate-200">
-          <p className="text-xs sm:text-sm text-slate-500 text-center sm:text-left">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mt-4 sm:mt-6 pt-3 sm:pt-4 border-t border-slate-200 dark:border-slate-700">
+          <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 text-center sm:text-left">
             Showing {((currentPage - 1) * itemsPerPage) + 1} to{' '}
             {Math.min(currentPage * itemsPerPage, totalItems)} of {totalItems} entries
           </p>
@@ -310,8 +310,8 @@ const UpcomingRentTable = () => {
               className={`
                 p-1.5 sm:p-2 rounded-lg transition-all duration-200
                 ${currentPage === 1 
-                  ? 'text-slate-300 cursor-not-allowed' 
-                  : 'text-slate-600 hover:bg-slate-100 active:scale-95'
+                  ? 'text-slate-300 dark:text-slate-600 cursor-not-allowed' 
+                  : 'text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700/50 active:scale-95'
                 }
               `}
             >
@@ -341,7 +341,7 @@ const UpcomingRentTable = () => {
                       transition-all duration-200
                       ${currentPage === pageNum
                         ? 'bg-[#6D28D9] text-white shadow-lg shadow-[#6D28D9]/30'
-                        : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
+                        : 'bg-slate-100 dark:bg-slate-700/50 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700'
                       }
                     `}
                   >
@@ -358,8 +358,8 @@ const UpcomingRentTable = () => {
               className={`
                 p-1.5 sm:p-2 rounded-lg transition-all duration-200
                 ${currentPage === totalPages 
-                  ? 'text-slate-300 cursor-not-allowed' 
-                  : 'text-slate-600 hover:bg-slate-100 active:scale-95'
+                  ? 'text-slate-300 dark:text-slate-600 cursor-not-allowed' 
+                  : 'text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700/50 active:scale-95'
                 }
               `}
             >
