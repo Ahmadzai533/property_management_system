@@ -150,7 +150,7 @@ const PropertyList = () => {
   return (
     <div className="space-y-4 sm:space-y-6 lg:space-y-8  space-x-2 sm:space-x-2 lg:space-x-3 ">
       {/* Header with Enterprise Stats */}
-      <div className="rounded-2xl ml-2 bg-gradient-to-r bg-[#6D28D9]  p-6 text-white shadow-lg dark:bg-[#6D28D9]">
+      <div className="rounded-2xl ml-2 p-6 text-white shadow-lg bg-gradient-to-r bg-[#6D28D9]   dark:bg-[#6D28D9]">
         <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
           <div className="min-w-0 ">
             <Breadcrumb white={true} />

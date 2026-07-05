@@ -176,9 +176,9 @@ const Sidebar = ({
       icon: Wrench,
       label: "Maintainers",
       items: [
-        { to: "/maintainers/specialties", label: "Specialty Types" },
-        { to: "/maintainers/tickets", label: "Repair Tickets" },
-        { to: "/maintainers/contractors", label: "All Contractors" },
+        { to: "/maintainers/maintainersPerson", label: "maintainers Person" },
+        { to: "/maintainers/maintainersRequest", label: "maintainers Request" },
+     
       ],
     },
   ];

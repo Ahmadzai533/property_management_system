@@ -234,8 +234,8 @@ const TenantDashboard = () => {
     <div className={`min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors duration-300`}>
       
       {/* ===== PURPLE TOP HEADER ===== */}
-      <div className="bg-gradient-to-r rounded-lg from-purple-600 to-purple-800 dark:from-purple-700 dark:to-purple-900 shadow-lg">
-        <div className="max-w-7xl mx-auto px-2 sm:px-4 lg:px-6 py-4 sm:py-6">
+      <div className="bg-gradient-to-r mx-5 from-purple-600 to-purple-800 dark:from-purple-700 dark:to-purple-900 shadow-lg rounded-2xl">
+        <div className="max-w-7xl mx-auto px-2 sm:px-4 lg:px-2 py-2 sm:py-6">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
               <Building className="w-8 h-8 sm:w-10 sm:h-10 text-white/90" />

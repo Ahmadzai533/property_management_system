@@ -30,6 +30,7 @@ import EditUnit from "../pages/properties/AllUnitPages/EditUnit";
 import PaymentsInvoices from "../pages/finance/PaymentsInvoices";
 import RentRollLedger from "../pages/finance/RentRollLedger";
 import TransactionHistory from "../pages/finance/TransactionHistory";
+import MaintenanceRequestManagement from "../pages/maintianents/maintianentsRequest";
 
 
 const AppRoutes = () => {
@@ -81,7 +82,8 @@ const AppRoutes = () => {
 <Route path="/tenants/history" element={<TenantHistoryPage />} />
 
 <Route path="/tenants/edit" element={<EditTenant/>} />
-<Route path="/maintiannace" element={<MaintainerManagement/>} />
+<Route path="/maintainers/maintainersPerson" element={<MaintainerManagement/>} />
+<Route path="/maintainers/maintainersRequest" element={<MaintenanceRequestManagement/>} />
 
 
 
