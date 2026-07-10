@@ -9,6 +9,7 @@ import {
   Star, TrendingUp, TrendingDown, MoreVertical, Printer,
   Share2, Copy, ExternalLink, Sparkles, Upload
 } from "lucide-react";
+import DateText from "../../components/common/DateText";
 
 const TenantDetailsViewModel = () => {
   // ----- MOCK DATA -----
@@ -236,7 +237,7 @@ const TenantDetailsViewModel = () => {
                 </motion.div>
                 <div>
                   <p className="text-sm font-medium text-gray-800 dark:text-white">{tenant.name}</p>
-                  <p className="text-xs text-gray-500 dark:text-gray-400">Member since {tenant.joinDate}</p>
+                  <p className="text-xs text-gray-500 dark:text-gray-400">Member since <DateText value={tenant.joinDate} /></p>
                   <p className="text-xs text-indigo-600 dark:text-indigo-300 flex items-center gap-1 mt-0.5">
                     <Badge variant="active">Verified</Badge>
                   </p>
@@ -265,11 +266,11 @@ const TenantDetailsViewModel = () => {
             <GlassCard delay={0.2}>
               <SectionTitle icon={Calendar}>Move-in & Details</SectionTitle>
               <div className="space-y-1">
-                <InfoRow label="Move-in Date" value={tenant.property.moveInDate} icon={Calendar} delay={0.05} />
+                <InfoRow label="Move-in Date" value={<DateText value={tenant.property.moveInDate} />} icon={Calendar} delay={0.05} />
                 <InfoRow label="Rent Type" value="Monthly" icon={DollarSign} delay={0.1} />
                 <InfoRow label="Lease Status" value={<Badge variant="active">Active</Badge>} icon={Shield} delay={0.15} />
                 <InfoRow label="Property Age" value="3 years" icon={Clock} delay={0.2} />
-                <InfoRow label="Last Inspection" value="2025-05-20" icon={CheckCircle} delay={0.25} />
+                <InfoRow label="Last Inspection" value={<DateText value="2025-05-20" />} icon={CheckCircle} delay={0.25} />
               </div>
               <motion.div
                 initial={{ opacity: 0, height: 0 }}
@@ -293,10 +294,10 @@ const TenantDetailsViewModel = () => {
               <div className="space-y-1">
                 <InfoRow label="Monthly Rent" value={"$" + tenant.lease.rent} icon={DollarSign} delay={0.05} />
                 <InfoRow label="Security Deposit" value={"$" + tenant.lease.deposit} icon={Shield} delay={0.1} />
-                <InfoRow label="Lease Start" value={tenant.lease.start} icon={Calendar} delay={0.15} />
-                <InfoRow label="Lease End" value={tenant.lease.end} icon={Calendar} delay={0.2} />
+                <InfoRow label="Lease Start" value={<DateText value={tenant.lease.start} />} icon={Calendar} delay={0.15} />
+                <InfoRow label="Lease End" value={<DateText value={tenant.lease.end} />} icon={Calendar} delay={0.2} />
                 <InfoRow label="Payment Status" value={<Badge variant="paid">{tenant.lease.status}</Badge>} icon={CreditCard} delay={0.25} />
-                <InfoRow label="Due Date" value={tenant.lease.dueDate} icon={Clock} delay={0.3} />
+                <InfoRow label="Due Date" value={<DateText value={tenant.lease.dueDate} />} icon={Clock} delay={0.3} />
                 <InfoRow label="Late Fee" value={tenant.lease.lateFee} icon={AlertCircle} delay={0.35} />
               </div>
             </GlassCard>
@@ -323,9 +324,9 @@ const TenantDetailsViewModel = () => {
                   </motion.div>
                 </div>
                 <div className="flex justify-between text-xs text-gray-400 dark:text-gray-500 mt-2">
-                  <span>{tenant.lease.start}</span>
+                  <span><DateText value={tenant.lease.start} /></span>
                   <span className="text-indigo-600 dark:text-indigo-300 font-medium">{Math.floor((Date.now() - new Date(tenant.lease.start)) / (1000 * 60 * 60 * 24))} days</span>
-                  <span>{tenant.lease.end}</span>
+                  <span><DateText value={tenant.lease.end} /></span>
                 </div>
 
                 <motion.div
@@ -357,7 +358,7 @@ const TenantDetailsViewModel = () => {
                 <InfoRow label="Total Paid" value={"$" + tenant.finance.totalPaid} icon={DollarSign} delay={0.05} />
                 <InfoRow label="Total Due" value={"$" + tenant.finance.totalDue} icon={CreditCard} delay={0.1} />
                 <InfoRow label="Pending Amount" value={"$" + tenant.finance.pending} icon={AlertCircle} delay={0.15} />
-                <InfoRow label="Last Payment" value={tenant.finance.lastPayment} icon={Calendar} delay={0.2} />
+                <InfoRow label="Last Payment" value={<DateText value={tenant.finance.lastPayment} />} icon={Calendar} delay={0.2} />
                 <InfoRow label="Invoice Count" value={tenant.finance.invoices} icon={FileText} delay={0.25} />
               </div>
               <motion.div
@@ -436,7 +437,7 @@ const TenantDetailsViewModel = () => {
                   {doc.type === "pdf" ? <File size={48} /> : <Image size={48} />}
                 </motion.div>
                 <p className="mt-2 font-medium text-gray-800 dark:text-white">{doc.name}</p>
-                <p className="text-xs text-gray-500 dark:text-gray-400">{doc.size} · {doc.date}</p>
+                <p className="text-xs text-gray-500 dark:text-gray-400">{doc.size} · <DateText value={doc.date} /></p>
                 <div className="flex justify-center gap-3 mt-3">
                   <motion.button whileHover={{ scale: 1.15 }} whileTap={{ scale: 0.9 }} className="p-2 rounded-lg bg-indigo-50 text-indigo-600 hover:bg-indigo-100 dark:bg-indigo-900/30 dark:text-indigo-300 dark:hover:bg-indigo-900/50 transition-all shadow-sm hover:shadow-md">
                     <Eye size={16} />
@@ -470,7 +471,7 @@ const TenantDetailsViewModel = () => {
                   >
                     <div className="flex-1">
                       <p className="text-sm font-medium text-gray-800 dark:text-white">{item.title}</p>
-                      <p className="text-xs text-gray-500 dark:text-gray-400">{item.date}</p>
+                      <p className="text-xs text-gray-500 dark:text-gray-400"><DateText value={item.date} /></p>
                     </div>
                     <div className="flex items-center gap-2">
                       <Badge variant={item.priority.toLowerCase()}>{item.priority}</Badge>
@@ -503,7 +504,7 @@ const TenantDetailsViewModel = () => {
                       }`}
                     >
                       <p className="text-gray-700 dark:text-gray-200">{note.text}</p>
-                      <p className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">{note.date} · {note.admin}</p>
+                      <p className="text-xs text-gray-500 dark:text-gray-400 mt-0.5"><DateText value={note.date} /> · {note.admin}</p>
                     </motion.div>
                   ))}
                 </div>
@@ -524,7 +525,7 @@ const TenantDetailsViewModel = () => {
                         <span className="font-medium text-indigo-600 dark:text-indigo-300">{comm.sender}:</span> {comm.message}
                       </p>
                       <p className="text-xs text-gray-500 dark:text-gray-400 mt-0.5 flex items-center justify-between">
-                        <span>{comm.date}</span>
+                        <span><DateText value={comm.date} /></span>
                         {!comm.read && <Badge variant="active">New</Badge>}
                       </p>
                     </motion.div>

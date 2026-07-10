@@ -3,16 +3,19 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { Plus, Download, Filter, RefreshCw } from 'lucide-react';
 import Button from '../common/Button';
+import { useLocalization } from '../../hooks/useLocalization';
 
 const PropertyHeader = ({ 
-  title = 'Own Properties',
-  description = 'Manage and monitor your entire property portfolio',
+  title,
+  description,
   onAddProperty,
   onExport,
   onRefresh,
   onFilter,
   totalProperties = 0
 }) => {
+  const { t } = useLocalization();
+
   return (
     <motion.div
       initial={{ opacity: 0, y: -20 }}
@@ -22,10 +25,10 @@ const PropertyHeader = ({
     >
       <div className="flex-1">
         <h1 className="text-2xl font-semibold text-gray-900 dark:text-white">
-          {title}
+          {title || t('properties.ownProperties', 'Own Properties')}
         </h1>
         <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
-          {description} • <span className="font-medium">{totalProperties}</span> properties
+          {description || t('properties.ownPropertiesDesc', 'Manage and monitor your entire property portfolio')} • <span className="font-medium">{totalProperties}</span> {t('properties.propertiesCount', 'properties')}
         </p>
       </div>
       
@@ -35,10 +38,10 @@ const PropertyHeader = ({
           size="sm"
           onClick={onRefresh}
           className="gap-2"
-          aria-label="Refresh properties"
+          aria-label={t('common.refresh', 'Refresh properties')}
         >
           <RefreshCw className="h-4 w-4" />
-          <span className="hidden sm:inline">Refresh</span>
+          <span className="hidden sm:inline">{t('common.refresh', 'Refresh')}</span>
         </Button>
         
         <Button
@@ -46,10 +49,10 @@ const PropertyHeader = ({
           size="sm"
           onClick={onFilter}
           className="gap-2"
-          aria-label="Filter properties"
+          aria-label={t('common.filter', 'Filter properties')}
         >
           <Filter className="h-4 w-4" />
-          <span className="hidden sm:inline">Filter</span>
+          <span className="hidden sm:inline">{t('common.filter', 'Filter')}</span>
         </Button>
         
         <Button
@@ -57,10 +60,10 @@ const PropertyHeader = ({
           size="sm"
           onClick={onExport}
           className="gap-2"
-          aria-label="Export properties"
+          aria-label={t('common.export', 'Export properties')}
         >
           <Download className="h-4 w-4" />
-          <span className="hidden sm:inline">Export</span>
+          <span className="hidden sm:inline">{t('common.export', 'Export')}</span>
         </Button>
         
         <Button
@@ -68,10 +71,10 @@ const PropertyHeader = ({
           size="sm"
           onClick={onAddProperty}
           className="gap-2"
-          aria-label="Add new property"
+          aria-label={t('properties.addProperty', 'Add new property')}
         >
           <Plus className="h-4 w-4" />
-          <span>Add Property</span>
+          <span>{t('properties.addProperty', 'Add Property')}</span>
         </Button>
       </div>
     </motion.div>

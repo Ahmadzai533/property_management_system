@@ -28,6 +28,7 @@ import Button from "../../components/common/Button";
 import { useToast } from "../../hooks/useToast";
 import { useFinanceData } from "../../hooks/useFinanceData";
 import { useTheme } from "../../hooks/useTheme";
+import DateText from "../../components/common/DateText";
 
 const breadcrumbItems = [
   { label: "Finance", href: "/finance" },
@@ -167,13 +168,13 @@ export default function PaymentsInvoices() {
       key: "dueDate",
       header: "Due Date",
       sortable: true,
-      accessor: (row) => new Date(row.dueDate).toLocaleDateString(),
+      accessor: (row) => <DateText value={row.dueDate} />,
     },
     {
       key: "paidDate",
       header: "Paid Date",
       accessor: (row) =>
-        row.paidDate ? new Date(row.paidDate).toLocaleDateString() : "-",
+        row.paidDate ? <DateText value={row.paidDate} /> : "-",
     },
     {
       key: "amount",
@@ -430,7 +431,7 @@ export default function PaymentsInvoices() {
                         <span className="text-gray-500 dark:text-gray-400">
                           Due Date:
                         </span>{" "}
-                        {new Date(selectedInvoice.dueDate).toLocaleDateString()}
+                        <DateText value={selectedInvoice.dueDate} />
                       </p>
                       <p className="text-sm">
                         <span className="text-gray-500 dark:text-gray-400">
@@ -485,9 +486,7 @@ export default function PaymentsInvoices() {
                         </p>
                         <p className="text-xs text-gray-500 dark:text-gray-400">
                           {selectedInvoice.paidDate
-                            ? new Date(
-                                selectedInvoice.paidDate,
-                              ).toLocaleDateString()
+                            ? <DateText value={selectedInvoice.paidDate} />
                             : "Pending"}
                         </p>
                       </div>

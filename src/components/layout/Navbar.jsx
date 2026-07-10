@@ -12,16 +12,22 @@ import {
   PanelRight,
 } from "lucide-react";
 import { NavLink } from "react-router-dom";
+import { useLocalization } from "../../hooks/useLocalization";
+import LanguageSwitcher from "./LanguageSwitcher";
+import CalendarSwitcher from "./CalendarSwitcher";
 
 const Navbar = ({ onToggleSidebar, isCollapsed, onToggleCollapse }) => {
   const [isDark, setIsDark] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const [isLarge, setIsLarge] = useState(window.innerWidth >= 1024);
   const menuRef = useRef(null);
+  const { t } = useLocalization();
 
   useEffect(() => {
     const storedTheme = localStorage.getItem("theme");
-    const prefersDark = window.matchMedia?.("(prefers-color-scheme: dark)").matches;
+    const prefersDark = window.matchMedia?.(
+      "(prefers-color-scheme: dark)",
+    ).matches;
     setIsDark(storedTheme ? storedTheme === "dark" : prefersDark);
   }, []);
 
@@ -72,38 +78,38 @@ const Navbar = ({ onToggleSidebar, isCollapsed, onToggleCollapse }) => {
           </NavLink>
 
           {/* Unified Controller Button */}
-    <button
-  onClick={(e) => {
-    e.stopPropagation(); // Prevents the layout or document from registering this click
-    if (window.innerWidth >= 1024) {
-      onToggleCollapse();
-    } else {
-      onToggleSidebar();
-    }
-  }}
-  className="p-2   md:ml-28   rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 transition flex-shrink-0 relative z-50"
-  aria-label="Toggle Sidebar"
->
-  {/* On Desktop (lg and up): Toggle between Left and Right based on collapse state */}
-  <div className="hidden lg:block  ">
-    {isCollapsed ? (
-      <PanelRight className="w-5 h-5 text-slate-600 dark:text-slate-300" />
-    ) : (
-      <PanelLeft className="w-5 h-5 text-slate-600 dark:text-slate-300" />
-    )}
-  </div>
+          <button
+            onClick={(e) => {
+              e.stopPropagation(); // Prevents the layout or document from registering this click
+              if (window.innerWidth >= 1024) {
+                onToggleCollapse();
+              } else {
+                onToggleSidebar();
+              }
+            }}
+            className="p-2   md:ml-28   rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 transition flex-shrink-0 relative z-50"
+            aria-label="Toggle Sidebar"
+          >
+            {/* On Desktop (lg and up): Toggle between Left and Right based on collapse state */}
+            <div className="hidden lg:block  ">
+              {isCollapsed ? (
+                <PanelRight className="w-5 h-5 text-slate-600 dark:text-slate-300" />
+              ) : (
+                <PanelLeft className="w-5 h-5 text-slate-600 dark:text-slate-300" />
+              )}
+            </div>
 
-  {/* On Mobile/Tablet (below lg): Always show the mobile menu toggle icon */}
-  <div className="block lg:hidden">
-    <PanelRight className="w-5 h-5 text-slate-600 dark:text-slate-300  " />
-  </div>
-</button>
+            {/* On Mobile/Tablet (below lg): Always show the mobile menu toggle icon */}
+            <div className="block lg:hidden">
+              <PanelRight className="w-5 h-5 text-slate-600 dark:text-slate-300  " />
+            </div>
+          </button>
           {/* Search Bar */}
           <div className="relative flex-1 max-w-xs sm:max-w-sm md:max-w-md hidden xs:block">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
             <input
               type="text"
-              placeholder="Search..."
+              placeholder={t("nav.search")}
               className="w-full pl-9 pr-4 py-2 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 dark:bg-slate-900 dark:border-slate-800 dark:text-slate-100 transition"
             />
           </div>
@@ -111,11 +117,20 @@ const Navbar = ({ onToggleSidebar, isCollapsed, onToggleCollapse }) => {
 
         {/* RIGHT SIDE */}
         <div className="flex items-center gap-1 sm:gap-2 flex-shrink-0">
+          <div className="hidden md:flex items-center gap-2">
+            <LanguageSwitcher />
+            <CalendarSwitcher />
+          </div>
+
           <button
             onClick={() => setIsDark(!isDark)}
             className="p-2 rounded-xl bg-slate-50 border border-slate-200 hover:bg-slate-100 transition dark:bg-slate-800 dark:border-slate-700"
           >
-            {isDark ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
+            {isDark ? (
+              <Sun className="w-4 h-4" />
+            ) : (
+              <Moon className="w-4 h-4" />
+            )}
           </button>
 
           <button className="p-2 rounded-xl bg-slate-50 border border-slate-200 hover:bg-slate-100 relative transition dark:bg-slate-800 dark:border-slate-700">
@@ -134,8 +149,12 @@ const Navbar = ({ onToggleSidebar, isCollapsed, onToggleCollapse }) => {
                 JD
               </div>
               <div className="hidden sm:block text-left">
-                <p className="text-sm font-semibold dark:text-slate-100">John Doe</p>
-                <p className="text-xs text-slate-500 dark:text-slate-400">Admin</p>
+                <p className="text-sm font-semibold dark:text-slate-100">
+                  John Doe
+                </p>
+                <p className="text-xs text-slate-500 dark:text-slate-400">
+                  Admin
+                </p>
               </div>
               <ChevronDown className="w-4 h-4 text-slate-400" />
             </button>
@@ -148,8 +167,12 @@ const Navbar = ({ onToggleSidebar, isCollapsed, onToggleCollapse }) => {
                 className="absolute right-0 mt-2 w-56 bg-white border border-slate-200 rounded-xl shadow-xl overflow-hidden z-50 dark:bg-slate-950 dark:border-slate-800"
               >
                 <div className="p-3 border-b border-slate-100 dark:border-slate-800">
-                  <p className="font-semibold text-sm dark:text-slate-100">John Doe</p>
-                  <p className="text-xs text-slate-500 dark:text-slate-400">john.doe@example.com</p>
+                  <p className="font-semibold text-sm dark:text-slate-100">
+                    John Doe
+                  </p>
+                  <p className="text-xs text-slate-500 dark:text-slate-400">
+                    john.doe@example.com
+                  </p>
                 </div>
                 <button className="w-full text-left px-4 py-2 hover:bg-slate-50 flex items-center gap-2 transition dark:hover:bg-slate-800 dark:text-slate-100">
                   <User className="w-4 h-4" /> Profile

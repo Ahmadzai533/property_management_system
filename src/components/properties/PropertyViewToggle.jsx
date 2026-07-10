@@ -1,13 +1,16 @@
 // src/components/properties/PropertyViewToggle.jsx
-import React from 'react';
-import { LayoutGrid, List, Grid } from 'lucide-react';  // Changed from Grid3x3
+import React, { useMemo } from 'react';
+import { LayoutGrid, List, Grid } from 'lucide-react';
+import { useLocalization } from '../../hooks/useLocalization';
 
 const PropertyViewToggle = ({ view, onChange }) => {
-  const views = [
-    { id: 'table', icon: List, label: 'Table View' },
-    { id: 'grid', icon: LayoutGrid, label: 'Grid View' },  // Changed from Grid3x3
-    { id: 'compact', icon: Grid, label: 'Compact View' },
-  ];
+  const { t } = useLocalization();
+
+  const views = useMemo(() => [
+    { id: 'table', icon: List, label: t('properties.tableView', 'Table View') },
+    { id: 'grid', icon: LayoutGrid, label: t('properties.gridView', 'Grid View') },
+    { id: 'compact', icon: Grid, label: t('properties.compactView', 'Compact View') },
+  ], [t]);
 
   return (
     <div className="flex items-center gap-1 bg-gray-100 dark:bg-gray-800 rounded-lg p-1">

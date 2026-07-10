@@ -38,6 +38,7 @@ import {
   UserPlus,
 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import DateText from '../../components/common/DateText';
 
 // ============================================================
 // DUMMY DATA
@@ -67,7 +68,7 @@ const generateTenantData = () => {
     const rent = Math.floor(Math.random() * 50000) + 15000;
     const deposit = Math.floor(Math.random() * 10000) + 5000;
     
-    const leaseStart = new Date(2023 + Math.floor(Math.random() * 2), Math.floor(Math.random() * 12), Math.floor(Math.random() * 28));
+   const leaseStart = new Date(2023 + Math.floor(Math.random() * 2), Math.floor(Math.random() * 12), Math.floor(Math.random() * 28));
     const leaseEnd = new Date(leaseStart);
     leaseEnd.setFullYear(leaseEnd.getFullYear() + 1);
     
@@ -158,13 +159,8 @@ const formatCurrency = (amount) => {
 };
 
 const formatDate = (dateString) => {
-  return new Date(dateString).toLocaleDateString('en-US', {
-    year: 'numeric',
-    month: 'short',
-    day: 'numeric',
-  });
+  return <DateText value={dateString} />;
 };
-
 const getStatusBadge = (status) => {
   const configs = {
     Active: {

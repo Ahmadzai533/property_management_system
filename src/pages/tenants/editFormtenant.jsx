@@ -16,11 +16,12 @@ import {
   HiXMark,
   HiCheckCircle,
   HiOutlineCloudArrowUp,
-  HiArrowUpTray, // For upload
-  HiArrowDownTray, // For download
+  HiArrowUpTray,
+  HiArrowDownTray,
 } from "react-icons/hi2";
 import { FaBed, FaCamera } from "react-icons/fa";
 import { toast } from 'react-hot-toast';
+import DateText from '../../components/common/DateText';
 
 // Reusable Input Component
 const Input = ({ 
@@ -269,7 +270,6 @@ const EditTenant = () => {
     formState: { errors },
   } = useForm({
     defaultValues: {
-      // Tenant Information
       firstName: '',
       lastName: '',
       phone: '',
@@ -288,8 +288,6 @@ const EditTenant = () => {
       state: '',
       city: '',
       zipCode: '',
-      
-      // Home Details
       propertyName: '',
       propertyType: '',
       unitNumber: '',
@@ -319,15 +317,12 @@ const EditTenant = () => {
     },
   });
 
-  // Mock API call to fetch tenant data
   useEffect(() => {
     const fetchTenantData = async () => {
       setIsLoading(true);
-      // Simulate API call
       setTimeout(() => {
         const mockData = {
           id: id || '1',
-          // Tenant Information
           firstName: 'John',
           lastName: 'Doe',
           phone: '+1234567890',
@@ -347,8 +342,6 @@ const EditTenant = () => {
           city: 'New York City',
           zipCode: '10001',
           profileImage: null,
-          
-          // Home Details
           propertyName: 'Sunset Apartments',
           propertyType: 'Apartment',
           unitNumber: 'A-12',
@@ -377,19 +370,16 @@ const EditTenant = () => {
           maintenanceNotes: 'AC needs servicing',
         };
 
-        // Set all form values
         Object.keys(mockData).forEach(key => {
           if (key !== 'id' && key !== 'profileImage') {
             setValue(key, mockData[key]);
           }
         });
 
-        // Set profile image preview if exists
         if (mockData.profileImage) {
           setPreview(mockData.profileImage);
         }
 
-        // Set documents
         setDocuments([
           {
             id: 1,
@@ -421,7 +411,6 @@ const EditTenant = () => {
     fetchTenantData();
   }, [id, setValue]);
 
-  // Validation helpers
   const positiveNumber = (value) => {
     const num = parseFloat(value);
     if (isNaN(num)) return 'Must be a number';
@@ -443,7 +432,6 @@ const EditTenant = () => {
     return true;
   };
 
-  // Handle image upload
   const handleImage = (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -451,7 +439,6 @@ const EditTenant = () => {
     }
   };
 
-  // Handle document upload
   const handleFileUpload = () => {
     if (!selectedFile) return;
     
@@ -472,13 +459,11 @@ const EditTenant = () => {
     }, 1500);
   };
 
-  // Delete document
   const deleteDocument = (id) => {
     setDocuments(documents.filter(doc => doc.id !== id));
     toast.success('Document deleted successfully');
   };
 
-  // Get status color
   const getStatusColor = (status) => {
     switch(status) {
       case 'Approved': return 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400';
@@ -491,7 +476,6 @@ const EditTenant = () => {
   const onSubmit = async (data) => {
     setIsSubmitting(true);
     try {
-      // Simulate API update
       await new Promise(resolve => setTimeout(resolve, 2000));
       console.log('Updated Tenant Data:', { ...data, id });
       toast.success('Tenant updated successfully!');
@@ -549,7 +533,6 @@ const EditTenant = () => {
       className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-blue-50/30 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 p-4 md:p-6 lg:p-8"
     >
       <div className="max-w-6xl mx-auto">
-        {/* Page Header */}
         <motion.div
           initial={{ y: -20, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
@@ -592,7 +575,6 @@ const EditTenant = () => {
             </div>
 
             <div className="p-6">
-              {/* Profile Upload */}
               <div className="flex justify-center mb-8">
                 <div className="relative">
                   <div className="w-24 h-24 md:w-36 md:h-36 rounded-full overflow-hidden border-4 border-blue-500 dark:border-blue-400 shadow-xl">
@@ -649,7 +631,6 @@ const EditTenant = () => {
                 </div>
               </div>
 
-              {/* Personal Information */}
               <div className="mb-8">
                 <h3 className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-4">Personal Information</h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -782,7 +763,6 @@ const EditTenant = () => {
                 </div>
               </div>
 
-              {/* Previous Address */}
               <div className="mb-8">
                 <h3 className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-4">Previous Address</h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -833,7 +813,6 @@ const EditTenant = () => {
                 </div>
               </div>
 
-              {/* Permanent Address */}
               <div>
                 <h3 className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-4">Permanent Address</h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -929,7 +908,6 @@ const EditTenant = () => {
 
             <div className="p-6">
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                {/* Property Information */}
                 <div className="space-y-4">
                   <h3 className="text-sm font-semibold text-gray-700 dark:text-gray-300">Property Information</h3>
                   <Input
@@ -964,7 +942,6 @@ const EditTenant = () => {
                   />
                 </div>
 
-                {/* Address Information */}
                 <div className="space-y-4">
                   <h3 className="text-sm font-semibold text-gray-700 dark:text-gray-300">Address Information</h3>
                   <Input
@@ -1007,7 +984,6 @@ const EditTenant = () => {
                   />
                 </div>
 
-                {/* Rental Information */}
                 <div className="space-y-4">
                   <h3 className="text-sm font-semibold text-gray-700 dark:text-gray-300">Rental Information</h3>
                   <Input
@@ -1063,7 +1039,6 @@ const EditTenant = () => {
                   />
                 </div>
 
-                {/* Room Information */}
                 <div className="space-y-4">
                   <h3 className="text-sm font-semibold text-gray-700 dark:text-gray-300">Room Information</h3>
                   <Input
@@ -1125,7 +1100,6 @@ const EditTenant = () => {
                   </div>
                 </div>
 
-                {/* Utilities */}
                 <div className="space-y-4">
                   <h3 className="text-sm font-semibold text-gray-700 dark:text-gray-300">Utilities</h3>
                   <div className="space-y-3">
@@ -1136,7 +1110,6 @@ const EditTenant = () => {
                   </div>
                 </div>
 
-                {/* Home Status */}
                 <div className="space-y-4">
                   <h3 className="text-sm font-semibold text-gray-700 dark:text-gray-300">Home Status</h3>
                   <Select
@@ -1178,7 +1151,6 @@ const EditTenant = () => {
                 </div>
               </div>
 
-              {/* Additional Information */}
               <div className="mt-6 space-y-4">
                 <h3 className="text-sm font-semibold text-gray-700 dark:text-gray-300">Additional Information</h3>
                 <Textarea
@@ -1218,7 +1190,6 @@ const EditTenant = () => {
             </div>
 
             <div className="p-6">
-              {/* Upload Section */}
               <div className="mb-8">
                 <h3 className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-4">Upload Document</h3>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -1282,7 +1253,6 @@ const EditTenant = () => {
                 </div>
               </div>
 
-              {/* Documents List */}
               <div>
                 <h3 className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-4 flex items-center gap-2">
                   <HiOutlineFolder className="text-blue-600 dark:text-blue-400" />
@@ -1317,7 +1287,9 @@ const EditTenant = () => {
                               </div>
                             </td>
                             <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-600 dark:text-gray-400">{doc.type}</td>
-                            <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-600 dark:text-gray-400">{doc.date}</td>
+                            <td className="px-4 py-3 whitespace-nowrap text-sm text-gray-600 dark:text-gray-400">
+                              <DateText value={doc.date} />
+                            </td>
                             <td className="px-4 py-3 whitespace-nowrap">
                               <span className={`px-3 py-1 rounded-full text-xs font-medium ${getStatusColor(doc.status)}`}>
                                 {doc.status}

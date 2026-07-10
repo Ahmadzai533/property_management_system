@@ -20,6 +20,7 @@ import {
   BarChart3,
   Shield,
 } from "lucide-react";
+import { useLocalization } from "../../hooks/useLocalization";
 
 const Sidebar = ({
   sidebarOpen,
@@ -27,6 +28,7 @@ const Sidebar = ({
   isCollapsed,
   setIsCollapsed,
 }) => {
+  const { dir, t } = useLocalization();
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -52,7 +54,7 @@ const Sidebar = ({
   const [tooltipPosition, setTooltipPosition] = useState({ x: 0, y: 0 });
   const sidebarRef = useRef(null);
   const popupRef = useRef(null);
-  const tooltipAllowedItems = ["Settings", "Help & Support"];
+  const tooltipAllowedItems = [t("nav.settings"), t("nav.help")];
 
   const [isLarge, setIsLarge] = useState(
     typeof window !== "undefined" ? window.innerWidth >= 1024 : true,
@@ -145,84 +147,92 @@ const Sidebar = ({
     setOpenMenus(getInitialOpenMenus());
   }, [location.pathname]);
 
-  const navItems = [{ to: "/", icon: LayoutDashboard, label: "Dashboard" }];
+  const navItems = [{ to: "/", icon: LayoutDashboard, label: t("nav.dashboard") }];
 
   const mainMenuItems = [
     {
       id: "properties",
       basePath: "/properties",
       icon: Building2,
-      label: "Properties",
+      label: t("nav.properties"),
       items: [
-        { to: "/properties/listed", label: "All Property" },
-        { to: "/properties/own", label: "Own Properties" },
-        { to: "/properties/lease", label: "Lease Property" },
-        { to: "/properties/units", label: "All Unit" },
+        { to: "/properties/listed", label: t("properties.allProperty") },
+        { to: "/properties/own", label: t("properties.ownProperties") },
+        { to: "/properties/lease", label: t("properties.leaseProperty") },
+        { to: "/properties/units", label: t("properties.allUnits") },
       ],
     },
-  
+    {
+      id: "users",
+      basePath: "/users",
+      icon: UserCog,
+      label: t("nav.usersAndRoles"),
+      items: [
+        { to: "/users-roles/users", label: t("users.usersList") },
+        { to: "/users-roles/roles", label: t("users.rolesPermissions") },
+        { to: "/users-roles/logs", label: t("users.loggedHistory") },
+      ],
+    },
     {
       id: "tenants",
       basePath: "/tenants",
       icon: Users,
-      label: "Tenants",
+      label: t("nav.tenants"),
       items: [
-        { to: "/tanants", label: "All tenants" },
-        { to: "/tenants/roles", label: "Tenants History" },
+        { to: "/tenants/list", label: t("tenants.allTenants") },
+        { to: "/tenants/history", label: t("tenants.tenantsHistory") },
       ],
     },
     {
       id: "maintainers",
       icon: Wrench,
-      label: "Maintainers",
+      label: t("nav.maintainers"),
       items: [
-        { to: "/maintainers/specialties", label: "Specialty Types" },
-        { to: "/maintainers/tickets", label: "Repair Tickets" },
-        { to: "/maintainers/contractors", label: "All Contractors" },
+        { to: "/maintainers/specialties", label: t("maintainers.specialtyTypes") },
+        { to: "/maintainers/tickets", label: t("maintainers.repairTickets") },
+        { to: "/maintainers/contractors", label: t("maintainers.allContractors") },
       ],
     },
   ];
 
   const managementItems = [
     {
-      id: "finance",
-      icon: DollarSign,
-      label: "Finance",
-      items: [
-        { to: "/finance/payments", label: "Payments & Invoices" },
-        { to: "/finance/ledger", label: "Rent Roll Ledger" },
-        { to: "/finance/transactions", label: "Transaction History" },
-      ],
+      id: "settings",
+      icon: Settings,
+      label: t("nav.settings"),
+      items: [{ to: "/settings", label: t("settings.settingsHub") }],
     },
     {
-      id: "agreements",
-      icon: FileCheck,
-      label: "Agreements",
+      id: "finance",
+      icon: DollarSign,
+      label: t("nav.finance"),
       items: [
-        { to: "/agreements/leases", label: "Active Leases" },
-        { to: "/agreements/contracts", label: "Digital Contracts" },
+        { to: "/finance/payments", label: t("finance.paymentsInvoices") },
+        { to: "/finance/ledger", label: t("finance.rentRollLedger") },
+        { to: "/finance/transactions", label: t("finance.transactionHistory") },
+        { to: "/finance/expenses", label: t("finance.expenses") },
       ],
     },
-      {
-      id: "users",
-      basePath: "/users",
-      icon: UserCog,
-      label: "Users & Roles",
-      items: [
-        { to: "/users/list", label: "Users List" },
-        { to: "/users/roles", label: "Roles & Permissions" },
-        { to: "/users/history", label: "Logged History" },
-      ],
-    },
+
     {
       id: "bookings",
       icon: Calendar,
-      label: "Bookings",
+      label: t("nav.bookings"),
       items: [
-        { to: "/bookings/guest", label: "Guest Bookings" },
-        { to: "/bookings/reservations", label: "Direct Reservations" },
-        { to: "/bookings/scheduler", label: "Calendar Scheduler" },
+        { to: "/bookings/list", label: t("bookings.bookingList") },
+        { to: "/bookings/create", label: t("bookings.createBooking") },
+        { to: "/bookings/calendar", label: t("bookings.bookingCalendar") },
+        { to: "/bookings/details", label: t("bookings.bookingDetails") },
       ],
+    },
+  ];
+  
+  const agreeItem = [
+    {
+      id: "agreements",
+      to: "/agreements",
+      icon: FileCheck,
+      label: t("nav.agreements"),
     },
   ];
 
@@ -230,43 +240,47 @@ const Sidebar = ({
     {
       id: "feedback",
       icon: MessageSquare,
-      label: "Feedback",
+      label: t("nav.feedback"),
       items: [
-        { to: "/feedback/surveys", label: "Tenant Surveys" },
-        { to: "/feedback/issues", label: "Issue Reports" },
+        { to: "/feedback/surveys", label: t("feedback.tenantSurveys") },
+        { to: "/feedback/issues", label: t("feedback.issueReports") },
       ],
     },
     {
       id: "notices",
       icon: Bell,
-      label: "Notices",
+      label: t("nav.notices"),
       items: [
-        { to: "/notices/announcements", label: "Announcements" },
-        { to: "/notices/logs", label: "Tenant Notice Logs" },
+        { to: "/notices/announcements", label: t("notices.announcements") },
+        { to: "/notices/logs", label: t("notices.tenantNoticeLogs") },
       ],
     },
     {
       id: "reports",
       icon: BarChart3,
-      label: "Reports",
+      label: t("nav.reports"),
       items: [
-        { to: "/reports/financial", label: "Financial Statements" },
-        { to: "/reports/occupancy", label: "Occupancy Analytics" },
+        { to: "/reports/hub", label: t("reports.reportsHub") },
+        { to: "/reports/payments", label: t("reports.paymentReports") },
+        { to: "/reports/invoices", label: t("reports.invoiceReports") },
+        { to: "/reports/financial", label: t("reports.financialReports") },
       ],
     },
   ];
 
   const bottomItems = [
-    { to: "/settings", icon: Settings, label: "Settings" },
-    { to: "/help", icon: HelpCircle, label: "Help & Support" },
+    { to: "/settings", icon: Settings, label: t("nav.settings") },
+    { to: "/help", icon: HelpCircle, label: t("nav.help") },
   ];
 
   const TreeLines = ({ isLast, children }) => (
-    <div className="relative pl-7 py-0.5">
+    <div className={`relative ${dir === "rtl" ? "pr-7" : "pl-7"} py-0.5`}>
       <div
-        className={`absolute left-3 top-0 w-[1px] bg-slate-300/70 ${isLast ? "h-3" : "h-full"}`}
+        className={`absolute ${dir === "rtl" ? "right-3" : "left-3"} top-0 w-[1px] bg-slate-300/70 ${isLast ? "h-3" : "h-full"}`}
       />
-      <div className="absolute left-3 top-3.5 w-4 h-2.5 border-l border-b border-slate-300/70 rounded-bl-[6px]" />
+      <div
+        className={`absolute ${dir === "rtl" ? "right-3" : "left-3"} top-3.5 w-4 h-2.5 ${dir === "rtl" ? "border-r border-b" : "border-l border-b"} border-slate-300/70 ${dir === "rtl" ? "rounded-br-[6px]" : "rounded-bl-[6px]"}`}
+      />
       {children}
     </div>
   );
@@ -287,7 +301,7 @@ const Sidebar = ({
       <div
         className="fixed z-50 px-3 py-2 text-sm font-medium rounded-lg shadow-lg pointer-events-none whitespace-nowrap bg-slate-900/95 text-white"
         style={{
-          left: position.x,
+          [dir === "rtl" ? "right" : "left"]: position.x,
           top: position.y,
           transform: "translateY(-50%)",
         }}
@@ -303,11 +317,10 @@ const Sidebar = ({
     const rect = e.currentTarget.getBoundingClientRect();
 
     setTooltipPosition({
-      x: rect.right + 4,
+      x: dir === "rtl" ? rect.left - 4 : rect.right + 4,
       y: rect.top + rect.height / 2,
     });
 
-    // ✅ ONLY show tooltip for allowed items
     if (!hasSubMenu && tooltipAllowedItems.includes(label)) {
       setHoveredItem(label);
     } else {
@@ -318,6 +331,7 @@ const Sidebar = ({
       setHoveredParent(label);
     }
   };
+  
   const handleMouseLeave = () => {
     setHoveredItem(null);
     setHoveredParent(null);
@@ -336,7 +350,7 @@ const Sidebar = ({
         ref={popupRef}
         className="fixed z-50 bg-white border border-slate-200 rounded-lg shadow-xl py-1 min-w-[180px] max-w-[220px] dark:bg-slate-950 dark:border-slate-700"
         style={{
-          left: position.x + 12,
+          [dir === "rtl" ? "right" : "left"]: position.x + 12,
           top: position.y - (items.length * 36) / 2 + 10,
         }}
         onMouseEnter={() => setHoveredParent(parentLabel)}
@@ -389,11 +403,12 @@ const Sidebar = ({
         initial={false}
         animate={{
           width: isLarge ? (isCollapsed ? 64 : 256) : 256,
-          x: isLarge ? 0 : sidebarOpen ? 0 : "-100%",
+          x: isLarge ? 0 : sidebarOpen ? 0 : dir === "rtl" ? "100%" : "-100%",
         }}
         transition={{ duration: 0.25, ease: "easeInOut" }}
         style={{ overflow: "hidden" }}
-        className="bg-white border-r border-slate-200 dark:bg-slate-950 dark:border-slate-800 flex flex-col flex-shrink-0 fixed top-[64px] left-0 z-40 h-[calc(100vh-64px)] shadow-xl lg:shadow-none"
+        className={`bg-white ${dir === "rtl" ? "border-l" : "border-r"} border-slate-200 dark:bg-slate-950 dark:border-slate-800 flex flex-col flex-shrink-0 fixed top-[64px] ${dir === "rtl" ? "right-0" : "left-0"} z-40 h-[calc(100vh-64px)] shadow-xl lg:shadow-none`}
+        dir={dir}
       >
         <nav className="flex-1 p-3 overflow-y-auto pt-4">
           {navItems.map((item) => (
@@ -472,7 +487,7 @@ const Sidebar = ({
                           animate={{ height: "auto", opacity: 1 }}
                           exit={{ height: 0, opacity: 0 }}
                           transition={{ duration: 0.22 }}
-                          className="ml-2 overflow-hidden"
+                          className={`${dir === "rtl" ? "mr-2" : "ml-2"} overflow-hidden`}
                         >
                           {menu.items?.map((item, i) => (
                             <TreeLines
@@ -497,6 +512,26 @@ const Sidebar = ({
             ),
           )}
 
+          <div className="mt-5 border-t border-slate-200 dark:border-slate-800 pt-4 space-y-1">
+            {agreeItem.map((item) => (
+              <NavLink
+                key={item.to}
+                to={item.to}
+                className={getNavLinkClass(item.to)}
+                onClick={closeSidebar}
+                onMouseEnter={(e) => handleMouseEnter(e, item.label, false)}
+                onMouseLeave={handleMouseLeave}
+              >
+                <item.icon className="w-4 h-4 flex-shrink-0" />
+                <span
+                  className={`inline-block truncate transition-opacity duration-200 ${isCollapsed && isLarge ? "opacity-0 w-0 overflow-hidden" : "opacity-100"}`}
+                >
+                  {item.label}
+                </span>
+              </NavLink>
+            ))}
+          </div>
+
           {/* Admin */}
           <div className="mt-5 space-y-1">
             <div>
@@ -513,7 +548,7 @@ const Sidebar = ({
                     ? "justify-center px-0 w-10 h-10 mx-auto"
                     : "justify-between"
                 }`}
-                onMouseEnter={(e) => handleMouseEnter(e, "Admin", true)}
+                onMouseEnter={(e) => handleMouseEnter(e, t("nav.admin"), true)}
                 onMouseLeave={handleMouseLeave}
               >
                 <div
@@ -523,7 +558,7 @@ const Sidebar = ({
                   <span
                     className={`inline-block truncate transition-opacity duration-200 ${isCollapsed && isLarge ? "opacity-0 w-0 overflow-hidden" : "opacity-100"}`}
                   >
-                    Admin
+                    {t("nav.admin")}
                   </span>
                 </div>
                 {(!isCollapsed || !isLarge) && (
@@ -541,11 +576,11 @@ const Sidebar = ({
                 isLarge &&
                 renderSubMenuPopup(
                   [
-                    { to: "/admin/team", label: "Admin Team" },
-                    { to: "/admin/permissions", label: "Permissions" },
-                    { to: "/admin/audit", label: "Audit Logs" },
+                    { to: "/admin/team", label: t("admin.adminTeam") },
+                    { to: "/admin/permissions", label: t("admin.permissions") },
+                    { to: "/admin/audit", label: t("admin.auditLogs") },
                   ],
-                  "Admin",
+                  t("nav.admin"),
                   tooltipPosition,
                 )}
 
@@ -556,12 +591,12 @@ const Sidebar = ({
                     animate={{ height: "auto", opacity: 1 }}
                     exit={{ height: 0, opacity: 0 }}
                     transition={{ duration: 0.22 }}
-                    className="ml-2 overflow-hidden"
+                    className={`${dir === "rtl" ? "mr-2" : "ml-2"} overflow-hidden`}
                   >
                     {[
-                      { to: "/admin/team", label: "Admin Team" },
-                      { to: "/admin/permissions", label: "Permissions" },
-                      { to: "/admin/audit", label: "Audit Logs" },
+                      { to: "/admin/team", label: t("admin.adminTeam") },
+                      { to: "/admin/permissions", label: t("admin.permissions") },
+                      { to: "/admin/audit", label: t("admin.auditLogs") },
                     ].map((item, i) => (
                       <TreeLines key={item.to} isLast={i === 2}>
                         <NavLink
@@ -615,7 +650,7 @@ const Sidebar = ({
                   Alex Sterling
                 </p>
                 <p className="text-xs text-slate-500 dark:text-slate-400 truncate">
-                  Senior Manager
+                  {t("common.seniorManager")}
                 </p>
               </div>
               <button className="p-1.5 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition text-slate-400 hover:text-slate-600">

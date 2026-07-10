@@ -22,6 +22,7 @@ import {
   MapPin
 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import DateText from '../../components/common/DateText';
 
 const TenantDashboard = () => {
     const navigate = useNavigate();
@@ -457,12 +458,12 @@ const TenantDashboard = () => {
                   <div className="flex items-center justify-between text-sm text-gray-500 dark:text-gray-400 mb-6 px-1">
                     <div className="flex items-center gap-2">
                       <Calendar className="w-4 h-4" />
-                      <span>{tenant.startDate}</span>
+                      <DateText value={tenant.startDate} />
                     </div>
                     <span>→</span>
                     <div className="flex items-center gap-2">
                       <Calendar className="w-4 h-4" />
-                      <span>{tenant.endDate}</span>
+                      <DateText value={tenant.endDate} />
                     </div>
                   </div>
 

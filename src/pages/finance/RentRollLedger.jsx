@@ -18,6 +18,7 @@ import { FinanceTable } from '../../components/finance/FinanceTable';
 import { FinanceFilters } from '../../components/finance/FinanceFilters';
 import Breadcrumb from '../../components/common/Breadcrumb';
 import Button from '../../components/common/Button';
+import DateText from '../../components/common/DateText';
 
 const breadcrumbItems = [
   { label: 'Finance', href: '/finance' },
@@ -161,7 +162,7 @@ export default function RentRollLedger() {
     {
       key: 'dueDate',
       header: 'Due Date',
-      accessor: (row) => new Date(row.dueDate).toLocaleDateString(),
+      accessor: (row) => <DateText value={row.dueDate} />,
     },
     {
       key: 'amountPaid',

@@ -4,9 +4,11 @@ import { useNavigate } from 'react-router-dom';
 import { ArrowLeft, Save, X } from 'lucide-react';
 import Breadcrumb from '../../../components/common/Breadcrumb';
 import PropertyForm from '../../../components/properties/PropertyForm';
+import { useLocalization } from '../../../hooks/useLocalization';
 
 const AddLeaseProperty = () => {
   const navigate = useNavigate();
+  const { t } = useLocalization();
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleSubmit = async (data) => {
@@ -25,7 +27,7 @@ const AddLeaseProperty = () => {
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
       <div className="px-2 sm:px-2 lg:px-2">
-        <div className="rounded-2xl bg-gradient-to-r bg-[#6D28D9]  p-5 text-white shadow-lg dark:from-[#6D28D9] dark:to-[#8B5CF6]">
+        <div className="rounded-2xl bg-gradient-to-r bg-[#6D28D9] p-5 text-white shadow-lg dark:from-[#6D28D9] dark:to-[#8B5CF6]">
           <div className="mb-3">
             <Breadcrumb white={true} />
           </div>
@@ -35,12 +37,13 @@ const AddLeaseProperty = () => {
               <button
                 onClick={() => navigate('/properties/lease')}
                 className="p-2 rounded-lg bg-white/20 hover:bg-white/30 transition-colors text-white"
+                aria-label={t('properties.backToLeases', 'Back to Leases')}
               >
                 <ArrowLeft className="h-5 w-5" />
               </button>
               <div>
-                <h1 className="text-2xl font-bold">Add New Lease</h1>
-                <p className="text-white/80 mt-0.5">Create a new lease agreement for a property</p>
+                <h1 className="text-2xl font-bold">{t('properties.addLease', 'Add New Lease')}</h1>
+                <p className="text-white/80 mt-0.5">{t('properties.addLeaseDesc', 'Create a new lease agreement for a property')}</p>
               </div>
             </div>
             
@@ -50,7 +53,7 @@ const AddLeaseProperty = () => {
                 className="flex items-center gap-2 px-4 py-2 bg-white/20 hover:bg-white/30 transition-colors rounded-lg text-white font-medium"
               >
                 <X className="h-4 w-4" />
-                Cancel
+                {t('common.cancel', 'Cancel')}
               </button>
               <button
                 type="submit"
@@ -59,7 +62,7 @@ const AddLeaseProperty = () => {
                 className="flex items-center gap-2 px-4 py-2 bg-white/20 hover:bg-white/30 transition-colors rounded-lg text-white font-medium"
               >
                 <Save className="h-4 w-4" />
-                {isSubmitting ? 'Saving...' : 'Save Lease'}
+                {isSubmitting ? t('common.saving', 'Saving...') : t('properties.saveLease', 'Save Lease')}
               </button>
             </div>
           </div>

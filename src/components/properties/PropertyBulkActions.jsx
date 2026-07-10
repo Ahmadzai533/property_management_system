@@ -11,6 +11,7 @@ import {
   Edit
 } from 'lucide-react';
 import Button from '../common/Button';
+import { useLocalization } from '../../hooks/useLocalization';
 
 const PropertyBulkActions = ({
   selectedCount = 0,
@@ -22,6 +23,8 @@ const PropertyBulkActions = ({
   onClear,
   totalItems = 0
 }) => {
+  const { t } = useLocalization();
+
   if (selectedCount === 0) return null;
 
   return (
@@ -36,45 +39,50 @@ const PropertyBulkActions = ({
           <div className="flex items-center gap-2 text-sm text-gray-700 dark:text-gray-300">
             <CheckSquare className="h-5 w-5 text-blue-500" />
             <span>
-              <span className="font-semibold">{selectedCount}</span> selected
+              <span className="font-semibold">{selectedCount}</span> {t('common.selected', 'selected')}
             </span>
             <span className="text-gray-400">|</span>
-            <span className="text-gray-400">{totalItems} total</span>
+            <span className="text-gray-400">{totalItems} {t('common.total', 'total')}</span>
           </div>
           
           <div className="flex items-center gap-1">
             <button
               onClick={onEdit}
               className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors text-gray-600 dark:text-gray-300"
-              title="Edit selected"
+              title={t('common.editSelected', 'Edit selected')}
+              aria-label={t('common.editSelected', 'Edit selected')}
             >
               <Edit className="h-4 w-4" />
             </button>
             <button
               onClick={onArchive}
               className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors text-gray-600 dark:text-gray-300"
-              title="Archive selected"
+              title={t('common.archiveSelected', 'Archive selected')}
+              aria-label={t('common.archiveSelected', 'Archive selected')}
             >
               <Archive className="h-4 w-4" />
             </button>
             <button
               onClick={onDelete}
               className="p-2 rounded-lg hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors text-red-500"
-              title="Delete selected"
+              title={t('common.deleteSelected', 'Delete selected')}
+              aria-label={t('common.deleteSelected', 'Delete selected')}
             >
               <Trash2 className="h-4 w-4" />
             </button>
             <button
               onClick={onExport}
               className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors text-gray-600 dark:text-gray-300"
-              title="Export selected"
+              title={t('common.exportSelected', 'Export selected')}
+              aria-label={t('common.exportSelected', 'Export selected')}
             >
               <Download className="h-4 w-4" />
             </button>
             <button
               onClick={onEmail}
               className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors text-gray-600 dark:text-gray-300"
-              title="Email selected"
+              title={t('common.emailSelected', 'Email selected')}
+              aria-label={t('common.emailSelected', 'Email selected')}
             >
               <Mail className="h-4 w-4" />
             </button>
@@ -85,7 +93,8 @@ const PropertyBulkActions = ({
           <button
             onClick={onClear}
             className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors text-gray-500 dark:text-gray-400"
-            title="Clear selection"
+            title={t('common.clearSelection', 'Clear selection')}
+            aria-label={t('common.clearSelection', 'Clear selection')}
           >
             <X className="h-4 w-4" />
           </button>

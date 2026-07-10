@@ -1,20 +1,21 @@
 import { Search, X } from "lucide-react";
+import { useLocalization } from "../../hooks/useLocalization";
 
 const DEFAULT_STATUSES = [
-  { value: "occupied", label: "Occupied" },
-  { value: "vacant", label: "Vacant" },
-  { value: "maintenance", label: "Maintenance" },
-  { value: "listed", label: "Listed" },
-  { value: "leased", label: "Leased" },
+  "occupied",
+  "vacant",
+  "maintenance",
+  "listed",
+  "leased",
 ];
 
 const DEFAULT_PROPERTY_TYPES = [
-  { value: "apartment", label: "Apartment" },
-  { value: "house", label: "House" },
-  { value: "condo", label: "Condo" },
-  { value: "commercial", label: "Commercial" },
-  { value: "townhouse", label: "Townhouse" },
-  { value: "studio", label: "Studio" },
+  "apartment",
+  "house",
+  "condo",
+  "commercial",
+  "townhouse",
+  "studio",
 ];
 
 const inputClassName =
@@ -31,10 +32,10 @@ const PropertyFilters = ({
   onSearch,
   statusFilter = "",
   onStatusFilter,
-  statusOptions = DEFAULT_STATUSES,
+  statusOptions,
   propertyTypeFilter = "",
   onPropertyTypeFilter,
-  propertyTypeOptions = DEFAULT_PROPERTY_TYPES,
+  propertyTypeOptions,
   ownerFilter = "",
   onOwnerFilter,
   owners = [],
@@ -45,6 +46,18 @@ const PropertyFilters = ({
   onReset,
   className = "",
 }) => {
+  const { t } = useLocalization();
+
+  const statusOpts = (statusOptions || DEFAULT_STATUSES).map(s => ({
+    value: s,
+    label: t(`properties.status.${s}`, s.charAt(0).toUpperCase() + s.slice(1))
+  }));
+  
+  const typeOpts = (propertyTypeOptions || DEFAULT_PROPERTY_TYPES).map(s => ({
+    value: s,
+    label: t(`properties.types.${s}`, s.charAt(0).toUpperCase() + s.slice(1))
+  }));
+
   const hasActiveFilters =
     Boolean(searchTerm) ||
     Boolean(statusFilter) ||
@@ -61,7 +74,7 @@ const PropertyFilters = ({
         {/* Search */}
         <div className="sm:col-span-2 lg:col-span-3 xl:col-span-4">
           <label htmlFor="property-search" className={labelClassName}>
-            Search
+            {t('common.search', 'Search')}
           </label>
           <div className="relative">
             <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
@@ -70,7 +83,7 @@ const PropertyFilters = ({
               type="text"
               value={searchTerm}
               onChange={(e) => onSearch?.(e.target.value)}
-              placeholder="Search by name, address, or ID..."
+              placeholder={t('properties.searchPlaceholder', 'Search by name, address, or ID...')}
               className={`${inputClassName} pl-9`}
             />
           </div>
@@ -79,7 +92,7 @@ const PropertyFilters = ({
         {/* Status */}
         <div className="sm:col-span-1 lg:col-span-1 xl:col-span-2">
           <label htmlFor="property-status" className={labelClassName}>
-            Status
+            {t('properties.statusLabel', 'Status')}
           </label>
           <select
             id="property-status"
@@ -87,8 +100,8 @@ const PropertyFilters = ({
             onChange={(e) => onStatusFilter?.(e.target.value)}
             className={selectClassName}
           >
-            <option value="">All Status</option>
-            {statusOptions.map(({ value, label }) => (
+            <option value="">{t('common.allStatus', 'All Status')}</option>
+            {statusOpts.map(({ value, label }) => (
               <option key={value} value={value}>
                 {label}
               </option>
@@ -99,7 +112,7 @@ const PropertyFilters = ({
         {/* Property Type */}
         <div className="sm:col-span-1 lg:col-span-1 xl:col-span-2">
           <label htmlFor="property-type" className={labelClassName}>
-            Property Type
+            {t('properties.propertyType', 'Property Type')}
           </label>
           <select
             id="property-type"
@@ -107,8 +120,8 @@ const PropertyFilters = ({
             onChange={(e) => onPropertyTypeFilter?.(e.target.value)}
             className={selectClassName}
           >
-            <option value="">All Types</option>
-            {propertyTypeOptions.map(({ value, label }) => (
+            <option value="">{t('common.allTypes', 'All Types')}</option>
+            {typeOpts.map(({ value, label }) => (
               <option key={value} value={value}>
                 {label}
               </option>
@@ -119,7 +132,7 @@ const PropertyFilters = ({
         {/* Owner */}
         <div className="sm:col-span-1 lg:col-span-1 xl:col-span-2">
           <label htmlFor="property-owner" className={labelClassName}>
-            Owner
+            {t('properties.owner', 'Owner')}
           </label>
           <select
             id="property-owner"
@@ -127,7 +140,7 @@ const PropertyFilters = ({
             onChange={(e) => onOwnerFilter?.(e.target.value)}
             className={selectClassName}
           >
-            <option value="">All Owners</option>
+            <option value="">{t('common.allOwners', 'All Owners')}</option>
             {owners.map((owner) => {
               const value = typeof owner === "string" ? owner : owner.value;
               const label = typeof owner === "string" ? owner : owner.label;
@@ -142,15 +155,15 @@ const PropertyFilters = ({
 
         {/* Price Range */}
         <div className="sm:col-span-2 lg:col-span-3 xl:col-span-2">
-          <span className={labelClassName}>Price Range</span>
+          <span className={labelClassName}>{t('properties.priceRange', 'Price Range')}</span>
           <div className="grid grid-cols-2 gap-2">
             <input
               type="number"
               min="0"
               value={minPrice}
               onChange={(e) => onMinPriceChange?.(e.target.value)}
-              placeholder="Min"
-              aria-label="Minimum price"
+              placeholder={t('common.min', 'Min')}
+              aria-label={t('common.minPrice', 'Minimum price')}
               className={inputClassName}
             />
             <input
@@ -158,8 +171,8 @@ const PropertyFilters = ({
               min="0"
               value={maxPrice}
               onChange={(e) => onMaxPriceChange?.(e.target.value)}
-              placeholder="Max"
-              aria-label="Maximum price"
+              placeholder={t('common.max', 'Max')}
+              aria-label={t('common.maxPrice', 'Maximum price')}
               className={inputClassName}
             />
           </div>
@@ -175,7 +188,7 @@ const PropertyFilters = ({
             className="inline-flex items-center gap-2 rounded-xl border border-slate-200 px-4 py-2 text-sm font-semibold text-slate-600 transition hover:border-slate-300 hover:bg-slate-50 hover:text-slate-900 disabled:cursor-not-allowed disabled:opacity-50 dark:border-slate-700 dark:text-slate-300 dark:hover:border-slate-600 dark:hover:bg-slate-800 dark:hover:text-white"
           >
             <X className="h-4 w-4" />
-            Reset Filters
+            {t('common.resetFilters', 'Reset Filters')}
           </button>
         </div>
       )}

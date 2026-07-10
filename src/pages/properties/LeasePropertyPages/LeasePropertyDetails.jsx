@@ -1,5 +1,5 @@
 // src/pages/properties/LeasePropertyDetails.jsx
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { ChevronLeft, Edit, Archive, Trash2, FileText, Calendar, DollarSign, Users, Phone, Mail, Home, Building2 } from 'lucide-react';
@@ -8,10 +8,12 @@ import Button from '../../../components/common/Button';
 import PropertyStatusBadge from '../../../components/properties/PropertyStatusBadge';
 import PropertyGallery from '../../../components/properties/PropertyGallery';
 import { useLeaseProperty } from '../../../hooks/useLeaseProperty';
+import { useLocalization } from '../../../hooks/useLocalization';
 
 const LeasePropertyDetails = () => {
   const { id } = useParams();
   const navigate = useNavigate();
+  const { t } = useLocalization();
   const [property, setProperty] = useState(null);
   const [loading, setLoading] = useState(true);
 
@@ -82,12 +84,19 @@ const LeasePropertyDetails = () => {
     console.log('Delete lease:', id);
   };
 
-  const breadcrumbItems = [
-    { label: 'Dashboard', path: '/' },
-    { label: 'Properties', path: '/properties' },
-    { label: 'Lease Properties', path: '/properties/lease' },
-    { label: property?.name || 'Lease Details', active: true },
-  ];
+  const breadcrumbItems = useMemo(() => [
+    { label: t('nav.dashboard', 'Dashboard'), path: '/' },
+    { label: t('nav.properties', 'Properties'), path: '/properties' },
+    { label: t('properties.leaseProperties', 'Lease Properties'), path: '/properties/lease' },
+    { label: property?.name || t('properties.leaseDetails', 'Lease Details'), active: true },
+  ], [t, property]);
+
+  const getPaymentStatusClass = (status) => {
+    const normalizedStatus = status?.toLowerCase?.() ?? "";
+    if (normalizedStatus === "paid") return "bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300";
+    if (normalizedStatus === "pending") return "bg-yellow-100 dark:bg-yellow-900/30 text-yellow-700 dark:text-yellow-300";
+    return "bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-300";
+  };
 
   if (loading) {
     return (
@@ -111,10 +120,10 @@ const LeasePropertyDetails = () => {
     return (
       <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex items-center justify-center">
         <div className="text-center">
-          <h2 className="text-2xl font-semibold text-gray-900 dark:text-white">Lease not found</h2>
-          <p className="text-gray-500 dark:text-gray-400 mt-2">The lease you're looking for doesn't exist.</p>
+          <h2 className="text-2xl font-semibold text-gray-900 dark:text-white">{t('properties.leaseNotFound', 'Lease not found')}</h2>
+          <p className="text-gray-500 dark:text-gray-400 mt-2">{t('properties.leaseNotFoundDesc', "The lease you're looking for doesn't exist.")}</p>
           <Button onClick={() => navigate('/properties/lease')} className="mt-4">
-            Back to Leases
+            {t('properties.backToLeases', 'Back to Leases')}
           </Button>
         </div>
       </div>
@@ -134,36 +143,25 @@ const LeasePropertyDetails = () => {
               <button
                 onClick={() => navigate('/properties/lease')}
                 className="p-2 rounded-lg bg-white/20 hover:bg-white/30 transition-colors text-white"
+                aria-label={t('properties.backToLeases', 'Back to Leases')}
               >
                 <ChevronLeft className="h-5 w-5" />
               </button>
               <div>
                 <h1 className="text-2xl font-bold">{property.name}</h1>
-                <p className="text-white/80 mt-0.5">Lease ID: #{property.id} • Tenant: {property.tenant}</p>
+                <p className="text-white/80 mt-0.5">{t('properties.leaseId', 'Lease ID')}: #{property.id} • {t('properties.tenant', 'Tenant')}: {property.tenant}</p>
               </div>
             </div>
             
             <div className="flex items-center gap-2">
-              <button
-                onClick={handleEdit}
-                className="flex items-center gap-2 px-4 py-2 bg-white/20 hover:bg-white/30 transition-colors rounded-lg text-white font-medium"
-              >
-                <Edit className="h-4 w-4" />
-                Edit
+              <button onClick={handleEdit} className="flex items-center gap-2 px-4 py-2 bg-white/20 hover:bg-white/30 transition-colors rounded-lg text-white font-medium">
+                <Edit className="h-4 w-4" /> {t('common.edit', 'Edit')}
               </button>
-              <button
-                onClick={handleArchive}
-                className="flex items-center gap-2 px-4 py-2 bg-white/20 hover:bg-white/30 transition-colors rounded-lg text-white font-medium"
-              >
-                <Archive className="h-4 w-4" />
-                Archive
+              <button onClick={handleArchive} className="flex items-center gap-2 px-4 py-2 bg-white/20 hover:bg-white/30 transition-colors rounded-lg text-white font-medium">
+                <Archive className="h-4 w-4" /> {t('common.archive', 'Archive')}
               </button>
-              <button
-                onClick={handleDelete}
-                className="flex items-center gap-2 px-4 py-2 bg-red-500/30 hover:bg-red-500/40 transition-colors rounded-lg text-white font-medium"
-              >
-                <Trash2 className="h-4 w-4" />
-                Delete
+              <button onClick={handleDelete} className="flex items-center gap-2 px-4 py-2 bg-red-500/30 hover:bg-red-500/40 transition-colors rounded-lg text-white font-medium">
+                <Trash2 className="h-4 w-4" /> {t('common.delete', 'Delete')}
               </button>
             </div>
           </div>
@@ -175,43 +173,39 @@ const LeasePropertyDetails = () => {
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mt-6">
             <div className="lg:col-span-2 space-y-6">
               <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-6">
-                <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Lease Information</h3>
+                <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">{t('properties.leaseInformation', 'Lease Information')}</h3>
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <p className="text-sm text-gray-500 dark:text-gray-400">Start Date</p>
+                    <p className="text-sm text-gray-500 dark:text-gray-400">{t('properties.startDate', 'Start Date')}</p>
                     <p className="text-gray-900 dark:text-white font-medium">{property.leaseStart}</p>
                   </div>
                   <div>
-                    <p className="text-sm text-gray-500 dark:text-gray-400">End Date</p>
+                    <p className="text-sm text-gray-500 dark:text-gray-400">{t('properties.endDate', 'End Date')}</p>
                     <p className="text-gray-900 dark:text-white font-medium">{property.leaseEnd}</p>
                   </div>
                   <div>
-                    <p className="text-sm text-gray-500 dark:text-gray-400">Monthly Rent</p>
+                    <p className="text-sm text-gray-500 dark:text-gray-400">{t('properties.monthlyRent', 'Monthly Rent')}</p>
                     <p className="text-gray-900 dark:text-white font-medium">${property.monthlyRent}</p>
                   </div>
                   <div>
-                    <p className="text-sm text-gray-500 dark:text-gray-400">Security Deposit</p>
+                    <p className="text-sm text-gray-500 dark:text-gray-400">{t('properties.securityDeposit', 'Security Deposit')}</p>
                     <p className="text-gray-900 dark:text-white font-medium">${property.securityDeposit}</p>
                   </div>
                   <div>
-                    <p className="text-sm text-gray-500 dark:text-gray-400">Status</p>
+                    <p className="text-sm text-gray-500 dark:text-gray-400">{t('properties.statusLabel', 'Status')}</p>
                     <PropertyStatusBadge status={property.status} />
                   </div>
                   <div>
-                    <p className="text-sm text-gray-500 dark:text-gray-400">Payment Status</p>
-                    <span className={`px-2 py-1 rounded-full text-xs ${
-                      property.paymentStatus === 'Paid' ? 'bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300' :
-                      property.paymentStatus === 'Pending' ? 'bg-yellow-100 dark:bg-yellow-900/30 text-yellow-700 dark:text-yellow-300' :
-                      'bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-300'
-                    }`}>
-                      {property.paymentStatus}
+                    <p className="text-sm text-gray-500 dark:text-gray-400">{t('properties.paymentStatus', 'Payment Status')}</p>
+                    <span className={`px-2 py-1 rounded-full text-xs ${getPaymentStatusClass(property.paymentStatus)}`}>
+                      {t(`properties.paymentStatus.${property.paymentStatus?.toLowerCase?.()}`, property.paymentStatus)}
                     </span>
                   </div>
                 </div>
               </div>
               
               <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-6">
-                <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Tenant Information</h3>
+                <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">{t('properties.tenantInformation', 'Tenant Information')}</h3>
                 <div className="flex items-start gap-4">
                   <div className="p-3 bg-purple-100 dark:bg-purple-900/30 rounded-lg">
                     <Users className="h-6 w-6 text-purple-600 dark:text-purple-400" />
@@ -233,18 +227,20 @@ const LeasePropertyDetails = () => {
             
             <div className="space-y-6">
               <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-6">
-                <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Lease Summary</h3>
+                <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">{t('properties.leaseSummary', 'Lease Summary')}</h3>
                 <div className="space-y-3">
                   <div className="flex justify-between items-center">
-                    <span className="text-sm text-gray-500 dark:text-gray-400">Days Remaining</span>
-                    <span className="text-sm font-semibold text-gray-900 dark:text-white">{property.daysRemaining} days</span>
+                    <span className="text-sm text-gray-500 dark:text-gray-400">{t('properties.daysRemaining', 'Days Remaining')}</span>
+                    <span className="text-sm font-semibold text-gray-900 dark:text-white">{property.daysRemaining} {t('properties.days', 'days')}</span>
                   </div>
                   <div className="flex justify-between items-center">
-                    <span className="text-sm text-gray-500 dark:text-gray-400">Renewal Status</span>
-                    <span className="text-sm font-semibold text-green-600 dark:text-green-400">{property.renewalStatus}</span>
+                    <span className="text-sm text-gray-500 dark:text-gray-400">{t('properties.renewalStatus', 'Renewal Status')}</span>
+                    <span className="text-sm font-semibold text-green-600 dark:text-green-400">
+                      {t(`properties.renewalStatus.${property.renewalStatus?.toLowerCase?.()}`, property.renewalStatus)}
+                    </span>
                   </div>
                   <div className="flex justify-between items-center">
-                    <span className="text-sm text-gray-500 dark:text-gray-400">Total Rent Paid</span>
+                    <span className="text-sm text-gray-500 dark:text-gray-400">{t('properties.totalRentPaid', 'Total Rent Paid')}</span>
                     <span className="text-sm font-semibold text-gray-900 dark:text-white">
                       ${property.paymentHistory?.reduce((sum, p) => sum + p.amount, 0) || 0}
                     </span>
@@ -253,16 +249,16 @@ const LeasePropertyDetails = () => {
               </div>
               
               <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-6">
-                <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Quick Actions</h3>
+                <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">{t('properties.quickActions', 'Quick Actions')}</h3>
                 <div className="space-y-2">
                   <button className="w-full px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-lg transition-colors text-sm">
-                    Renew Lease
+                    {t('properties.renewLease', 'Renew Lease')}
                   </button>
                   <button className="w-full px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors text-sm">
-                    Send Reminder
+                    {t('properties.sendReminder', 'Send Reminder')}
                   </button>
                   <button className="w-full px-4 py-2 bg-gray-600 hover:bg-gray-700 text-white rounded-lg transition-colors text-sm">
-                    Download PDF
+                    {t('properties.downloadPdf', 'Download PDF')}
                   </button>
                 </div>
               </div>

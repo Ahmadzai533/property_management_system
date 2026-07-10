@@ -1,7 +1,9 @@
 import { useState } from "react";
 import { X, Upload } from "lucide-react";
+import { useLocalization } from "../../hooks/useLocalization";
 
 const AddPropertyModal = ({ isOpen, onClose, onAdd }) => {
+  const { t } = useLocalization();
   const [formData, setFormData] = useState({
     name: "",
     address: "",
@@ -52,15 +54,16 @@ const AddPropertyModal = ({ isOpen, onClose, onAdd }) => {
         <div className="mb-6 flex items-center justify-between border-b border-slate-200 pb-4 dark:border-slate-700">
           <div>
             <h2 className="text-2xl font-bold text-slate-800 dark:text-white">
-              Add New Property
+              {t('properties.addProperty', 'Add New Property')}
             </h2>
             <p className="text-sm text-slate-500 dark:text-slate-400">
-              Fill in the details to add a new property to your portfolio.
+              {t('properties.addPropertyDesc', 'Fill in the details to add a new property to your portfolio.')}
             </p>
           </div>
           <button
             onClick={onClose}
             className="rounded-lg p-2 hover:bg-slate-100 dark:hover:bg-slate-800"
+            aria-label={t('common.close', 'Close')}
           >
             <X className="h-5 w-5 text-slate-500" />
           </button>
@@ -69,7 +72,7 @@ const AddPropertyModal = ({ isOpen, onClose, onAdd }) => {
         <form onSubmit={handleSubmit} className="space-y-5">
           <div>
             <label className="mb-1.5 block text-sm font-medium text-slate-700 dark:text-slate-300">
-              Property Name *
+              {t('properties.propertyName', 'Property Name')} *
             </label>
             <input
               type="text"
@@ -78,13 +81,13 @@ const AddPropertyModal = ({ isOpen, onClose, onAdd }) => {
               onChange={handleChange}
               required
               className="w-full rounded-lg border border-slate-300 px-4 py-2.5 text-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20 dark:border-slate-700 dark:bg-slate-800 dark:text-white"
-              placeholder="e.g., Sunset Apartments"
+              placeholder={t('properties.propertyNamePlaceholder', 'e.g., Sunset Apartments')}
             />
           </div>
 
           <div>
             <label className="mb-1.5 block text-sm font-medium text-slate-700 dark:text-slate-300">
-              Address *
+              {t('properties.address', 'Address')} *
             </label>
             <input
               type="text"
@@ -93,13 +96,13 @@ const AddPropertyModal = ({ isOpen, onClose, onAdd }) => {
               onChange={handleChange}
               required
               className="w-full rounded-lg border border-slate-300 px-4 py-2.5 text-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20 dark:border-slate-700 dark:bg-slate-800 dark:text-white"
-              placeholder="e.g., 742 Evergreen Terrace, Springfield, IL"
+              placeholder={t('properties.addressPlaceholder', 'e.g., 742 Evergreen Terrace, Springfield, IL')}
             />
           </div>
 
           <div>
             <label className="mb-1.5 block text-sm font-medium text-slate-700 dark:text-slate-300">
-              Image URL
+              {t('properties.imageUrl', 'Image URL')}
             </label>
             <div className="flex gap-3">
               <input
@@ -108,21 +111,22 @@ const AddPropertyModal = ({ isOpen, onClose, onAdd }) => {
                 value={formData.image}
                 onChange={handleChange}
                 className="flex-1 rounded-lg border border-slate-300 px-4 py-2.5 text-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20 dark:border-slate-700 dark:bg-slate-800 dark:text-white"
-                placeholder="https://example.com/image.jpg"
+                placeholder={t('properties.imageUrlPlaceholder', 'https://example.com/image.jpg')}
               />
               <button
                 type="button"
                 className="flex items-center gap-2 rounded-lg border border-slate-300 px-4 py-2.5 text-sm hover:bg-slate-50 dark:border-slate-700 dark:hover:bg-slate-800"
+                aria-label={t('common.upload', 'Upload')}
               >
                 <Upload className="h-4 w-4" />
-                <span className="hidden sm:inline">Upload</span>
+                <span className="hidden sm:inline">{t('common.upload', 'Upload')}</span>
               </button>
             </div>
             {imagePreview && (
               <div className="mt-2 overflow-hidden rounded-lg border border-slate-200">
                 <img
                   src={imagePreview}
-                  alt="Property preview"
+                  alt={t('properties.propertyPreview', 'Property preview')}
                   className="h-32 w-full object-cover"
                   onError={() => setImagePreview("")}
                 />
@@ -133,7 +137,7 @@ const AddPropertyModal = ({ isOpen, onClose, onAdd }) => {
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
             <div>
               <label className="mb-1.5 block text-sm font-medium text-slate-700 dark:text-slate-300">
-                Status *
+                {t('properties.statusLabel', 'Status')} *
               </label>
               <select
                 name="status"
@@ -142,17 +146,17 @@ const AddPropertyModal = ({ isOpen, onClose, onAdd }) => {
                 required
                 className="w-full rounded-lg border border-slate-300 px-4 py-2.5 text-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20 dark:border-slate-700 dark:bg-slate-800 dark:text-white"
               >
-                <option value="vacant">Vacant</option>
-                <option value="occupied">Occupied</option>
-                <option value="leased">Leased</option>
-                <option value="listed">Listed</option>
-                <option value="maintenance">Maintenance</option>
+                <option value="vacant">{t('properties.status.vacant', 'Vacant')}</option>
+                <option value="occupied">{t('properties.status.occupied', 'Occupied')}</option>
+                <option value="leased">{t('properties.status.leased', 'Leased')}</option>
+                <option value="listed">{t('properties.status.listed', 'Listed')}</option>
+                <option value="maintenance">{t('properties.status.maintenance', 'Maintenance')}</option>
               </select>
             </div>
 
             <div>
               <label className="mb-1.5 block text-sm font-medium text-slate-700 dark:text-slate-300">
-                Property Type *
+                {t('properties.propertyType', 'Property Type')} *
               </label>
               <select
                 name="type"
@@ -161,12 +165,12 @@ const AddPropertyModal = ({ isOpen, onClose, onAdd }) => {
                 required
                 className="w-full rounded-lg border border-slate-300 px-4 py-2.5 text-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20 dark:border-slate-700 dark:bg-slate-800 dark:text-white"
               >
-                <option value="apartment">Apartment</option>
-                <option value="condo">Condo</option>
-                <option value="house">House</option>
-                <option value="studio">Studio</option>
-                <option value="townhouse">Townhouse</option>
-                <option value="commercial">Commercial</option>
+                <option value="apartment">{t('properties.types.apartment', 'Apartment')}</option>
+                <option value="condo">{t('properties.types.condo', 'Condo')}</option>
+                <option value="house">{t('properties.types.house', 'House')}</option>
+                <option value="studio">{t('properties.types.studio', 'Studio')}</option>
+                <option value="townhouse">{t('properties.types.townhouse', 'Townhouse')}</option>
+                <option value="commercial">{t('properties.types.commercial', 'Commercial')}</option>
               </select>
             </div>
           </div>
@@ -174,7 +178,7 @@ const AddPropertyModal = ({ isOpen, onClose, onAdd }) => {
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
             <div>
               <label className="mb-1.5 block text-sm font-medium text-slate-700 dark:text-slate-300">
-                Monthly Rent ($) *
+                {t('properties.monthlyRent', 'Monthly Rent')} ($) *
               </label>
               <input
                 type="number"
@@ -185,13 +189,13 @@ const AddPropertyModal = ({ isOpen, onClose, onAdd }) => {
                 min="0"
                 step="50"
                 className="w-full rounded-lg border border-slate-300 px-4 py-2.5 text-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20 dark:border-slate-700 dark:bg-slate-800 dark:text-white"
-                placeholder="e.g., 2450"
+                placeholder={t('properties.monthlyRentPlaceholder', 'e.g., 2450')}
               />
             </div>
 
             <div>
               <label className="mb-1.5 block text-sm font-medium text-slate-700 dark:text-slate-300">
-                Owner *
+                {t('properties.owner', 'Owner')} *
               </label>
               <input
                 type="text"
@@ -200,7 +204,7 @@ const AddPropertyModal = ({ isOpen, onClose, onAdd }) => {
                 onChange={handleChange}
                 required
                 className="w-full rounded-lg border border-slate-300 px-4 py-2.5 text-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20 dark:border-slate-700 dark:bg-slate-800 dark:text-white"
-                placeholder="e.g., Jane Smith"
+                placeholder={t('properties.ownerPlaceholder', 'e.g., Jane Smith')}
               />
             </div>
           </div>
@@ -211,13 +215,13 @@ const AddPropertyModal = ({ isOpen, onClose, onAdd }) => {
               onClick={onClose}
               className="flex-1 rounded-lg border border-slate-300 px-4 py-2.5 text-sm font-medium text-slate-700 hover:bg-slate-50 dark:border-slate-700 dark:text-slate-300 dark:hover:bg-slate-800"
             >
-              Cancel
+              {t('common.cancel', 'Cancel')}
             </button>
             <button
               type="submit"
               className="flex-1 rounded-lg bg-blue-600 px-4 py-2.5 text-sm font-medium text-white hover:bg-blue-700 hover:shadow-lg active:scale-95"
             >
-              Add Property
+              {t('properties.addProperty', 'Add Property')}
             </button>
           </div>
         </form>

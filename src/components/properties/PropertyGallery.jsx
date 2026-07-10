@@ -1,6 +1,8 @@
 import { ImageOff } from "lucide-react";
+import { useLocalization } from "../../hooks/useLocalization";
 
 const PropertyGallery = ({ images = [], className = "" }) => {
+  const { t } = useLocalization();
   const validImages = Array.isArray(images)
     ? images.filter((src) => typeof src === "string" && src.trim())
     : [];
@@ -14,7 +16,7 @@ const PropertyGallery = ({ images = [], className = "" }) => {
           <ImageOff className="h-7 w-7 text-slate-300 dark:text-slate-600" />
         </div>
         <p className="text-sm font-medium text-slate-500 dark:text-slate-400">
-          No images available
+          {t('properties.noImages', 'No images available')}
         </p>
       </div>
     );

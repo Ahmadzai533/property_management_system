@@ -3,8 +3,11 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { Building2, Plus } from 'lucide-react';
 import Button from '../common/Button';
+import { useLocalization } from '../../hooks/useLocalization';
 
-const PropertyEmptyState = ({ onAddProperty, title = 'No properties found' }) => {
+const PropertyEmptyState = ({ onAddProperty, title }) => {
+  const { t } = useLocalization();
+
   return (
     <motion.div
       initial={{ opacity: 0, scale: 0.9 }}
@@ -15,10 +18,10 @@ const PropertyEmptyState = ({ onAddProperty, title = 'No properties found' }) =>
         <Building2 className="h-12 w-12 text-gray-400 dark:text-gray-500" />
       </div>
       <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
-        {title}
+        {title || t('properties.empty.title', 'No properties found')}
       </h3>
       <p className="text-gray-500 dark:text-gray-400 max-w-md mb-6">
-        Get started by adding your first property. You can manage all your properties from here.
+        {t('properties.empty.description', 'Get started by adding your first property. You can manage all your properties from here.')}
       </p>
       <Button
         variant="primary"
@@ -26,7 +29,7 @@ const PropertyEmptyState = ({ onAddProperty, title = 'No properties found' }) =>
         className="gap-2"
       >
         <Plus className="h-5 w-5" />
-        Add Your First Property
+        {t('properties.empty.addFirst', 'Add Your First Property')}
       </Button>
     </motion.div>
   );

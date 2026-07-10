@@ -1,14 +1,17 @@
 import { Search } from "lucide-react";
+import { useLocalization } from "../../hooks/useLocalization";
 
 const PropertySearch = ({
   value = "",
   onChange,
-  placeholder = "Search properties...",
+  placeholder,
   className = "",
   id = "property-search",
   name,
   disabled = false,
 }) => {
+  const { t } = useLocalization();
+
   return (
     <div className={`relative w-full ${className}`}>
       <Search
@@ -21,9 +24,9 @@ const PropertySearch = ({
         type="search"
         value={value}
         onChange={onChange}
-        placeholder={placeholder}
+        placeholder={placeholder || t('properties.searchPlaceholder', 'Search properties...')}
         disabled={disabled}
-        aria-label={placeholder}
+        aria-label={placeholder || t('properties.searchPlaceholder', 'Search properties...')}
         className="w-full rounded-xl border border-slate-200 bg-white py-2.5 pl-9 pr-4 text-sm text-slate-900 placeholder:text-slate-400 transition focus:border-[#6D28D9] focus:outline-none focus:ring-2 focus:ring-[#6D28D9]/20 disabled:cursor-not-allowed disabled:opacity-60 dark:border-slate-700 dark:bg-slate-900 dark:text-white dark:placeholder:text-slate-500 dark:focus:border-[#6D28D9]"
       />
     </div>

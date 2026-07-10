@@ -18,26 +18,29 @@ import {
 } from 'lucide-react';
 import PropertyStatusBadge from './PropertyStatusBadge';
 import PropertyGallery from './PropertyGallery';
+import { useLocalization } from '../../hooks/useLocalization';
 
 const PropertyDetails = ({ property }) => {
+  const { t } = useLocalization();
+
   if (!property) return null;
 
   const details = [
-    { icon: MapPin, label: 'Address', value: property.address },
-    { icon: Home, label: 'Type', value: property.type },
-    { icon: Bed, label: 'Bedrooms', value: property.bedrooms },
-    { icon: Bath, label: 'Bathrooms', value: property.bathrooms },
-    { icon: Car, label: 'Parking', value: property.parking },
-    { icon: Calendar, label: 'Built Year', value: property.builtYear },
-    { icon: DollarSign, label: 'Monthly Rent', value: `$${property.monthlyRent}` },
-    { icon: Users, label: 'Occupancy', value: `${property.occupancy}%` },
+    { icon: MapPin, label: t('properties.address', 'Address'), value: property.address },
+    { icon: Home, label: t('properties.type', 'Type'), value: t(`properties.types.${property.type}`, property.type) },
+    { icon: Bed, label: t('properties.bedrooms', 'Bedrooms'), value: property.bedrooms },
+    { icon: Bath, label: t('properties.bathrooms', 'Bathrooms'), value: property.bathrooms },
+    { icon: Car, label: t('properties.parking', 'Parking'), value: property.parking },
+    { icon: Calendar, label: t('properties.builtYear', 'Built Year'), value: property.builtYear },
+    { icon: DollarSign, label: t('properties.monthlyRent', 'Monthly Rent'), value: `$${property.monthlyRent}` },
+    { icon: Users, label: t('properties.occupancy', 'Occupancy'), value: `${property.occupancy}%` },
   ];
 
   const stats = [
-    { label: 'Total Units', value: property.totalUnits },
-    { label: 'Occupied Units', value: property.occupiedUnits },
-    { label: 'Vacant Units', value: property.vacantUnits },
-    { label: 'Annual Revenue', value: `$${property.annualRevenue?.toLocaleString()}` },
+    { label: t('properties.totalUnits', 'Total Units'), value: property.totalUnits },
+    { label: t('properties.occupiedUnits', 'Occupied Units'), value: property.occupiedUnits },
+    { label: t('properties.vacantUnits', 'Vacant Units'), value: property.vacantUnits },
+    { label: t('properties.annualRevenue', 'Annual Revenue'), value: `$${property.annualRevenue?.toLocaleString()}` },
   ];
 
   return (
@@ -89,7 +92,7 @@ const PropertyDetails = ({ property }) => {
             className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-6"
           >
             <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
-              Amenities
+              {t('properties.amenities', 'Amenities')}
             </h3>
             <div className="flex flex-wrap gap-2">
               {property.amenities?.map((amenity) => (
@@ -110,7 +113,7 @@ const PropertyDetails = ({ property }) => {
             className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-6"
           >
             <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
-              Recent Activity
+              {t('properties.recentActivity', 'Recent Activity')}
             </h3>
             <div className="space-y-4">
               {property.recentActivity?.map((activity, index) => (
@@ -139,7 +142,7 @@ const PropertyDetails = ({ property }) => {
             className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-6"
           >
             <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
-              Property Stats
+              {t('properties.propertyStats', 'Property Stats')}
             </h3>
             <div className="space-y-3">
               {stats.map(({ label, value }) => (
@@ -160,29 +163,29 @@ const PropertyDetails = ({ property }) => {
             className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-6"
           >
             <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
-              Financial Overview
+              {t('properties.financialOverview', 'Financial Overview')}
             </h3>
             <div className="space-y-3">
               <div className="flex justify-between items-center">
-                <span className="text-sm text-gray-500 dark:text-gray-400">Monthly Revenue</span>
+                <span className="text-sm text-gray-500 dark:text-gray-400">{t('properties.monthlyRevenue', 'Monthly Revenue')}</span>
                 <span className="text-sm font-semibold text-green-600 dark:text-green-400">
                   ${property.monthlyRevenue?.toLocaleString()}
                 </span>
               </div>
               <div className="flex justify-between items-center">
-                <span className="text-sm text-gray-500 dark:text-gray-400">Annual Revenue</span>
+                <span className="text-sm text-gray-500 dark:text-gray-400">{t('properties.annualRevenue', 'Annual Revenue')}</span>
                 <span className="text-sm font-semibold text-blue-600 dark:text-blue-400">
                   ${property.annualRevenue?.toLocaleString()}
                 </span>
               </div>
               <div className="flex justify-between items-center">
-                <span className="text-sm text-gray-500 dark:text-gray-400">Expenses</span>
+                <span className="text-sm text-gray-500 dark:text-gray-400">{t('properties.expenses', 'Expenses')}</span>
                 <span className="text-sm font-semibold text-red-600 dark:text-red-400">
                   ${property.expenses?.toLocaleString()}
                 </span>
               </div>
               <div className="flex justify-between items-center pt-3 border-t border-gray-200 dark:border-gray-700">
-                <span className="text-sm font-medium text-gray-900 dark:text-white">Net Income</span>
+                <span className="text-sm font-medium text-gray-900 dark:text-white">{t('properties.netIncome', 'Net Income')}</span>
                 <span className="text-sm font-bold text-gray-900 dark:text-white">
                   ${property.netIncome?.toLocaleString()}
                 </span>

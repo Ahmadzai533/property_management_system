@@ -11,8 +11,10 @@ import {
   Users,
   Percent
 } from 'lucide-react';
+import { useLocalization } from '../../hooks/useLocalization';
 
 const StatCard = ({ icon: Icon, label, value, subValue, trend, color }) => {
+  const { t } = useLocalization();
   const colorClasses = {
     blue: 'bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400',
     green: 'bg-green-50 dark:bg-green-900/20 text-green-600 dark:text-green-400',
@@ -51,7 +53,7 @@ const StatCard = ({ icon: Icon, label, value, subValue, trend, color }) => {
               <span className="text-xs font-medium text-green-600 dark:text-green-400">
                 {trend}
               </span>
-              <span className="text-xs text-gray-500 dark:text-gray-400">vs last month</span>
+              <span className="text-xs text-gray-500 dark:text-gray-400">{t('properties.vsLastMonth', 'vs last month')}</span>
             </div>
           )}
         </div>
@@ -64,16 +66,18 @@ const StatCard = ({ icon: Icon, label, value, subValue, trend, color }) => {
 };
 
 const PropertyStats = ({ stats }) => {
+  const { t } = useLocalization();
+
   const statConfigs = [
-    { key: 'total', icon: Building2, label: 'Total Properties', color: 'blue' },
-    { key: 'occupied', icon: Home, label: 'Occupied', color: 'green' },
-    { key: 'vacant', icon: Key, label: 'Vacant', color: 'yellow' },
-    { key: 'maintenance', icon: Wrench, label: 'Maintenance', color: 'red' },
-    { key: 'units', icon: Building2, label: 'Total Units', color: 'purple' },
-    { key: 'monthlyRevenue', icon: DollarSign, label: 'Monthly Revenue', color: 'green' },
-    { key: 'yearlyRevenue', icon: TrendingUp, label: 'Yearly Revenue', color: 'indigo' },
-    { key: 'occupancyRate', icon: Percent, label: 'Occupancy Rate', color: 'blue' },
-    { key: 'averageRent', icon: DollarSign, label: 'Average Rent', color: 'purple' },
+    { key: 'total', icon: Building2, label: t('properties.totalProperties', 'Total Properties'), color: 'blue' },
+    { key: 'occupied', icon: Home, label: t('properties.occupied', 'Occupied'), color: 'green' },
+    { key: 'vacant', icon: Key, label: t('properties.vacant', 'Vacant'), color: 'yellow' },
+    { key: 'maintenance', icon: Wrench, label: t('properties.maintenance', 'Maintenance'), color: 'red' },
+    { key: 'units', icon: Building2, label: t('properties.totalUnits', 'Total Units'), color: 'purple' },
+    { key: 'monthlyRevenue', icon: DollarSign, label: t('properties.monthlyRevenue', 'Monthly Revenue'), color: 'green' },
+    { key: 'yearlyRevenue', icon: TrendingUp, label: t('properties.yearlyRevenue', 'Yearly Revenue'), color: 'indigo' },
+    { key: 'occupancyRate', icon: Percent, label: t('properties.occupancyRate', 'Occupancy Rate'), color: 'blue' },
+    { key: 'averageRent', icon: DollarSign, label: t('properties.averageRent', 'Average Rent'), color: 'purple' },
   ];
 
   const displayStats = statConfigs

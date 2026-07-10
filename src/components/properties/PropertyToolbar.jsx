@@ -1,18 +1,19 @@
 // src/components/properties/PropertyToolbar.jsx
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Search,
   SlidersHorizontal,
   X,
   ChevronDown,
-  LayoutGrid, // Changed from Grid3x3
+  LayoutGrid,
   List,
   Download,
   RefreshCw,
 } from "lucide-react";
 import PropertySearch from "./PropertySearch";
 import Button from "../common/Button";
+import { useLocalization } from "../../hooks/useLocalization";
 
 const PropertyToolbar = ({
   onSearch,
@@ -25,17 +26,73 @@ const PropertyToolbar = ({
   filters = {},
   onFilterChange,
 }) => {
+  const { t } = useLocalization();
   const [isFilterOpen, setIsFilterOpen] = useState(false);
 
-  const filterOptions = {
-    status: ["All", "Active", "Under Maintenance", "Vacant", "Sold"],
-    city: ["All", "New York", "Los Angeles", "Chicago", "Houston", "Phoenix"],
-    type: ["All", "Residential", "Commercial", "Industrial", "Land"],
-    category: ["All", "Apartment", "House", "Villa", "Townhouse", "Office"],
-    bedrooms: ["Any", "1", "2", "3", "4", "5+"],
-    bathrooms: ["Any", "1", "2", "3", "4+"],
-    parking: ["Any", "0", "1", "2", "3+"],
-  };
+  const filterOptions = useMemo(() => ({
+    status: [
+      t('common.allStatuses', 'All'),
+      t('properties.status.active', 'Active'),
+      t('properties.status.underMaintenance', 'Under Maintenance'),
+      t('properties.status.vacant', 'Vacant'),
+      t('properties.status.sold', 'Sold')
+    ],
+    city: [
+      t('common.all', 'All'),
+      t('properties.cities.newYork', 'New York'),
+      t('properties.cities.losAngeles', 'Los Angeles'),
+      t('properties.cities.chicago', 'Chicago'),
+      t('properties.cities.houston', 'Houston'),
+      t('properties.cities.phoenix', 'Phoenix')
+    ],
+    type: [
+      t('common.allTypes', 'All'),
+      t('properties.types.residential', 'Residential'),
+      t('properties.types.commercial', 'Commercial'),
+      t('properties.types.industrial', 'Industrial'),
+      t('properties.types.land', 'Land')
+    ],
+    category: [
+      t('common.all', 'All'),
+      t('properties.types.apartment', 'Apartment'),
+      t('properties.types.house', 'House'),
+      t('properties.types.villa', 'Villa'),
+      t('properties.types.townhouse', 'Townhouse'),
+      t('properties.types.office', 'Office')
+    ],
+    bedrooms: [
+      t('common.any', 'Any'), 
+      "1", 
+      "2", 
+      "3", 
+      "4", 
+      "5+"
+    ],
+    bathrooms: [
+      t('common.any', 'Any'), 
+      "1", 
+      "2", 
+      "3", 
+      "4+"
+    ],
+    parking: [
+      t('common.any', 'Any'), 
+      "0", 
+      "1", 
+      "2", 
+      "3+"
+    ],
+  }), [t]);
+
+  const filterLabels = useMemo(() => ({
+    status: t('properties.statusLabel', 'Status'),
+    city: t('properties.city', 'City'),
+    type: t('properties.propertyType', 'Property Type'),
+    category: t('properties.category', 'Category'),
+    bedrooms: t('properties.bedrooms', 'Bedrooms'),
+    bathrooms: t('properties.bathrooms', 'Bathrooms'),
+    parking: t('properties.parking', 'Parking'),
+  }), [t]);
 
   return (
     <div className="space-y-4">
@@ -51,7 +108,7 @@ const PropertyToolbar = ({
             className="gap-2"
           >
             <SlidersHorizontal className="h-4 w-4" />
-            <span className="hidden sm:inline">Filters</span>
+            <span className="hidden sm:inline">{t('common.filters', 'Filters')}</span>
             <span className="ml-1 text-xs bg-blue-100 dark:bg-blue-900 text-blue-700 dark:text-blue-300 px-1.5 py-0.5 rounded-full">
               {Object.keys(filters).length}
             </span>
@@ -65,7 +122,7 @@ const PropertyToolbar = ({
                   ? "bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400"
                   : "text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700"
               }`}
-              aria-label="Table view"
+              aria-label={t('properties.tableView', 'Table view')}
             >
               <List className="h-4 w-4" />
             </button>
@@ -76,9 +133,9 @@ const PropertyToolbar = ({
                   ? "bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400"
                   : "text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700"
               }`}
-              aria-label="Grid view"
+              aria-label={t('properties.gridView', 'Grid view')}
             >
-              <LayoutGrid className="h-4 w-4" /> {/* Changed from Grid3x3 */}
+              <LayoutGrid className="h-4 w-4" />
             </button>
           </div>
 
@@ -98,7 +155,7 @@ const PropertyToolbar = ({
             className="gap-2"
           >
             <Download className="h-4 w-4" />
-            <span className="hidden sm:inline">Export</span>
+            <span className="hidden sm:inline">{t('common.export', 'Export')}</span>
           </Button>
         </div>
       </div>
@@ -117,11 +174,11 @@ const PropertyToolbar = ({
                 {Object.entries(filterOptions).map(([key, options]) => (
                   <div key={key} className="space-y-1">
                     <label className="text-xs font-medium text-gray-700 dark:text-gray-300 uppercase tracking-wider">
-                      {key}
+                      {filterLabels[key] || key}
                     </label>
                     <select
                       className="w-full px-3 py-1.5 text-sm bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:text-white"
-                      value={filters[key] || "All"}
+                      value={filters[key] || t('common.all', 'All')}
                       onChange={(e) => onFilterChange(key, e.target.value)}
                     >
                       {options.map((option) => (
@@ -141,7 +198,7 @@ const PropertyToolbar = ({
                   className="gap-2"
                 >
                   <X className="h-4 w-4" />
-                  Reset Filters
+                  {t('common.resetFilters', 'Reset Filters')}
                 </Button>
               </div>
             </div>
@@ -151,19 +208,19 @@ const PropertyToolbar = ({
 
       <div className="flex items-center justify-between text-sm">
         <p className="text-gray-500 dark:text-gray-400">
-          Showing{" "}
+          {t('properties.pagination.showing', 'Showing')}{" "}
           <span className="font-medium text-gray-900 dark:text-white">
             {totalResults}
           </span>{" "}
-          properties
+          {t('properties.pagination.properties', 'properties')}
         </p>
         <div className="flex items-center gap-2">
-          <span className="text-gray-500 dark:text-gray-400">Sort by:</span>
+          <span className="text-gray-500 dark:text-gray-400">{t('common.sortBy', 'Sort by')}:</span>
           <select className="px-3 py-1 text-sm bg-white dark:bg-gray-900 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:text-white">
-            <option value="newest">Newest</option>
-            <option value="oldest">Oldest</option>
-            <option value="revenue">Revenue</option>
-            <option value="alphabetical">Alphabetical</option>
+            <option value="newest">{t('common.newest', 'Newest')}</option>
+            <option value="oldest">{t('common.oldest', 'Oldest')}</option>
+            <option value="revenue">{t('properties.table.revenue', 'Revenue')}</option>
+            <option value="alphabetical">{t('common.alphabetical', 'Alphabetical')}</option>
           </select>
         </div>
       </div>

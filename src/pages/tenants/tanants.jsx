@@ -22,6 +22,7 @@ import {
   HiOutlineCloudUpload,
   HiOutlineFolder,
 } from "react-icons/hi";
+import DateText from "../../components/common/DateText";
 
 // ============================================================
 // 1. HOME DETAILS COMPONENT (EXACTLY AS ORIGINAL)
@@ -1157,7 +1158,7 @@ const Documents = ({ value = {}, setValue, errors = {} }) => {
                           {doc.type}
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600 dark:text-gray-400">
-                          {doc.date}
+                          <DateText value={doc.date} />
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
                           <span
@@ -1205,7 +1206,6 @@ const TenantForm = () => {
   const [step, setStep] = useState(1);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [formData, setFormData] = useState({
-    // Home Details
     preview: null,
     firstName: "",
     lastName: "",
@@ -1225,7 +1225,6 @@ const TenantForm = () => {
     state: "",
     city: "",
     zipCode: "",
-    // Property Details
     propertyName: "",
     propertyType: "",
     unitNumber: "",
@@ -1247,34 +1246,20 @@ const TenantForm = () => {
     contractEnd: "",
     specialConditions: "",
     maintenanceNotes: "",
-    // Documents
     documents: [],
   });
 
   const [errors, setErrors] = useState({});
 
-  // Validation functions
   const validateStep1 = () => {
     const newErrors = {};
     const requiredFields = [
-      "firstName",
-      "lastName",
-      "phone",
-      "job",
-      "familyMembers",
-      "email",
-      "password",
-      "address",
-      "country",
-      "state",
-      "city",
-      "zipCode",
+      "firstName", "lastName", "phone", "job", "familyMembers",
+      "email", "password", "address", "country", "state", "city", "zipCode",
     ];
     requiredFields.forEach((field) => {
       if (!formData[field]) {
-        newErrors[field] = `${field
-          .replace(/([A-Z])/g, " $1")
-          .replace(/^./, (str) => str.toUpperCase())} is required`;
+        newErrors[field] = `${field.replace(/([A-Z])/g, " $1").replace(/^./, (str) => str.toUpperCase())} is required`;
       }
     });
     if (formData.phone && !/^[0-9+\-\s]+$/.test(formData.phone)) {
@@ -1296,28 +1281,14 @@ const TenantForm = () => {
   const validateStep2 = () => {
     const newErrors = {};
     const requiredFields = [
-      "propertyName",
-      "propertyType",
-      "unitNumber",
-      "fullAddress",
-      "country",
-      "city",
-      "monthlyRent",
-      "securityDeposit",
-      "paymentMethod",
-      "dueDate",
-      "bedrooms",
-      "bathrooms",
-      "homeSize",
-      "status",
-      "contractStart",
-      "contractEnd",
+      "propertyName", "propertyType", "unitNumber", "fullAddress",
+      "country", "city", "monthlyRent", "securityDeposit",
+      "paymentMethod", "dueDate", "bedrooms", "bathrooms",
+      "homeSize", "status", "contractStart", "contractEnd",
     ];
     requiredFields.forEach((field) => {
       if (!formData[field]) {
-        newErrors[field] = `${field
-          .replace(/([A-Z])/g, " $1")
-          .replace(/^./, (str) => str.toUpperCase())} is required`;
+        newErrors[field] = `${field.replace(/([A-Z])/g, " $1").replace(/^./, (str) => str.toUpperCase())} is required`;
       }
     });
     if (formData.monthlyRent && Number(formData.monthlyRent) <= 0) {
@@ -1345,11 +1316,8 @@ const TenantForm = () => {
   };
 
   const handleNext = () => {
-    if (step === 1 && validateStep1()) {
-      setStep(2);
-    } else if (step === 2 && validateStep2()) {
-      setStep(3);
-    }
+    if (step === 1 && validateStep1()) setStep(2);
+    else if (step === 2 && validateStep2()) setStep(3);
   };
 
   const handlePrevious = () => {
@@ -1359,7 +1327,6 @@ const TenantForm = () => {
 
   const handleSubmit = () => {
     setIsSubmitting(true);
-    // Simulate API call
     setTimeout(() => {
       console.log("All Form Data:", formData);
       setIsSubmitting(false);
@@ -1367,7 +1334,6 @@ const TenantForm = () => {
     }, 1500);
   };
 
-  // Progress bar calculation
   const progress = ((step - 1) / 2) * 100;
 
   return (
@@ -1378,18 +1344,14 @@ const TenantForm = () => {
       className="mx-auto p-2 md:p-4 bg-gray-50 dark:bg-gray-900 min-h-screen"
     >
       <div className="max-w-7xl mx-auto">
-        {/* Header */}
         <div className="rounded-t-lg bg-blue-600 dark:bg-blue-800 p-2 md:pl-5 mt-4">
-          <h1 className="md:text-3xl font-bold text-white text-xl">
-            Create Tenant
-          </h1>
+          <h1 className="md:text-3xl font-bold text-white text-xl">Create Tenant</h1>
           <p className="text-gray-900 dark:text-gray-200 font-medium mt-2 text-sm md:text-lg">
             Complete all steps to create a new tenant
           </p>
         </div>
 
         <div className="bg-white dark:bg-gray-800 rounded-b-lg shadow-xl p-2 md:p-8 dark:border dark:border-white/20">
-          {/* Progress Bar & Step Indicator */}
           <div className="mb-8">
             <div className="flex justify-between items-center mb-2">
               <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
@@ -1411,32 +1373,12 @@ const TenantForm = () => {
             </div>
           </div>
 
-          {/* Step Content */}
           <AnimatePresence mode="wait">
-            {step === 1 && (
-              <HomeDetails
-                value={formData}
-                setValue={setFormData}
-                errors={errors}
-              />
-            )}
-            {step === 2 && (
-              <PropertyDetails
-                value={formData}
-                setValue={setFormData}
-                errors={errors}
-              />
-            )}
-            {step === 3 && (
-              <Documents
-                value={formData}
-                setValue={setFormData}
-                errors={errors}
-              />
-            )}
+            {step === 1 && <HomeDetails value={formData} setValue={setFormData} errors={errors} />}
+            {step === 2 && <PropertyDetails value={formData} setValue={setFormData} errors={errors} />}
+            {step === 3 && <Documents value={formData} setValue={setFormData} errors={errors} />}
           </AnimatePresence>
 
-          {/* Navigation Buttons */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -1478,20 +1420,8 @@ const TenantForm = () => {
                   {isSubmitting ? (
                     <>
                       <svg className="animate-spin h-5 w-5" viewBox="0 0 24 24">
-                        <circle
-                          className="opacity-25"
-                          cx="12"
-                          cy="12"
-                          r="10"
-                          stroke="currentColor"
-                          strokeWidth="4"
-                          fill="none"
-                        />
-                        <path
-                          className="opacity-75"
-                          fill="currentColor"
-                          d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                        />
+                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
+                        <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
                       </svg>
                       Creating...
                     </>

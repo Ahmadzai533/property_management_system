@@ -1,15 +1,17 @@
 // src/pages/properties/OwnPropertyDetails.jsx
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { ChevronLeft, Edit, Archive, Trash2 } from 'lucide-react';
 import Breadcrumb from '../../../components/common/Breadcrumb';
 import PropertyDetails from '../../../components/properties/PropertyDetails';
 import Button from '../../../components/common/Button';
+import { useLocalization } from '../../../hooks/useLocalization';
 
 const OwnPropertyDetails = () => {
   const { id } = useParams();
   const navigate = useNavigate();
+  const { t } = useLocalization();
   const [property, setProperty] = useState(null);
   const [loading, setLoading] = useState(true);
 
@@ -75,12 +77,12 @@ const OwnPropertyDetails = () => {
     console.log('Delete property:', id);
   };
 
-  const breadcrumbItems = [
-    { label: 'Dashboard', path: '/' },
-    { label: 'Properties', path: '/properties' },
-    { label: 'Own Properties', path: '/properties/own' },
-    { label: property?.name || 'Property Details', active: true },
-  ];
+  const breadcrumbItems = useMemo(() => [
+    { label: t('nav.dashboard', 'Dashboard'), path: '/' },
+    { label: t('nav.properties', 'Properties'), path: '/properties' },
+    { label: t('properties.ownProperties', 'Own Properties'), path: '/properties/own' },
+    { label: property?.name || t('properties.propertyDetails', 'Property Details'), active: true },
+  ], [t, property]);
 
   if (loading) {
     return (
@@ -104,10 +106,10 @@ const OwnPropertyDetails = () => {
     return (
       <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex items-center justify-center">
         <div className="text-center">
-          <h2 className="text-2xl font-semibold text-gray-900 dark:text-white">Property not found</h2>
-          <p className="text-gray-500 dark:text-gray-400 mt-2">The property you're looking for doesn't exist.</p>
+          <h2 className="text-2xl font-semibold text-gray-900 dark:text-white">{t('properties.propertyNotFound', 'Property not found')}</h2>
+          <p className="text-gray-500 dark:text-gray-400 mt-2">{t('properties.propertyNotFoundDesc', "The property you're looking for doesn't exist.")}</p>
           <Button onClick={() => navigate('/properties/own')} className="mt-4">
-            Back to Properties
+            {t('properties.backToProperties', 'Back to Properties')}
           </Button>
         </div>
       </div>
@@ -116,24 +118,22 @@ const OwnPropertyDetails = () => {
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
-      <div className="px-2 sm:px-2 lg:px-2"> {/* Reduced padding */}
-        <div className="rounded-2xl bg-gradient-to-r bg-[#6D28D9]  p-5 text-white shadow-lg dark:from-[#6D28D9] dark:to-[#8B5CF6]"> {/* Reduced p-6 to p-5 */}
-          {/* Breadcrumb inside gradient */}
-          {/* Reduced mb-4 to mb-3 */}
+      <div className="px-2 sm:px-2 lg:px-2">
+        <div className="rounded-2xl bg-gradient-to-r bg-[#6D28D9]  p-5 text-white shadow-lg dark:from-[#6D28D9] dark:to-[#8B5CF6]">
               <Breadcrumb  white={true} />
           
-          
-          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3"> {/* Reduced gap-4 to gap-3 */}
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
             <div className="flex items-center gap-3">
               <button
                 onClick={() => navigate('/properties/own')}
                 className="p-2 rounded-lg bg-white/20 hover:bg-white/30 transition-colors text-white"
+                aria-label={t('properties.backToProperties', 'Back to Properties')}
               >
                 <ChevronLeft className="h-5 w-5" />
               </button>
               <div>
                 <h1 className="text-2xl font-bold">{property.name}</h1>
-                <p className="text-white/80 mt-0.5">Property ID: #{property.id}</p> {/* Reduced mt-1 to mt-0.5 */}
+                <p className="text-white/80 mt-0.5">{t('properties.propertyId', 'Property ID')}: #{property.id}</p>
               </div>
             </div>
             
@@ -143,27 +143,27 @@ const OwnPropertyDetails = () => {
                 className="flex items-center gap-2 px-4 py-2 bg-white/20 hover:bg-white/30 transition-colors rounded-lg text-white font-medium"
               >
                 <Edit className="h-4 w-4" />
-                Edit
+                {t('common.edit', 'Edit')}
               </button>
               <button
                 onClick={handleArchive}
                 className="flex items-center gap-2 px-4 py-2 bg-white/20 hover:bg-white/30 transition-colors rounded-lg text-white font-medium"
               >
                 <Archive className="h-4 w-4" />
-                Archive
+                {t('common.archive', 'Archive')}
               </button>
               <button
                 onClick={handleDelete}
                 className="flex items-center gap-2 px-4 py-2 bg-red-500/30 hover:bg-red-500/40 transition-colors rounded-lg text-white font-medium"
               >
                 <Trash2 className="h-4 w-4" />
-                Delete
+                {t('common.delete', 'Delete')}
               </button>
             </div>
           </div>
         </div>
         
-        <div className="mt-4"> {/* Reduced mt-6 to mt-4 */}
+        <div className="mt-4">
           <PropertyDetails property={property} />
         </div>
       </div>

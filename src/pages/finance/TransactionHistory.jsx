@@ -19,6 +19,7 @@ import { FinanceTable } from '../../components/finance/FinanceTable';
 import { FinanceFilters } from '../../components/finance/FinanceFilters';
 import Breadcrumb from '../../components/common/Breadcrumb';
 import Button from '../../components/common/Button';
+import DateText from '../../components/common/DateText';
 
 const breadcrumbItems = [
   { label: 'Finance', href: '/finance' },
@@ -140,7 +141,7 @@ export default function TransactionHistory() {
       key: 'date',
       header: 'Date',
       sortable: true,
-      accessor: (row) => new Date(row.date).toLocaleString(),
+      accessor: (row) => <DateText value={row.date} showTime />,
     },
     { key: 'property', header: 'Property', sortable: true },
     { key: 'unit', header: 'Unit' },
@@ -376,7 +377,7 @@ export default function TransactionHistory() {
                       </p>
                       <p className="text-sm">
                         <span className="text-gray-500 dark:text-gray-400">Date:</span>{' '}
-                        {new Date(selectedTransaction.date).toLocaleString()}
+                        <DateText value={selectedTransaction.date} showTime />
                       </p>
                       <p className="text-sm">
                         <span className="text-gray-500 dark:text-gray-400">Reference:</span>{' '}
@@ -396,7 +397,7 @@ export default function TransactionHistory() {
                       <div>
                         <p className="text-sm font-medium">Transaction Created</p>
                         <p className="text-xs text-gray-500 dark:text-gray-400">
-                          {new Date(selectedTransaction.date).toLocaleString()}
+                          <DateText value={selectedTransaction.date} showTime />
                         </p>
                       </div>
                     </div>
@@ -405,7 +406,7 @@ export default function TransactionHistory() {
                       <div>
                         <p className="text-sm font-medium">Processed</p>
                         <p className="text-xs text-gray-500 dark:text-gray-400">
-                          {new Date(new Date(selectedTransaction.date).getTime() + 3600000).toLocaleString()}
+                          <DateText value={new Date(new Date(selectedTransaction.date).getTime() + 3600000).toISOString()} showTime />
                         </p>
                       </div>
                     </div>
@@ -415,7 +416,7 @@ export default function TransactionHistory() {
                         <div>
                           <p className="text-sm font-medium">Completed</p>
                           <p className="text-xs text-gray-500 dark:text-gray-400">
-                            {new Date(new Date(selectedTransaction.date).getTime() + 7200000).toLocaleString()}
+                            <DateText value={new Date(new Date(selectedTransaction.date).getTime() + 7200000).toISOString()} showTime />
                           </p>
                         </div>
                       </div>

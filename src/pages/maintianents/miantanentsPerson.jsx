@@ -61,6 +61,7 @@ import {
   Key,
   Fingerprint
 } from 'lucide-react';
+import DateText from '../../components/common/DateText';
 
 // ------------------------------------------------------------
 // 1. Reusable UI Components
@@ -641,6 +642,7 @@ const ViewModal = ({ isOpen, onClose, data }) => {
               <div><span className="text-slate-500 dark:text-slate-400">Phone:</span> {data.phone}</div>
               <div><span className="text-slate-500 dark:text-slate-400">Experience:</span> {data.experience}</div>
               <div><span className="text-slate-500 dark:text-slate-400">Jobs Completed:</span> {data.jobs}</div>
+              <div><span className="text-slate-500 dark:text-slate-400">Join Date:</span> <DateText value={data.joinDate} /></div>
               <div><span className="text-slate-500 dark:text-slate-400">Status:</span> <Badge variant={statusColors[data.status] || 'default'}>{data.status}</Badge></div>
               <div><span className="text-slate-500 dark:text-slate-400">Availability:</span> <Badge variant={availabilityColors[data.availability] || 'default'}>{data.availability}</Badge></div>
               <div className="col-span-2"><span className="text-slate-500 dark:text-slate-400">Skills:</span> {data.skills.map(s => <Badge key={s} variant={skillColors[s] || 'default'} className="mr-1">{s}</Badge>)}</div>

@@ -11,6 +11,7 @@ import {
   HiOutlineCloudUpload,
   HiOutlineFolder
 } from 'react-icons/hi';
+import DateText from '../../components/common/DateText';
 
 const DocumentManagement = () => {
   const [isDarkMode, setIsDarkMode] = useState(false);
@@ -253,7 +254,9 @@ const DocumentManagement = () => {
                         </div>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600 dark:text-gray-400">{doc.type}</td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600 dark:text-gray-400">{doc.date}</td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600 dark:text-gray-400">
+                        <DateText value={doc.date} />
+                      </td>
                       <td className="px-6 py-4 whitespace-nowrap">
                         <span className={`px-3 py-1 rounded-full text-xs font-medium ${getStatusColor(doc.status)}`}>
                           {doc.status}

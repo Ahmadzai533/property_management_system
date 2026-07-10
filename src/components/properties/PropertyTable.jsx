@@ -11,7 +11,7 @@ import {
   ChevronDown
 } from 'lucide-react';
 import PropertyStatusBadge from './PropertyStatusBadge';
-import { format } from 'date-fns';
+import { useLocalization } from '../../hooks/useLocalization';
 
 const PropertyTable = ({ 
   properties = [], 
@@ -23,6 +23,7 @@ const PropertyTable = ({
   onView,
   isLoading = false 
 }) => {
+  const { t } = useLocalization();
   const [selectedIds, setSelectedIds] = useState([]);
   const [sortField, setSortField] = useState('createdAt');
   const [sortDirection, setSortDirection] = useState('desc');
@@ -81,7 +82,7 @@ const PropertyTable = ({
               />
             </th>
             <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-              Property
+              {t('properties.table.property', 'Property')}
             </th>
             <th 
               className="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider cursor-pointer hover:text-gray-700 dark:hover:text-gray-300"
@@ -95,30 +96,30 @@ const PropertyTable = ({
               </div>
             </th>
             <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-              Type
+              {t('properties.table.type', 'Type')}
             </th>
             <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-              Address
+              {t('properties.table.address', 'Address')}
             </th>
             <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-              Units
+              {t('properties.table.units', 'Units')}
             </th>
             <th 
               className="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider cursor-pointer hover:text-gray-700 dark:hover:text-gray-300"
               onClick={() => handleSort('revenue')}
             >
               <div className="flex items-center gap-1">
-                Revenue
+                {t('properties.table.revenue', 'Revenue')}
                 {sortField === 'revenue' && (
                   sortDirection === 'asc' ? <ChevronUp className="h-3 w-3" /> : <ChevronDown className="h-3 w-3" />
                 )}
               </div>
             </th>
             <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-              Status
+              {t('properties.table.status', 'Status')}
             </th>
             <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-              Actions
+              {t('properties.table.actions', 'Actions')}
             </th>
           </tr>
         </thead>
@@ -151,7 +152,7 @@ const PropertyTable = ({
                   </div>
                   <div>
                     <p className="font-medium text-gray-900 dark:text-white">{property.name}</p>
-                    <p className="text-xs text-gray-500 dark:text-gray-400">{property.occupancy}% Occupied</p>
+                    <p className="text-xs text-gray-500 dark:text-gray-400">{property.occupancy}% {t('properties.occupied', 'Occupied')}</p>
                   </div>
                 </div>
               </td>
@@ -178,24 +179,28 @@ const PropertyTable = ({
                   <button
                     onClick={() => onView?.(property.id)}
                     className="p-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors text-gray-500 dark:text-gray-400"
+                    title={t('common.view', 'View')}
                   >
                     <Eye className="h-4 w-4" />
                   </button>
                   <button
                     onClick={() => onEdit?.(property.id)}
                     className="p-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors text-gray-500 dark:text-gray-400"
+                    title={t('common.edit', 'Edit')}
                   >
                     <Edit className="h-4 w-4" />
                   </button>
                   <button
                     onClick={() => onArchive?.(property.id)}
                     className="p-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors text-gray-500 dark:text-gray-400"
+                    title={t('common.archive', 'Archive')}
                   >
                     <Archive className="h-4 w-4" />
                   </button>
                   <button
                     onClick={() => onDelete?.(property.id)}
                     className="p-1.5 rounded-lg hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors text-red-500"
+                    title={t('common.delete', 'Delete')}
                   >
                     <Trash2 className="h-4 w-4" />
                   </button>

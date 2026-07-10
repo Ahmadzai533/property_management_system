@@ -2,6 +2,7 @@
 import React from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { motion } from 'framer-motion';
+import { useLocalization } from '../../hooks/useLocalization';
 
 const PropertyPagination = ({
   currentPage = 1,
@@ -11,6 +12,8 @@ const PropertyPagination = ({
   onPageChange,
   onPageSizeChange
 }) => {
+  const { t } = useLocalization();
+
   const getPageNumbers = () => {
     const pages = [];
     const maxVisible = 7;
@@ -49,14 +52,14 @@ const PropertyPagination = ({
   return (
     <div className="flex flex-col sm:flex-row items-center justify-between gap-4 px-4 py-3 bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700">
       <div className="text-sm text-gray-500 dark:text-gray-400">
-        Showing <span className="font-medium text-gray-900 dark:text-white">{startItem}</span> to{' '}
-        <span className="font-medium text-gray-900 dark:text-white">{endItem}</span> of{' '}
-        <span className="font-medium text-gray-900 dark:text-white">{totalItems}</span> properties
+        {t('properties.pagination.showing', 'Showing')} <span className="font-medium text-gray-900 dark:text-white">{startItem}</span> {t('properties.pagination.to', 'to')}{' '}
+        <span className="font-medium text-gray-900 dark:text-white">{endItem}</span> {t('properties.pagination.of', 'of')}{' '}
+        <span className="font-medium text-gray-900 dark:text-white">{totalItems}</span> {t('properties.pagination.properties', 'properties')}
       </div>
       
       <div className="flex items-center gap-2">
         <div className="flex items-center gap-2 mr-4">
-          <label className="text-sm text-gray-500 dark:text-gray-400">Rows:</label>
+          <label className="text-sm text-gray-500 dark:text-gray-400">{t('properties.pagination.rows', 'Rows')}:</label>
           <select
             value={pageSize}
             onChange={(e) => onPageSizeChange(Number(e.target.value))}

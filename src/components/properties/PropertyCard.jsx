@@ -7,30 +7,26 @@ import {
   Pencil,
   Building2,
 } from "lucide-react";
+import { useLocalization } from "../../hooks/useLocalization";
 
 const STATUS_STYLES = {
   occupied: {
-    label: "Occupied",
     className:
       "bg-emerald-50 text-emerald-700 border-emerald-200 dark:bg-emerald-950/50 dark:text-emerald-400 dark:border-emerald-800",
   },
   vacant: {
-    label: "Vacant",
     className:
       "bg-amber-50 text-amber-700 border-amber-200 dark:bg-amber-950/50 dark:text-amber-400 dark:border-amber-800",
   },
   maintenance: {
-    label: "Maintenance",
     className:
       "bg-orange-50 text-orange-700 border-orange-200 dark:bg-orange-950/50 dark:text-orange-400 dark:border-orange-800",
   },
   listed: {
-    label: "Listed",
     className:
       "bg-blue-50 text-blue-700 border-blue-200 dark:bg-blue-950/50 dark:text-blue-400 dark:border-blue-800",
   },
   leased: {
-    label: "Leased",
     className:
       "bg-violet-50 text-violet-700 border-violet-200 dark:bg-violet-950/50 dark:text-violet-400 dark:border-violet-800",
   },
@@ -57,9 +53,9 @@ const PropertyCard = ({
   onEdit,
   className = "",
 }) => {
+  const { t } = useLocalization();
   const normalizedStatus = status?.toLowerCase?.() ?? "vacant";
   const statusConfig = STATUS_STYLES[normalizedStatus] ?? {
-    label: status,
     className:
       "bg-slate-100 text-slate-700 border-slate-200 dark:bg-slate-800 dark:text-slate-300 dark:border-slate-700",
   };
@@ -94,7 +90,7 @@ const PropertyCard = ({
         <span
           className={`absolute left-3 top-3 inline-flex items-center rounded-full border px-2.5 py-1 text-xs font-semibold backdrop-blur-sm ${statusConfig.className}`}
         >
-          {statusConfig.label}
+          {t(`properties.status.${normalizedStatus}`, normalizedStatus)}
         </span>
       </div>
 
@@ -118,7 +114,7 @@ const PropertyCard = ({
             </div>
             <div className="min-w-0">
               <p className="text-xs font-medium text-slate-500 dark:text-slate-400">
-                Monthly Rent
+                {t('properties.monthlyRent', 'Monthly Rent')}
               </p>
               <p className="truncate text-sm font-semibold text-slate-900 dark:text-white">
                 {formatRent(monthlyRent, currencySymbol)}
@@ -132,7 +128,7 @@ const PropertyCard = ({
             </div>
             <div className="min-w-0">
               <p className="text-xs font-medium text-slate-500 dark:text-slate-400">
-                Owner
+                {t('properties.owner', 'Owner')}
               </p>
               <p className="truncate text-sm font-semibold text-slate-900 dark:text-white">
                 {owner || "—"}
@@ -151,7 +147,7 @@ const PropertyCard = ({
             className="inline-flex flex-1 items-center justify-center gap-2 rounded-xl bg-[#6D28D9] px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-[#5B21B6] hover:shadow-lg hover:shadow-[#6D28D9]/25"
           >
             <Eye className="h-4 w-4" />
-            View
+            {t('common.view', 'View')}
           </motion.button>
 
           <motion.button
@@ -162,7 +158,7 @@ const PropertyCard = ({
             className="inline-flex flex-1 items-center justify-center gap-2 rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm font-semibold text-slate-700 transition-colors hover:border-slate-300 hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-200 dark:hover:border-slate-600 dark:hover:bg-slate-800"
           >
             <Pencil className="h-4 w-4" />
-            Edit
+            {t('common.edit', 'Edit')}
           </motion.button>
         </div>
       </div>
