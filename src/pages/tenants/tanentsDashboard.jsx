@@ -3,16 +3,12 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { 
   Search, 
   Filter, 
-  Sun, 
-  Moon, 
   User, 
   Eye, 
   Edit, 
   Trash2, 
   FileText, 
   Plus,
-  X,
-  ChevronDown,
   Home,
   Calendar,
   DollarSign,
@@ -27,7 +23,7 @@ import DateText from '../../components/common/DateText';
 const TenantDashboard = () => {
     const navigate = useNavigate();
     
-  // Dark Mode State
+  // Dark Mode State - kept for functionality but removed toggle button
   const [darkMode, setDarkMode] = useState(() => {
     const saved = localStorage.getItem('darkMode');
     return saved ? JSON.parse(saved) : false;
@@ -172,33 +168,26 @@ const TenantDashboard = () => {
 
   // Navigation Functions for Migration
   const handleViewTenant = (tenant) => {
-    // Navigate to tenant details page
     navigate('/tenants/view');
   };
 
   const handleEditTenant = (tenant) => {
-    // Navigate to tenant edit page
     navigate('/tenants/edit');
   };
 
   const handleDeleteTenant = (tenant) => {
-    // Show confirmation modal
     setSelectedTenant(tenant);
     setShowDeleteModal(true);
   };
 
   const confirmDelete = () => {
-    // Delete the tenant and navigate back or show success message
     setTenants(tenants.filter(t => t.id !== selectedTenant.id));
     setShowDeleteModal(false);
     setSelectedTenant(null);
-    
-    // Optional: Show success toast or notification
     console.log(`Tenant ${selectedTenant.name} deleted successfully`);
   };
 
   const handleDocuments = (tenant) => {
-    // Navigate to documents page
     navigate('/tenants/document');
   };
 
@@ -223,7 +212,7 @@ const TenantDashboard = () => {
     }
   };
 
-  // Skeleton Card (larger)
+  // Skeleton Card
   const SkeletonCard = () => (
     <div className="bg-white dark:bg-gray-800 rounded-2xl p-8 shadow-sm animate-pulse">
       <div className="flex items-center gap-5 mb-6">
@@ -244,22 +233,40 @@ const TenantDashboard = () => {
 
   return (
     <div className={`min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors duration-300`}>
-      {/* Main Container */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        
-        {/* Header */}
-        <header className="bg-white dark:bg-gray-800 dark:border dark:border-white/15 rounded-2xl shadow-sm p-6 mb-8 transition-colors duration-300">
-          <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
-            {/* Logo */}
+      
+      {/* ===== PURPLE TOP HEADER ===== */}
+      <div className="bg-gradient-to-r mx-5 from-purple-600 to-purple-800 dark:from-purple-700 dark:to-purple-900 shadow-lg rounded-2xl">
+        <div className="max-w-7xl mx-auto px-2 sm:px-4 lg:px-2 py-2 sm:py-6">
+          <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <Building className="w-10 h-10 text-indigo-600 dark:text-indigo-400" />
-              <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
-                Tenant<span className="text-indigo-600 dark:text-indigo-400">Dashboard</span>
-              </h1>
+              <Building className="w-8 h-8 sm:w-10 sm:h-10 text-white/90" />
+              <div>
+                <h1 className="text-xl sm:text-2xl md:text-3xl font-bold text-white">
+                  Tenant<span className="text-purple-200">Dashboard</span>
+                </h1>
+                <p className="text-purple-200/80 text-xs sm:text-sm hidden sm:block">
+                  Manage all your tenants in one place
+                </p>
+              </div>
             </div>
+            
+            <div className="flex items-center gap-3">
+              <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-white/20 flex items-center justify-center text-white">
+                <User className="w-4 h-4 sm:w-5 sm:h-5" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
 
+      {/* Main Container */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
+        
+        {/* Search and Filter Header */}
+        <div className="bg-white dark:bg-gray-800 dark:border dark:border-white/15 rounded-2xl shadow-sm p-4 sm:p-6 mb-6 sm:mb-8 transition-colors duration-300">
+          <div className="flex flex-col sm:flex-row items-center gap-3 sm:gap-4">
             {/* Search Bar */}
-            <div className="flex-1 max-w-xl w-full">
+            <div className="flex-1 w-full">
               <div className="relative">
                 <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
                 <input
@@ -267,33 +274,30 @@ const TenantDashboard = () => {
                   placeholder="Search by name, property, or unit..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  className="w-full pl-12 pr-4 py-3 border border-gray-300 dark:border-gray-600 rounded-xl bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-colors text-base"
+                  className="w-full pl-12 pr-4 py-3 border border-gray-300 dark:border-gray-600 rounded-xl bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-colors text-base"
                 />
               </div>
             </div>
 
-            {/* Right Side Actions */}
-            <div className="flex items-center gap-3">
-              <button
-                onClick={() => setShowFilters(!showFilters)}
-                className="p-3 rounded-xl bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600 transition-all"
-              >
-                <Filter className="w-5 h-5" />
-              </button>
-              
-              <button
-                // onClick={() => setDarkMode(!darkMode)}
-                // className="p-3 rounded-xl bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600 transition-all"
-              >
-                {/* {darkMode ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />} */}
-              </button>
+            {/* Filter Button */}
+            <button
+              onClick={() => setShowFilters(!showFilters)}
+              className={`p-3 rounded-xl transition-all flex items-center gap-2 w-full sm:w-auto justify-center ${
+                showFilters 
+                  ? 'bg-purple-600 text-white hover:bg-purple-700' 
+                  : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
+              }`}
+            >
+              <Filter className="w-5 h-5" />
+              <span className="sm:inline font-medium">Filters</span>
+            </button>
 
-              <div className="w-12 h-12 rounded-full bg-indigo-100 dark:bg-indigo-900/30 flex items-center justify-center text-indigo-600 dark:text-indigo-400">
-                <User className="w-6 h-6" />
-              </div>
+            {/* Results Count - Mobile */}
+            <div className="sm:hidden text-sm text-gray-600 dark:text-gray-400">
+              {filteredTenants.length} tenants
             </div>
           </div>
-        </header>
+        </div>
 
         {/* Filter Section */}
         <AnimatePresence>
@@ -303,18 +307,18 @@ const TenantDashboard = () => {
               animate={{ height: 'auto', opacity: 1 }}
               exit={{ height: 0, opacity: 0 }}
               transition={{ duration: 0.3 }}
-              className="overflow-hidden mb-8"
+              className="overflow-hidden mb-6 sm:mb-8"
             >
-              <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-sm p-8 transition-colors duration-300">
-                <div className="flex flex-wrap items-end gap-6">
-                  <div className="flex-1 min-w-[180px]">
+              <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-sm p-4 sm:p-6 md:p-8 transition-colors duration-300">
+                <div className="flex flex-col sm:flex-row flex-wrap items-end gap-4 sm:gap-6">
+                  <div className="flex-1 min-w-[180px] w-full sm:w-auto">
                     <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                       Status
                     </label>
                     <select
                       value={statusFilter}
                       onChange={(e) => setStatusFilter(e.target.value)}
-                      className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-xl bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-base"
+                      className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-xl bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-purple-500 focus:border-transparent text-base"
                     >
                       <option value="all">All Status</option>
                       <option value="active">Active</option>
@@ -323,14 +327,14 @@ const TenantDashboard = () => {
                     </select>
                   </div>
 
-                  <div className="flex-1 min-w-[180px]">
+                  <div className="flex-1 min-w-[180px] w-full sm:w-auto">
                     <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                       Payment
                     </label>
                     <select
                       value={paymentFilter}
                       onChange={(e) => setPaymentFilter(e.target.value)}
-                      className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-xl bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-base"
+                      className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-xl bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-purple-500 focus:border-transparent text-base"
                     >
                       <option value="all">All Payments</option>
                       <option value="paid">Paid</option>
@@ -340,16 +344,16 @@ const TenantDashboard = () => {
                     </select>
                   </div>
 
-                  <div className="flex gap-3">
+                  <div className="flex gap-3 w-full sm:w-auto">
                     <button
                       onClick={resetFilters}
-                      className="px-6 py-3 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-xl hover:bg-gray-200 dark:hover:bg-gray-600 transition-all text-base font-medium"
+                      className="flex-1 sm:flex-none px-6 py-3 bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 rounded-xl hover:bg-gray-200 dark:hover:bg-gray-600 transition-all text-base font-medium"
                     >
                       Reset
                     </button>
                     <button
                       onClick={() => setShowFilters(false)}
-                      className="px-6 py-3 bg-indigo-600 text-white rounded-xl hover:bg-indigo-700 transition-all text-base font-medium"
+                      className="flex-1 sm:flex-none px-6 py-3 bg-purple-600 text-white rounded-xl hover:bg-purple-700 transition-all text-base font-medium"
                     >
                       Apply
                     </button>
@@ -360,16 +364,16 @@ const TenantDashboard = () => {
           )}
         </AnimatePresence>
 
-        {/* Results Count */}
-        <div className="mb-6 flex justify-between items-center">
+        {/* Results Count - Desktop */}
+        <div className="mb-6 hidden sm:flex justify-between items-center">
           <p className="text-base text-gray-600 dark:text-gray-400">
             Showing <span className="font-semibold">{filteredTenants.length}</span> of <span className="font-semibold">{tenants.length}</span> tenants
           </p>
         </div>
 
-        {/* Tenant Grid - Larger Cards */}
+        {/* Tenant Grid */}
         {loading ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6 sm:gap-8">
             {[1, 2, 3, 4, 5, 6].map((i) => (
               <SkeletonCard key={i} />
             ))}
@@ -389,7 +393,7 @@ const TenantDashboard = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ staggerChildren: 0.1 }}
-            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8"
+            className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8"
           >
             {filteredTenants.map((tenant, index) => (
               <motion.div
@@ -400,42 +404,42 @@ const TenantDashboard = () => {
                 whileHover={{ scale: 1.02 }}
                 className="bg-white dark:bg-gray-800 rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden border border-gray-100 dark:border-gray-700"
               >
-                <div className="p-8">
+                <div className="p-6 sm:p-8">
                   {/* Header with Avatar */}
                   <div className="flex items-start justify-between mb-6">
                     <div className="flex items-center gap-4">
                       <img
                         src={tenant.avatar}
                         alt={tenant.name}
-                        className="w-16 h-16 rounded-full ring-2 ring-indigo-100 dark:ring-indigo-900/30"
+                        className="w-14 h-14 sm:w-16 sm:h-16 rounded-full ring-2 ring-purple-100 dark:ring-purple-900/30"
                       />
                       <div>
-                        <h3 className="text-xl font-semibold text-gray-900 dark:text-white">
+                        <h3 className="text-lg sm:text-xl font-semibold text-gray-900 dark:text-white">
                           {tenant.name}
                         </h3>
-                        <div className="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400 mt-1">
-                          <Mail className="w-4 h-4" />
-                          <span>{tenant.email}</span>
+                        <div className="flex items-center gap-2 text-xs sm:text-sm text-gray-500 dark:text-gray-400 mt-1">
+                          <Mail className="w-3 h-3 sm:w-4 sm:h-4" />
+                          <span className="truncate max-w-[120px] sm:max-w-none">{tenant.email}</span>
                         </div>
-                        <div className="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400">
-                          <Phone className="w-4 h-4" />
+                        <div className="flex items-center gap-2 text-xs sm:text-sm text-gray-500 dark:text-gray-400">
+                          <Phone className="w-3 h-3 sm:w-4 sm:h-4" />
                           <span>{tenant.phone}</span>
                         </div>
                       </div>
                     </div>
-                    <span className={`px-3 py-1.5 rounded-full text-sm font-medium ${getStatusColor(tenant.status)}`}>
+                    <span className={`px-2 py-1 sm:px-3 sm:py-1.5 rounded-full text-xs sm:text-sm font-medium ${getStatusColor(tenant.status)}`}>
                       {tenant.status.charAt(0).toUpperCase() + tenant.status.slice(1)}
                     </span>
                   </div>
 
                   {/* Property Info */}
-                  <div className="mb-5 p-4 bg-gray-50 dark:bg-gray-700/50 rounded-xl">
-                    <div className="flex items-center gap-2 text-base text-gray-700 dark:text-gray-300">
-                      <Home className="w-5 h-5 text-indigo-500 dark:text-indigo-400" />
-                      <span className="font-medium">{tenant.property}</span>
+                  <div className="mb-5 p-3 sm:p-4 bg-gray-50 dark:bg-gray-700/50 rounded-xl">
+                    <div className="flex items-center gap-2 text-sm sm:text-base text-gray-700 dark:text-gray-300">
+                      <Home className="w-4 h-4 sm:w-5 sm:h-5 text-purple-500 dark:text-purple-400" />
+                      <span className="font-medium truncate">{tenant.property}</span>
                     </div>
-                    <div className="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400 mt-1">
-                      <MapPin className="w-4 h-4" />
+                    <div className="flex items-center gap-2 text-xs sm:text-sm text-gray-500 dark:text-gray-400 mt-1">
+                      <MapPin className="w-3 h-3 sm:w-4 sm:h-4" />
                       <span>Unit {tenant.unit}</span>
                     </div>
                   </div>
@@ -443,41 +447,41 @@ const TenantDashboard = () => {
                   {/* Payment Info */}
                   <div className="flex items-center justify-between mb-5">
                     <div>
-                      <div className="flex items-center gap-2 text-base text-gray-600 dark:text-gray-300">
-                        <DollarSign className="w-5 h-5 text-green-500 dark:text-green-400" />
-                        <span className="font-semibold text-lg">${tenant.rent.toLocaleString()}</span>
-                        <span className="text-gray-400 text-sm">/ month</span>
+                      <div className="flex items-center gap-2 text-sm sm:text-base text-gray-600 dark:text-gray-300">
+                        <DollarSign className="w-4 h-4 sm:w-5 sm:h-5 text-green-500 dark:text-green-400" />
+                        <span className="font-semibold text-base sm:text-lg">${tenant.rent.toLocaleString()}</span>
+                        <span className="text-gray-400 text-xs sm:text-sm">/ month</span>
                       </div>
                     </div>
-                    <span className={`px-3 py-1.5 rounded-full text-sm font-medium ${getPaymentColor(tenant.payment)}`}>
+                    <span className={`px-2 py-1 sm:px-3 sm:py-1.5 rounded-full text-xs sm:text-sm font-medium ${getPaymentColor(tenant.payment)}`}>
                       {tenant.payment.charAt(0).toUpperCase() + tenant.payment.slice(1)}
                     </span>
                   </div>
 
                   {/* Contract Info */}
-                  <div className="flex items-center justify-between text-sm text-gray-500 dark:text-gray-400 mb-6 px-1">
-                    <div className="flex items-center gap-2">
-                      <Calendar className="w-4 h-4" />
+                  <div className="flex items-center justify-between text-xs sm:text-sm text-gray-500 dark:text-gray-400 mb-6 px-1">
+                    <div className="flex items-center gap-1 sm:gap-2">
+                      <Calendar className="w-3 h-3 sm:w-4 sm:h-4" />
                       <DateText value={tenant.startDate} />
                     </div>
                     <span>→</span>
-                    <div className="flex items-center gap-2">
-                      <Calendar className="w-4 h-4" />
+                    <div className="flex items-center gap-1 sm:gap-2">
+                      <Calendar className="w-3 h-3 sm:w-4 sm:h-4" />
                       <DateText value={tenant.endDate} />
                     </div>
                   </div>
 
                   {/* Action Buttons */}
                   <div className="flex items-center justify-between pt-4 border-t border-gray-100 dark:border-gray-700">
-                    <div className="flex gap-2">
+                    <div className="flex gap-1 sm:gap-2">
                       <motion.button
                         whileHover={{ scale: 1.1 }}
                         whileTap={{ scale: 0.95 }}
                         onClick={() => handleViewTenant(tenant)}
-                        className="p-3 rounded-lg transition-all text-blue-500 hover:bg-blue-50 dark:hover:bg-blue-900/20 group relative"
+                        className="p-2 sm:p-3 rounded-lg transition-all text-blue-500 hover:bg-blue-50 dark:hover:bg-blue-900/20 group relative"
                         title="View"
                       >
-                        <Eye className="w-5 h-5" />
+                        <Eye className="w-4 h-4 sm:w-5 sm:h-5" />
                         <span className="absolute -top-10 left-1/2 transform -translate-x-1/2 px-3 py-1.5 bg-gray-900 dark:bg-gray-700 text-white text-sm rounded opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap">
                           View
                         </span>
@@ -487,10 +491,10 @@ const TenantDashboard = () => {
                         whileHover={{ scale: 1.1 }}
                         whileTap={{ scale: 0.95 }}
                         onClick={() => handleEditTenant(tenant)}
-                        className="p-3 rounded-lg transition-all text-indigo-500 hover:bg-indigo-50 dark:hover:bg-indigo-900/20 group relative"
+                        className="p-2 sm:p-3 rounded-lg transition-all text-purple-500 hover:bg-purple-50 dark:hover:bg-purple-900/20 group relative"
                         title="Edit"
                       >
-                        <Edit className="w-5 h-5" />
+                        <Edit className="w-4 h-4 sm:w-5 sm:h-5" />
                         <span className="absolute -top-10 left-1/2 transform -translate-x-1/2 px-3 py-1.5 bg-gray-900 dark:bg-gray-700 text-white text-sm rounded opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap">
                           Edit
                         </span>
@@ -500,10 +504,10 @@ const TenantDashboard = () => {
                         whileHover={{ scale: 1.1 }}
                         whileTap={{ scale: 0.95 }}
                         onClick={() => handleDeleteTenant(tenant)}
-                        className="p-3 rounded-lg transition-all text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 group relative"
+                        className="p-2 sm:p-3 rounded-lg transition-all text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 group relative"
                         title="Delete"
                       >
-                        <Trash2 className="w-5 h-5" />
+                        <Trash2 className="w-4 h-4 sm:w-5 sm:h-5" />
                         <span className="absolute -top-10 left-1/2 transform -translate-x-1/2 px-3 py-1.5 bg-gray-900 dark:bg-gray-700 text-white text-sm rounded opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap">
                           Delete
                         </span>
@@ -513,10 +517,10 @@ const TenantDashboard = () => {
                         whileHover={{ scale: 1.1 }}
                         whileTap={{ scale: 0.95 }}
                         onClick={() => handleDocuments(tenant)}
-                        className="p-3 rounded-lg transition-all text-gray-500 hover:bg-gray-50 dark:hover:bg-gray-700/30 group relative"
+                        className="p-2 sm:p-3 rounded-lg transition-all text-gray-500 hover:bg-gray-50 dark:hover:bg-gray-700/30 group relative"
                         title="Documents"
                       >
-                        <FileText className="w-5 h-5" />
+                        <FileText className="w-4 h-4 sm:w-5 sm:h-5" />
                         <span className="absolute -top-10 left-1/2 transform -translate-x-1/2 px-3 py-1.5 bg-gray-900 dark:bg-gray-700 text-white text-sm rounded opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap">
                           Documents
                         </span>
@@ -543,7 +547,7 @@ const TenantDashboard = () => {
                 initial={{ scale: 0.9, y: 20 }}
                 animate={{ scale: 1, y: 0 }}
                 exit={{ scale: 0.9, y: 20 }}
-                className="bg-white dark:bg-gray-800 rounded-2xl p-8 max-w-md w-full shadow-2xl"
+                className="bg-white dark:bg-gray-800 rounded-2xl p-6 sm:p-8 max-w-md w-full shadow-2xl"
                 onClick={(e) => e.stopPropagation()}
               >
                 <div className="text-center">
@@ -585,9 +589,9 @@ const TenantDashboard = () => {
           onClick={() => navigate('/tenants/form')}
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
-          className="fixed bottom-8 right-8 bg-indigo-600 text-white p-5 rounded-full shadow-lg hover:shadow-xl transition-all z-50"
+          className="fixed bottom-8 right-8 bg-purple-600 text-white p-4 sm:p-5 rounded-full shadow-lg hover:shadow-xl transition-all z-50"
         >
-          <Plus className="w-7 h-7" />
+          <Plus className="w-6 h-6 sm:w-7 sm:h-7" />
         </motion.button>
 
       </div>
