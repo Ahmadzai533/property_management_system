@@ -18,7 +18,6 @@ import {
   MessageSquare,
   Bell,
   BarChart3,
-  Shield,
 } from "lucide-react";
 import { useLocalization } from "../../hooks/useLocalization";
 
@@ -35,16 +34,16 @@ const Sidebar = ({
   const getInitialOpenMenus = () => {
     return {
       properties: location.pathname.startsWith("/properties"),
-      users: location.pathname.startsWith("/users"),
-      tenants: location.pathname === "/tenants" || location.pathname.startsWith("/tenants/"),
+      users: location.pathname.startsWith("/users-roles"),
+      tenants: location.pathname.startsWith("/tenants"),
       maintainers: location.pathname.startsWith("/maintainers"),
       finance: location.pathname.startsWith("/finance"),
       agreements: location.pathname.startsWith("/agreements"),
       bookings: location.pathname.startsWith("/bookings"),
-      feedback: location.pathname.startsWith("/feedback"),
-      notices: location.pathname.startsWith("/notices"),
+      feedback: location.pathname.startsWith("/owner/feedback"),
+      notices: location.pathname.startsWith("/notice"),
       reports: location.pathname.startsWith("/reports"),
-      admin: location.pathname.startsWith("/admin"),
+      settings: location.pathname.startsWith("/settings"),
     };
   };
 
@@ -59,7 +58,7 @@ const Sidebar = ({
   const [isLarge, setIsLarge] = useState(
     typeof window !== "undefined" ? window.innerWidth >= 1024 : true,
   );
-//  const navigate=useNavigate();
+
   useEffect(() => {
     const onResize = () => setIsLarge(window.innerWidth >= 1024);
     window.addEventListener("resize", onResize);
@@ -169,126 +168,131 @@ const Sidebar = ({
 
   const navItems = [{ to: "/", icon: LayoutDashboard, label: t("nav.dashboard") }];
 
-  const mainMenuItems = [
-    {
-      id: "properties",
-      basePath: "/properties",
-      icon: Building2,
-      label: t("nav.properties"),
-      items: [
-        { to: "/properties/listed", label: t("properties.allProperty") },
-        { to: "/properties/own", label: t("properties.ownProperties") },
-        { to: "/properties/lease", label: t("properties.leaseProperty") },
-        { to: "/properties/units", label: t("properties.allUnits") },
-      ],
-    },
-    {
-      id: "users",
-      basePath: "/users",
-      icon: UserCog,
-      label: t("nav.usersAndRoles"),
-      items: [
-        { to: "/users-roles/users", label: t("users.usersList") },
-        { to: "/users-roles/roles", label: t("users.rolesPermissions") },
-        { to: "/users-roles/logs", label: t("users.loggedHistory") },
-      ],
-    },
-    {
-      id: "tenants",
-      basePath: "/tenants",
-      icon: Users,
-      label: t("nav.tenants"),
-      items: [
-        { to: "/tenants/list", label: t("tenants.allTenants") },
-        { to: "/tenants/history", label: t("tenants.tenantsHistory") },
-      ],
-    },
-    {
-      id: "maintainers",
-      icon: Wrench,
-      label: t("nav.maintainers"),
-      items: [
-        { to: "/maintainers/specialties", label: t("maintainers.specialtyTypes") },
-        { to: "/maintainers/tickets", label: t("maintainers.repairTickets") },
-        { to: "/maintainers/contractors", label: t("maintainers.allContractors") },
-      ],
-    },
-  ];
+ const mainMenuItems = [
+  {
+    id: "properties",
+    basePath: "/properties",
+    icon: Building2,
+    label: t("nav.properties"),
+    items: [
+      { to: "/properties/listed", label: t("properties.allProperty") },
+      { to: "/properties/own", label: t("properties.ownProperties") },
+      { to: "/properties/lease", label: t("properties.leaseProperty") },
+      { to: "/properties/units", label: t("properties.allUnits") },
+    ],
+  },
+  {
+    id: "users",
+    basePath: "/users-roles",
+    icon: UserCog,
+    label: t("nav.usersAndRoles"),
+    items: [
+      { to: "/users-roles/users", label: t("users.usersList") },
+      { to: "/users-roles/roles", label: t("users.rolesPermissions") },
+      { to: "/users-roles/logs", label: t("users.loggedHistory") },
+    ],
+  },
+  {
+    id: "tenants",
+    basePath: "/tenants",
+    icon: Users,
+    label: t("nav.tenants"),
+    items: [
+      { to: "/tenants/list", label: t("tenants.allTenants") },
+      { to: "/tenants/form", label: "Add Tenant" },
+      { to: "/tenants/history", label: t("tenants.tenantsHistory") },
+    ],
+  },
+  {
+    id: "maintainers",
+    basePath: "/maintainers",
+    icon: Wrench,
+    label: t("nav.maintainers"),
+    items: [
+      { to: "/maintainers/maintainersPerson", label: "Maintainers" },
+      { to: "/maintainers/maintainersRequest", label: "Maintenance Requests" },
+    ],
+  },
+];
 
-  const managementItems = [
-    {
-      id: "settings",
-      icon: Settings,
-      label: t("nav.settings"),
-      items: [{ to: "/settings", label: t("settings.settingsHub") }],
-    },
-    {
-      id: "finance",
-      icon: DollarSign,
-      label: t("nav.finance"),
-      items: [
-        { to: "/finance/payments", label: t("finance.paymentsInvoices") },
-        { to: "/finance/ledger", label: t("finance.rentRollLedger") },
-        { to: "/finance/transactions", label: t("finance.transactionHistory") },
-        { to: "/finance/expenses", label: t("finance.expenses") },
-      ],
-    },
+const managementItems = [
+  {
+    id: "settings",
+    basePath: "/settings",
+    icon: Settings,
+    label: t("nav.settings"),
+    items: [
+      { to: "/settings", label: t("settings.settingsHub") },
+      { to: "/settings/general", label: "General" },
+      { to: "/settings/localization", label: "Localization" },
+      { to: "/settings/appearance", label: "Appearance" },
+      { to: "/settings/security", label: "Security" },
+      { to: "/settings/backup", label: "Backup" },
+      { to: "/settings/integrations", label: "Integrations" },
+      { to: "/settings/audit-logs", label: "Audit Logs" },
+    ],
+  },
+  {
+    id: "finance",
+    basePath: "/finance",
+    icon: DollarSign,
+    label: t("nav.finance"),
+    items: [
+      { to: "/finance/payments", label: t("finance.paymentsInvoices") },
+      { to: "/finance/ledger", label: t("finance.rentRollLedger") },
+      { to: "/finance/transactions", label: t("finance.transactionHistory") },
+      { to: "/finance/expenses", label: t("finance.expenses") },
+    ],
+  },
+  {
+    id: "bookings",
+    basePath: "/bookings",
+    icon: Calendar,
+    label: t("nav.bookings"),
+    items: [
+      { to: "/bookings/list", label: t("bookings.bookingList") },
+      { to: "/bookings/create", label: t("bookings.createBooking") },
+      { to: "/bookings/calendar", label: t("bookings.bookingCalendar") },
+      { to: "/bookings/details", label: t("bookings.bookingDetails") },
+    ],
+  },
+];
 
-    {
-      id: "bookings",
-      icon: Calendar,
-      label: t("nav.bookings"),
-      items: [
-        { to: "/bookings/list", label: t("bookings.bookingList") },
-        { to: "/bookings/create", label: t("bookings.createBooking") },
-        { to: "/bookings/calendar", label: t("bookings.bookingCalendar") },
-        { to: "/bookings/details", label: t("bookings.bookingDetails") },
-      ],
-    },
-  ];
-  
-  const agreeItem = [
-    {
-      id: "agreements",
-      to: "/agreements",
-      icon: FileCheck,
-      label: t("nav.agreements"),
-    },
-  ];
+const agreeItem = [
+  {
+    id: "agreements",
+    to: "/agreements",
+    icon: FileCheck,
+    label: t("nav.agreements"),
+  },
+];
 
-  const communicationItems = [
-    {
-      id: "feedback",
-      icon: MessageSquare,
-      label: t("nav.feedback"),
-      items: [
-        { to: "/feedback/surveys", label: t("feedback.tenantSurveys") },
-        { to: "/feedback/issues", label: t("feedback.issueReports") },
-      ],
-    },
-
-    {
-      id: "notice",
-      icon: Bell,
-      label: t("nav.notices"),
-      items: [
-        { to: "/notices/announcements", label: t("notices.announcements") },
-        { to: "/notices/logs", label: t("notices.tenantNoticeLogs") },
-      ],
-    },
-    {
-      id: "reports",
-      icon: BarChart3,
-      label: t("nav.reports"),
-      items: [
-        { to: "/reports/hub", label: t("reports.reportsHub") },
-        { to: "/reports/payments", label: t("reports.paymentReports") },
-        { to: "/reports/invoices", label: t("reports.invoiceReports") },
-        { to: "/reports/financial", label: t("reports.financialReports") },
-      ],
-    },
-  ];
-
+const communicationItems = [
+  {
+    id: "feedback",
+    to: "/owner/feedback",
+    icon: MessageSquare,
+    label: t("nav.feedback"),
+  },
+  {
+    id: "notices",
+    to: "/notice",
+    icon: Bell,
+    label: t("nav.notices"),
+  },
+  {
+    id: "reports",
+    basePath: "/reports",
+    icon: BarChart3,
+    label: t("nav.reports"),
+    items: [
+      { to: "/reports/hub", label: t("reports.reportsHub") },
+      { to: "/reports/payments", label: t("reports.paymentReports") },
+      { to: "/reports/invoices", label: t("reports.invoiceReports") },
+      { to: "/reports/financial", label: t("reports.financialReports") },
+    ],
+  },
+];
   const bottomItems = [
     { to: "/settings", icon: Settings, label: t("nav.settings") },
     { to: "/help", icon: HelpCircle, label: t("nav.help") },
@@ -607,88 +611,6 @@ const Sidebar = ({
                 </span>
               </NavLink>
             ))}
-          </div>
-
-          {/* Admin */}
-          <div className="mt-5 space-y-1">
-            <div>
-              <button
-                type="button"
-                onPointerDown={(e) =>
-                  handleParentMenuPointerDown("admin", { id: "admin", items: [] }, e)
-                }
-                onClick={(e) =>
-                  handleParentMenuClick("admin", { id: "admin", items: [] }, e)
-                }
-                className={`w-full flex items-center px-3 py-2 rounded-lg text-sm transition-all duration-200 relative group ${openMenus.admin ? activeClass : inactiveClass} ${
-                  isCollapsed && isLarge
-                    ? "justify-center px-0 w-10 h-10 mx-auto"
-                    : "justify-between"
-                }`}
-                onMouseEnter={(e) => handleMouseEnter(e, t("nav.admin"), true)}
-                onMouseLeave={handleMouseLeave}
-              >
-                <div
-                  className={`flex items-center ${isCollapsed && isLarge ? "justify-center" : "gap-3"}`}
-                >
-                  <Shield className="w-4 h-4 flex-shrink-0" />
-                  <span
-                    className={`inline-block truncate transition-opacity duration-200 ${isCollapsed && isLarge ? "opacity-0 w-0 overflow-hidden" : "opacity-100"}`}
-                  >
-                    {t("nav.admin")}
-                  </span>
-                </div>
-                {(!isCollapsed || !isLarge) && (
-                  <div className="flex-shrink-0">
-                    {openMenus.admin ? (
-                      <ChevronDown className="w-4 h-4" />
-                    ) : (
-                      <ChevronRight className="w-4 h-4" />
-                    )}
-                  </div>
-                )}
-              </button>
-
-              {isCollapsed &&
-                isLarge &&
-                renderSubMenuPopup(
-                  [
-                    { to: "/admin/team", label: t("admin.adminTeam") },
-                    { to: "/admin/permissions", label: t("admin.permissions") },
-                    { to: "/admin/audit", label: t("admin.auditLogs") },
-                  ],
-                  t("nav.admin"),
-                  tooltipPosition,
-                )}
-
-              <AnimatePresence initial={false}>
-                {openMenus.admin && (!isCollapsed || !isLarge) && (
-                  <motion.div
-                    initial={{ height: 0, opacity: 0 }}
-                    animate={{ height: "auto", opacity: 1 }}
-                    exit={{ height: 0, opacity: 0 }}
-                    transition={{ duration: 0.22 }}
-                    className={`${dir === "rtl" ? "mr-2" : "ml-2"} overflow-hidden`}
-                  >
-                    {[
-                      { to: "/admin/team", label: t("admin.adminTeam") },
-                      { to: "/admin/permissions", label: t("admin.permissions") },
-                      { to: "/admin/audit", label: t("admin.auditLogs") },
-                    ].map((item, i) => (
-                      <TreeLines key={item.to} isLast={i === 2}>
-                        <NavLink
-                          to={item.to}
-                          className={getNavLinkClass(item.to)}
-                          onClick={closeSidebar}
-                        >
-                          {item.label}
-                        </NavLink>
-                      </TreeLines>
-                    ))}
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </div>
           </div>
 
           {/* Bottom items */}
