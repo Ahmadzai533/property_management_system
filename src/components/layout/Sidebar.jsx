@@ -34,7 +34,7 @@ const Sidebar = ({
     return {
       properties: location.pathname.startsWith("/properties"),
       users: location.pathname.startsWith("/users"),
-      tenants: location.pathname.startsWith("/tenants"),
+      tenants: location.pathname === "/tenants" || location.pathname.startsWith("/tenants/"),
       maintainers: location.pathname.startsWith("/maintainers"),
       finance: location.pathname.startsWith("/finance"),
       agreements: location.pathname.startsWith("/agreements"),
@@ -57,7 +57,7 @@ const Sidebar = ({
   const [isLarge, setIsLarge] = useState(
     typeof window !== "undefined" ? window.innerWidth >= 1024 : true,
   );
-
+//  const navigate=useNavigate();
   useEffect(() => {
     const onResize = () => setIsLarge(window.innerWidth >= 1024);
     window.addEventListener("resize", onResize);
@@ -70,9 +70,19 @@ const Sidebar = ({
     "text-slate-600 hover:bg-gray-100 hover:text-slate-900 dark:text-white dark:hover:bg-slate-800 dark:hover:text-white";
 
   const isMenuActive = (menu) => {
+    // For direct navigation items (with 'to' property)
+    if (menu.to) {
+      return location.pathname === menu.to;
+    }
+    // For dropdown items
     if (!menu.items) return false;
     if (menu.basePath && location.pathname === menu.basePath) return true;
-    return menu.items.some((item) => location.pathname.startsWith(item.to));
+    return menu.items.some((item) => {
+      if (item.to === menu.basePath) {
+        return location.pathname === item.to;
+      }
+      return location.pathname.startsWith(item.to);
+    });
   };
 
   const pointerMenuDownRef = useRef(false);
@@ -85,6 +95,16 @@ const Sidebar = ({
   };
 
   const toggleParentMenu = (menuId, menu) => {
+    // Check if this is a direct navigation item (has 'to' and no items)
+    if (menu?.to && (!menu.items || menu.items.length === 0)) {
+      // Direct navigation - close all menus and navigate
+      setOpenMenus((prev) => closeAllMenus(prev));
+      navigate(menu.to);
+      closeSidebar();
+      return;
+    }
+
+    // If it has items, it's a dropdown
     if (isCollapsed) {
       setIsCollapsed(false);
       setOpenMenus((prev) => {
@@ -231,19 +251,14 @@ const Sidebar = ({
       id: "feedback",
       icon: MessageSquare,
       label: "Feedback",
-      items: [
-        { to: "/feedback/surveys", label: "Tenant Surveys" },
-        { to: "/feedback/issues", label: "Issue Reports" },
-      ],
+    to:"/owner/feedback",
     },
+
     {
-      id: "notices",
+      id: "notice",
       icon: Bell,
-      label: "Notices",
-      items: [
-        { to: "/notices/announcements", label: "Announcements" },
-        { to: "/notices/logs", label: "Tenant Notice Logs" },
-      ],
+      label: "Notice",
+      to: "/notice", // DIRECT NAVIGATION - NO ITEMS
     },
     {
       id: "reports",
@@ -271,15 +286,17 @@ const Sidebar = ({
     </div>
   );
 
-  const getNavLinkClass =
-    (to) =>
-    ({ isActive }) => {
-      const active =
-        location.pathname === to || location.pathname.startsWith(`${to}/`);
-      return `flex items-center gap-3 px-3 py-2 rounded-lg transition-colors duration-200 ease-in-out text-sm relative ${
-        active ? activeClass : inactiveClass
-      } ${isCollapsed && isLarge ? "justify-center px-0 w-10 h-10 mx-auto" : ""}`;
-    };
+  const getNavLinkClass = (to) => ({ isActive }) => {
+    // Use exact matching for routes that have child routes
+    const isExactActive = location.pathname === to;
+    // For routes like /tenants/history, use startsWith but only if it's not the parent
+    const isChildActive = to !== '/tenants' && location.pathname.startsWith(`${to}/`);
+    const active = isExactActive || isChildActive;
+    
+    return `flex items-center gap-3 px-3 py-2 rounded-lg transition-colors duration-200 ease-in-out text-sm relative ${
+      active ? activeClass : inactiveClass
+    } ${isCollapsed && isLarge ? "justify-center px-0 w-10 h-10 mx-auto" : ""}`;
+  };
 
   const Tooltip = ({ label, position }) => {
     if (!label || !isCollapsed) return null;
@@ -307,7 +324,7 @@ const Sidebar = ({
       y: rect.top + rect.height / 2,
     });
 
-    // ✅ ONLY show tooltip for allowed items
+    // ONLY show tooltip for allowed items
     if (!hasSubMenu && tooltipAllowedItems.includes(label)) {
       setHoveredItem(label);
     } else {
@@ -318,6 +335,7 @@ const Sidebar = ({
       setHoveredParent(label);
     }
   };
+  
   const handleMouseLeave = () => {
     setHoveredItem(null);
     setHoveredParent(null);
@@ -346,9 +364,10 @@ const Sidebar = ({
           <NavLink
             key={item.to}
             to={item.to}
-            className={({ isActive }) =>
-              `flex items-center gap-2 px-4 py-2.5 text-sm ${isActive ? activeClass : "text-slate-600 hover:bg-gray-100 dark:text-white dark:hover:bg-slate-800"} transition-colors duration-200`
-            }
+            className={({ isActive }) => {
+              const active = location.pathname === item.to;
+              return `flex items-center gap-2 px-4 py-2.5 text-sm ${active ? activeClass : "text-slate-600 hover:bg-gray-100 dark:text-white dark:hover:bg-slate-800"} transition-colors duration-200`;
+            }}
             onClick={() => {
               closeSidebar();
               handleMouseLeave();
@@ -362,12 +381,31 @@ const Sidebar = ({
   };
 
   const getParentActiveClass = (menu) => {
-    if (menu.basePath && location.pathname === menu.basePath)
+    // For direct navigation items (with 'to' property)
+    if (menu.to && !menu.items) {
+      const isActive = location.pathname === menu.to;
+      return isActive ? activeClass : inactiveClass;
+    }
+    // For dropdown items with basePath
+    if (menu.basePath && location.pathname === menu.basePath) {
       return activeClass;
-    if (menu.items && menu.items.length > 0)
-      return openMenus[menu.id] ? activeClass : inactiveClass;
+    }
+    // For dropdown items with child routes
+    if (menu.items && menu.items.length > 0) {
+      // Check if any child route is active (excluding the base path itself)
+      const isActive = menu.items.some(item => {
+        if (item.to === menu.basePath) {
+          return location.pathname === item.to;
+        }
+        return location.pathname.startsWith(item.to);
+      });
+      return isActive ? activeClass : inactiveClass;
+    }
     return isMenuActive(menu) ? activeClass : inactiveClass;
   };
+
+  // Check if menu has items (dropdown) or is direct navigation
+  const hasSubItems = (menu) => menu.items && menu.items.length > 0;
 
   return (
     <>
@@ -418,81 +456,114 @@ const Sidebar = ({
           {[mainMenuItems, managementItems, communicationItems].map(
             (menuGroup, index) => (
               <div className="mt-5 space-y-1" key={index}>
-                {menuGroup.map((menu) => (
-                  <div key={menu.id}>
-                    <button
-                      type="button"
-                      onPointerDown={(e) =>
-                        handleParentMenuPointerDown(menu.id, menu, e)
-                      }
-                      onClick={(e) => handleParentMenuClick(menu.id, menu, e)}
-                      className={`w-full flex items-center px-3 py-2 rounded-lg text-sm transition-all duration-200 relative group ${getParentActiveClass(menu)} ${
-                        isCollapsed && isLarge
-                          ? "justify-center px-0 w-10 h-10 mx-auto"
-                          : "justify-between"
-                      }`}
-                      onMouseEnter={(e) =>
-                        handleMouseEnter(e, menu.label, true)
-                      }
-                      onMouseLeave={handleMouseLeave}
-                    >
-                      <div
-                        className={`flex items-center ${isCollapsed && isLarge ? "justify-center" : "gap-3"}`}
+                {menuGroup.map((menu) => {
+                  const hasItems = hasSubItems(menu);
+                  
+                  // If it's a direct navigation item (no items, has 'to')
+                  if (!hasItems && menu.to) {
+                    return (
+                      <NavLink
+                        key={menu.id}
+                        to={menu.to}
+                        className={({ isActive }) => {
+                          const active = location.pathname === menu.to;
+                          return `flex items-center gap-3 px-3 py-2 rounded-lg text-sm transition-colors duration-200 ease-in-out relative ${
+                            active ? activeClass : inactiveClass
+                          } ${isCollapsed && isLarge ? "justify-center px-0 w-10 h-10 mx-auto" : ""}`;
+                        }}
+                        onClick={closeSidebar}
+                        onMouseEnter={(e) => handleMouseEnter(e, menu.label, false)}
+                        onMouseLeave={handleMouseLeave}
                       >
-                        <menu.icon className="w-4 h-4 flex-shrink-0" />
-                        <span
-                          className={`inline-block truncate transition-opacity duration-200 ${isCollapsed && isLarge ? "opacity-0 w-0 overflow-hidden" : "opacity-100"}`}
-                        >
-                          {menu.label}
-                        </span>
-                      </div>
-                      {(!isCollapsed || !isLarge) && (
-                        <div className="flex-shrink-0">
-                          {openMenus[menu.id] ? (
-                            <ChevronDown className="w-4 h-4" />
-                          ) : (
-                            <ChevronRight className="w-4 h-4" />
-                          )}
+                        <div className={`flex items-center ${isCollapsed && isLarge ? "justify-center" : "gap-3"}`}>
+                          <menu.icon className="w-4 h-4 flex-shrink-0" />
+                          <span
+                            className={`inline-block truncate transition-opacity duration-200 ${isCollapsed && isLarge ? "opacity-0 w-0 overflow-hidden" : "opacity-100"}`}
+                          >
+                            {menu.label}
+                          </span>
                         </div>
-                      )}
-                    </button>
+                      </NavLink>
+                    );
+                  }
 
-                    {isCollapsed &&
-                      isLarge &&
-                      renderSubMenuPopup(
-                        menu.items,
-                        menu.label,
-                        tooltipPosition,
-                      )}
-
-                    <AnimatePresence initial={false}>
-                      {openMenus[menu.id] && (!isCollapsed || !isLarge) && (
-                        <motion.div
-                          initial={{ height: 0, opacity: 0 }}
-                          animate={{ height: "auto", opacity: 1 }}
-                          exit={{ height: 0, opacity: 0 }}
-                          transition={{ duration: 0.22 }}
-                          className="ml-2 overflow-hidden"
+                  // Otherwise it's a dropdown with items
+                  return (
+                    <div key={menu.id}>
+                      <button
+                        type="button"
+                        onPointerDown={(e) =>
+                          handleParentMenuPointerDown(menu.id, menu, e)
+                        }
+                        onClick={(e) => handleParentMenuClick(menu.id, menu, e)}
+                        className={`w-full flex items-center px-3 py-2 rounded-lg text-sm transition-all duration-200 relative group ${getParentActiveClass(menu)} ${
+                          isCollapsed && isLarge
+                            ? "justify-center px-0 w-10 h-10 mx-auto"
+                            : "justify-between"
+                        }`}
+                        onMouseEnter={(e) =>
+                          handleMouseEnter(e, menu.label, true)
+                        }
+                        onMouseLeave={handleMouseLeave}
+                      >
+                        <div
+                          className={`flex items-center ${isCollapsed && isLarge ? "justify-center" : "gap-3"}`}
                         >
-                          {menu.items?.map((item, i) => (
-                            <TreeLines
-                              key={item.to}
-                              isLast={i === menu.items.length - 1}
-                            >
-                              <NavLink
-                                to={item.to}
-                                className={getNavLinkClass(item.to)}
-                                onClick={closeSidebar}
+                          <menu.icon className="w-4 h-4 flex-shrink-0" />
+                          <span
+                            className={`inline-block truncate transition-opacity duration-200 ${isCollapsed && isLarge ? "opacity-0 w-0 overflow-hidden" : "opacity-100"}`}
+                          >
+                            {menu.label}
+                          </span>
+                        </div>
+                        {(!isCollapsed || !isLarge) && (
+                          <div className="flex-shrink-0">
+                            {openMenus[menu.id] ? (
+                              <ChevronDown className="w-4 h-4" />
+                            ) : (
+                              <ChevronRight className="w-4 h-4" />
+                            )}
+                          </div>
+                        )}
+                      </button>
+
+                      {isCollapsed &&
+                        isLarge &&
+                        renderSubMenuPopup(
+                          menu.items,
+                          menu.label,
+                          tooltipPosition,
+                        )}
+
+                      <AnimatePresence initial={false}>
+                        {openMenus[menu.id] && (!isCollapsed || !isLarge) && (
+                          <motion.div
+                            initial={{ height: 0, opacity: 0 }}
+                            animate={{ height: "auto", opacity: 1 }}
+                            exit={{ height: 0, opacity: 0 }}
+                            transition={{ duration: 0.22 }}
+                            className="ml-2 overflow-hidden"
+                          >
+                            {menu.items?.map((item, i) => (
+                              <TreeLines
+                                key={item.to}
+                                isLast={i === menu.items.length - 1}
                               >
-                                {item.label}
-                              </NavLink>
-                            </TreeLines>
-                          ))}
-                        </motion.div>
-                      )}
-                    </AnimatePresence>
-                  </div>
-                ))}
+                                <NavLink
+                                  to={item.to}
+                                  className={getNavLinkClass(item.to)}
+                                  onClick={closeSidebar}
+                                >
+                                  {item.label}
+                                </NavLink>
+                              </TreeLines>
+                            ))}
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
+                    </div>
+                  );
+                })}
               </div>
             ),
           )}
@@ -503,10 +574,10 @@ const Sidebar = ({
               <button
                 type="button"
                 onPointerDown={(e) =>
-                  handleParentMenuPointerDown("admin", { id: "admin" }, e)
+                  handleParentMenuPointerDown("admin", { id: "admin", items: [] }, e)
                 }
                 onClick={(e) =>
-                  handleParentMenuClick("admin", { id: "admin" }, e)
+                  handleParentMenuClick("admin", { id: "admin", items: [] }, e)
                 }
                 className={`w-full flex items-center px-3 py-2 rounded-lg text-sm transition-all duration-200 relative group ${openMenus.admin ? activeClass : inactiveClass} ${
                   isCollapsed && isLarge
@@ -602,8 +673,8 @@ const Sidebar = ({
         </nav>
 
         {/* Footer Block */}
-        <div
-          className={`p-4 border-t border-slate-200 dark:border-slate-800 flex items-center gap-3 flex-shrink-0 transition-all duration-200 ${isCollapsed && isLarge ? "justify-center" : ""}`}
+        <div onClick={()=>navigate('/owner/profile')}
+          className={` cursor-pointer p-4 border-t border-slate-200 dark:border-slate-800 flex items-center gap-3 flex-shrink-0 transition-all duration-200 ${isCollapsed && isLarge ? "justify-center" : ""}`}
         >
           <div className="w-9 h-9 bg-indigo-600 text-white rounded-full flex items-center justify-center text-sm font-semibold flex-shrink-0">
             AS

@@ -31,6 +31,12 @@ import PaymentsInvoices from "../pages/finance/PaymentsInvoices";
 import RentRollLedger from "../pages/finance/RentRollLedger";
 import TransactionHistory from "../pages/finance/TransactionHistory";
 import MaintenanceRequestManagement from "../pages/maintianents/maintianentsRequest";
+import NoticeManagement from "../pages/notice/NoticeManagement";
+import FeedbackList from "../pages/Feedback/FeedbackList";
+import FeedbackCreate from "../pages/Feedback/FeedbackCreate";
+import FeedbackDetails from "../pages/Feedback/FeedbackDetails";
+import FeedbackEdit from "../pages/Feedback/FeedbackEdit";
+import OwnerProfile from "../pages/profile/OwnerProfile";
 
 
 const AppRoutes = () => {
@@ -84,7 +90,20 @@ const AppRoutes = () => {
 <Route path="/tenants/edit" element={<EditTenant/>} />
 <Route path="/maintainers/maintainersPerson" element={<MaintainerManagement/>} />
 <Route path="/maintainers/maintainersRequest" element={<MaintenanceRequestManagement/>} />
+{/* <Route path="/notice" element={<NoticeManagement/>} /> */}
+  <Route path="/notice" element={<NoticeManagement />} />
 
+      <Route path="owner/feedback" element={<FeedbackList />} />
+        
+        {/* Create Feedback */}
+        <Route path="owner/feedback/create" element={<FeedbackCreate />} />
+        
+        {/* Feedback Details */}
+        <Route path="owner/feedback/:id" element={<FeedbackDetails />} />
+        
+        {/* Edit Feedback */}
+        <Route path="owner/feedback/:id/edit" element={<FeedbackEdit />} />
+        <Route path="/owner/profile" element={<OwnerProfile />} />
 
 
   

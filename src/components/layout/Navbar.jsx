@@ -11,14 +11,14 @@ import {
   PanelLeft,
   PanelRight,
 } from "lucide-react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 
 const Navbar = ({ onToggleSidebar, isCollapsed, onToggleCollapse }) => {
   const [isDark, setIsDark] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const [isLarge, setIsLarge] = useState(window.innerWidth >= 1024);
   const menuRef = useRef(null);
-
+const Navigate=useNavigate();
   useEffect(() => {
     const storedTheme = localStorage.getItem("theme");
     const prefersDark = window.matchMedia?.("(prefers-color-scheme: dark)").matches;
@@ -151,7 +151,7 @@ const Navbar = ({ onToggleSidebar, isCollapsed, onToggleCollapse }) => {
                   <p className="font-semibold text-sm dark:text-slate-100">John Doe</p>
                   <p className="text-xs text-slate-500 dark:text-slate-400">john.doe@example.com</p>
                 </div>
-                <button className="w-full text-left px-4 py-2 hover:bg-slate-50 flex items-center gap-2 transition dark:hover:bg-slate-800 dark:text-slate-100">
+                <button onClick={()=>Navigate('/owner/profile')} className="w-full text-left px-4 py-2 hover:bg-slate-50 flex items-center gap-2 transition dark:hover:bg-slate-800 dark:text-slate-100">
                   <User className="w-4 h-4" /> Profile
                 </button>
                 <button className="w-full text-left px-4 py-2 hover:bg-slate-50 flex items-center gap-2 text-red-600 transition dark:hover:bg-slate-800 dark:text-slate-100">
