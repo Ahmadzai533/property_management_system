@@ -13,6 +13,7 @@ import {
   ChevronRight
 } from 'lucide-react'
 import { useLocalization } from '../../hooks/useLocalization'
+import DateText from '../../components/common/DateText'
 
 const UpcomingRentTable = () => {
   const { t } = useLocalization();
@@ -264,11 +265,7 @@ const UpcomingRentTable = () => {
                         </td>
                         <td className="py-3 px-3 sm:px-4">
                           <p className="text-sm text-slate-600 dark:text-slate-300 whitespace-nowrap">
-                            {new Date(item.dueDate).toLocaleDateString('en-US', { 
-                              month: 'short', 
-                              day: 'numeric', 
-                              year: 'numeric' 
-                            })}
+                            <DateText value={item.dueDate} />
                           </p>
                         </td>
                         <td className="py-3 px-3 sm:px-4">
