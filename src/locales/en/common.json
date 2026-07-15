@@ -68,11 +68,12 @@
     "repairTickets": "Repair Tickets",
     "allContractors": "All Contractors"
   },
-  "settings": {
-    "settingsHub": "Settings Hub"
-  },
   "finance": {
-      "paymentsInvoicesDesc": "Manage all payments, invoices, and financial transactions",
+    "paymentsInvoices": "Payments & Invoices",
+    "rentRollLedger": "Rent Roll Ledger",
+    "transactionHistory": "Transaction History",
+    "expenses": "Expenses",
+    "paymentsInvoicesDesc": "Manage all payments, invoices, and financial transactions",
     "rentRollLedgerDesc": "Complete rent roll management and lease tracking",
     "transactionHistoryDesc": "Complete audit trail of all financial transactions",
     "stats": {
@@ -120,12 +121,18 @@
       "category": "Category",
       "reference": "Reference",
       "paymentMethod": "Payment Method",
-      "createdBy": "Created By"
+      "createdBy": "Created By",
+      "noData": "No data available"
     },
     "filters": {
       "searchPayments": "Search by invoice, tenant, property...",
       "searchLedger": "Search by property, unit, tenant...",
       "searchTransactions": "Search by transaction ID, tenant, property...",
+      "search": "Search...",
+      "filters": "Filters",
+      "all": "All",
+      "dateRange": "Date Range",
+      "apply": "Apply Filters",
       "paymentStatus": "Payment Status",
       "leaseStatus": "Lease Status",
       "property": "Property",
@@ -134,14 +141,34 @@
       "paymentMethod": "Payment Method"
     },
     "invoice": {
+      "createTitle": "Create Invoice",
+      "createSubtitle": "Generate a new invoice for your tenant",
+      "create": "Create Invoice",
       "details": "Invoice Details",
       "invoiceInfo": "Invoice Information",
+      "invoiceNumber": "Invoice Number",
+      "invoiceNumberPlaceholder": "INV-2024-001",
+      "tenant": "Tenant",
+      "selectTenant": "Select Tenant",
       "tenantInfo": "Tenant Information",
+      "property": "Property",
+      "selectProperty": "Select Property",
+      "unit": "Unit",
+      "unitPlaceholder": "A-1201",
+      "dueDate": "Due Date",
+      "description": "Description",
+      "descriptionPlaceholder": "Describe the invoice details...",
+      "amount": "Amount",
+      "tax": "Tax (%)",
+      "discount": "Discount",
+      "totalAmount": "Total Amount",
       "paymentHistory": "Payment History",
       "paymentNumber": "Payment #{{id}}",
       "downloadPdf": "Download PDF",
       "sendEmail": "Send Email",
-      "markPaid": "Mark Paid"
+      "markPaid": "Mark Paid",
+      "createdSuccessfully": "Invoice created successfully!",
+      "createFailed": "Failed to create invoice"
     },
     "ledger": {
       "expectedMonthlyRent": "Expected Monthly Rent",
@@ -209,6 +236,34 @@
         "completed": "Completed"
       }
     },
+    "payment": {
+      "createTitle": "New Payment",
+      "create": "Create Payment",
+      "stepIndicator": "Step {{current}} of {{total}}",
+      "basicInfo": "Basic Information",
+      "paymentInfo": "Payment Information",
+      "reviewConfirm": "Review & Confirm",
+      "invoiceNumber": "Invoice Number",
+      "invoiceNumberPlaceholder": "INV-2024-001",
+      "tenant": "Tenant",
+      "selectTenant": "Select Tenant",
+      "property": "Property",
+      "selectProperty": "Select Property",
+      "unit": "Unit",
+      "unitPlaceholder": "A-1201",
+      "amount": "Amount",
+      "method": "Payment Method",
+      "selectMethod": "Select Payment Method",
+      "date": "Payment Date",
+      "methods": {
+        "bankTransfer": "Bank Transfer",
+        "creditCard": "Credit Card",
+        "cash": "Cash",
+        "check": "Check"
+      },
+      "createdSuccessfully": "Payment created successfully!",
+      "createFailed": "Failed to create payment"
+    },
     "actions": {
       "viewInvoice": "View invoice",
       "editInvoice": "Edit invoice",
@@ -225,37 +280,12 @@
     "pagination": {
       "showing": "Showing {{start}}-{{end}} of {{total}} invoices"
     },
-     "expenses": "Expenses",
     "expense": {
       "pageSubtitle": "Enterprise expense oversight, approvals, and accountable vendor payments.",
       "newExpense": "New Expense",
       "ledger": "Expense Ledger",
       "ledgerDesc": "Review expenses, approvals, and payment workflows.",
       "records": "Records",
-      "stats": {
-        "totalExpenses": "Total Expenses",
-        "monthlyExpenses": "Monthly Expenses",
-        "pendingApprovals": "Pending Approvals",
-        "vendorPayments": "Vendor Payments",
-        "ytdSpend": "YTD operating spend",
-        "currentMonth": "Current month",
-        "awaitingReview": "Awaiting review",
-        "processedThisMonth": "Processed this month"
-      },
-      "messages": {
-        "duplicated": "Expense duplicated",
-        "approved": "Expense approved",
-        "rejected": "Expense rejected",
-        "paymentCompleted": "Payment completed",
-        "deleted": "Expense deleted",
-        "exportedReport": "Exported expense report",
-        "printing": "Printing expenses",
-        "refreshed": "Refreshed expenses",
-        "advancedReady": "Advanced filters ready"
-      }
-    },
-
-      "expense": {
       "deleteTitle": "Delete Expense?",
       "deleteWarning": "This action cannot be undone.",
       "summary": "Expense Summary",
@@ -275,7 +305,6 @@
       "approve": "Approve",
       "reject": "Reject",
       "editExpense": "Edit Expense",
-      "newExpense": "New Expense",
       "updateExpenseDetails": "Update expense details",
       "createExpenseRecord": "Create a new expense record",
       "basicInfo": "Basic Information",
@@ -313,6 +342,27 @@
       "approveAria": "Approve {{id}}",
       "rejectAria": "Reject {{id}}",
       "payAria": "Mark paid {{id}}",
+      "stats": {
+        "totalExpenses": "Total Expenses",
+        "monthlyExpenses": "Monthly Expenses",
+        "pendingApprovals": "Pending Approvals",
+        "vendorPayments": "Vendor Payments",
+        "ytdSpend": "YTD operating spend",
+        "currentMonth": "Current month",
+        "awaitingReview": "Awaiting review",
+        "processedThisMonth": "Processed this month"
+      },
+      "messages": {
+        "duplicated": "Expense duplicated",
+        "approved": "Expense approved",
+        "rejected": "Expense rejected",
+        "paymentCompleted": "Payment completed",
+        "deleted": "Expense deleted",
+        "exportedReport": "Exported expense report",
+        "printing": "Printing expenses",
+        "refreshed": "Refreshed expenses",
+        "advancedReady": "Advanced filters ready"
+      },
       "categories": {
         "Maintenance": "Maintenance",
         "Repairs": "Repairs",
@@ -342,10 +392,6 @@
         "approvedDesc": "Approved by finance operations"
       }
     },
-    "paymentsInvoices": "Payments & Invoices",
-    "rentRollLedger": "Rent Roll Ledger",
-    "transactionHistory": "Transaction History",
-    "expenses": "Expenses",
     "tenants": {
       "johnSmith": "John Smith",
       "sarahJohnson": "Sarah Johnson",
@@ -355,66 +401,6 @@
       "sunsetTowers": "Sunset Towers",
       "oceanView": "Ocean View",
       "gardenHeights": "Garden Heights"
-    },
-    "invoice": {
-      "createTitle": "Create Invoice",
-      "createSubtitle": "Generate a new invoice for your tenant",
-      "create": "Create Invoice",
-      "invoiceNumber": "Invoice Number",
-      "invoiceNumberPlaceholder": "INV-2024-001",
-      "tenant": "Tenant",
-      "selectTenant": "Select Tenant",
-      "property": "Property",
-      "selectProperty": "Select Property",
-      "unit": "Unit",
-      "unitPlaceholder": "A-1201",
-      "dueDate": "Due Date",
-      "description": "Description",
-      "descriptionPlaceholder": "Describe the invoice details...",
-      "amount": "Amount",
-      "tax": "Tax (%)",
-      "discount": "Discount",
-      "totalAmount": "Total Amount",
-      "createdSuccessfully": "Invoice created successfully!",
-      "createFailed": "Failed to create invoice"
-    },
-    "payment": {
-      "createTitle": "New Payment",
-      "create": "Create Payment",
-      "stepIndicator": "Step {{current}} of {{total}}",
-      "basicInfo": "Basic Information",
-      "paymentInfo": "Payment Information",
-      "reviewConfirm": "Review & Confirm",
-      "invoiceNumber": "Invoice Number",
-      "invoiceNumberPlaceholder": "INV-2024-001",
-      "tenant": "Tenant",
-      "selectTenant": "Select Tenant",
-      "property": "Property",
-      "selectProperty": "Select Property",
-      "unit": "Unit",
-      "unitPlaceholder": "A-1201",
-      "amount": "Amount",
-      "method": "Payment Method",
-      "selectMethod": "Select Payment Method",
-      "date": "Payment Date",
-      "methods": {
-        "bankTransfer": "Bank Transfer",
-        "creditCard": "Credit Card",
-        "cash": "Cash",
-        "check": "Check"
-      },
-      "createdSuccessfully": "Payment created successfully!",
-      "createFailed": "Failed to create payment"
-    },
-    "filters": {
-      "search": "Search...",
-      "filters": "Filters",
-      "all": "All",
-      "dateRange": "Date Range",
-      "apply": "Apply Filters"
-    },
-    "table": {
-      "noData": "No data available"
     },
     "validation": {
       "minAmount": "Amount must be greater than {{min}}",
@@ -602,7 +588,7 @@
     "minPrice": "Minimum price",
     "maxPrice": "Maximum price",
     "add": "Add",
-     "previous": "Previous",
+    "previous": "Previous",
     "next": "Next",
     "refresh": "Refresh",
     "filter": "Filter",
@@ -621,7 +607,6 @@
     "table": "Table",
     "grid": "Grid",
     "back": "Back",
-    "next": "Next",
     "print": "Print"
   },
   "properties": {
@@ -693,7 +678,6 @@
     "floor": "Floor",
     "size": "Size",
     "tenantInformation": "Tenant Information",
-    "leaseStatus": "Lease Status",
     "financialSummary": "Financial Summary",
     "monthlyRent": "Monthly Rent",
     "securityDeposit": "Security Deposit",
@@ -720,7 +704,6 @@
     "leaseInformation": "Lease Information",
     "startDate": "Start Date",
     "endDate": "End Date",
-    "paymentStatus": "Payment Status",
     "leaseSummary": "Lease Summary",
     "daysRemaining": "Days Remaining",
     "days": "days",
@@ -909,6 +892,504 @@
       "delete": "Delete",
       "full": "Full",
       "manage": "Manage"
+    }
+  },
+  "settings": {
+    "settingsHub": "Settings Hub",
+    "localization": {
+      "dari": "Dari",
+      "pashto": "Pashto",
+      "english": "English",
+      "title": "Localization & Language",
+      "description": "Prepare the experience for Dari, Pashto, and English audiences with flexible regional formatting and direction support.",
+      "languageSelection": {
+        "title": "Language Selection",
+        "description": "Choose the default interface language and preferred experience."
+      },
+      "fields": {
+        "defaultSystemLanguage": "Default System Language",
+        "userPreferredLanguage": "User Preferred Language",
+        "firstDayOfWeek": "First Day of Week",
+        "timeZone": "Time Zone",
+        "dateFormat": "Date Format",
+        "timeFormat": "Time Format",
+        "numberFormat": "Number Format",
+        "currency": "Currency"
+      },
+      "autoDetect": {
+        "title": "Auto Detect Language",
+        "description": "Use browser or region-based language detection when available."
+      },
+      "rtlSupport": {
+        "title": "RTL / LTR Support",
+        "description": "Enable right-to-left layouts for Dari and Pashto interfaces."
+      },
+      "regionalFormats": {
+        "title": "Regional Formats",
+        "description": "Align date, time, number, and currency formats to your preferred region."
+      },
+      "days": {
+        "sunday": "Sunday",
+        "monday": "Monday"
+      },
+      "timezones": {
+        "kabul": "Asia/Kabul",
+        "utc": "UTC"
+      },
+      "timeFormats": {
+        "24hour": "24 Hour",
+        "12hour": "12 Hour"
+      },
+      "currencies": {
+        "afn": "Afghan Afghani (AFN)",
+        "usd": "US Dollar (USD)",
+        "eur": "Euro (EUR)"
+      }
+    },
+    "configurableOptions": "configurable options",
+    "badges": {
+      "enterprise": "Enterprise",
+      "premium": "Premium",
+      "standard": "Standard",
+      "coreConfiguration": "Core Configuration",
+      "internationalization": "Internationalization",
+      "visualSystem": "Visual System",
+      "financeControls": "Finance Controls",
+      "portfolioControls": "Portfolio Controls",
+      "accessControl": "Access Control",
+      "communication": "Communication",
+      "compliance": "Compliance",
+      "recoveryCenter": "Recovery Center",
+      "connectedServices": "Connected Services",
+      "securityCenter": "Security Center"
+    },
+    "sidebar": {
+      "title": "Settings Hub",
+      "overview": "Overview",
+      "general": "General",
+      "localization": "Localization",
+      "appearance": "Appearance",
+      "usersRoles": "Users & Roles",
+      "properties": "Properties",
+      "financial": "Financial",
+      "notifications": "Notifications",
+      "security": "Security",
+      "backup": "Backup",
+      "integrations": "Integrations",
+      "auditLogs": "Audit Logs"
+    },
+    "index": {
+      "title": "Enterprise Settings Hub",
+      "description": "Centralize platform policies, integrations, security controls, and operational preferences in one premium workspace."
+    },
+    "actions": {
+      "exportProfile": "Export Profile",
+      "syncDefaults": "Sync Defaults",
+      "saveChanges": "Save Changes",
+      "preview": "Preview",
+      "savePreferences": "Save Preferences",
+      "previewUI": "Preview UI",
+      "applyTheme": "Apply Theme",
+      "livePreview": "Live Preview",
+      "saveFinanceRules": "Save Finance Rules",
+      "exportTemplate": "Export Template",
+      "saveCatalog": "Save Catalog",
+      "addTemplate": "Add Template",
+      "savePolicy": "Save Policy",
+      "inviteUser": "Invite User",
+      "saveChannels": "Save Channels",
+      "sendTest": "Send Test",
+      "exportLogs": "Export Logs",
+      "print": "Print",
+      "runBackup": "Run Backup",
+      "restore": "Restore",
+      "saveConnections": "Save Connections",
+      "addIntegration": "Add Integration",
+      "saveSecurityRules": "Save Security Rules",
+      "reviewPolicies": "Review Policies"
+    },
+    "stats": {
+      "configuredAreas": "Configured Areas",
+      "activeIntegrations": "Active Integrations",
+      "securityStatus": "Security Status",
+      "protected": "Protected"
+    },
+    "cards": {
+      "general": {
+        "title": "General Settings",
+        "description": "Manage core company details, business hours, and default experience controls."
+      },
+      "localization": {
+        "title": "Localization & Language",
+        "description": "Configure Dari, Pashto, English, time zones, currency, and layout direction."
+      },
+      "appearance": {
+        "title": "Theme & Appearance",
+        "description": "Adjust themes, accent colors, sidebar layouts, density, and visual polish."
+      },
+      "usersRoles": {
+        "title": "Users & Roles",
+        "description": "Govern access, departments, teams, permissions, and login history."
+      },
+      "properties": {
+        "title": "Property Settings",
+        "description": "Set up property types, units, amenities, categories, and lease behavior."
+      },
+      "financial": {
+        "title": "Financial Settings",
+        "description": "Control payment methods, taxes, invoice formats, bank accounts, and exchanges."
+      },
+      "agreement": {
+        "title": "Agreement Settings",
+        "description": "Standardize templates, renewal rules, deposits, penalties, and signatures."
+      },
+      "booking": {
+        "title": "Booking Settings",
+        "description": "Manage reservation rules, cancellations, check-in and check-out policies."
+      },
+      "maintenance": {
+        "title": "Maintenance Settings",
+        "description": "Define maintenance categories, work orders, priorities, vendors, and services."
+      },
+      "notifications": {
+        "title": "Notification Settings",
+        "description": "Fine-tune email, SMS, push, and in-app alert preferences."
+      },
+      "security": {
+        "title": "Security Settings",
+        "description": "Protect the platform with 2FA, policies, session limits, and monitoring."
+      },
+      "backup": {
+        "title": "Backup & Restore",
+        "description": "Schedule backups, monitor history, and restore critical business data."
+      },
+      "integrations": {
+        "title": "Integrations",
+        "description": "Connect payments, calendars, maps, webhooks, and Microsoft 365 services."
+      },
+      "auditLogs": {
+        "title": "Audit Logs",
+        "description": "Review system activity, user actions, IP data, and support investigations."
+      }
+    },
+    "general": {
+      "title": "General Settings",
+      "description": "Configure the core identity, branding, and business context of your property management platform.",
+      "companyInfo": {
+        "title": "Company Information",
+        "description": "Manage your organizational profile, contacts, and legal identifiers."
+      },
+      "fields": {
+        "companyName": "Company Name",
+        "registrationNumber": "Business Registration Number",
+        "companyEmail": "Company Email",
+        "phoneNumber": "Phone Number",
+        "website": "Website",
+        "taxNumber": "Tax Number",
+        "businessHours": "Business Hours",
+        "workingDays": "Working Days",
+        "weekendDays": "Weekend Days",
+        "defaultDashboard": "Default Dashboard",
+        "companyAddress": "Company Address",
+        "country": "Country",
+        "province": "Province",
+        "postalCode": "Postal Code"
+      },
+      "businessSettings": {
+        "title": "Business Settings",
+        "description": "Control regional defaults, schedules, and workspace defaults."
+      },
+      "options": {
+        "executiveOverview": "Executive Overview",
+        "operationsHub": "Operations Hub"
+      }
+    },
+    "appearance": {
+      "title": "Theme & Appearance",
+      "description": "Fine-tune the platform visual system, spacing, and interactive surface styles without changing the core experience.",
+      "themePreferences": {
+        "title": "Theme Preferences",
+        "description": "Choose the default visual mode and accent styling."
+      },
+      "fields": {
+        "themeMode": "Theme Mode",
+        "accentColor": "Accent Color",
+        "sidebarStyle": "Sidebar Style",
+        "dashboardLayout": "Dashboard Layout",
+        "fontSize": "Font Size",
+        "borderRadius": "Border Radius",
+        "cardStyle": "Card Style",
+        "tableDensity": "Table Density"
+      },
+      "themes": {
+        "light": "Light Mode",
+        "dark": "Dark Mode",
+        "system": "System Theme"
+      },
+      "sidebarStyles": {
+        "default": "Default",
+        "compact": "Compact",
+        "modern": "Modern"
+      },
+      "dashboardLayouts": {
+        "balanced": "Balanced",
+        "compact": "Compact",
+        "executive": "Executive"
+      },
+      "interfaceDensity": {
+        "title": "Interface Density",
+        "description": "Tune typography, spacing, and card styling for comfort and productivity."
+      },
+      "fontSizes": {
+        "small": "Small",
+        "medium": "Medium",
+        "large": "Large"
+      },
+      "borderStyles": {
+        "rounded": "Rounded",
+        "sharp": "Sharp",
+        "soft": "Soft"
+      },
+      "cardStyles": {
+        "elevated": "Elevated",
+        "outlined": "Outlined",
+        "minimal": "Minimal"
+      },
+      "tableDensities": {
+        "compact": "Compact",
+        "comfortable": "Comfortable",
+        "spacious": "Spacious"
+      }
+    },
+    "financial": {
+      "title": "Financial Settings",
+      "description": "Align payment operations, invoicing formats, tax rules, and banking preferences with your accounting process.",
+      "transactions": {
+        "title": "Transactions",
+        "description": "Configure payment methods, invoices, receipts, and expenses."
+      },
+      "fields": {
+        "paymentMethods": "Payment Methods",
+        "taxSettings": "Tax Settings",
+        "invoiceNumberFormat": "Invoice Number Format",
+        "receiptNumberFormat": "Receipt Number Format",
+        "expenseCategories": "Expense Categories",
+        "bankAccounts": "Bank Accounts",
+        "financialYear": "Financial Year",
+        "exchangeRates": "Currency Exchange Rates"
+      },
+      "accounting": {
+        "title": "Accounting Setup",
+        "description": "Manage expense categories, banks, fiscal year, and exchange configuration."
+      }
+    },
+    "properties": {
+      "title": "Property Settings",
+      "description": "Standardize property classifications, amenities, occupancy rules, and lease structures across your portfolio.",
+      "catalog": {
+        "title": "Property Catalog",
+        "description": "Manage property types, building types, and unit categories."
+      },
+      "fields": {
+        "propertyTypes": "Property Types",
+        "buildingTypes": "Building Types",
+        "unitTypes": "Unit Types",
+        "amenities": "Amenities",
+        "floorConfiguration": "Floor Configuration",
+        "propertyCategories": "Property Categories",
+        "occupancyStatus": "Occupancy Status",
+        "leaseTypes": "Lease Types"
+      },
+      "portfolioRules": {
+        "title": "Portfolio Rules",
+        "description": "Configure occupancy status, lease models, and floor planning."
+      },
+      "occupancyStatus": {
+        "vacant": "Vacant",
+        "occupied": "Occupied",
+        "reserved": "Reserved"
+      }
+    },
+    "usersRoles": {
+      "title": "Users & Roles",
+      "description": "Manage governance, permissions, departments, teams, and account security policies with a clear enterprise structure.",
+      "administration": {
+        "title": "Administration",
+        "description": "Configure user lifecycle and access policies."
+      },
+      "fields": {
+        "defaultRole": "Default Role",
+        "departments": "Departments",
+        "teams": "Teams",
+        "passwordPolicy": "Password Policy",
+        "sessionTimeout": "Session Timeout",
+        "maxLoginAttempts": "Maximum Login Attempts",
+        "trustedDevices": "Trusted Devices",
+        "apiAccess": "API Access"
+      },
+      "roles": {
+        "propertyManager": "Property Manager",
+        "financeOfficer": "Finance Officer",
+        "administrator": "Administrator"
+      },
+      "securityControls": {
+        "title": "Security Controls",
+        "description": "Protect access with login rules, session control, and monitoring."
+      },
+      "apiAccessLevels": {
+        "enabled": "Enabled",
+        "limited": "Limited",
+        "disabled": "Disabled"
+      }
+    },
+    "notifications": {
+      "title": "Notification Settings",
+      "description": "Control the delivery channels, reminder cadence, and urgency of alerts across the platform.",
+      "deliveryPreferences": {
+        "title": "Delivery Preferences",
+        "description": "Enable or disable each notification channel for your organization."
+      },
+      "toggles": {
+        "emailNotifications": "Email Notifications",
+        "smsNotifications": "SMS Notifications",
+        "pushNotifications": "Push Notifications",
+        "inAppNotifications": "In-App Notifications",
+        "reminderSettings": "Reminder Settings",
+        "paymentAlerts": "Payment Alerts",
+        "bookingAlerts": "Booking Alerts",
+        "maintenanceAlerts": "Maintenance Alerts"
+      },
+      "descriptions": {
+        "emailNotifications": "Send weekly and instant email alerts.",
+        "smsNotifications": "Deliver critical updates by SMS.",
+        "pushNotifications": "Reach users in the browser or app.",
+        "inAppNotifications": "Surface messages directly in the dashboard.",
+        "reminderSettings": "Alert tenants and staff ahead of events.",
+        "paymentAlerts": "Trigger when invoices or payments change.",
+        "bookingAlerts": "Notify about booking confirmations and changes.",
+        "maintenanceAlerts": "Notify teams when tickets need attention."
+      }
+    },
+    "auditLogs": {
+      "title": "Audit Logs",
+      "description": "Review administrative activity, access events, and operational changes with search and export support.",
+      "activityLog": {
+        "title": "Activity Log",
+        "description": "Search, filter, and export audit details."
+      },
+      "placeholders": {
+        "searchLogs": "Search logs"
+      },
+      "actions": {
+        "filter": "Filter",
+        "export": "Export",
+        "print": "Print",
+        "twoFactorEnabled": "2FA Enabled",
+        "invoiceCreated": "Invoice Created",
+        "bookingUpdated": "Booking Updated"
+      },
+      "table": {
+        "user": "User",
+        "module": "Module",
+        "action": "Action",
+        "description": "Description",
+        "ip": "IP",
+        "date": "Date"
+      },
+      "modules": {
+        "security": "Security",
+        "financial": "Financial",
+        "booking": "Booking"
+      }
+    },
+    "backup": {
+      "title": "Backup & Restore",
+      "description": "Keep business continuity strong with scheduled backups, restore workflows, and verified recovery history.",
+      "backupCenter": {
+        "title": "Backup Center",
+        "description": "Manage automatic backups, restore jobs, and download options."
+      },
+      "fields": {
+        "manualBackup": "Manual Backup",
+        "automaticBackup": "Automatic Backup",
+        "backupSchedule": "Backup Schedule",
+        "downloadBackup": "Download Backup"
+      },
+      "options": {
+        "enabled": "Enabled",
+        "disabled": "Disabled"
+      },
+      "schedules": {
+        "daily": "Daily at 08:00",
+        "hourly": "Hourly",
+        "weekly": "Weekly"
+      },
+      "backupHistory": {
+        "title": "Backup History",
+        "description": "Review the most recent recovery and backup activities."
+      },
+      "history": {
+        "dailyFull": "Daily Full Backup",
+        "incremental": "Incremental Backup",
+        "pointInTime": "Point-in-Time Restore"
+      },
+      "status": {
+        "completed": "Completed",
+        "pending": "Pending"
+      }
+    },
+    "integrations": {
+      "title": "Integrations",
+      "description": "Link core external platforms for payments, mapping, scheduling, and automation workflows.",
+      "platformConnections": {
+        "title": "Platform Connections",
+        "description": "Review and configure your current integrations."
+      },
+      "services": {
+        "paymentGateway": "Payment Gateway",
+        "googleMaps": "Google Maps",
+        "googleCalendar": "Google Calendar",
+        "outlookCalendar": "Outlook Calendar",
+        "microsoft365": "Microsoft 365",
+        "webhooks": "Webhooks"
+      },
+      "status": {
+        "connected": "Connected",
+        "pending": "Pending"
+      },
+      "serviceDescription": "Securely connect and manage this service from the enterprise control center."
+    },
+    "security": {
+      "title": "Security Settings",
+      "description": "Protect your operations with layered access controls, session safeguards, and compliance-oriented security policy.",
+      "accessProtection": {
+        "title": "Access Protection",
+        "description": "Set authentication, password complexity, and device trust controls."
+      },
+      "fields": {
+        "twoFactorAuth": "Two-Factor Authentication",
+        "passwordComplexity": "Password Complexity Rules",
+        "passwordExpiration": "Password Expiration",
+        "sessionTimeout": "Session Timeout",
+        "maxLoginAttempts": "Maximum Login Attempts",
+        "ipRestrictions": "IP Restrictions",
+        "trustedDevices": "Trusted Devices",
+        "activityMonitoring": "Activity Monitoring"
+      },
+      "twoFactorOptions": {
+        "required": "Required",
+        "optional": "Optional",
+        "disabled": "Disabled"
+      },
+      "advancedSafety": {
+        "title": "Advanced Safety",
+        "description": "Set login attempt thresholds, restrictions, API access, and monitoring."
+      },
+      "monitoringOptions": {
+        "enabled": "Enabled",
+        "selective": "Selective",
+        "disabled": "Disabled"
+      }
     }
   }
 }
