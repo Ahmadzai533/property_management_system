@@ -12,8 +12,10 @@ import {
   ChevronLeft,
   ChevronRight
 } from 'lucide-react'
+import { useLocalization } from '../../hooks/useLocalization'
 
 const UpcomingRentTable = () => {
+  const { t } = useLocalization();
   const [searchTerm, setSearchTerm] = useState('')
   const [sortField, setSortField] = useState('dueDate')
   const [sortDirection, setSortDirection] = useState('asc')
@@ -114,6 +116,16 @@ const UpcomingRentTable = () => {
     setCurrentPage(Math.max(1, Math.min(page, totalPages)))
   }
 
+  const tableHeaders = [
+    t('dashboard.table.tenant'),
+    t('dashboard.table.property'),
+    t('dashboard.table.dueDate'),
+    t('dashboard.table.amount'),
+    t('dashboard.table.status'),
+  ]
+
+  const fieldMap = ['tenant', 'property', 'dueDate', 'amount', 'status']
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -125,10 +137,10 @@ const UpcomingRentTable = () => {
       <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 mb-4 sm:mb-5 md:mb-6">
         <div className="flex-1 min-w-0">
           <h3 className="text-base sm:text-lg md:text-xl font-bold text-slate-800 dark:text-white truncate">
-            Upcoming Rent
+            {t('dashboard.rent.title')}
           </h3>
           <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-0.5">
-            {totalItems} due rent payment{totalItems !== 1 ? 's' : ''}
+            {totalItems} {t('dashboard.rent.dueRentPayments', { count: totalItems })}
           </p>
         </div>
         
@@ -138,7 +150,7 @@ const UpcomingRentTable = () => {
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 dark:text-slate-500" />
             <input
               type="text"
-              placeholder="Search tenants or properties..."
+              placeholder={t('dashboard.rent.searchPlaceholder')}
               value={searchTerm}
               onChange={(e) => {
                 setSearchTerm(e.target.value)
@@ -178,7 +190,7 @@ const UpcomingRentTable = () => {
                   }
                 `}
               >
-                {status} ({getStatusCount(status)})
+                {status === 'All' ? t('dashboard.rent.all') : t(`dashboard.status.${status.toLowerCase()}`)} ({getStatusCount(status)})
               </button>
             ))}
             {(searchTerm || statusFilter !== 'All') && (
@@ -186,7 +198,7 @@ const UpcomingRentTable = () => {
                 onClick={clearFilters}
                 className="px-2 sm:px-3 py-1 rounded-lg text-xs sm:text-sm font-medium bg-red-50 dark:bg-red-900/30 text-red-600 dark:text-red-400 hover:bg-red-100 dark:hover:bg-red-900/50 transition-colors whitespace-nowrap"
               >
-                Clear
+                {t('dashboard.rent.clear')}
               </button>
             )}
           </div>
@@ -199,8 +211,7 @@ const UpcomingRentTable = () => {
           <table className="min-w-full">
             <thead>
               <tr className="border-b border-slate-200 dark:border-slate-700">
-                {['Tenant', 'Property', 'Due Date', 'Amount', 'Status'].map((header, index) => {
-                  const fieldMap = ['tenant', 'property', 'dueDate', 'amount', 'status']
+                {tableHeaders.map((header, index) => {
                   const field = fieldMap[index]
                   return (
                     <th
@@ -268,7 +279,7 @@ const UpcomingRentTable = () => {
                         <td className="py-3 px-3 sm:px-4">
                           <div className={`inline-flex items-center gap-1.5 px-2 sm:px-3 py-1 rounded-lg text-[10px] sm:text-xs font-semibold ${statusConfig.bg} ${statusConfig.text} border ${statusConfig.border}`}>
                             {getStatusIcon(item.status)}
-                            <span className="hidden xs:inline">{item.status}</span>
+                            <span className="hidden xs:inline">{t(`dashboard.status.${item.status.toLowerCase()}`)}</span>
                             <span className="xs:hidden">
                               {item.status === 'Paid' ? '✓' : item.status === 'Pending' ? '⏳' : '⚠'}
                             </span>
@@ -284,8 +295,8 @@ const UpcomingRentTable = () => {
                         <div className="p-3 bg-slate-50 dark:bg-slate-700/50 rounded-full">
                           <Search className="w-6 h-6 text-slate-400 dark:text-slate-500" />
                         </div>
-                        <p className="text-sm font-medium text-slate-600 dark:text-slate-300">No results found</p>
-                        <p className="text-xs text-slate-400 dark:text-slate-500">Try adjusting your search or filters</p>
+                        <p className="text-sm font-medium text-slate-600 dark:text-slate-300">{t('dashboard.rent.noResults')}</p>
+                        <p className="text-xs text-slate-400 dark:text-slate-500">{t('dashboard.rent.adjustSearch')}</p>
                       </div>
                     </td>
                   </tr>
@@ -300,8 +311,7 @@ const UpcomingRentTable = () => {
       {totalPages > 1 && (
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mt-4 sm:mt-6 pt-3 sm:pt-4 border-t border-slate-200 dark:border-slate-700">
           <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 text-center sm:text-left">
-            Showing {((currentPage - 1) * itemsPerPage) + 1} to{' '}
-            {Math.min(currentPage * itemsPerPage, totalItems)} of {totalItems} entries
+            {t('dashboard.rent.pagination', { start: ((currentPage - 1) * itemsPerPage) + 1, end: Math.min(currentPage * itemsPerPage, totalItems), total: totalItems })}
           </p>
           <div className="flex items-center justify-center gap-1 sm:gap-2">
             <button

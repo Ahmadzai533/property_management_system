@@ -1,4 +1,3 @@
-// src/components/finance/CreateInvoiceForm.jsx
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { useForm } from 'react-hook-form';
@@ -7,22 +6,24 @@ import { z } from 'zod';
 import { X } from 'lucide-react';
 import Button from '../common/Button';
 import { useToast } from '../../hooks/useToast';
+import { useLocalization } from '../../hooks/useLocalization';
 
-const invoiceSchema = z.object({
-  invoiceNumber: z.string().min(1, 'Invoice number is required'),
-  tenant: z.string().min(1, 'Tenant is required'),
-  property: z.string().min(1, 'Property is required'),
-  unit: z.string().min(1, 'Unit is required'),
-  amount: z.number().min(1, 'Amount must be greater than 0'),
-  tax: z.number().min(0, 'Tax cannot be negative'),
-  discount: z.number().min(0, 'Discount cannot be negative'),
-  dueDate: z.string().min(1, 'Due date is required'),
-  description: z.string().min(1, 'Description is required'),
+const invoiceSchema = (t) => z.object({
+  invoiceNumber: z.string().min(1, t('finance.validation.required', { field: t('finance.invoice.number') })),
+  tenant: z.string().min(1, t('finance.validation.required', { field: t('finance.invoice.tenant') })),
+  property: z.string().min(1, t('finance.validation.required', { field: t('finance.invoice.property') })),
+  unit: z.string().min(1, t('finance.validation.required', { field: t('finance.invoice.unit') })),
+  amount: z.number().min(1, t('finance.validation.minAmount', { min: 1 })),
+  tax: z.number().min(0, t('finance.validation.negativeTax')),
+  discount: z.number().min(0, t('finance.validation.negativeDiscount')),
+  dueDate: z.string().min(1, t('finance.validation.required', { field: t('finance.invoice.dueDate') })),
+  description: z.string().min(1, t('finance.validation.required', { field: t('finance.invoice.description') })),
 });
 
 export const CreateInvoiceForm = ({ isOpen, onClose, onSuccess }) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { toast } = useToast();
+  const { t } = useLocalization();
 
   const {
     register,
@@ -31,7 +32,7 @@ export const CreateInvoiceForm = ({ isOpen, onClose, onSuccess }) => {
     watch,
     reset,
   } = useForm({
-    resolver: zodResolver(invoiceSchema),
+    resolver: zodResolver(invoiceSchema(t)),
     defaultValues: {
       tax: 0,
       discount: 0,
@@ -45,11 +46,11 @@ export const CreateInvoiceForm = ({ isOpen, onClose, onSuccess }) => {
     setIsSubmitting(true);
     try {
       await new Promise((resolve) => setTimeout(resolve, 1500));
-      toast.success('Invoice created successfully!');
+      toast.success(t('finance.messages.invoiceCreated'));
       reset();
       onSuccess?.();
     } catch (error) {
-      toast.error('Failed to create invoice');
+      toast.error(t('finance.messages.invoiceCreateFailed'));
     } finally {
       setIsSubmitting(false);
     }
@@ -73,10 +74,10 @@ export const CreateInvoiceForm = ({ isOpen, onClose, onSuccess }) => {
             <div className="flex items-center justify-between">
               <div>
                 <h2 className="text-xl font-bold text-gray-900 dark:text-white">
-                  Create Invoice
+                  {t('finance.invoice.create')}
                 </h2>
                 <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
-                  Generate a new invoice for your tenant
+                  {t('finance.invoice.createSubtitle')}
                 </p>
               </div>
               <button
@@ -91,11 +92,11 @@ export const CreateInvoiceForm = ({ isOpen, onClose, onSuccess }) => {
           <form onSubmit={handleSubmit(onSubmit)} className="p-6 space-y-4">
             <div>
               <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                Invoice Number
+                {t('finance.invoice.number')}
               </label>
               <input
                 {...register('invoiceNumber')}
-                placeholder="INV-2024-001"
+                placeholder={t('finance.invoice.numberPlaceholder')}
                 className={`w-full px-3 py-2 rounded-lg border ${
                   errors.invoiceNumber 
                     ? 'border-red-500 dark:border-red-500' 
@@ -110,7 +111,7 @@ export const CreateInvoiceForm = ({ isOpen, onClose, onSuccess }) => {
             <div className="grid grid-cols-2 gap-4">
               <div>
                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                  Tenant
+                  {t('finance.invoice.tenant')}
                 </label>
                 <select
                   {...register('tenant')}
@@ -120,10 +121,10 @@ export const CreateInvoiceForm = ({ isOpen, onClose, onSuccess }) => {
                       : 'border-gray-300 dark:border-gray-600'
                   } bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent`}
                 >
-                  <option value="">Select Tenant</option>
-                  <option value="John Smith">John Smith</option>
-                  <option value="Sarah Johnson">Sarah Johnson</option>
-                  <option value="Michael Brown">Michael Brown</option>
+                  <option value="">{t('finance.invoice.selectTenant')}</option>
+                  <option value="John Smith">{t('finance.invoice.tenants.johnSmith')}</option>
+                  <option value="Sarah Johnson">{t('finance.invoice.tenants.sarahJohnson')}</option>
+                  <option value="Michael Brown">{t('finance.invoice.tenants.michaelBrown')}</option>
                 </select>
                 {errors.tenant && (
                   <p className="text-sm text-red-600 mt-1">{errors.tenant.message}</p>
@@ -131,7 +132,7 @@ export const CreateInvoiceForm = ({ isOpen, onClose, onSuccess }) => {
               </div>
               <div>
                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                  Property
+                  {t('finance.invoice.property')}
                 </label>
                 <select
                   {...register('property')}
@@ -141,10 +142,10 @@ export const CreateInvoiceForm = ({ isOpen, onClose, onSuccess }) => {
                       : 'border-gray-300 dark:border-gray-600'
                   } bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent`}
                 >
-                  <option value="">Select Property</option>
-                  <option value="Sunset Towers">Sunset Towers</option>
-                  <option value="Ocean View">Ocean View</option>
-                  <option value="Garden Heights">Garden Heights</option>
+                  <option value="">{t('finance.invoice.selectProperty')}</option>
+                  <option value="Sunset Towers">{t('finance.invoice.properties.sunsetTowers')}</option>
+                  <option value="Ocean View">{t('finance.invoice.properties.oceanView')}</option>
+                  <option value="Garden Heights">{t('finance.invoice.properties.gardenHeights')}</option>
                 </select>
                 {errors.property && (
                   <p className="text-sm text-red-600 mt-1">{errors.property.message}</p>
@@ -155,11 +156,11 @@ export const CreateInvoiceForm = ({ isOpen, onClose, onSuccess }) => {
             <div className="grid grid-cols-2 gap-4">
               <div>
                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                  Unit
+                  {t('finance.invoice.unit')}
                 </label>
                 <input
                   {...register('unit')}
-                  placeholder="A-1201"
+                  placeholder={t('finance.invoice.unitPlaceholder')}
                   className={`w-full px-3 py-2 rounded-lg border ${
                     errors.unit 
                       ? 'border-red-500 dark:border-red-500' 
@@ -172,7 +173,7 @@ export const CreateInvoiceForm = ({ isOpen, onClose, onSuccess }) => {
               </div>
               <div>
                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                  Due Date
+                  {t('finance.invoice.dueDate')}
                 </label>
                 <input
                   {...register('dueDate')}
@@ -191,7 +192,7 @@ export const CreateInvoiceForm = ({ isOpen, onClose, onSuccess }) => {
 
             <div>
               <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                Description
+                {t('finance.invoice.description')}
               </label>
               <textarea
                 {...register('description')}
@@ -201,7 +202,7 @@ export const CreateInvoiceForm = ({ isOpen, onClose, onSuccess }) => {
                     ? 'border-red-500 dark:border-red-500' 
                     : 'border-gray-300 dark:border-gray-600'
                 } bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent`}
-                placeholder="Describe the invoice details..."
+                placeholder={t('finance.invoice.descriptionPlaceholder')}
               />
               {errors.description && (
                 <p className="text-sm text-red-600 mt-1">{errors.description.message}</p>
@@ -211,7 +212,7 @@ export const CreateInvoiceForm = ({ isOpen, onClose, onSuccess }) => {
             <div className="grid grid-cols-3 gap-4">
               <div>
                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                  Amount
+                  {t('finance.invoice.amount')}
                 </label>
                 <input
                   {...register('amount', { valueAsNumber: true })}
@@ -229,7 +230,7 @@ export const CreateInvoiceForm = ({ isOpen, onClose, onSuccess }) => {
               </div>
               <div>
                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                  Tax (%)
+                  {t('finance.invoice.tax')}
                 </label>
                 <input
                   {...register('tax', { valueAsNumber: true })}
@@ -247,7 +248,7 @@ export const CreateInvoiceForm = ({ isOpen, onClose, onSuccess }) => {
               </div>
               <div>
                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                  Discount
+                  {t('finance.invoice.discount')}
                 </label>
                 <input
                   {...register('discount', { valueAsNumber: true })}
@@ -268,7 +269,7 @@ export const CreateInvoiceForm = ({ isOpen, onClose, onSuccess }) => {
             <div className="p-4 bg-gray-50 dark:bg-gray-800 rounded-lg">
               <div className="flex justify-between items-center">
                 <span className="text-sm font-medium text-gray-600 dark:text-gray-400">
-                  Total Amount
+                  {t('finance.invoice.totalAmount')}
                 </span>
                 <span className="text-xl font-bold text-gray-900 dark:text-white">
                   ${total.toFixed(2)}
@@ -282,14 +283,14 @@ export const CreateInvoiceForm = ({ isOpen, onClose, onSuccess }) => {
                 onClick={onClose}
                 className="px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
               >
-                Cancel
+                {t('common.cancel')}
               </button>
               <button
                 type="submit"
                 disabled={isSubmitting}
                 className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                {isSubmitting ? 'Creating...' : 'Create Invoice'}
+                {isSubmitting ? t('common.creating') : t('finance.invoice.create')}
               </button>
             </div>
           </form>

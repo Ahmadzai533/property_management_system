@@ -8,16 +8,18 @@ import {
   CartesianGrid,
   Tooltip,
   ResponsiveContainer,
-  Cell, // ← Added this import
 } from 'recharts'
 import { Building2, Users } from 'lucide-react'
+import { useLocalization } from '../../hooks/useLocalization'
 
 const OccupancyChart = () => {
+  const { t } = useLocalization();
+
   const [data] = useState([
-    { property: 'Sunset Villa', occupied: 18, vacant: 2 },
-    { property: 'Ocean View', occupied: 12, vacant: 3 },
-    { property: 'Mountain Lodge', occupied: 8, vacant: 1 },
-    { property: 'City Heights', occupied: 15, vacant: 2 },
+    { property: t('dashboard.charts.properties.sunsetVilla'), occupied: 18, vacant: 2 },
+    { property: t('dashboard.charts.properties.oceanView'), occupied: 12, vacant: 3 },
+    { property: t('dashboard.charts.properties.mountainLodge'), occupied: 8, vacant: 1 },
+    { property: t('dashboard.charts.properties.cityHeights'), occupied: 15, vacant: 2 },
   ])
 
   const totalUnits = useMemo(() => {
@@ -48,20 +50,20 @@ const OccupancyChart = () => {
             <div className="flex items-center justify-between gap-4">
               <div className="flex items-center gap-2">
                 <div className="w-2.5 h-2.5 rounded-full bg-emerald-500 flex-shrink-0" />
-                <span className="text-sm text-slate-600 dark:text-slate-300">Occupied</span>
+                <span className="text-sm text-slate-600 dark:text-slate-300">{t('dashboard.charts.occupied')}</span>
               </div>
               <span className="text-sm font-semibold text-emerald-600 dark:text-emerald-400">{occupied}</span>
             </div>
             <div className="flex items-center justify-between gap-4">
               <div className="flex items-center gap-2">
                 <div className="w-2.5 h-2.5 rounded-full bg-red-500 flex-shrink-0" />
-                <span className="text-sm text-slate-600 dark:text-slate-300">Vacant</span>
+                <span className="text-sm text-slate-600 dark:text-slate-300">{t('dashboard.charts.vacant')}</span>
               </div>
               <span className="text-sm font-semibold text-red-500 dark:text-red-400">{vacant}</span>
             </div>
             <div className="pt-1.5 mt-1.5 border-t border-slate-100 dark:border-slate-700">
               <div className="flex items-center justify-between">
-                <span className="text-xs text-slate-500 dark:text-slate-400">Occupancy Rate</span>
+                <span className="text-xs text-slate-500 dark:text-slate-400">{t('dashboard.charts.occupancyRate')}</span>
                 <span className="text-xs font-bold text-[#6D28D9]">{occupiedPercent}%</span>
               </div>
             </div>
@@ -83,10 +85,10 @@ const OccupancyChart = () => {
       <div className="flex flex-col sm:flex-row sm:items-start md:items-center justify-between gap-3 sm:gap-4 mb-4 sm:mb-5 md:mb-6">
         <div className="flex-1 min-w-0">
           <h3 className="text-base sm:text-lg md:text-xl font-bold text-slate-800 dark:text-white truncate">
-            Occupancy Rate
+            {t('dashboard.charts.occupancy')}
           </h3>
           <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-0.5">
-            Property occupancy status
+            {t('dashboard.charts.occupancySubtitle')}
           </p>
         </div>
         <div className="flex items-center gap-3 flex-shrink-0 flex-wrap">

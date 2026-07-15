@@ -1,7 +1,8 @@
 // src/components/roles/RoleFormModal.jsx
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import { X } from "lucide-react";
 import { useState } from "react";
+import { useLocalization } from "../../hooks/useLocalization";
 import PermissionMatrix from "./PermissionMatrix";
 
 export default function RoleFormModal({
@@ -11,6 +12,8 @@ export default function RoleFormModal({
   role,
   isEdit,
 }) {
+  const { t } = useLocalization();
+
   const [formData, setFormData] = useState({
     name: role?.name || "",
     permissions: role?.permissions || {
@@ -44,7 +47,7 @@ export default function RoleFormModal({
           <div className="sticky top-0 bg-white dark:bg-gray-900 p-6 border-b border-gray-200 dark:border-gray-700 bg-gradient-to-r from-[#6D28D9]/10 to-[#8B5CF6]/10 dark:from-[#6D28D9]/20 dark:to-[#8B5CF6]/20 z-10">
             <div className="flex items-center justify-between">
               <h2 className="text-xl font-bold text-gray-900 dark:text-white">
-                {isEdit ? "Edit Role" : "Create Role"}
+                {isEdit ? t("roles.editRole") : t("roles.createRole")}
               </h2>
               <button
                 onClick={onClose}
@@ -57,7 +60,7 @@ export default function RoleFormModal({
           <form onSubmit={handleSubmit} className="p-6 space-y-6">
             <div>
               <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                Role Name <span className="text-red-500">*</span>
+                {t("roles.roleName")} <span className="text-red-500">*</span>
               </label>
               <input
                 type="text"
@@ -67,13 +70,13 @@ export default function RoleFormModal({
                 }
                 required
                 className="w-full px-3 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                placeholder="e.g., Admin, Manager, Staff"
+                placeholder={t("roles.roleNamePlaceholder")}
               />
             </div>
 
             <div>
               <h3 className="text-sm font-medium text-gray-700 dark:text-gray-300 mb-4">
-                Permissions Matrix
+                {t("roles.permissionsMatrix")}
               </h3>
               <PermissionMatrix
                 permissions={formData.permissions}
@@ -89,13 +92,13 @@ export default function RoleFormModal({
                 onClick={onClose}
                 className="px-4 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
               >
-                Cancel
+                {t("common.cancel")}
               </button>
               <button
                 type="submit"
                 className="px-4 py-2 text-sm bg-gradient-to-r from-purple-500 to-purple-600 text-white rounded-lg hover:from-purple-600 hover:to-purple-700 shadow-md hover:shadow-lg transition-all duration-300"
               >
-                {isEdit ? "Update Role" : "Create Role"}
+                {isEdit ? t("roles.updateRole") : t("roles.createRole")}
               </button>
             </div>
           </form>

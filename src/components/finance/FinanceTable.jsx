@@ -1,7 +1,7 @@
-// src/components/finance/FinanceTable.jsx
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { ChevronDown, ChevronUp } from 'lucide-react';
+import { useLocalization } from '../../hooks/useLocalization';
 
 export const FinanceTable = ({
   columns,
@@ -18,6 +18,7 @@ export const FinanceTable = ({
   const [selectedRows, setSelectedRows] = useState(new Set());
   const [sortField, setSortField] = useState(null);
   const [sortDirection, setSortDirection] = useState('asc');
+  const { t } = useLocalization();
 
   const handleSelectAll = (checked) => {
     if (checked) {
@@ -96,7 +97,7 @@ export const FinanceTable = ({
                 </div>
               </th>
             ))}
-            {actions && <th className="px-4 py-3 text-right">Actions</th>}
+            {actions && <th className="px-4 py-3 text-right">{t('common.actions')}</th>}
           </tr>
         </thead>
         <tbody>
@@ -106,7 +107,7 @@ export const FinanceTable = ({
                 colSpan={columns.length + (selectable ? 1 : 0) + (actions ? 1 : 0)}
                 className="px-4 py-8 text-center text-gray-500 dark:text-gray-400"
               >
-                No data available
+                {t('finance.table.noData')}
               </td>
             </tr>
           ) : (
@@ -155,4 +156,4 @@ export const FinanceTable = ({
       </table>
     </div>
   );
-};
+};  

@@ -9,8 +9,10 @@ import {
   ChevronRight,
   Bell
 } from 'lucide-react'
+import { useLocalization } from '../../hooks/useLocalization'
 
 const RecentActivity = () => {
+  const { t } = useLocalization();
   const [showAll, setShowAll] = useState(false)
   
   const allActivities = [
@@ -21,8 +23,8 @@ const RecentActivity = () => {
       color: 'text-emerald-600 dark:text-emerald-400',
       bg: 'bg-emerald-100 dark:bg-emerald-900/30',
       border: 'border-emerald-200 dark:border-emerald-800',
-      title: 'New tenant added',
-      description: 'Sarah Johnson signed lease for Apt 3B',
+      title: t('dashboard.activity.tenantAdded'),
+      description: t('dashboard.activity.tenantAddedDesc'),
       time: '2 minutes ago',
       timestamp: new Date(Date.now() - 2 * 60 * 1000),
     },
@@ -33,8 +35,8 @@ const RecentActivity = () => {
       color: 'text-[#6D28D9] dark:text-[#8B5CF6]',
       bg: 'bg-[#6D28D9]/10 dark:bg-[#6D28D9]/20',
       border: 'border-[#6D28D9]/20 dark:border-[#6D28D9]/30',
-      title: 'Payment received',
-      description: '$2,400.00 from Michael Chen',
+      title: t('dashboard.activity.paymentReceived'),
+      description: t('dashboard.activity.paymentReceivedDesc'),
       time: '15 minutes ago',
       timestamp: new Date(Date.now() - 15 * 60 * 1000),
     },
@@ -45,8 +47,8 @@ const RecentActivity = () => {
       color: 'text-amber-600 dark:text-amber-400',
       bg: 'bg-amber-100 dark:bg-amber-900/30',
       border: 'border-amber-200 dark:border-amber-800',
-      title: 'Contract renewed',
-      description: 'Emily Davis renewed for 12 months',
+      title: t('dashboard.activity.contractRenewed'),
+      description: t('dashboard.activity.contractRenewedDesc'),
       time: '1 hour ago',
       timestamp: new Date(Date.now() - 60 * 60 * 1000),
     },
@@ -57,8 +59,8 @@ const RecentActivity = () => {
       color: 'text-red-600 dark:text-red-400',
       bg: 'bg-red-100 dark:bg-red-900/30',
       border: 'border-red-200 dark:border-red-800',
-      title: 'Maintenance alert',
-      description: 'Plumbing issue reported at 5th floor',
+      title: t('dashboard.activity.maintenanceAlert'),
+      description: t('dashboard.activity.maintenanceAlertDesc'),
       time: '3 hours ago',
       timestamp: new Date(Date.now() - 3 * 60 * 60 * 1000),
     },
@@ -69,8 +71,8 @@ const RecentActivity = () => {
       color: 'text-[#6D28D9] dark:text-[#8B5CF6]',
       bg: 'bg-[#6D28D9]/10 dark:bg-[#6D28D9]/20',
       border: 'border-[#6D28D9]/20 dark:border-[#6D28D9]/30',
-      title: 'Rent collected',
-      description: '$1,800.00 from Robert Kim',
+      title: t('dashboard.activity.rentCollected'),
+      description: t('dashboard.activity.rentCollectedDesc'),
       time: '5 hours ago',
       timestamp: new Date(Date.now() - 5 * 60 * 60 * 1000),
     },
@@ -81,8 +83,8 @@ const RecentActivity = () => {
       color: 'text-emerald-600 dark:text-emerald-400',
       bg: 'bg-emerald-100 dark:bg-emerald-900/30',
       border: 'border-emerald-200 dark:border-emerald-800',
-      title: 'Lease signed',
-      description: 'Maria Garcia signed lease for Apt 2A',
+      title: t('dashboard.activity.leaseSigned'),
+      description: t('dashboard.activity.leaseSignedDesc'),
       time: '1 day ago',
       timestamp: new Date(Date.now() - 24 * 60 * 60 * 1000),
     },
@@ -97,10 +99,10 @@ const RecentActivity = () => {
     const hours = Math.floor(diff / 3600000)
     const days = Math.floor(diff / 86400000)
 
-    if (minutes < 1) return 'Just now'
-    if (minutes < 60) return `${minutes} minute${minutes > 1 ? 's' : ''} ago`
-    if (hours < 24) return `${hours} hour${hours > 1 ? 's' : ''} ago`
-    if (days < 7) return `${days} day${days > 1 ? 's' : ''} ago`
+    if (minutes < 1) return t('dashboard.activity.justNow')
+    if (minutes < 60) return t('dashboard.activity.minutesAgo', { count: minutes })
+    if (hours < 24) return t('dashboard.activity.hoursAgo', { count: hours })
+    if (days < 7) return t('dashboard.activity.daysAgo', { count: days })
     return timestamp.toLocaleDateString()
   }
 
@@ -115,17 +117,17 @@ const RecentActivity = () => {
       <div className="flex flex-col sm:flex-row sm:items-start md:items-center justify-between gap-3 sm:gap-4 mb-4 sm:mb-5 md:mb-6">
         <div className="flex-1 min-w-0">
           <h3 className="text-base sm:text-lg md:text-xl font-bold text-slate-800 dark:text-white truncate">
-            Recent Activity
+            {t('dashboard.activity.title')}
           </h3>
           <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-0.5">
-            Latest updates from your properties
+            {t('dashboard.activity.subtitle')}
           </p>
         </div>
         <div className="flex items-center gap-2 flex-shrink-0">
           <div className="flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3 py-1 sm:py-1.5 bg-slate-50 dark:bg-slate-700/50 rounded-lg">
             <Bell className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-slate-400 dark:text-slate-500" />
             <span className="text-xs sm:text-sm font-semibold text-slate-600 dark:text-slate-300">
-              {allActivities.length} new
+              {allActivities.length} {t('dashboard.activity.new')}
             </span>
           </div>
           <Clock className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-slate-400 dark:text-slate-500 hidden xs:block" />
@@ -200,14 +202,14 @@ const RecentActivity = () => {
           onClick={() => setShowAll(!showAll)}
           className="w-full mt-3 sm:mt-4 text-center text-xs sm:text-sm font-semibold text-[#6D28D9] dark:text-[#8B5CF6] hover:text-[#5B21B6] dark:hover:text-[#A78BFA] transition-all duration-300 py-2 sm:py-2.5 rounded-xl hover:bg-[#6D28D9]/5 dark:hover:bg-[#6D28D9]/10 active:scale-95"
         >
-          {showAll ? 'Show less' : `View all ${allActivities.length} activities`}
+          {showAll ? t('dashboard.activity.showLess') : t('dashboard.activity.viewAll', { count: allActivities.length })}
         </motion.button>
       )}
 
-      {/* Empty State - Only shown if no activities */}
+      {/* Empty State */}
       {allActivities.length === 0 && (
         <div className="flex-1 flex items-center justify-center py-8">
-          <p className="text-sm text-slate-400 dark:text-slate-500">No recent activities</p>
+          <p className="text-sm text-slate-400 dark:text-slate-500">{t('dashboard.activity.empty')}</p>
         </div>
       )}
     </motion.div>

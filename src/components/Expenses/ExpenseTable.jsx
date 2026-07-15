@@ -12,6 +12,7 @@ import {
 } from "lucide-react";
 import { ExpenseCategoryBadge } from "./ExpenseCategoryBadge";
 import DateText from "../common/DateText";
+import { useLocalization } from "../../hooks/useLocalization";
 
 const statusClasses = {
   Draft: "bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-300",
@@ -35,6 +36,8 @@ const approvalClasses = {
 };
 
 export function ExpenseTable({ rows, onAction, isLoading = false }) {
+  const { t } = useLocalization();
+
   if (isLoading) {
     return (
       <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm dark:border-slate-800 dark:bg-slate-900">
@@ -55,17 +58,17 @@ export function ExpenseTable({ rows, onAction, isLoading = false }) {
         <table className="min-w-full text-left text-sm">
           <thead className="sticky top-0 z-10 bg-slate-50 text-slate-600 dark:bg-slate-800 dark:text-slate-300">
             <tr>
-              <th className="px-4 py-3 font-semibold">Expense ID</th>
-              <th className="px-4 py-3 font-semibold">Expense Title</th>
-              <th className="px-4 py-3 font-semibold">Category</th>
-              <th className="px-4 py-3 font-semibold">Property</th>
-              <th className="px-4 py-3 font-semibold">Vendor</th>
-              <th className="px-4 py-3 font-semibold">Amount</th>
-              <th className="px-4 py-3 font-semibold">Method</th>
-              <th className="px-4 py-3 font-semibold">Status</th>
-              <th className="px-4 py-3 font-semibold">Approval</th>
-              <th className="px-4 py-3 font-semibold">Date</th>
-              <th className="px-4 py-3 font-semibold">Actions</th>
+              <th className="px-4 py-3 font-semibold">{t('finance.expense.expenseId')}</th>
+              <th className="px-4 py-3 font-semibold">{t('finance.expense.title')}</th>
+              <th className="px-4 py-3 font-semibold">{t('finance.expense.category')}</th>
+              <th className="px-4 py-3 font-semibold">{t('finance.expense.property')}</th>
+              <th className="px-4 py-3 font-semibold">{t('finance.expense.vendor')}</th>
+              <th className="px-4 py-3 font-semibold">{t('finance.expense.amount')}</th>
+              <th className="px-4 py-3 font-semibold">{t('finance.expense.method')}</th>
+              <th className="px-4 py-3 font-semibold">{t('finance.expense.status')}</th>
+              <th className="px-4 py-3 font-semibold">{t('finance.expense.approval')}</th>
+              <th className="px-4 py-3 font-semibold">{t('finance.expense.date')}</th>
+              <th className="px-4 py-3 font-semibold">{t('common.actions')}</th>
             </tr>
           </thead>
           <tbody>
@@ -119,42 +122,42 @@ export function ExpenseTable({ rows, onAction, isLoading = false }) {
                     <button
                       className="rounded-lg p-2 text-slate-500 hover:bg-slate-100 hover:text-slate-900 dark:hover:bg-slate-800 dark:hover:text-white"
                       onClick={() => onAction?.("view", row)}
-                      aria-label={`View ${row.id}`}
+                      aria-label={t('finance.expense.viewAria', { id: row.id })}
                     >
                       <Eye className="h-4 w-4" />
                     </button>
                     <button
                       className="rounded-lg p-2 text-slate-500 hover:bg-slate-100 hover:text-slate-900 dark:hover:bg-slate-800 dark:hover:text-white"
                       onClick={() => onAction?.("edit", row)}
-                      aria-label={`Edit ${row.id}`}
+                      aria-label={t('finance.expense.editAria', { id: row.id })}
                     >
                       <Edit className="h-4 w-4" />
                     </button>
                     <button
                       className="rounded-lg p-2 text-slate-500 hover:bg-slate-100 hover:text-slate-900 dark:hover:bg-slate-800 dark:hover:text-white"
                       onClick={() => onAction?.("duplicate", row)}
-                      aria-label={`Duplicate ${row.id}`}
+                      aria-label={t('finance.expense.duplicateAria', { id: row.id })}
                     >
                       <Copy className="h-4 w-4" />
                     </button>
                     <button
                       className="rounded-lg p-2 text-emerald-600 hover:bg-emerald-50 dark:hover:bg-emerald-900/20"
                       onClick={() => onAction?.("approve", row)}
-                      aria-label={`Approve ${row.id}`}
+                      aria-label={t('finance.expense.approveAria', { id: row.id })}
                     >
                       <CheckCircle2 className="h-4 w-4" />
                     </button>
                     <button
                       className="rounded-lg p-2 text-rose-600 hover:bg-rose-50 dark:hover:bg-rose-900/20"
                       onClick={() => onAction?.("reject", row)}
-                      aria-label={`Reject ${row.id}`}
+                      aria-label={t('finance.expense.rejectAria', { id: row.id })}
                     >
                       <XCircle className="h-4 w-4" />
                     </button>
                     <button
                       className="rounded-lg p-2 text-sky-600 hover:bg-sky-50 dark:hover:bg-sky-900/20"
                       onClick={() => onAction?.("pay", row)}
-                      aria-label={`Mark paid ${row.id}`}
+                      aria-label={t('finance.expense.payAria', { id: row.id })}
                     >
                       <Wallet className="h-4 w-4" />
                     </button>

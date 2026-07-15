@@ -9,13 +9,16 @@ import {
   Legend,
 } from 'recharts'
 import { Wrench, CheckCircle, Clock, AlertCircle, AlertTriangle } from 'lucide-react'
+import { useLocalization } from '../../hooks/useLocalization'
 
 const MaintenanceOverview = () => {
+  const { t } = useLocalization();
+
   const [data] = useState([
-    { name: 'Completed', value: 45, color: '#10B981', icon: CheckCircle },
-    { name: 'In Progress', value: 28, color: '#F59E0B', icon: Clock },
-    { name: 'Pending', value: 18, color: '#6D28D9', icon: AlertCircle },
-    { name: 'Overdue', value: 9, color: '#EF4444', icon: AlertTriangle },
+    { name: t('dashboard.maintenance.completed'), value: 45, color: '#10B981', icon: CheckCircle },
+    { name: t('dashboard.maintenance.inProgress'), value: 28, color: '#F59E0B', icon: Clock },
+    { name: t('dashboard.maintenance.pending'), value: 18, color: '#6D28D9', icon: AlertCircle },
+    { name: t('dashboard.maintenance.overdue'), value: 9, color: '#EF4444', icon: AlertTriangle },
   ])
 
   const totalTasks = useMemo(() => {
@@ -39,10 +42,10 @@ const MaintenanceOverview = () => {
             </p>
           </div>
           <p className="text-lg sm:text-xl font-bold" style={{ color: item.color }}>
-            {item.value} tasks
+            {item.value} {t('dashboard.maintenance.tasks')}
           </p>
           <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
-            {percentage}% of total
+            {percentage}% {t('dashboard.maintenance.ofTotal')}
           </p>
         </div>
       )
@@ -87,16 +90,16 @@ const MaintenanceOverview = () => {
       <div className="flex flex-col sm:flex-row sm:items-start md:items-center justify-between gap-3 sm:gap-4 mb-4 sm:mb-5 md:mb-6">
         <div className="flex-1 min-w-0">
           <h3 className="text-base sm:text-lg md:text-xl font-bold text-slate-800 dark:text-white truncate">
-            Maintenance Overview
+            {t('dashboard.maintenance.title')}
           </h3>
           <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-0.5">
-            Task status distribution
+            {t('dashboard.maintenance.subtitle')}
           </p>
         </div>
         <div className="flex items-center gap-1.5 sm:gap-2 px-2.5 sm:px-3 py-1 sm:py-1.5 bg-amber-50 dark:bg-amber-900/30 rounded-lg flex-shrink-0 hover:bg-amber-100 dark:hover:bg-amber-900/50 transition-colors duration-200">
           <Wrench className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-amber-600 dark:text-amber-400" />
           <span className="text-xs sm:text-sm font-semibold text-amber-600 dark:text-amber-400 whitespace-nowrap">
-            {totalTasks} tasks
+            {totalTasks} {t('dashboard.maintenance.tasks')}
           </span>
         </div>
       </div>
@@ -139,7 +142,7 @@ const MaintenanceOverview = () => {
         </ResponsiveContainer>
       </div>
 
-      {/* Quick Stats Footer - Visible on larger screens */}
+      {/* Quick Stats Footer */}
       <div className="hidden md:grid grid-cols-2 lg:grid-cols-4 gap-2 mt-4 pt-4 border-t border-slate-100 dark:border-slate-700">
         {data.map((item) => (
           <div key={item.name} className="flex items-center gap-2">

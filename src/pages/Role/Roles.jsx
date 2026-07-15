@@ -1,55 +1,11 @@
 // src/pages/roles/Roles.jsx
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { useToast } from "../../hooks/useToast";
+import { useLocalization } from "../../hooks/useLocalization";
 import PageHeader from "../../components/shared/PageHeader";
 import RoleTable from "../../components/roles/RoleTable";
 import RoleFormModal from "../../components/roles/RoleFormModal";
 import ConfirmDialog from "../../components/shared/ConfirmDialog";
-
-const breadcrumbItems = [{ label: "Dashboard", href: "/" }, { label: "Roles" }];
-
-// Sample data
-const rolesData = [
-  {
-    id: 1,
-    name: "Admin",
-    usersCount: 3,
-    permissions: {
-      users: ["view", "create", "edit", "delete"],
-      properties: ["full"],
-      tenants: ["full"],
-      finance: ["view", "manage"],
-      agreements: ["view", "manage"],
-    },
-    createdAt: "2023-01-01",
-  },
-  {
-    id: 2,
-    name: "Manager",
-    usersCount: 5,
-    permissions: {
-      users: ["view", "create", "edit"],
-      properties: ["full"],
-      tenants: ["full"],
-      finance: ["view"],
-      agreements: ["view", "manage"],
-    },
-    createdAt: "2023-01-15",
-  },
-  {
-    id: 3,
-    name: "Staff",
-    usersCount: 8,
-    permissions: {
-      users: ["view"],
-      properties: ["view"],
-      tenants: ["view"],
-      finance: ["view"],
-      agreements: ["view"],
-    },
-    createdAt: "2023-02-01",
-  },
-];
 
 export default function Roles() {
   const [isLoading, setIsLoading] = useState(true);
@@ -59,6 +15,55 @@ export default function Roles() {
   const [isEditMode, setIsEditMode] = useState(false);
   const [isDeleteConfirmOpen, setIsDeleteConfirmOpen] = useState(false);
   const { toast } = useToast();
+  const { t } = useLocalization();
+
+  const breadcrumbItems = useMemo(() => [
+    { label: t("breadcrumb.dashboard"), href: "/" },
+    { label: t("users.rolesPermissions") }
+  ], [t]);
+
+  // Sample data
+  const rolesData = [
+    {
+      id: 1,
+      name: "Admin",
+      usersCount: 3,
+      permissions: {
+        users: ["view", "create", "edit", "delete"],
+        properties: ["full"],
+        tenants: ["full"],
+        finance: ["view", "manage"],
+        agreements: ["view", "manage"],
+      },
+      createdAt: "2023-01-01",
+    },
+    {
+      id: 2,
+      name: "Manager",
+      usersCount: 5,
+      permissions: {
+        users: ["view", "create", "edit"],
+        properties: ["full"],
+        tenants: ["full"],
+        finance: ["view"],
+        agreements: ["view", "manage"],
+      },
+      createdAt: "2023-01-15",
+    },
+    {
+      id: 3,
+      name: "Staff",
+      usersCount: 8,
+      permissions: {
+        users: ["view"],
+        properties: ["view"],
+        tenants: ["view"],
+        finance: ["view"],
+        agreements: ["view"],
+      },
+      createdAt: "2023-02-01",
+    },
+  ];
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -89,7 +94,7 @@ export default function Roles() {
     const updatedRoles = roles.filter((r) => r.id !== selectedRole.id);
     setRoles(updatedRoles);
     setIsDeleteConfirmOpen(false);
-    toast.success("Role deleted successfully");
+    toast.success(t("roles.deletedSuccessfully"));
   };
 
   const handleSaveRole = (data) => {
@@ -98,7 +103,7 @@ export default function Roles() {
         r.id === selectedRole.id ? { ...r, ...data } : r,
       );
       setRoles(updatedRoles);
-      toast.success("Role updated successfully");
+      toast.success(t("roles.updatedSuccessfully"));
     } else {
       const newRole = {
         id: roles.length + 1,
@@ -107,7 +112,7 @@ export default function Roles() {
         createdAt: new Date().toISOString(),
       };
       setRoles([...roles, newRole]);
-      toast.success("Role created successfully");
+      toast.success(t("roles.createdSuccessfully"));
     }
     setIsModalOpen(false);
   };
@@ -116,9 +121,9 @@ export default function Roles() {
     <div className="px-2 sm:px-2 lg:px-2 max-w-7xl mx-auto">
       <PageHeader
         breadcrumbItems={breadcrumbItems}
-        title="Roles"
-        subtitle="Create and manage user roles with permissions"
-        buttonText="Create Role"
+        title={t("users.rolesPermissions")}
+        subtitle={t("roles.subtitle")}
+        buttonText={t("roles.createRole")}
         onButtonClick={handleCreateRole}
       />
 
@@ -143,9 +148,9 @@ export default function Roles() {
         isOpen={isDeleteConfirmOpen}
         onClose={() => setIsDeleteConfirmOpen(false)}
         onConfirm={confirmDelete}
-        title="Delete Role"
-        message={`Are you sure you want to delete ${selectedRole?.name}? This action cannot be undone.`}
-        confirmText="Delete"
+        title={t("common.delete")}
+        message={t("roles.deleteConfirmation", { name: selectedRole?.name })}
+        confirmText={t("common.delete")}
         type="danger"
       />
     </div>

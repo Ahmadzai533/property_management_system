@@ -1,14 +1,18 @@
 // src/components/roles/PermissionGroup.jsx
+import { useLocalization } from "../../hooks/useLocalization";
+
 export default function PermissionGroup({
   title,
   permissions,
   selectedPermissions,
   onChange,
 }) {
+  const { t } = useLocalization();
+
   return (
     <div className="p-4 rounded-lg bg-gray-50 dark:bg-gray-800">
       <h4 className="text-sm font-medium text-gray-900 dark:text-white mb-2 capitalize">
-        {title}
+        {t(title)}
       </h4>
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
         {permissions.map((perm) => (
@@ -24,7 +28,7 @@ export default function PermissionGroup({
               }}
               className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
             />
-            {perm.charAt(0).toUpperCase() + perm.slice(1)}
+            {t(`permissions.actions.${perm}`)}
           </label>
         ))}
       </div>

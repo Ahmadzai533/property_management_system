@@ -13,7 +13,7 @@ export function ExpenseStats({ stats, isLoading = false }) {
             <div className="h-4 w-24 rounded bg-slate-200 dark:bg-slate-700" />
             <div className="mt-4 h-8 w-28 rounded bg-slate-200 dark:bg-slate-700" />
             <div className="mt-3 h-3 w-20 rounded bg-slate-200 dark:bg-slate-700" />
-          </div>
+          </div>  
         ))}
       </div>
     );

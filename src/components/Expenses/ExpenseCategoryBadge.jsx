@@ -1,3 +1,4 @@
+import { useLocalization } from "../../hooks/useLocalization";
 import {
   Wrench,
   Hammer,
@@ -108,6 +109,7 @@ const categoryMeta = {
 };
 
 export function ExpenseCategoryBadge({ category }) {
+  const { t } = useLocalization();
   const meta = categoryMeta[category] || categoryMeta.Miscellaneous;
   const Icon = meta.icon;
 
@@ -116,7 +118,7 @@ export function ExpenseCategoryBadge({ category }) {
       className={`inline-flex items-center gap-2 rounded-full px-3 py-1 text-xs font-semibold ${meta.className}`}
     >
       <Icon className="h-3.5 w-3.5" />
-      {category}
+      {t(`finance.expense.categories.${category}`, category)}
     </span>
   );
 }

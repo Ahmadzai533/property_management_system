@@ -1,62 +1,13 @@
 // src/pages/users/Users.jsx
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { useToast } from '../../hooks/useToast';
+import { useLocalization } from '../../hooks/useLocalization';
 import PageHeader from '../../components/shared/PageHeader';
 import UserFilters from '../../components/users/UserFilters';
 import UserTable from '../../components/users/UserTable';
 import UserFormModal from '../../components/users/UserFormModal';
 import ConfirmDialog from '../../components/shared/ConfirmDialog';
 import DateText from '../../components/common/DateText';
-
-const breadcrumbItems = [
-  { label: 'Dashboard', href: '/' },
-  { label: 'Users' },
-];
-
-// Sample data
-const usersData = [
-  {
-    id: 1,
-    name: 'John Admin',
-    email: 'john.admin@system.com',
-    avatar: 'JA',
-    role: 'Admin',
-    status: 'Active',
-    lastLogin: '2024-01-28T14:30:00',
-    department: 'IT',
-    phone: '(555) 123-4567',
-  },
-  {
-    id: 2,
-    name: 'Sarah Manager',
-    email: 'sarah.manager@system.com',
-    avatar: 'SM',
-    role: 'Manager',
-    status: 'Active',
-    lastLogin: '2024-01-27T10:15:00',
-    department: 'Operations',
-    phone: '(555) 234-5678',
-  },
-  {
-    id: 3,
-    name: 'Michael Staff',
-    email: 'michael.staff@system.com',
-    avatar: 'MS',
-    role: 'Staff',
-    status: 'Suspended',
-    lastLogin: '2024-01-20T16:45:00',
-    department: 'Maintenance',
-    phone: '(555) 345-6789',
-  },
-];
-
-const roles = [
-  { id: 1, name: 'Admin' },
-  { id: 2, name: 'Manager' },
-  { id: 3, name: 'Staff' },
-  { id: 4, name: 'Tenant' },
-  { id: 5, name: 'Property Manager' },
-];
 
 export default function Users() {
   const [isLoading, setIsLoading] = useState(true);
@@ -70,6 +21,57 @@ export default function Users() {
   const [isEditMode, setIsEditMode] = useState(false);
   const [isDeleteConfirmOpen, setIsDeleteConfirmOpen] = useState(false);
   const { toast } = useToast();
+  const { t } = useLocalization();
+
+  const breadcrumbItems = useMemo(() => [
+    { label: t('breadcrumb.dashboard'), href: '/' },
+    { label: t('users.usersList') },
+  ], [t]);
+
+  // Sample data
+  const usersData = [
+    {
+      id: 1,
+      name: 'John Admin',
+      email: 'john.admin@system.com',
+      avatar: 'JA',
+      role: 'Admin',
+      status: 'Active',
+      lastLogin: '2024-01-28T14:30:00',
+      department: 'IT',
+      phone: '(555) 123-4567',
+    },
+    {
+      id: 2,
+      name: 'Sarah Manager',
+      email: 'sarah.manager@system.com',
+      avatar: 'SM',
+      role: 'Manager',
+      status: 'Active',
+      lastLogin: '2024-01-27T10:15:00',
+      department: 'Operations',
+      phone: '(555) 234-5678',
+    },
+    {
+      id: 3,
+      name: 'Michael Staff',
+      email: 'michael.staff@system.com',
+      avatar: 'MS',
+      role: 'Staff',
+      status: 'Suspended',
+      lastLogin: '2024-01-20T16:45:00',
+      department: 'Maintenance',
+      phone: '(555) 345-6789',
+    },
+  ];
+
+  const roles = [
+    { id: 1, name: 'Admin' },
+    { id: 2, name: 'Manager' },
+    { id: 3, name: 'Staff' },
+    { id: 4, name: 'Tenant' },
+    { id: 5, name: 'Property Manager' },
+  ];
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -105,7 +107,7 @@ export default function Users() {
   };
 
   const handleViewUser = (user) => {
-    toast.info(`Viewing ${user.name}`);
+    toast.info(t('users.viewingUser', { name: user.name }));
   };
 
   const handleDeleteUser = (user) => {
@@ -117,7 +119,7 @@ export default function Users() {
     const updatedUsers = users.filter((u) => u.id !== selectedUser.id);
     setUsers(updatedUsers);
     setIsDeleteConfirmOpen(false);
-    toast.success('User deleted successfully');
+    toast.success(t('users.deletedSuccessfully'));
   };
 
   const handleSaveUser = (data) => {
@@ -126,7 +128,7 @@ export default function Users() {
         u.id === selectedUser.id ? { ...u, ...data } : u
       );
       setUsers(updatedUsers);
-      toast.success('User updated successfully');
+      toast.success(t('users.updatedSuccessfully'));
     } else {
      const newUser = {
   id: users.length + 1,
@@ -135,7 +137,7 @@ export default function Users() {
   lastLogin: new Date().toISOString(),
 };
       setUsers([...users, newUser]);
-      toast.success('User created successfully');
+      toast.success(t('users.createdSuccessfully'));
     }
     setIsModalOpen(false);
   };
@@ -144,9 +146,9 @@ export default function Users() {
     <div className="px-2 sm:px-2 lg:px-2 max-w-7xl mx-auto">
       <PageHeader
         breadcrumbItems={breadcrumbItems}
-        title="Users"
-        subtitle="Manage system users and access control"
-        buttonText="Add User"
+        title={t('users.usersList')}
+        subtitle={t('users.subtitle')}
+        buttonText={t('common.add')}
         onButtonClick={handleAddUser}
       />
 
@@ -183,9 +185,9 @@ export default function Users() {
         isOpen={isDeleteConfirmOpen}
         onClose={() => setIsDeleteConfirmOpen(false)}
         onConfirm={confirmDelete}
-        title="Delete User"
-        message={`Are you sure you want to delete ${selectedUser?.name}? This action cannot be undone.`}
-        confirmText="Delete"
+        title={t('common.delete')}
+        message={t('users.deleteConfirmation', { name: selectedUser?.name })}
+        confirmText={t('common.delete')}
         type="danger"
       />
     </div>

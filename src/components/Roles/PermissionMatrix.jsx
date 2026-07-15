@@ -1,35 +1,37 @@
 // src/components/roles/PermissionMatrix.jsx
+import { useMemo } from "react";
 import PermissionGroup from "./PermissionGroup";
 
-const permissionModules = [
-  {
-    id: "users",
-    label: "Users",
-    permissions: ["view", "create", "edit", "delete"],
-  },
-  {
-    id: "properties",
-    label: "Properties",
-    permissions: ["full"],
-  },
-  {
-    id: "tenants",
-    label: "Tenants",
-    permissions: ["full"],
-  },
-  {
-    id: "finance",
-    label: "Finance",
-    permissions: ["view", "manage"],
-  },
-  {
-    id: "agreements",
-    label: "Agreements",
-    permissions: ["view", "manage"],
-  },
-];
-
 export default function PermissionMatrix({ permissions, onChange }) {
+
+  const permissionModules = useMemo(() => [
+    {
+      id: "users",
+      label: "permissions.modules.users",
+      permissions: ["view", "create", "edit", "delete"],
+    },
+    {
+      id: "properties",
+      label: "permissions.modules.properties",
+      permissions: ["full"],
+    },
+    {
+      id: "tenants",
+      label: "permissions.modules.tenants",
+      permissions: ["full"],
+    },
+    {
+      id: "finance",
+      label: "permissions.modules.finance",
+      permissions: ["view", "manage"],
+    },
+    {
+      id: "agreements",
+      label: "permissions.modules.agreements",
+      permissions: ["view", "manage"],
+    },
+  ], []);
+
   const handlePermissionChange = (moduleId, newPerms) => {
     onChange({
       ...permissions,

@@ -1,10 +1,10 @@
-// src/components/finance/FinanceFilters.jsx
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Search, Filter, X } from 'lucide-react';
+import { useLocalization } from '../../hooks/useLocalization';
 
 export const FinanceFilters = ({
-  searchPlaceholder = 'Search...',
+  searchPlaceholder,
   filters = [],
   onSearch,
   onFilter,
@@ -19,6 +19,7 @@ export const FinanceFilters = ({
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
   const [activeFilters, setActiveFilters] = useState({});
+  const { t } = useLocalization();
 
   const handleFilterChange = (key, value) => {
     setActiveFilters((prev) => ({ ...prev, [key]: value }));
@@ -44,7 +45,7 @@ export const FinanceFilters = ({
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
           <input
             type="text"
-            placeholder={searchPlaceholder}
+            placeholder={searchPlaceholder || t('finance.filters.search')}
             value={searchValue}
             onChange={(e) => {
               setSearchValue(e.target.value);
@@ -59,7 +60,7 @@ export const FinanceFilters = ({
             onClick={() => setShowFilters(!showFilters)}
           >
             <Filter className="w-4 h-4 inline mr-2" />
-            Filters
+            {t('finance.filters.filters')}
             {activeFilterCount > 0 && (
               <span className="ml-1 px-1.5 py-0.5 text-xs bg-blue-500 text-white rounded-full">
                 {activeFilterCount}
@@ -71,7 +72,7 @@ export const FinanceFilters = ({
               className="px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
               onClick={onExport}
             >
-              Export
+              {t('common.export')}
             </button>
           )}
           {onPrint && (
@@ -79,7 +80,7 @@ export const FinanceFilters = ({
               className="px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
               onClick={onPrint}
             >
-              Print
+              {t('common.print')}
             </button>
           )}
           {onViewToggle && (
@@ -88,13 +89,13 @@ export const FinanceFilters = ({
                 className="px-4 py-2 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 border-r border-gray-300 dark:border-gray-600"
                 onClick={() => onViewToggle('table')}
               >
-                Table
+                {t('common.view.table')}
               </button>
               <button
                 className="px-4 py-2 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700"
                 onClick={() => onViewToggle('grid')}
               >
-                Grid
+                {t('common.view.grid')}
               </button>
             </div>
           )}
@@ -119,7 +120,7 @@ export const FinanceFilters = ({
                   onChange={(e) => handleFilterChange(filter.key, e.target.value)}
                   className="w-full px-3 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 >
-                  <option value="">All</option>
+                  <option value="">{t('finance.filters.all')}</option>
                   {filter.options.map((option) => (
                     <option key={option.value} value={option.value}>
                       {option.label}
@@ -130,7 +131,7 @@ export const FinanceFilters = ({
             ))}
             <div>
               <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                Date Range
+                {t('finance.filters.dateRange')}
               </label>
               <div className="flex gap-2">
                 <input
@@ -154,13 +155,13 @@ export const FinanceFilters = ({
               onClick={handleReset}
             >
               <X className="w-4 h-4 inline mr-1" />
-              Reset
+              {t('common.reset')}
             </button>
             <button
               className="px-4 py-2 text-sm bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
               onClick={() => onDateRange?.(startDate, endDate)}
             >
-              Apply Filters
+              {t('finance.filters.applyFilters')}
             </button>
           </div>
         </motion.div>

@@ -1,5 +1,6 @@
 // src/components/logs/LoginHistoryFilters.jsx
-import SearchBar from '../../shared/SearchBar';
+import { useLocalization } from "../../../hooks/useLocalization";
+import SearchBar from "../../shared/SearchBar";
 
 export default function LoginHistoryFilters({
   searchTerm,
@@ -10,11 +11,13 @@ export default function LoginHistoryFilters({
   onStatusFilterChange,
   users,
 }) {
+  const { t } = useLocalization();
+
   return (
     <div className="bg-white dark:bg-gray-900 rounded-xl border border-gray-200 dark:border-gray-700 p-4 shadow-lg hover:shadow-xl transition-shadow duration-300 mb-6">
       <div className="flex flex-col sm:flex-row gap-3">
         <SearchBar
-          placeholder="Search logs by user or IP..."
+          placeholder={t("loginHistory.searchPlaceholder")}
           value={searchTerm}
           onChange={onSearchChange}
         />
@@ -24,9 +27,11 @@ export default function LoginHistoryFilters({
             onChange={(e) => onUserFilterChange(e.target.value)}
             className="px-3 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
           >
-            <option value="">All Users</option>
+            <option value="">{t("loginHistory.allUsers")}</option>
             {users.map((user) => (
-              <option key={user.id} value={user.name}>{user.name}</option>
+              <option key={user.id} value={user.name}>
+                {user.name}
+              </option>
             ))}
           </select>
           <select
@@ -34,9 +39,9 @@ export default function LoginHistoryFilters({
             onChange={(e) => onStatusFilterChange(e.target.value)}
             className="px-3 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
           >
-            <option value="">All Status</option>
-            <option value="Success">Success</option>
-            <option value="Failed">Failed</option>
+            <option value="">{t("common.allStatus")}</option>
+            <option value="Success">{t("loginHistory.statusSuccess")}</option>
+            <option value="Failed">{t("loginHistory.statusFailed")}</option>
           </select>
         </div>
       </div>

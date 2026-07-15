@@ -1,21 +1,21 @@
-// src/components/finance/PaymentForm.jsx
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { X } from 'lucide-react';
-import Button from '../common/Button'; // This exists
+import Button from '../common/Button';
 import { useToast } from '../../hooks/useToast';
+import { useLocalization } from '../../hooks/useLocalization';
 
-const paymentSchema = z.object({
-  invoiceNumber: z.string().min(1, 'Invoice number is required'),
-  tenant: z.string().min(1, 'Tenant is required'),
-  property: z.string().min(1, 'Property is required'),
-  unit: z.string().min(1, 'Unit is required'),
-  amount: z.number().min(1, 'Amount must be greater than 0'),
-  paymentMethod: z.string().min(1, 'Payment method is required'),
-  paymentDate: z.string().min(1, 'Payment date is required'),
+const paymentSchema = (t) => z.object({
+  invoiceNumber: z.string().min(1, t('finance.validation.required', { field: t('finance.payment.invoiceNumber') })),
+  tenant: z.string().min(1, t('finance.validation.required', { field: t('finance.payment.tenant') })),
+  property: z.string().min(1, t('finance.validation.required', { field: t('finance.payment.property') })),
+  unit: z.string().min(1, t('finance.validation.required', { field: t('finance.payment.unit') })),
+  amount: z.number().min(1, t('finance.validation.minAmount', { min: 1 })),
+  paymentMethod: z.string().min(1, t('finance.validation.required', { field: t('finance.payment.method') })),
+  paymentDate: z.string().min(1, t('finance.validation.required', { field: t('finance.payment.date') })),
   notes: z.string().optional(),
 });
 
@@ -23,6 +23,7 @@ export const PaymentForm = ({ isOpen, onClose, onSuccess }) => {
   const [currentStep, setCurrentStep] = useState(1);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { toast } = useToast();
+  const { t } = useLocalization();
 
   const {
     register,
@@ -31,7 +32,7 @@ export const PaymentForm = ({ isOpen, onClose, onSuccess }) => {
     watch,
     reset,
   } = useForm({
-    resolver: zodResolver(paymentSchema),
+    resolver: zodResolver(paymentSchema(t)),
     defaultValues: {
       paymentMethod: '',
     },
@@ -56,12 +57,12 @@ export const PaymentForm = ({ isOpen, onClose, onSuccess }) => {
     setIsSubmitting(true);
     try {
       await new Promise((resolve) => setTimeout(resolve, 1500));
-      toast.success('Payment created successfully!');
+      toast.success(t('finance.messages.paymentCreated'));
       reset();
       setCurrentStep(1);
       onSuccess?.();
     } catch (error) {
-      toast.error('Failed to create payment');
+      toast.error(t('finance.messages.paymentCreateFailed'));
     } finally {
       setIsSubmitting(false);
     }
@@ -85,10 +86,10 @@ export const PaymentForm = ({ isOpen, onClose, onSuccess }) => {
             <div className="flex items-center justify-between">
               <div>
                 <h2 className="text-xl font-bold text-gray-900 dark:text-white">
-                  New Payment
+                  {t('finance.payment.new')}
                 </h2>
                 <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
-                  Step {currentStep} of {totalSteps}
+                  {t('finance.payment.stepIndicator', { current: currentStep, total: totalSteps })}
                 </p>
               </div>
               <button
@@ -120,15 +121,15 @@ export const PaymentForm = ({ isOpen, onClose, onSuccess }) => {
                 className="space-y-4"
               >
                 <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-4">
-                  Basic Information
+                  {t('finance.payment.basicInfo')}
                 </h3>
                 <div>
                   <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                    Invoice Number
+                    {t('finance.payment.invoiceNumber')}
                   </label>
                   <input
                     {...register('invoiceNumber')}
-                    placeholder="INV-2024-001"
+                    placeholder={t('finance.payment.invoiceNumberPlaceholder')}
                     className={`w-full px-3 py-2 rounded-lg border ${
                       errors.invoiceNumber 
                         ? 'border-red-500 dark:border-red-500' 
@@ -142,7 +143,7 @@ export const PaymentForm = ({ isOpen, onClose, onSuccess }) => {
                 <div className="grid grid-cols-2 gap-4">
                   <div>
                     <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                      Tenant
+                      {t('finance.payment.tenant')}
                     </label>
                     <select
                       {...register('tenant')}
@@ -152,10 +153,10 @@ export const PaymentForm = ({ isOpen, onClose, onSuccess }) => {
                           : 'border-gray-300 dark:border-gray-600'
                       } bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent`}
                     >
-                      <option value="">Select Tenant</option>
-                      <option value="John Smith">John Smith</option>
-                      <option value="Sarah Johnson">Sarah Johnson</option>
-                      <option value="Michael Brown">Michael Brown</option>
+                      <option value="">{t('finance.payment.selectTenant')}</option>
+                      <option value="John Smith">{t('finance.invoice.tenants.johnSmith')}</option>
+                      <option value="Sarah Johnson">{t('finance.invoice.tenants.sarahJohnson')}</option>
+                      <option value="Michael Brown">{t('finance.invoice.tenants.michaelBrown')}</option>
                     </select>
                     {errors.tenant && (
                       <p className="text-sm text-red-600 mt-1">{errors.tenant.message}</p>
@@ -163,7 +164,7 @@ export const PaymentForm = ({ isOpen, onClose, onSuccess }) => {
                   </div>
                   <div>
                     <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                      Property
+                      {t('finance.payment.property')}
                     </label>
                     <select
                       {...register('property')}
@@ -173,10 +174,10 @@ export const PaymentForm = ({ isOpen, onClose, onSuccess }) => {
                           : 'border-gray-300 dark:border-gray-600'
                       } bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent`}
                     >
-                      <option value="">Select Property</option>
-                      <option value="Sunset Towers">Sunset Towers</option>
-                      <option value="Ocean View">Ocean View</option>
-                      <option value="Garden Heights">Garden Heights</option>
+                      <option value="">{t('finance.payment.selectProperty')}</option>
+                      <option value="Sunset Towers">{t('finance.invoice.properties.sunsetTowers')}</option>
+                      <option value="Ocean View">{t('finance.invoice.properties.oceanView')}</option>
+                      <option value="Garden Heights">{t('finance.invoice.properties.gardenHeights')}</option>
                     </select>
                     {errors.property && (
                       <p className="text-sm text-red-600 mt-1">{errors.property.message}</p>
@@ -185,11 +186,11 @@ export const PaymentForm = ({ isOpen, onClose, onSuccess }) => {
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                    Unit
+                    {t('finance.payment.unit')}
                   </label>
                   <input
                     {...register('unit')}
-                    placeholder="A-1201"
+                    placeholder={t('finance.payment.unitPlaceholder')}
                     className={`w-full px-3 py-2 rounded-lg border ${
                       errors.unit 
                         ? 'border-red-500 dark:border-red-500' 
@@ -210,11 +211,11 @@ export const PaymentForm = ({ isOpen, onClose, onSuccess }) => {
                 className="space-y-4"
               >
                 <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-4">
-                  Payment Information
+                  {t('finance.payment.paymentInfo')}
                 </h3>
                 <div>
                   <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                    Amount
+                    {t('finance.payment.amount')}
                   </label>
                   <input
                     {...register('amount', { valueAsNumber: true })}
@@ -232,7 +233,7 @@ export const PaymentForm = ({ isOpen, onClose, onSuccess }) => {
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                    Payment Method
+                    {t('finance.payment.method')}
                   </label>
                   <select
                     {...register('paymentMethod')}
@@ -242,11 +243,11 @@ export const PaymentForm = ({ isOpen, onClose, onSuccess }) => {
                         : 'border-gray-300 dark:border-gray-600'
                     } bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent`}
                   >
-                    <option value="">Select Payment Method</option>
-                    <option value="Bank Transfer">Bank Transfer</option>
-                    <option value="Credit Card">Credit Card</option>
-                    <option value="Cash">Cash</option>
-                    <option value="Check">Check</option>
+                    <option value="">{t('finance.payment.selectMethod')}</option>
+                    <option value="Bank Transfer">{t('finance.payment.methods.bankTransfer')}</option>
+                    <option value="Credit Card">{t('finance.payment.methods.creditCard')}</option>
+                    <option value="Cash">{t('finance.payment.methods.cash')}</option>
+                    <option value="Check">{t('finance.payment.methods.check')}</option>
                   </select>
                   {errors.paymentMethod && (
                     <p className="text-sm text-red-600 mt-1">{errors.paymentMethod.message}</p>
@@ -254,7 +255,7 @@ export const PaymentForm = ({ isOpen, onClose, onSuccess }) => {
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                    Payment Date
+                    {t('finance.payment.date')}
                   </label>
                   <input
                     {...register('paymentDate')}
@@ -279,43 +280,43 @@ export const PaymentForm = ({ isOpen, onClose, onSuccess }) => {
                 className="space-y-4"
               >
                 <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-4">
-                  Review & Confirm
+                  {t('finance.payment.reviewConfirm')}
                 </h3>
                 <div className="bg-gray-50 dark:bg-gray-800 rounded-lg p-4 space-y-3">
                   <div className="grid grid-cols-2 gap-4">
                     <div>
                       <p className="text-sm text-gray-500 dark:text-gray-400">
-                        Invoice Number
+                        {t('finance.payment.invoiceNumber')}
                       </p>
                       <p className="font-medium">{formData.invoiceNumber}</p>
                     </div>
                     <div>
                       <p className="text-sm text-gray-500 dark:text-gray-400">
-                        Amount
+                        {t('finance.payment.amount')}
                       </p>
                       <p className="font-medium">${formData.amount || 0}</p>
                     </div>
                     <div>
                       <p className="text-sm text-gray-500 dark:text-gray-400">
-                        Tenant
+                        {t('finance.payment.tenant')}
                       </p>
                       <p className="font-medium">{formData.tenant}</p>
                     </div>
                     <div>
                       <p className="text-sm text-gray-500 dark:text-gray-400">
-                        Property
+                        {t('finance.payment.property')}
                       </p>
                       <p className="font-medium">{formData.property}</p>
                     </div>
                     <div>
                       <p className="text-sm text-gray-500 dark:text-gray-400">
-                        Unit
+                        {t('finance.payment.unit')}
                       </p>
                       <p className="font-medium">{formData.unit}</p>
                     </div>
                     <div>
                       <p className="text-sm text-gray-500 dark:text-gray-400">
-                        Payment Method
+                        {t('finance.payment.method')}
                       </p>
                       <p className="font-medium">{formData.paymentMethod}</p>
                     </div>
@@ -333,7 +334,7 @@ export const PaymentForm = ({ isOpen, onClose, onSuccess }) => {
                   currentStep === 1 ? 'opacity-50 cursor-not-allowed' : ''
                 }`}
               >
-                Back
+                {t('common.back')}
               </button>
               {currentStep < totalSteps ? (
                 <button
@@ -341,7 +342,7 @@ export const PaymentForm = ({ isOpen, onClose, onSuccess }) => {
                   onClick={handleNext}
                   className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
                 >
-                  Next
+                  {t('common.next')}
                 </button>
               ) : (
                 <button
@@ -349,7 +350,7 @@ export const PaymentForm = ({ isOpen, onClose, onSuccess }) => {
                   disabled={isSubmitting}
                   className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  {isSubmitting ? 'Creating...' : 'Create Payment'}
+                  {isSubmitting ? t('common.creating') : t('finance.payment.create')}
                 </button>
               )}
             </div>

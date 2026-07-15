@@ -1,4 +1,3 @@
-// src/pages/finance/TransactionHistory.jsx
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import {
@@ -20,144 +19,141 @@ import { FinanceFilters } from '../../components/finance/FinanceFilters';
 import Breadcrumb from '../../components/common/Breadcrumb';
 import Button from '../../components/common/Button';
 import DateText from '../../components/common/DateText';
-
-const breadcrumbItems = [
-  { label: 'Finance', href: '/finance' },
-  { label: 'Transaction History' },
-];
-
-const statsData = [
-  {
-    title: 'Total Transactions',
-    value: 2847,
-    icon: <Activity className="w-6 h-6" />,
-    trend: 15.3,
-    subtitle: 'Last 30 days',
-    gradient: 'from-blue-500 to-blue-600',
-  },
-  {
-    title: 'Income',
-    value: 2847500,
-    icon: <ArrowUp className="w-6 h-6" />,
-    trend: 12.5,
-    subtitle: 'Total received',
-    prefix: '$',
-    gradient: 'from-green-500 to-emerald-600',
-  },
-  {
-    title: 'Expenses',
-    value: 847500,
-    icon: <ArrowDown className="w-6 h-6" />,
-    trend: -8.2,
-    subtitle: 'Total paid',
-    prefix: '$',
-    gradient: 'from-red-500 to-rose-600',
-  },
-  {
-    title: 'Refunds',
-    value: 42500,
-    icon: <RefreshCw className="w-6 h-6" />,
-    trend: -3.7,
-    subtitle: 'Processed refunds',
-    prefix: '$',
-    gradient: 'from-purple-500 to-violet-600',
-  },
-  {
-    title: 'Pending',
-    value: 32,
-    icon: <Clock className="w-6 h-6" />,
-    trend: -12.4,
-    subtitle: 'Awaiting confirmation',
-    gradient: 'from-yellow-500 to-amber-600',
-  },
-  {
-    title: 'Failed',
-    value: 8,
-    icon: <XCircle className="w-6 h-6" />,
-    trend: -25.0,
-    subtitle: 'Failed transactions',
-    gradient: 'from-orange-500 to-red-600',
-  },
-  {
-    title: 'Successful',
-    value: 2807,
-    icon: <CheckCircle className="w-6 h-6" />,
-    trend: 18.2,
-    subtitle: 'Completed transactions',
-    gradient: 'from-teal-500 to-cyan-600',
-  },
-];
-
-const transactionData = [
-  {
-    id: 'TX-2024-001',
-    date: '2024-01-28T14:30:00',
-    property: 'Sunset Towers',
-    unit: 'A-1201',
-    tenant: 'John Smith',
-    category: 'Rent Payment',
-    reference: 'INV-2024-001',
-    paymentMethod: 'Bank Transfer',
-    amount: 2500,
-    status: 'Completed',
-    createdBy: 'Jane Doe',
-  },
-  {
-    id: 'TX-2024-002',
-    date: '2024-01-27T10:15:00',
-    property: 'Ocean View',
-    unit: 'B-304',
-    tenant: 'Sarah Johnson',
-    category: 'Deposit',
-    reference: 'DEP-2024-001',
-    paymentMethod: 'Credit Card',
-    amount: 3200,
-    status: 'Pending',
-    createdBy: 'John Smith',
-  },
-  {
-    id: 'TX-2024-003',
-    date: '2024-01-26T16:45:00',
-    property: 'Garden Heights',
-    unit: 'C-502',
-    tenant: 'Michael Brown',
-    category: 'Late Fee',
-    reference: 'LAT-2024-001',
-    paymentMethod: 'Cash',
-    amount: 50,
-    status: 'Failed',
-    createdBy: 'Jane Doe',
-  },
-];
+import { useLocalization } from '../../hooks/useLocalization';
 
 export default function TransactionHistory() {
+  const { t } = useLocalization();
   const [isLoading, setIsLoading] = useState(false);
   const [selectedTransaction, setSelectedTransaction] = useState(null);
   const [isDetailsOpen, setIsDetailsOpen] = useState(false);
 
+  const statsData = [
+    {
+      title: t('finance.transactions.totalTransactions'),
+      value: 2847,
+      icon: <Activity className="w-6 h-6" />,
+      trend: 15.3,
+      subtitle: t('finance.stats.last30Days'),
+      gradient: 'from-blue-500 to-blue-600',
+    },
+    {
+      title: t('finance.transactions.income'),
+      value: 2847500,
+      icon: <ArrowUp className="w-6 h-6" />,
+      trend: 12.5,
+      subtitle: t('finance.transactions.totalReceived'),
+      prefix: '$',
+      gradient: 'from-green-500 to-emerald-600',
+    },
+    {
+      title: t('finance.transactions.expenses'),
+      value: 847500,
+      icon: <ArrowDown className="w-6 h-6" />,
+      trend: -8.2,
+      subtitle: t('finance.transactions.totalPaid'),
+      prefix: '$',
+      gradient: 'from-red-500 to-rose-600',
+    },
+    {
+      title: t('finance.transactions.refunds'),
+      value: 42500,
+      icon: <RefreshCw className="w-6 h-6" />,
+      trend: -3.7,
+      subtitle: t('finance.transactions.processedRefunds'),
+      prefix: '$',
+      gradient: 'from-purple-500 to-violet-600',
+    },
+    {
+      title: t('finance.transactions.pending'),
+      value: 32,
+      icon: <Clock className="w-6 h-6" />,
+      trend: -12.4,
+      subtitle: t('finance.transactions.awaitingConfirmation'),
+      gradient: 'from-yellow-500 to-amber-600',
+    },
+    {
+      title: t('finance.transactions.failed'),
+      value: 8,
+      icon: <XCircle className="w-6 h-6" />,
+      trend: -25.0,
+      subtitle: t('finance.transactions.failedTransactions'),
+      gradient: 'from-orange-500 to-red-600',
+    },
+    {
+      title: t('finance.transactions.successful'),
+      value: 2807,
+      icon: <CheckCircle className="w-6 h-6" />,
+      trend: 18.2,
+      subtitle: t('finance.transactions.completedTransactions'),
+      gradient: 'from-teal-500 to-cyan-600',
+    },
+  ];
+
+  const transactionData = [
+    {
+      id: 'TX-2024-001',
+      date: '2024-01-28T14:30:00',
+      property: 'Sunset Towers',
+      unit: 'A-1201',
+      tenant: 'John Smith',
+      category: 'Rent Payment',
+      reference: 'INV-2024-001',
+      paymentMethod: 'Bank Transfer',
+      amount: 2500,
+      status: 'Completed',
+      createdBy: 'Jane Doe',
+    },
+    {
+      id: 'TX-2024-002',
+      date: '2024-01-27T10:15:00',
+      property: 'Ocean View',
+      unit: 'B-304',
+      tenant: 'Sarah Johnson',
+      category: 'Deposit',
+      reference: 'DEP-2024-001',
+      paymentMethod: 'Credit Card',
+      amount: 3200,
+      status: 'Pending',
+      createdBy: 'John Smith',
+    },
+    {
+      id: 'TX-2024-003',
+      date: '2024-01-26T16:45:00',
+      property: 'Garden Heights',
+      unit: 'C-502',
+      tenant: 'Michael Brown',
+      category: 'Late Fee',
+      reference: 'LAT-2024-001',
+      paymentMethod: 'Cash',
+      amount: 50,
+      status: 'Failed',
+      createdBy: 'Jane Doe',
+    },
+  ];
+
   const columns = [
-    { key: 'id', header: 'Transaction ID', sortable: true, sticky: true },
+    { key: 'id', header: t('finance.table.transactionId'), sortable: true, sticky: true },
     {
       key: 'date',
-      header: 'Date',
+      header: t('finance.table.date'),
       sortable: true,
       accessor: (row) => <DateText value={row.date} showTime />,
     },
-    { key: 'property', header: 'Property', sortable: true },
-    { key: 'unit', header: 'Unit' },
-    { key: 'tenant', header: 'Tenant' },
-    { key: 'category', header: 'Category' },
-    { key: 'reference', header: 'Reference' },
-    { key: 'paymentMethod', header: 'Payment Method' },
+    { key: 'property', header: t('finance.table.property'), sortable: true },
+    { key: 'unit', header: t('finance.table.unit') },
+    { key: 'tenant', header: t('finance.table.tenant') },
+    { key: 'category', header: t('finance.table.category') },
+    { key: 'reference', header: t('finance.table.reference') },
+    { key: 'paymentMethod', header: t('finance.table.paymentMethod') },
     {
       key: 'amount',
-      header: 'Amount',
+      header: t('finance.table.amount'),
       sortable: true,
       accessor: (row) => `$${row.amount.toLocaleString()}`,
     },
     {
       key: 'status',
-      header: 'Status',
+      header: t('finance.table.status'),
       accessor: (row) => (
         <span
           className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${
@@ -168,36 +164,38 @@ export default function TransactionHistory() {
               : 'bg-red-100 text-red-800 dark:bg-red-900/20 dark:text-red-400'
           }`}
         >
-          {row.status}
+          {t(`finance.transactions.status.${row.status.toLowerCase()}`, row.status)}
         </span>
       ),
     },
-    { key: 'createdBy', header: 'Created By' },
+    { key: 'createdBy', header: t('finance.table.createdBy') },
   ];
 
   return (
     <div className="px-2 sm:px-2 lg:px-2 max-w-7xl mx-auto">
-      {/* Gradient Header */}
-      <div className="rounded-2xl bg-gradient-to-r bg-[#6D28D9]  p-6 text-white shadow-lg dark:from-[#6D28D9] dark:to-[#8B5CF6]">
-        <Breadcrumb items={breadcrumbItems} white={true} />
+      <div className="rounded-2xl bg-gradient-to-r bg-[#6D28D9] p-6 text-white shadow-lg dark:from-[#6D28D9] dark:to-[#8B5CF6]">
+        <Breadcrumb items={[
+          { label: t('nav.finance'), href: "/finance" },
+          { label: t('finance.transactionHistory') },
+        ]} white={true} />
         
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mt-4">
           <div>
             <h1 className="text-2xl font-bold text-white">
-              Transaction History
+              {t('finance.transactionHistory')}
             </h1>
             <p className="text-white/80 mt-1">
-              Complete audit trail of all financial transactions
+              {t('finance.transactionHistoryDesc')}
             </p>
           </div>
           <div className="flex gap-2">
             <Button variant="outline" className="bg-white/20 hover:bg-white/30 text-white border border-white/30 backdrop-blur-sm transition-all duration-300">
               <Download className="w-4 h-4 mr-2" />
-              Export
+              {t('common.export')}
             </Button>
             <Button variant="outline" className="bg-white/20 hover:bg-white/30 text-white border border-white/30 backdrop-blur-sm transition-all duration-300">
               <Printer className="w-4 h-4 mr-2" />
-              Print
+              {t('common.print')}
             </Button>
           </div>
         </div>
@@ -222,39 +220,39 @@ export default function TransactionHistory() {
 
       <div className="bg-white dark:bg-gray-900 rounded-xl border border-gray-200 dark:border-gray-700 p-4 shadow-lg hover:shadow-xl transition-shadow duration-300">
         <FinanceFilters
-          searchPlaceholder="Search by transaction ID, tenant, property..."
+          searchPlaceholder={t('finance.filters.searchTransactions')}
           filters={[
             {
               key: 'type',
-              label: 'Transaction Type',
+              label: t('finance.filters.transactionType'),
               options: [
-                { value: 'rent', label: 'Rent Payment' },
-                { value: 'invoice', label: 'Invoice Payment' },
-                { value: 'deposit', label: 'Deposit' },
-                { value: 'refund', label: 'Refund' },
-                { value: 'adjustment', label: 'Adjustment' },
-                { value: 'expense', label: 'Expense' },
-                { value: 'latefee', label: 'Late Fee' },
-                { value: 'discount', label: 'Discount' },
+                { value: 'rent', label: t('finance.transactions.types.rentPayment') },
+                { value: 'invoice', label: t('finance.transactions.types.invoicePayment') },
+                { value: 'deposit', label: t('finance.transactions.types.deposit') },
+                { value: 'refund', label: t('finance.transactions.types.refund') },
+                { value: 'adjustment', label: t('finance.transactions.types.adjustment') },
+                { value: 'expense', label: t('finance.transactions.types.expense') },
+                { value: 'latefee', label: t('finance.transactions.types.lateFee') },
+                { value: 'discount', label: t('finance.transactions.types.discount') },
               ],
             },
             {
               key: 'status',
-              label: 'Status',
+              label: t('finance.filters.status'),
               options: [
-                { value: 'completed', label: 'Completed' },
-                { value: 'pending', label: 'Pending' },
-                { value: 'failed', label: 'Failed' },
+                { value: 'completed', label: t('finance.transactions.status.completed') },
+                { value: 'pending', label: t('finance.transactions.status.pending') },
+                { value: 'failed', label: t('finance.transactions.status.failed') },
               ],
             },
             {
               key: 'method',
-              label: 'Payment Method',
+              label: t('finance.filters.paymentMethod'),
               options: [
-                { value: 'bank', label: 'Bank Transfer' },
-                { value: 'card', label: 'Credit Card' },
-                { value: 'cash', label: 'Cash' },
-                { value: 'check', label: 'Check' },
+                { value: 'bank', label: t('finance.payment.methods.bankTransfer') },
+                { value: 'card', label: t('finance.payment.methods.creditCard') },
+                { value: 'cash', label: t('finance.payment.methods.cash') },
+                { value: 'check', label: t('finance.payment.methods.check') },
               ],
             },
           ]}
@@ -284,11 +282,11 @@ export default function TransactionHistory() {
 
         <div className="flex items-center justify-between mt-4">
           <div className="text-sm text-gray-500 dark:text-gray-400">
-            Showing 1-{transactionData.length} of 2,847 transactions
+            {t('finance.pagination.showing', { start: 1, end: transactionData.length, total: "2,847" })}
           </div>
           <div className="flex gap-2">
             <button className="px-3 py-1 text-sm border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gradient-to-r hover:from-gray-50 hover:to-gray-100 dark:hover:from-gray-700 dark:hover:to-gray-600 transition-all duration-300">
-              Previous
+              {t('common.previous')}
             </button>
             <button className="px-3 py-1 text-sm bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-lg hover:from-blue-600 hover:to-blue-700 shadow-md hover:shadow-lg transition-all duration-300">
               1
@@ -300,13 +298,12 @@ export default function TransactionHistory() {
               3
             </button>
             <button className="px-3 py-1 text-sm border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gradient-to-r hover:from-gray-50 hover:to-gray-100 dark:hover:from-gray-700 dark:hover:to-gray-600 transition-all duration-300">
-              Next
+              {t('common.next')}
             </button>
           </div>
         </div>
       </div>
 
-      {/* Transaction Details Modal */}
       {isDetailsOpen && selectedTransaction && (
         <div className="fixed inset-0 z-50 overflow-y-auto">
           <div className="flex items-center justify-center min-h-screen p-4">
@@ -323,7 +320,7 @@ export default function TransactionHistory() {
                 <div className="flex items-center justify-between">
                   <div>
                     <h2 className="text-xl font-bold text-gray-900 dark:text-white">
-                      Transaction Details
+                      {t('finance.transactions.details')}
                     </h2>
                     <p className="text-sm text-gray-500 dark:text-gray-400">
                       {selectedTransaction.id}
@@ -341,19 +338,19 @@ export default function TransactionHistory() {
                 <div className="grid grid-cols-2 gap-6">
                   <div className="p-4 rounded-lg bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-700">
                     <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400 mb-2">
-                      Transaction Information
+                      {t('finance.transactions.transactionInfo')}
                     </h3>
                     <div className="space-y-2">
                       <p className="text-sm">
-                        <span className="text-gray-500 dark:text-gray-400">Amount:</span>{' '}
+                        <span className="text-gray-500 dark:text-gray-400">{t('finance.table.amount')}:</span>{' '}
                         <span className="font-medium">${selectedTransaction.amount.toLocaleString()}</span>
                       </p>
                       <p className="text-sm">
-                        <span className="text-gray-500 dark:text-gray-400">Category:</span>{' '}
+                        <span className="text-gray-500 dark:text-gray-400">{t('finance.table.category')}:</span>{' '}
                         {selectedTransaction.category}
                       </p>
                       <p className="text-sm">
-                        <span className="text-gray-500 dark:text-gray-400">Status:</span>{' '}
+                        <span className="text-gray-500 dark:text-gray-400">{t('finance.table.status')}:</span>{' '}
                         <span className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${
                           selectedTransaction.status === 'Completed'
                             ? 'bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-400'
@@ -361,26 +358,26 @@ export default function TransactionHistory() {
                             ? 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/20 dark:text-yellow-400'
                             : 'bg-red-100 text-red-800 dark:bg-red-900/20 dark:text-red-400'
                         }`}>
-                          {selectedTransaction.status}
+                          {t(`finance.transactions.status.${selectedTransaction.status.toLowerCase()}`, selectedTransaction.status)}
                         </span>
                       </p>
                     </div>
                   </div>
                   <div className="p-4 rounded-lg bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-700">
                     <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400 mb-2">
-                      Audit Information
+                      {t('finance.transactions.auditInfo')}
                     </h3>
                     <div className="space-y-2">
                       <p className="text-sm">
-                        <span className="text-gray-500 dark:text-gray-400">Created By:</span>{' '}
+                        <span className="text-gray-500 dark:text-gray-400">{t('finance.table.createdBy')}:</span>{' '}
                         {selectedTransaction.createdBy}
                       </p>
                       <p className="text-sm">
-                        <span className="text-gray-500 dark:text-gray-400">Date:</span>{' '}
+                        <span className="text-gray-500 dark:text-gray-400">{t('finance.table.date')}:</span>{' '}
                         <DateText value={selectedTransaction.date} showTime />
                       </p>
                       <p className="text-sm">
-                        <span className="text-gray-500 dark:text-gray-400">Reference:</span>{' '}
+                        <span className="text-gray-500 dark:text-gray-400">{t('finance.table.reference')}:</span>{' '}
                         {selectedTransaction.reference}
                       </p>
                     </div>
@@ -389,13 +386,13 @@ export default function TransactionHistory() {
 
                 <div className="border-t border-gray-200 dark:border-gray-700 pt-6">
                   <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400 mb-4">
-                    Timeline
+                    {t('finance.transactions.timeline')}
                   </h3>
                   <div className="space-y-4">
                     <div className="flex items-start gap-3">
                       <div className="w-2 h-2 mt-1.5 rounded-full bg-green-500" />
                       <div>
-                        <p className="text-sm font-medium">Transaction Created</p>
+                        <p className="text-sm font-medium">{t('finance.transactions.timeline.created')}</p>
                         <p className="text-xs text-gray-500 dark:text-gray-400">
                           <DateText value={selectedTransaction.date} showTime />
                         </p>
@@ -404,7 +401,7 @@ export default function TransactionHistory() {
                     <div className="flex items-start gap-3">
                       <div className="w-2 h-2 mt-1.5 rounded-full bg-blue-500" />
                       <div>
-                        <p className="text-sm font-medium">Processed</p>
+                        <p className="text-sm font-medium">{t('finance.transactions.timeline.processed')}</p>
                         <p className="text-xs text-gray-500 dark:text-gray-400">
                           <DateText value={new Date(new Date(selectedTransaction.date).getTime() + 3600000).toISOString()} showTime />
                         </p>
@@ -414,7 +411,7 @@ export default function TransactionHistory() {
                       <div className="flex items-start gap-3">
                         <div className="w-2 h-2 mt-1.5 rounded-full bg-green-500" />
                         <div>
-                          <p className="text-sm font-medium">Completed</p>
+                          <p className="text-sm font-medium">{t('finance.transactions.timeline.completed')}</p>
                           <p className="text-xs text-gray-500 dark:text-gray-400">
                             <DateText value={new Date(new Date(selectedTransaction.date).getTime() + 7200000).toISOString()} showTime />
                           </p>

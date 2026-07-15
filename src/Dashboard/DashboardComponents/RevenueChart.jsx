@@ -10,16 +10,19 @@ import {
   ResponsiveContainer,
 } from 'recharts'
 import { TrendingUp, TrendingDown, DollarSign } from 'lucide-react'
+import { useLocalization } from '../../hooks/useLocalization'
 
 const RevenueChart = () => {
+  const { t } = useLocalization();
+
   const [data] = useState([
-    { month: 'Jan', revenue: 8500 },
-    { month: 'Feb', revenue: 9200 },
-    { month: 'Mar', revenue: 7800 },
-    { month: 'Apr', revenue: 10500 },
-    { month: 'May', revenue: 11200 },
-    { month: 'Jun', revenue: 9800 },
-    { month: 'Jul', revenue: 12500 },
+    { month: t('dashboard.charts.months.jan'), revenue: 8500 },
+    { month: t('dashboard.charts.months.feb'), revenue: 9200 },
+    { month: t('dashboard.charts.months.mar'), revenue: 7800 },
+    { month: t('dashboard.charts.months.apr'), revenue: 10500 },
+    { month: t('dashboard.charts.months.may'), revenue: 11200 },
+    { month: t('dashboard.charts.months.jun'), revenue: 9800 },
+    { month: t('dashboard.charts.months.jul'), revenue: 12500 },
   ])
 
   const stats = useMemo(() => {
@@ -47,7 +50,7 @@ const RevenueChart = () => {
           </p>
           <div className="mt-2 pt-2 border-t border-slate-100 dark:border-slate-700">
             <p className="text-xs text-slate-500 dark:text-slate-400">
-              {isPositive ? '↑' : '↓'} {isPositive ? 'Positive' : 'Negative'} trend
+              {isPositive ? '↑' : '↓'} {isPositive ? t('dashboard.charts.positiveTrend') : t('dashboard.charts.negativeTrend')}
             </p>
           </div>
         </div>
@@ -67,10 +70,10 @@ const RevenueChart = () => {
       <div className="flex flex-col sm:flex-row sm:items-start md:items-center justify-between gap-3 sm:gap-4 mb-4 sm:mb-5 md:mb-6">
         <div className="flex-1 min-w-0">
           <h3 className="text-base sm:text-lg md:text-xl font-bold text-slate-800 dark:text-white truncate">
-            Revenue Overview
+            {t('dashboard.charts.revenue')}
           </h3>
           <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-0.5">
-            Monthly income trend
+            {t('dashboard.charts.revenueSubtitle')}
           </p>
         </div>
         <div className="flex items-center gap-2 flex-shrink-0 flex-wrap">
@@ -103,25 +106,25 @@ const RevenueChart = () => {
       {/* Quick Stats Row */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-3 mb-4 sm:mb-5 md:mb-6">
         <div className="bg-slate-50 dark:bg-slate-700/50 rounded-lg p-2 sm:p-3">
-          <p className="text-[10px] sm:text-xs text-slate-500 dark:text-slate-400">Average</p>
+          <p className="text-[10px] sm:text-xs text-slate-500 dark:text-slate-400">{t('dashboard.charts.average')}</p>
           <p className="text-xs sm:text-sm font-semibold text-slate-700 dark:text-slate-300">
             ${stats.average.toFixed(0)}
           </p>
         </div>
         <div className="bg-slate-50 dark:bg-slate-700/50 rounded-lg p-2 sm:p-3">
-          <p className="text-[10px] sm:text-xs text-slate-500 dark:text-slate-400">Highest</p>
+          <p className="text-[10px] sm:text-xs text-slate-500 dark:text-slate-400">{t('dashboard.charts.highest')}</p>
           <p className="text-xs sm:text-sm font-semibold text-emerald-600 dark:text-emerald-400">
             ${stats.max.toLocaleString()}
           </p>
         </div>
         <div className="bg-slate-50 dark:bg-slate-700/50 rounded-lg p-2 sm:p-3">
-          <p className="text-[10px] sm:text-xs text-slate-500 dark:text-slate-400">Lowest</p>
+          <p className="text-[10px] sm:text-xs text-slate-500 dark:text-slate-400">{t('dashboard.charts.lowest')}</p>
           <p className="text-xs sm:text-sm font-semibold text-red-500 dark:text-red-400">
             ${stats.min.toLocaleString()}
           </p>
         </div>
         <div className="bg-slate-50 dark:bg-slate-700/50 rounded-lg p-2 sm:p-3">
-          <p className="text-[10px] sm:text-xs text-slate-500 dark:text-slate-400">Current</p>
+          <p className="text-[10px] sm:text-xs text-slate-500 dark:text-slate-400">{t('dashboard.charts.current')}</p>
           <p className="text-xs sm:text-sm font-semibold text-[#6D28D9]">
             ${stats.lastMonth.toLocaleString()}
           </p>
@@ -187,16 +190,16 @@ const RevenueChart = () => {
       <div className="mt-3 sm:mt-4 pt-3 sm:pt-4 border-t border-slate-100 dark:border-slate-700">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
           <p className="text-[10px] sm:text-xs text-slate-500 dark:text-slate-400">
-            Total revenue for the period
+            {t('dashboard.charts.totalRevenuePeriod')}
           </p>
           <div className="flex items-center gap-4">
             <div className="flex items-center gap-1.5">
               <div className="w-2 h-2 rounded-full bg-[#6D28D9]" />
-              <span className="text-[10px] sm:text-xs text-slate-600 dark:text-slate-300">Monthly revenue</span>
+              <span className="text-[10px] sm:text-xs text-slate-600 dark:text-slate-300">{t('dashboard.charts.monthlyRevenue')}</span>
             </div>
             <div className="flex items-center gap-1.5">
               <div className="w-2 h-2 rounded-full bg-emerald-500" />
-              <span className="text-[10px] sm:text-xs text-slate-600 dark:text-slate-300">Trending up</span>
+              <span className="text-[10px] sm:text-xs text-slate-600 dark:text-slate-300">{t('dashboard.charts.trendingUp')}</span>
             </div>
           </div>
         </div>

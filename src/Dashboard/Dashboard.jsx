@@ -6,31 +6,34 @@ import OccupancyChart from "./DashboardComponents/OccupancyChart";
 import RecentActivity from "./DashboardComponents/RecentActivity";
 import UpcomingRentTable from "./DashboardComponents/UpcomingRentTable";
 import MaintenanceOverview from "./DashboardComponents/MaintenanceOverview";
-import Button from "../components/common/Button"; // Fixed: removed extra /common
+import Button from "../components/common/Button";
 import Breadcrumb from "../components/common/Breadcrumb";
+import { useLocalization } from "../hooks/useLocalization";
 
 const Dashboard = () => {
+  const { t } = useLocalization();
+
   const stats = [
     {
-      title: "Total Properties",
+      title: t('dashboard.stats.totalProperties'),
       value: "42",
       icon: Building2,
       change: 8.5,
     },
     {
-      title: "Active Tenants",
+      title: t('dashboard.stats.activeTenants'),
       value: "38",
       icon: Users,
       change: 12.3,
     },
     {
-      title: "Ongoing Contracts",
+      title: t('dashboard.stats.ongoingContracts'),
       value: "35",
       icon: FileText,
       change: -3.2,
     },
     {
-      title: "Monthly Revenue",
+      title: t('dashboard.stats.monthlyRevenue'),
       value: "$12,500",
       icon: DollarSign,
       change: 15.7,
@@ -62,10 +65,10 @@ const Dashboard = () => {
         <div className="min-w-0">
           <Breadcrumb />
           <h1 className="text-2xl md:text-3xl pl-3 font-bold text-slate-800 dark:text-white tracking-tight mt-3">
-            Dashboard Overview
+            {t('dashboard.title')}
           </h1>
           <p className="text-sm md:text-base text-slate-500 mt-1 pl-3 truncate">
-            Welcome back manager. Here's today's performance overview.
+            {t('dashboard.welcome')}
           </p>
         </div>
         <div className="flex flex-wrap items-center gap-2 sm:gap-3 flex-shrink-0">
@@ -73,21 +76,21 @@ const Dashboard = () => {
             icon={Plus}
             className="shadow-lg shadow-[#6D28D9]/30 text-xs sm:text-sm px-3 sm:px-4 py-2 sm:py-2.5"
           >
-            Add Property
+            {t('dashboard.actions.addProperty')}
           </Button>
           <Button
             variant="secondary"
             icon={Plus}
             className="text-xs sm:text-sm px-3 sm:px-4 py-2 sm:py-2.5"
           >
-            Add Tenant
+            {t('dashboard.actions.addTenant')}
           </Button>
           <Button
             variant="success"
             icon={Plus}
             className="text-xs sm:text-sm px-3 sm:px-4 py-2 sm:py-2.5"
           >
-            Create Contract
+            {t('dashboard.actions.createContract')}
           </Button>
         </div>
       </motion.div>

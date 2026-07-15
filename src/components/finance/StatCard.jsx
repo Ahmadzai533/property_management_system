@@ -1,4 +1,3 @@
-// src/components/finance/StatCard.jsx
 import { motion } from 'framer-motion';
 import { ArrowUp, ArrowDown } from 'lucide-react';
 

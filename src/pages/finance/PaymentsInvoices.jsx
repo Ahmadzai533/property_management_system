@@ -1,4 +1,3 @@
-// src/pages/finance/PaymentsInvoices.jsx
 import { useState } from "react";
 import { motion } from "framer-motion";
 import {
@@ -29,129 +28,15 @@ import { useToast } from "../../hooks/useToast";
 import { useFinanceData } from "../../hooks/useFinanceData";
 import { useTheme } from "../../hooks/useTheme";
 import DateText from "../../components/common/DateText";
+import { useLocalization } from "../../hooks/useLocalization";
 
 const breadcrumbItems = [
   { label: "Finance", href: "/finance" },
   { label: "Payments & Invoices" },
 ];
 
-const statsData = [
-  {
-    title: "Total Revenue",
-    value: 2847500,
-    icon: <DollarSign className="w-6 h-6" />,
-    trend: 12.5,
-    subtitle: "Last 30 days",
-    prefix: "$",
-    gradient: "from-blue-500 to-blue-600",
-  },
-  {
-    title: "Paid Invoices",
-    value: 1245,
-    icon: <CheckCircle className="w-6 h-6" />,
-    trend: 8.3,
-    subtitle: "87.2% paid",
-    gradient: "from-green-500 to-emerald-600",
-  },
-  {
-    title: "Pending Invoices",
-    value: 189,
-    icon: <Clock className="w-6 h-6" />,
-    trend: -3.2,
-    subtitle: "12.4% pending",
-    gradient: "from-yellow-500 to-amber-600",
-  },
-  {
-    title: "Overdue Invoices",
-    value: 43,
-    icon: <AlertCircle className="w-6 h-6" />,
-    trend: -5.7,
-    subtitle: "2.8% overdue",
-    gradient: "from-red-500 to-rose-600",
-  },
-  {
-    title: "Total Payments",
-    value: 1842,
-    icon: <CreditCard className="w-6 h-6" />,
-    trend: 9.1,
-    subtitle: "This month",
-    gradient: "from-purple-500 to-violet-600",
-  },
-  {
-    title: "Outstanding Balance",
-    value: 324500,
-    icon: <Wallet className="w-6 h-6" />,
-    trend: -2.4,
-    subtitle: "Total due",
-    prefix: "$",
-    gradient: "from-orange-500 to-red-600",
-  },
-  {
-    title: "Collection Rate",
-    value: 94.8,
-    icon: <Percent className="w-6 h-6" />,
-    trend: 1.2,
-    subtitle: "+2.3% vs last month",
-    suffix: "%",
-    gradient: "from-teal-500 to-cyan-600",
-  },
-  {
-    title: "Average Monthly Income",
-    value: 284750,
-    icon: <TrendingUp className="w-6 h-6" />,
-    trend: 15.7,
-    subtitle: "Year to date",
-    prefix: "$",
-    gradient: "from-indigo-500 to-purple-600",
-  },
-];
-
-const invoiceData = [
-  {
-    id: "INV-2024-001",
-    property: "Sunset Towers",
-    unit: "A-1201",
-    tenant: "John Smith",
-    dueDate: "2024-01-31",
-    paidDate: "2024-01-28",
-    amount: 2500,
-    tax: 250,
-    discount: 0,
-    paymentMethod: "Bank Transfer",
-    paymentStatus: "Paid",
-    invoiceStatus: "Paid",
-  },
-  {
-    id: "INV-2024-002",
-    property: "Ocean View",
-    unit: "B-304",
-    tenant: "Sarah Johnson",
-    dueDate: "2024-02-15",
-    paidDate: null,
-    amount: 3200,
-    tax: 320,
-    discount: 100,
-    paymentMethod: "Credit Card",
-    paymentStatus: "Pending",
-    invoiceStatus: "Sent",
-  },
-  {
-    id: "INV-2024-003",
-    property: "Garden Heights",
-    unit: "C-502",
-    tenant: "Michael Brown",
-    dueDate: "2024-01-15",
-    paidDate: null,
-    amount: 1800,
-    tax: 180,
-    discount: 0,
-    paymentMethod: "Cash",
-    paymentStatus: "Overdue",
-    invoiceStatus: "Overdue",
-  },
-];
-
 export default function PaymentsInvoices() {
+  const { t } = useLocalization();
   const [isLoading, setIsLoading] = useState(false);
   const [selectedInvoice, setSelectedInvoice] = useState(null);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
@@ -159,32 +44,148 @@ export default function PaymentsInvoices() {
   const [isInvoiceFormOpen, setIsInvoiceFormOpen] = useState(false);
   const { toast } = useToast();
 
+  const statsData = [
+    {
+      title: t('finance.stats.totalRevenue'),
+      value: 2847500,
+      icon: <DollarSign className="w-6 h-6" />,
+      trend: 12.5,
+      subtitle: t('finance.stats.last30Days'),
+      prefix: "$",
+      gradient: "from-blue-500 to-blue-600",
+    },
+    {
+      title: t('finance.stats.paidInvoices'),
+      value: 1245,
+      icon: <CheckCircle className="w-6 h-6" />,
+      trend: 8.3,
+      subtitle: t('finance.stats.percentPaid', { percent: "87.2" }),
+      gradient: "from-green-500 to-emerald-600",
+    },
+    {
+      title: t('finance.stats.pendingInvoices'),
+      value: 189,
+      icon: <Clock className="w-6 h-6" />,
+      trend: -3.2,
+      subtitle: t('finance.stats.percentPending', { percent: "12.4" }),
+      gradient: "from-yellow-500 to-amber-600",
+    },
+    {
+      title: t('finance.stats.overdueInvoices'),
+      value: 43,
+      icon: <AlertCircle className="w-6 h-6" />,
+      trend: -5.7,
+      subtitle: t('finance.stats.percentOverdue', { percent: "2.8" }),
+      gradient: "from-red-500 to-rose-600",
+    },
+    {
+      title: t('finance.stats.totalPayments'),
+      value: 1842,
+      icon: <CreditCard className="w-6 h-6" />,
+      trend: 9.1,
+      subtitle: t('finance.stats.thisMonth'),
+      gradient: "from-purple-500 to-violet-600",
+    },
+    {
+      title: t('finance.stats.outstandingBalance'),
+      value: 324500,
+      icon: <Wallet className="w-6 h-6" />,
+      trend: -2.4,
+      subtitle: t('finance.stats.totalDue'),
+      prefix: "$",
+      gradient: "from-orange-500 to-red-600",
+    },
+    {
+      title: t('finance.stats.collectionRate'),
+      value: 94.8,
+      icon: <Percent className="w-6 h-6" />,
+      trend: 1.2,
+      subtitle: t('finance.stats.vsLastMonth'),
+      suffix: "%",
+      gradient: "from-teal-500 to-cyan-600",
+    },
+    {
+      title: t('finance.stats.avgMonthlyIncome'),
+      value: 284750,
+      icon: <TrendingUp className="w-6 h-6" />,
+      trend: 15.7,
+      subtitle: t('finance.stats.yearToDate'),
+      prefix: "$",
+      gradient: "from-indigo-500 to-purple-600",
+    },
+  ];
+
+  const invoiceData = [
+    {
+      id: "INV-2024-001",
+      property: "Sunset Towers",
+      unit: "A-1201",
+      tenant: "John Smith",
+      dueDate: "2024-01-31",
+      paidDate: "2024-01-28",
+      amount: 2500,
+      tax: 250,
+      discount: 0,
+      paymentMethod: "Bank Transfer",
+      paymentStatus: "Paid",
+      invoiceStatus: "Paid",
+    },
+    {
+      id: "INV-2024-002",
+      property: "Ocean View",
+      unit: "B-304",
+      tenant: "Sarah Johnson",
+      dueDate: "2024-02-15",
+      paidDate: null,
+      amount: 3200,
+      tax: 320,
+      discount: 100,
+      paymentMethod: "Credit Card",
+      paymentStatus: "Pending",
+      invoiceStatus: "Sent",
+    },
+    {
+      id: "INV-2024-003",
+      property: "Garden Heights",
+      unit: "C-502",
+      tenant: "Michael Brown",
+      dueDate: "2024-01-15",
+      paidDate: null,
+      amount: 1800,
+      tax: 180,
+      discount: 0,
+      paymentMethod: "Cash",
+      paymentStatus: "Overdue",
+      invoiceStatus: "Overdue",
+    },
+  ];
+
   const columns = [
-    { key: "id", header: "Invoice Number", sortable: true, sticky: true },
-    { key: "property", header: "Property", sortable: true },
-    { key: "unit", header: "Unit" },
-    { key: "tenant", header: "Tenant", sortable: true },
+    { key: "id", header: t('finance.table.invoiceNumber'), sortable: true, sticky: true },
+    { key: "property", header: t('finance.table.property'), sortable: true },
+    { key: "unit", header: t('finance.table.unit') },
+    { key: "tenant", header: t('finance.table.tenant'), sortable: true },
     {
       key: "dueDate",
-      header: "Due Date",
+      header: t('finance.table.dueDate'),
       sortable: true,
       accessor: (row) => <DateText value={row.dueDate} />,
     },
     {
       key: "paidDate",
-      header: "Paid Date",
+      header: t('finance.table.paidDate'),
       accessor: (row) =>
         row.paidDate ? <DateText value={row.paidDate} /> : "-",
     },
     {
       key: "amount",
-      header: "Amount",
+      header: t('finance.table.amount'),
       sortable: true,
       accessor: (row) => `$${row.amount.toLocaleString()}`,
     },
     {
       key: "paymentStatus",
-      header: "Payment Status",
+      header: t('finance.table.paymentStatus'),
       accessor: (row) => (
         <span
           className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${
@@ -195,7 +196,7 @@ export default function PaymentsInvoices() {
                 : "bg-red-100 text-red-800 dark:bg-red-900/20 dark:text-red-400"
           }`}
         >
-          {row.paymentStatus}
+          {t(`finance.status.${row.paymentStatus.toLowerCase()}`, row.paymentStatus)}
         </span>
       ),
     },
@@ -208,16 +209,16 @@ export default function PaymentsInvoices() {
         setIsDialogOpen(true);
         break;
       case "edit":
-        toast.info("Edit invoice");
+        toast.info(t('finance.messages.editInvoice'));
         break;
       case "send":
-        toast.success("Invoice sent successfully");
+        toast.success(t('finance.messages.invoiceSent'));
         break;
       case "delete":
-        toast.error("Invoice deleted");
+        toast.error(t('finance.messages.invoiceDeleted'));
         break;
       case "markPaid":
-        toast.success("Invoice marked as paid");
+        toast.success(t('finance.messages.markedPaid'));
         break;
       default:
         break;
@@ -226,17 +227,19 @@ export default function PaymentsInvoices() {
 
   return (
     <div className="px-2 sm:px-2 lg:px-2 max-w-7xl mx-auto">
-      {/* Gradient Header */}
       <div className="rounded-2xl bg-gradient-to-r bg-[#6D28D9] p-6 text-white shadow-lg dark:from-[#6D28D9] dark:to-[#8B5CF6]">
-        <Breadcrumb items={breadcrumbItems} white={true} />
+        <Breadcrumb items={[
+          { label: t('nav.finance'), href: "/finance" },
+          { label: t('finance.paymentsInvoices') },
+        ]} white={true} />
         
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mt-4">
           <div>
             <h1 className="text-2xl font-bold text-white">
-              Payments & Invoices
+              {t('finance.paymentsInvoices')}
             </h1>
             <p className="text-white/80 mt-1">
-              Manage all payments, invoices, and financial transactions
+              {t('finance.paymentsInvoicesDesc')}
             </p>
           </div>
           <div className="flex gap-2 flex-wrap">
@@ -245,21 +248,21 @@ export default function PaymentsInvoices() {
               className="bg-white/20 hover:bg-white/30 text-white border border-white/30 backdrop-blur-sm transition-all duration-300"
             >
               <Plus className="w-4 h-4 mr-2" />
-              New Payment
+              {t('finance.payment.new')}
             </Button>
             <Button
               onClick={() => setIsInvoiceFormOpen(true)}
               className="bg-white/20 hover:bg-white/30 text-white border border-white/30 backdrop-blur-sm transition-all duration-300"
             >
               <FileText className="w-4 h-4 mr-2" />
-              Create Invoice
+              {t('finance.invoice.create')}
             </Button>
             <Button 
-              onClick={() => toast.success("Export started")}
+              onClick={() => toast.success(t('finance.messages.exportStarted'))}
               className="bg-white/20 hover:bg-white/30 text-white border border-white/30 backdrop-blur-sm transition-all duration-300"
             >
               <Download className="w-4 h-4 mr-2" />
-              Export
+              {t('common.export')}
             </Button>
             <Button className="bg-white/20 hover:bg-white/30 text-white border border-white/30 backdrop-blur-sm transition-all duration-300">
               <MoreVertical className="w-4 h-4" />
@@ -287,24 +290,24 @@ export default function PaymentsInvoices() {
 
       <div className="bg-white dark:bg-gray-900 rounded-xl border border-gray-200 dark:border-gray-700 p-4 shadow-lg hover:shadow-xl transition-shadow duration-300">
         <FinanceFilters
-          searchPlaceholder="Search by invoice, tenant, property..."
+          searchPlaceholder={t('finance.filters.searchPayments')}
           filters={[
             {
               key: "status",
-              label: "Payment Status",
+              label: t('finance.filters.paymentStatus'),
               options: [
-                { value: "paid", label: "Paid" },
-                { value: "pending", label: "Pending" },
-                { value: "overdue", label: "Overdue" },
+                { value: "paid", label: t('finance.status.paid') },
+                { value: "pending", label: t('finance.status.pending') },
+                { value: "overdue", label: t('finance.status.overdue') },
               ],
             },
             {
               key: "property",
-              label: "Property",
+              label: t('finance.filters.property'),
               options: [
-                { value: "sunset", label: "Sunset Towers" },
-                { value: "ocean", label: "Ocean View" },
-                { value: "garden", label: "Garden Heights" },
+                { value: "sunset", label: t('finance.properties.sunsetTowers') },
+                { value: "ocean", label: t('finance.properties.oceanView') },
+                { value: "garden", label: t('finance.properties.gardenHeights') },
               ],
             },
           ]}
@@ -312,7 +315,7 @@ export default function PaymentsInvoices() {
           onFilter={(key, value) => console.log("Filter:", key, value)}
           onDateRange={(start, end) => console.log("Date range:", start, end)}
           onReset={() => console.log("Reset filters")}
-          onExport={() => toast.success("Exported successfully")}
+          onExport={() => toast.success(t('finance.messages.exportedSuccessfully'))}
           onPrint={() => window.print()}
         />
 
@@ -334,21 +337,21 @@ export default function PaymentsInvoices() {
                 <button
                   className="p-1 hover:bg-gradient-to-r hover:from-blue-50 hover:to-blue-100 dark:hover:from-blue-900/20 dark:hover:to-blue-800/20 rounded transition-all duration-300"
                   onClick={() => handleAction("view", row)}
-                  aria-label="View invoice"
+                  aria-label={t('finance.actions.viewInvoice')}
                 >
                   <Eye className="w-4 h-4" />
                 </button>
                 <button
                   className="p-1 hover:bg-gradient-to-r hover:from-green-50 hover:to-green-100 dark:hover:from-green-900/20 dark:hover:to-green-800/20 rounded transition-all duration-300"
                   onClick={() => handleAction("edit", row)}
-                  aria-label="Edit invoice"
+                  aria-label={t('finance.actions.editInvoice')}
                 >
                   <Edit className="w-4 h-4" />
                 </button>
                 <button
                   className="p-1 hover:bg-gradient-to-r hover:from-purple-50 hover:to-purple-100 dark:hover:from-purple-900/20 dark:hover:to-purple-800/20 rounded transition-all duration-300"
                   onClick={() => handleAction("send", row)}
-                  aria-label="Send invoice"
+                  aria-label={t('finance.actions.sendInvoice')}
                 >
                   <Send className="w-4 h-4" />
                 </button>
@@ -359,11 +362,11 @@ export default function PaymentsInvoices() {
 
         <div className="flex items-center justify-between mt-4">
           <div className="text-sm text-gray-500 dark:text-gray-400">
-            Showing 1-{invoiceData.length} of 1,245 invoices
+            {t('finance.pagination.showing', { start: 1, end: invoiceData.length, total: "1,245" })}
           </div>
           <div className="flex gap-2">
             <button className="px-3 py-1 text-sm border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gradient-to-r hover:from-gray-50 hover:to-gray-100 dark:hover:from-gray-700 dark:hover:to-gray-600 transition-all duration-300">
-              Previous
+              {t('common.previous')}
             </button>
             <button className="px-3 py-1 text-sm bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-lg hover:from-blue-600 hover:to-blue-700 shadow-md hover:shadow-lg transition-all duration-300">
               1
@@ -375,13 +378,12 @@ export default function PaymentsInvoices() {
               3
             </button>
             <button className="px-3 py-1 text-sm border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gradient-to-r hover:from-gray-50 hover:to-gray-100 dark:hover:from-gray-700 dark:hover:to-gray-600 transition-all duration-300">
-              Next
+              {t('common.next')}
             </button>
           </div>
         </div>
       </div>
 
-      {/* Invoice Details Dialog */}
       {isDialogOpen && selectedInvoice && (
         <div className="fixed inset-0 z-50 overflow-y-auto">
           <div className="flex items-center justify-center min-h-screen p-4">
@@ -398,7 +400,7 @@ export default function PaymentsInvoices() {
                 <div className="flex items-center justify-between">
                   <div>
                     <h2 className="text-xl font-bold text-gray-900 dark:text-white">
-                      Invoice Details
+                      {t('finance.invoice.details')}
                     </h2>
                     <p className="text-sm text-gray-500 dark:text-gray-400">
                       {selectedInvoice.id}
@@ -416,12 +418,12 @@ export default function PaymentsInvoices() {
                 <div className="grid grid-cols-2 gap-6">
                   <div className="p-4 rounded-lg bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-700">
                     <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400 mb-2">
-                      Invoice Information
+                      {t('finance.invoice.invoiceInfo')}
                     </h3>
                     <div className="space-y-2">
                       <p className="text-sm">
                         <span className="text-gray-500 dark:text-gray-400">
-                          Amount:
+                          {t('finance.invoice.amount')}:
                         </span>{" "}
                         <span className="font-medium">
                           ${selectedInvoice.amount.toLocaleString()}
@@ -429,13 +431,13 @@ export default function PaymentsInvoices() {
                       </p>
                       <p className="text-sm">
                         <span className="text-gray-500 dark:text-gray-400">
-                          Due Date:
+                          {t('finance.invoice.dueDate')}:
                         </span>{" "}
                         <DateText value={selectedInvoice.dueDate} />
                       </p>
                       <p className="text-sm">
                         <span className="text-gray-500 dark:text-gray-400">
-                          Status:
+                          {t('finance.table.status')}:
                         </span>{" "}
                         <span
                           className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${
@@ -446,14 +448,14 @@ export default function PaymentsInvoices() {
                                 : "bg-red-100 text-red-800 dark:bg-red-900/20 dark:text-red-400"
                           }`}
                         >
-                          {selectedInvoice.paymentStatus}
+                          {t(`finance.status.${selectedInvoice.paymentStatus.toLowerCase()}`, selectedInvoice.paymentStatus)}
                         </span>
                       </p>
                     </div>
                   </div>
                   <div className="p-4 rounded-lg bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-700">
                     <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400 mb-2">
-                      Tenant Information
+                      {t('finance.invoice.tenantInfo')}
                     </h3>
                     <div className="space-y-2">
                       <p className="text-sm font-medium">
@@ -468,13 +470,13 @@ export default function PaymentsInvoices() {
 
                 <div className="border-t border-gray-200 dark:border-gray-700 pt-6">
                   <h3 className="text-sm font-medium text-gray-500 dark:text-gray-400 mb-4">
-                    Payment History
+                    {t('finance.invoice.paymentHistory')}
                   </h3>
                   <div className="space-y-2">
                     <div className="flex items-center justify-between p-3 bg-gradient-to-r from-gray-50 to-gray-100 dark:from-gray-800 dark:to-gray-700 rounded-lg">
                       <div>
                         <p className="text-sm font-medium">
-                          Payment #{selectedInvoice.id}
+                          {t('finance.invoice.paymentNumber', { id: selectedInvoice.id })}
                         </p>
                         <p className="text-xs text-gray-500 dark:text-gray-400">
                           {selectedInvoice.paymentMethod}
@@ -487,7 +489,7 @@ export default function PaymentsInvoices() {
                         <p className="text-xs text-gray-500 dark:text-gray-400">
                           {selectedInvoice.paidDate
                             ? <DateText value={selectedInvoice.paidDate} />
-                            : "Pending"}
+                            : t('finance.status.pending')}
                         </p>
                       </div>
                     </div>
@@ -497,11 +499,11 @@ export default function PaymentsInvoices() {
                 <div className="flex justify-end gap-2 pt-4 border-t border-gray-200 dark:border-gray-700">
                   <button className="px-4 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gradient-to-r hover:from-gray-50 hover:to-gray-100 dark:hover:from-gray-700 dark:hover:to-gray-600 transition-all duration-300">
                     <Download className="w-4 h-4 inline mr-2" />
-                    Download PDF
+                    {t('finance.invoice.downloadPdf')}
                   </button>
                   <button className="px-4 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gradient-to-r hover:from-purple-50 hover:to-purple-100 dark:hover:from-purple-900/20 dark:hover:to-purple-800/20 transition-all duration-300">
                     <Send className="w-4 h-4 inline mr-2" />
-                    Send Email
+                    {t('finance.invoice.sendEmail')}
                   </button>
                   <button 
                     className="px-4 py-2 text-sm bg-gradient-to-r from-green-500 to-emerald-600 text-white rounded-lg hover:from-green-600 hover:to-emerald-700 shadow-md hover:shadow-lg transition-all duration-300"
@@ -510,7 +512,7 @@ export default function PaymentsInvoices() {
                       setIsDialogOpen(false);
                     }}
                   >
-                    Mark Paid
+                    {t('finance.invoice.markPaid')}
                   </button>
                 </div>
               </div>
@@ -519,22 +521,20 @@ export default function PaymentsInvoices() {
         </div>
       )}
 
-      {/* Payment Form */}
       <PaymentForm
         isOpen={isPaymentFormOpen}
         onClose={() => setIsPaymentFormOpen(false)}
         onSuccess={() => {
-          toast.success("Payment created successfully!");
+          toast.success(t('finance.messages.paymentCreated'));
           setIsPaymentFormOpen(false);
         }}
       />
 
-      {/* Create Invoice Form */}
       <CreateInvoiceForm
         isOpen={isInvoiceFormOpen}
         onClose={() => setIsInvoiceFormOpen(false)}
         onSuccess={() => {
-          toast.success("Invoice created successfully!");
+          toast.success(t('finance.messages.invoiceCreated'));
           setIsInvoiceFormOpen(false);
         }}
       />

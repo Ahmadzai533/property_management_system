@@ -1,7 +1,8 @@
 // src/components/users/UserFormModal.jsx
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { X } from 'lucide-react';
 import { useState } from 'react';
+import { useLocalization } from '../../hooks/useLocalization';
 
 export default function UserFormModal({
   isOpen,
@@ -11,6 +12,8 @@ export default function UserFormModal({
   isEdit,
   roles,
 }) {
+  const { t } = useLocalization();
+
   const [formData, setFormData] = useState({
     name: user?.name || '',
     email: user?.email || '',
@@ -40,7 +43,7 @@ export default function UserFormModal({
           <div className="p-6 border-b border-gray-200 dark:border-gray-700 bg-gradient-to-r from-[#6D28D9]/10 to-[#8B5CF6]/10 dark:from-[#6D28D9]/20 dark:to-[#8B5CF6]/20">
             <div className="flex items-center justify-between">
               <h2 className="text-xl font-bold text-gray-900 dark:text-white">
-                {isEdit ? 'Edit User' : 'Add User'}
+                {isEdit ? t('users.editUser') : t('users.addUser')}
               </h2>
               <button
                 onClick={onClose}
@@ -53,7 +56,7 @@ export default function UserFormModal({
           <form onSubmit={handleSubmit} className="p-6 space-y-4">
             <div>
               <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                Full Name <span className="text-red-500">*</span>
+                {t('users.fullName')} <span className="text-red-500">*</span>
               </label>
               <input
                 type="text"
@@ -65,7 +68,7 @@ export default function UserFormModal({
             </div>
             <div>
               <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                Email <span className="text-red-500">*</span>
+                {t('users.email')} <span className="text-red-500">*</span>
               </label>
               <input
                 type="email"
@@ -78,7 +81,7 @@ export default function UserFormModal({
             {!isEdit && (
               <div>
                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                  Password <span className="text-red-500">*</span>
+                  {t('users.password')} <span className="text-red-500">*</span>
                 </label>
                 <input
                   type="password"
@@ -91,7 +94,7 @@ export default function UserFormModal({
             )}
             <div>
               <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                Role <span className="text-red-500">*</span>
+                {t('users.role')} <span className="text-red-500">*</span>
               </label>
               <select
                 value={formData.role}
@@ -99,7 +102,7 @@ export default function UserFormModal({
                 required
                 className="w-full px-3 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               >
-                <option value="">Select Role</option>
+                <option value="">{t('users.selectRole')}</option>
                 {roles.map((role) => (
                   <option key={role.id} value={role.name}>{role.name}</option>
                 ))}
@@ -107,7 +110,7 @@ export default function UserFormModal({
             </div>
             <div>
               <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                Department
+                {t('users.department')}
               </label>
               <input
               required
@@ -119,7 +122,7 @@ export default function UserFormModal({
             </div>
             <div>
               <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                Phone
+                {t('users.phone')}
               </label>
               <input
                 type="number"
@@ -131,15 +134,15 @@ export default function UserFormModal({
             </div>
             <div>
               <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                Status
+                {t('users.status')}
               </label>
               <select
                 value={formData.status}
                 onChange={(e) => setFormData({ ...formData, status: e.target.value })}
                 className="w-full px-3 py-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               >
-                <option value="Active">Active</option>
-                <option value="Suspended">Suspended</option>
+                <option value="Active">{t('users.active')}</option>
+                <option value="Suspended">{t('users.suspended')}</option>
               </select>
             </div>
             <div className="flex justify-end gap-2 pt-4 border-t border-gray-200 dark:border-gray-700">
@@ -148,13 +151,13 @@ export default function UserFormModal({
                 onClick={onClose}
                 className="px-4 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
               >
-                Cancel
+                {t('common.cancel')}
               </button>
               <button
                 type="submit"
                 className="px-4 py-2 text-sm bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-lg hover:from-blue-600 hover:to-blue-700 shadow-md hover:shadow-lg transition-all duration-300"
               >
-                {isEdit ? 'Update User' : 'Create User'}
+                {isEdit ? t('users.updateUser') : t('users.createUser')}
               </button>
             </div>
           </form>

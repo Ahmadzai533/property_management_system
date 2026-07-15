@@ -1,8 +1,11 @@
 import { motion, AnimatePresence } from "framer-motion";
 import { AlertTriangle } from "lucide-react";
 import Button from "../common/Button";
+import { useLocalization } from "../../hooks/useLocalization";
 
 export function DeleteExpenseModal({ open, onClose, expense, onConfirm }) {
+  const { t } = useLocalization();
+  
   if (!open) return null;
 
   return (
@@ -25,10 +28,10 @@ export function DeleteExpenseModal({ open, onClose, expense, onConfirm }) {
             </div>
             <div>
               <h3 className="text-lg font-semibold text-slate-900 dark:text-white">
-                Delete Expense?
+                {t('finance.expense.deleteTitle')}
               </h3>
               <p className="text-sm text-slate-500 dark:text-slate-400">
-                This action cannot be undone.
+                {t('finance.expense.deleteWarning')}
               </p>
             </div>
           </div>
@@ -42,10 +45,10 @@ export function DeleteExpenseModal({ open, onClose, expense, onConfirm }) {
           </div>
           <div className="mt-6 flex justify-end gap-2">
             <Button variant="secondary" onClick={onClose}>
-              Cancel
+              {t('common.cancel')}
             </Button>
             <Button variant="danger" onClick={onConfirm}>
-              Delete
+              {t('common.delete')}
             </Button>
           </div>
         </motion.div>

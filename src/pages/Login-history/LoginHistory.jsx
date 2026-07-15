@@ -1,14 +1,10 @@
-// src/pages/login-history/LoginHistory.jsx
-import { useState, useEffect } from "react";
+// src/pages/Login-history/LoginHistory.jsx
+import { useState, useEffect, useMemo } from "react";
 import { useToast } from "../../hooks/useToast";
+import { useLocalization } from "../../hooks/useLocalization";
 import PageHeader from "../../components/shared/PageHeader";
 import LoginHistoryFilters from "../../components/layout/Logs/LoginHistoryFilters";
 import LoginHistoryTable from "../../components/layout/Logs/LoginHistoryTable";
-
-const breadcrumbItems = [
-  { label: "Dashboard", href: "/" },
-  { label: "Login History" },
-];
 
 // Sample data
 const logsData = [
@@ -17,7 +13,7 @@ const logsData = [
     user: "John Admin",
     action: "Login",
     ipAddress: "192.168.1.100",
-    device: "Chrome on Windows",
+    device: "Chrome on Windows",  
     date: "2024-01-28T14:30:00",
     status: "Success",
   },
@@ -65,6 +61,12 @@ export default function LoginHistory() {
   const [userFilter, setUserFilter] = useState("");
   const [statusFilter, setStatusFilter] = useState("");
   const { toast } = useToast();
+  const { t } = useLocalization();
+
+  const breadcrumbItems = useMemo(() => [
+    { label: t("breadcrumb.dashboard"), href: "/" },
+    { label: t("users.loggedHistory") },
+  ], [t]);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -88,16 +90,16 @@ export default function LoginHistory() {
   }, [searchTerm, userFilter, statusFilter, logs]);
 
   const handleExportLogs = () => {
-    toast.success("Logs exported successfully");
+    toast.success(t("loginHistory.logsExportedSuccessfully"));
   };
 
   return (
     <div className="px-2 sm:px-2 lg:px-2 max-w-7xl mx-auto">
       <PageHeader
         breadcrumbItems={breadcrumbItems}
-        title="Login History"
-        subtitle="Monitor user activity and security events"
-        buttonText="Export Logs"
+        title={t("users.loggedHistory")}
+        subtitle={t("loginHistory.subtitle")}
+        buttonText={t("loginHistory.exportLogs")}
         onButtonClick={handleExportLogs}
       />
 

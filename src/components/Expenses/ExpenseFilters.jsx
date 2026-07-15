@@ -8,6 +8,7 @@ import {
   Filter,
 } from "lucide-react";
 import Button from "../common/Button";
+import { useLocalization } from "../../hooks/useLocalization";
 
 export function ExpenseFilters({
   onSearch,
@@ -17,6 +18,8 @@ export function ExpenseFilters({
   onRefresh,
   onToggleAdvanced,
 }) {
+  const { t } = useLocalization();
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 12 }}
@@ -26,10 +29,10 @@ export function ExpenseFilters({
       <div className="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
         <div>
           <h3 className="text-lg font-semibold text-slate-900 dark:text-white">
-            Expense Intelligence
+            {t('finance.expense.intelligence')}
           </h3>
           <p className="text-sm text-slate-500 dark:text-slate-400">
-            Search, filter, and export operating expenses with precision.
+            {t('finance.expense.intelligenceDesc')}
           </p>
         </div>
         <div className="flex flex-wrap gap-2">
@@ -39,7 +42,7 @@ export function ExpenseFilters({
             icon={RefreshCw}
             onClick={onRefresh}
           >
-            Refresh
+            {t('common.refresh')}
           </Button>
           <Button
             variant="secondary"
@@ -47,7 +50,7 @@ export function ExpenseFilters({
             icon={Filter}
             onClick={onToggleAdvanced}
           >
-            Advanced
+            {t('finance.expense.advanced')}
           </Button>
           <Button
             variant="secondary"
@@ -55,7 +58,7 @@ export function ExpenseFilters({
             icon={Download}
             onClick={onExport}
           >
-            Export Excel
+            {t('finance.expense.exportExcel')}
           </Button>
           <Button
             variant="secondary"
@@ -63,7 +66,7 @@ export function ExpenseFilters({
             icon={Printer}
             onClick={onPrint}
           >
-            Print
+            {t('common.print')}
           </Button>
         </div>
       </div>
@@ -71,13 +74,13 @@ export function ExpenseFilters({
       <div className="mt-4 grid gap-3 md:grid-cols-2 xl:grid-cols-4">
         <label className="rounded-xl border border-slate-200 p-3 dark:border-slate-700">
           <span className="mb-2 block text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">
-            Expense ID
+            {t('finance.expense.expenseId')}
           </span>
           <div className="flex items-center gap-2 rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 dark:border-slate-700 dark:bg-slate-800">
             <Search className="h-4 w-4 text-slate-400" />
             <input
               className="w-full bg-transparent text-sm outline-none"
-              placeholder="Search expense ID"
+              placeholder={t('finance.expense.searchExpenseId')}
               onChange={(e) => onSearch?.(e.target.value)}
             />
           </div>
@@ -85,41 +88,41 @@ export function ExpenseFilters({
 
         <label className="rounded-xl border border-slate-200 p-3 dark:border-slate-700">
           <span className="mb-2 block text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">
-            Description
+            {t('finance.expense.description')}
           </span>
           <input
             className="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm outline-none dark:border-slate-700 dark:bg-slate-800"
-            placeholder="Search description"
+            placeholder={t('finance.expense.searchDescription')}
           />
         </label>
 
         <label className="rounded-xl border border-slate-200 p-3 dark:border-slate-700">
           <span className="mb-2 block text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">
-            Category
+            {t('finance.expense.category')}
           </span>
           <select className="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm outline-none dark:border-slate-700 dark:bg-slate-800">
-            <option>All categories</option>
-            <option>Maintenance</option>
-            <option>Utilities</option>
-            <option>Security</option>
+            <option>{t('finance.expense.allCategories')}</option>
+            <option>{t('finance.expense.categories.Maintenance')}</option>
+            <option>{t('finance.expense.categories.Utilities')}</option>
+            <option>{t('finance.expense.categories.Security')}</option>
           </select>
         </label>
 
         <label className="rounded-xl border border-slate-200 p-3 dark:border-slate-700">
           <span className="mb-2 block text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">
-            Property
+            {t('finance.expense.property')}
           </span>
           <select className="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm outline-none dark:border-slate-700 dark:bg-slate-800">
-            <option>All properties</option>
-            <option>Sunset Towers</option>
-            <option>Ocean View</option>
+            <option>{t('finance.expense.allProperties')}</option>
+            <option>{t('finance.properties.sunsetTowers')}</option>
+            <option>{t('finance.properties.oceanView')}</option>
           </select>
         </label>
       </div>
 
       <div className="mt-3 flex flex-wrap gap-2">
         <Button variant="primary" size="sm">
-          Search
+          {t('common.search')}
         </Button>
         <Button
           variant="secondary"
@@ -127,7 +130,7 @@ export function ExpenseFilters({
           icon={RotateCcw}
           onClick={onReset}
         >
-          Reset
+          {t('common.reset')}
         </Button>
       </div>
     </motion.div>

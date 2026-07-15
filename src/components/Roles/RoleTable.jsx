@@ -1,12 +1,16 @@
 // src/components/roles/RoleTable.jsx
+import { useMemo } from "react";
 import { Edit, Trash2 } from "lucide-react";
+import { useLocalization } from "../../hooks/useLocalization";
 import DataTable from "../shared/DataTable";
 import DateText from "../common/DateText";
 
 export default function RoleTable({ roles, isLoading, onEdit, onDelete }) {
-  const columns = [
+  const { t } = useLocalization();
+
+  const columns = useMemo(() => [
     {
-      header: "Role Name",
+      header: t("roles.roleName"),
       accessor: (row) => (
         <div className="flex items-center gap-3">
           <div className="w-8 h-8 rounded-full bg-gradient-to-r from-purple-500 to-purple-600 flex items-center justify-center text-white text-sm font-medium">
@@ -19,15 +23,15 @@ export default function RoleTable({ roles, isLoading, onEdit, onDelete }) {
       ),
     },
     {
-      header: "Users",
+      header: t("roles.users"),
       accessor: (row) => (
         <span className="text-sm text-gray-700 dark:text-gray-300">
-          {row.usersCount} users
+          {t("roles.usersCount", { count: row.usersCount })}
         </span>
       ),
     },
     {
-      header: "Permissions",
+      header: t("admin.permissions"),
       accessor: (row) => (
         <div className="flex flex-wrap gap-1">
           {Object.entries(row.permissions).map(
@@ -37,7 +41,7 @@ export default function RoleTable({ roles, isLoading, onEdit, onDelete }) {
                   key={module}
                   className="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-blue-100 text-blue-800 dark:bg-blue-900/20 dark:text-blue-400"
                 >
-                  {module}: {perms.join(", ")}
+                  {t(`permissions.modules.${module}`)}: {perms.map(p => t(`permissions.actions.${p}`)).join(", ")}
                 </span>
               ),
           )}
@@ -45,11 +49,11 @@ export default function RoleTable({ roles, isLoading, onEdit, onDelete }) {
       ),
     },
     {
-      header: "Created",
+      header: t("roles.created"),
       accessor: (row) => <DateText value={row.createdAt} />,
     },
     {
-      header: "Actions",
+      header: t("common.actions"),
       className: "text-right",
       accessor: (row) => (
         <div className="flex items-center justify-end gap-1">
@@ -59,7 +63,7 @@ export default function RoleTable({ roles, isLoading, onEdit, onDelete }) {
               e.stopPropagation();
               onEdit(row);
             }}
-            title="Edit Role"
+            title={t("common.edit")}
           >
             <Edit className="w-4 h-4 text-green-600 dark:text-green-400" />
           </button>
@@ -69,21 +73,21 @@ export default function RoleTable({ roles, isLoading, onEdit, onDelete }) {
               e.stopPropagation();
               onDelete(row);
             }}
-            title="Delete Role"
+            title={t("common.delete")}
           >
             <Trash2 className="w-4 h-4 text-red-600 dark:text-red-400" />
           </button>
         </div>
       ),
     },
-  ];
+  ], [t, onEdit, onDelete]);
 
   return (
     <DataTable
       columns={columns}
       data={roles}
       isLoading={isLoading}
-      emptyMessage="No roles found"
+      emptyMessage={t("roles.noRolesFound")}
     />
   );
 }
