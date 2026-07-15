@@ -68,128 +68,12 @@
     "repairTickets": "تیکت‌های تعمیر",
     "allContractors": "همه پیمانکاران"
   },
-  "settings": {
-    "settingsHub": "مرکز تنظیمات"
-  },
   "finance": {
-      "expenses": "هزینه‌ها",
-    "expense": {
-      "pageSubtitle": "نظارت بر هزینه‌های سازمانی، تاییدیه‌ها و پرداخت‌های مسئولانه به فروشندگان.",
-      "newExpense": "هزینه جدید",
-      "ledger": "دفتر هزینه",
-      "ledgerDesc": "بررسی هزینه‌ها، تاییدیه‌ها و جریان‌های کاری پرداخت.",
-      "records": "رکورد",
-      "stats": {
-        "totalExpenses": "کل هزینه‌ها",
-        "monthlyExpenses": "هزینه‌های ماهانه",
-        "pendingApprovals": "تاییدیه‌های در انتظار",
-        "vendorPayments": "پرداخت‌های فروشنده",
-        "ytdSpend": "هزینه عملیاتی سال تا به امروز",
-        "currentMonth": "ماه جاری",
-        "awaitingReview": "در انتظار بررسی",
-        "processedThisMonth": "پردازش شده این ماه"
-      },
-      "messages": {
-        "duplicated": "هزینه کپی شد",
-        "approved": "هزینه تایید شد",
-        "rejected": "هزینه رد شد",
-        "paymentCompleted": "پرداخت تکمیل شد",
-        "deleted": "هزینه حذف شد",
-        "exportedReport": "گزارش هزینه صادر شد",
-        "printing": "در حال چاپ هزینه‌ها",
-        "refreshed": "هزینه‌ها بازنشانی شد",
-        "advancedReady": "فیلترهای پیشرفته آماده"
-      }
-    },
-     "expense": 
-     {
-      "deleteTitle": "حذف هزینه؟",
-      "deleteWarning": "این عمل قابل بازگشت نیست.",
-      "summary": "خلاصه هزینه",
-      "expenseId": "شناسه هزینه",
-      "amount": "مبلغ",
-      "tax": "مالیات",
-      "discount": "تخفیف",
-      "total": "مجموع",
-      "property": "ملک",
-      "unit": "واحد",
-      "vendor": "فروشنده",
-      "paymentDetails": "جزئیات پرداخت",
-      "paymentMethod": "روش پرداخت",
-      "paymentStatus": "وضعیت پرداخت",
-      "approvalTimeline": "جدول زمانی تایید",
-      "downloadPdf": "دانلود PDF",
-      "approve": "تایید",
-      "reject": "رد",
-      "editExpense": "ویرایش هزینه",
-      "newExpense": "هزینه جدید",
-      "updateExpenseDetails": "به‌روزرسانی جزئیات هزینه",
-      "createExpenseRecord": "ایجاد یک رکورد هزینه جدید",
-      "basicInfo": "اطلاعات اساسی",
-      "title": "عنوان هزینه",
-      "titlePlaceholder": "تعمیر و نگهداری HVAC",
-      "category": "دسته‌بندی",
-      "description": "توضیحات",
-      "descriptionPlaceholder": "هزینه، محدوده و زمینه کسب و کار را توضیح دهید",
-      "vendorInfo": "اطلاعات فروشنده",
-      "vendorName": "نام فروشنده",
-      "contact": "تماس",
-      "email": "ایمیل",
-      "phone": "تلفن",
-      "financialInfo": "اطلاعات مالی",
-      "attachments": "پیوست‌ها",
-      "dropFiles": "فایل‌ها را اینجا رها کنید یا مرور کنید",
-      "fileTypes": "فاکتورها، رسیدها، قیمت‌ها، سفارشات خرید",
-      "addFiles": "افزودن فایل‌ها",
-      "saveExpense": "ذخیره هزینه",
-      "intelligence": "هوش هزینه",
-      "intelligenceDesc": "هزینه‌های عملیاتی را با دقت جستجو، فیلتر و صادر کنید.",
-      "advanced": "پیشرفته",
-      "exportExcel": "خروجی اکسل",
-      "searchExpenseId": "جستجوی شناسه هزینه",
-      "searchDescription": "جستجوی توضیحات",
-      "allCategories": "همه دسته‌بندی‌ها",
-      "allProperties": "همه ملک‌ها",
-      "status": "وضعیت",
-      "approval": "تایید",
-      "method": "روش",
-      "date": "تاریخ",
-      "viewAria": "مشاهده {{id}}",
-      "editAria": "ویرایش {{id}}",
-      "duplicateAria": "کپی {{id}}",
-      "approveAria": "تایید {{id}}",
-      "rejectAria": "رد {{id}}",
-      "payAria": "علامت پرداخت {{id}}",
-      "categories": {
-        "Maintenance": "تعمیر و نگهداری",
-        "Repairs": "تعمیرات",
-        "Utilities": "خدمات عمومی",
-        "Electricity": "برق",
-        "Water": "آب",
-        "Internet": "اینترنت",
-        "Cleaning": "نظافت",
-        "Security": "امنیت",
-        "Staff Salary": "حقوق کارکنان",
-        "Fuel": "سوخت",
-        "Office Supplies": "لوازم اداری",
-        "Property Tax": "مالیات ملک",
-        "Insurance": "بیمه",
-        "Marketing": "بازاریابی",
-        "Legal": "حقوقی",
-        "Equipment": "تجهیزات",
-        "Furniture": "مبلمان",
-        "Miscellaneous": "متفرقه"
-      },
-      "timeline": {
-        "submitted": "هزینه ارسال شد",
-        "submittedDesc": "ارسال شده توسط نادیا برای سرویس HVAC",
-        "awaitingApproval": "در انتظار تایید",
-        "awaitingApprovalDesc": "واگذار شده به مدیر مالی",
-        "approved": "تایید شد",
-        "approvedDesc": "تایید شده توسط عملیات مالی"
-      }
-    },
-     "paymentsInvoicesDesc": "مدیریت تمام پرداخت‌ها، فاکتورها و تراکنش‌های مالی",
+    "paymentsInvoices": "پرداخت‌ها و فاکتورها",
+    "rentRollLedger": "دفتر اجاره",
+    "transactionHistory": "تاریخچه تراکنش‌ها",
+    "expenses": "هزینه‌ها",
+    "paymentsInvoicesDesc": "مدیریت تمام پرداخت‌ها، فاکتورها و تراکنش‌های مالی",
     "rentRollLedgerDesc": "مدیریت کامل دفتر اجاره و پیگیری قراردادها",
     "transactionHistoryDesc": "ردیابی کامل حسابرسی تمام تراکنش‌های مالی",
     "stats": {
@@ -237,12 +121,18 @@
       "category": "دسته‌بندی",
       "reference": "مرجع",
       "paymentMethod": "روش پرداخت",
-      "createdBy": "ایجاد شده توسط"
+      "createdBy": "ایجاد شده توسط",
+      "noData": "داده‌ای موجود نیست"
     },
     "filters": {
       "searchPayments": "جستجو بر اساس فاکتور، مستاجر، ملک...",
       "searchLedger": "جستجو بر اساس ملک، واحد، مستاجر...",
       "searchTransactions": "جستجو بر اساس شناسه تراکنش، مستاجر، ملک...",
+      "search": "جستجو...",
+      "filters": "فیلترها",
+      "all": "همه",
+      "dateRange": "محدوده تاریخ",
+      "apply": "اعمال فیلترها",
       "paymentStatus": "وضعیت پرداخت",
       "leaseStatus": "وضعیت اجاره",
       "property": "ملک",
@@ -251,14 +141,34 @@
       "paymentMethod": "روش پرداخت"
     },
     "invoice": {
+      "createTitle": "ایجاد فاکتور",
+      "createSubtitle": "یک فاکتور جدید برای مستاجر خود ایجاد کنید",
+      "create": "ایجاد فاکتور",
       "details": "جزئیات فاکتور",
       "invoiceInfo": "اطلاعات فاکتور",
+      "invoiceNumber": "شماره فاکتور",
+      "invoiceNumberPlaceholder": "INV-2024-001",
+      "tenant": "مستاجر",
+      "selectTenant": "انتخاب مستاجر",
       "tenantInfo": "اطلاعات مستاجر",
+      "property": "ملک",
+      "selectProperty": "انتخاب ملک",
+      "unit": "واحد",
+      "unitPlaceholder": "A-1201",
+      "dueDate": "تاریخ سررسید",
+      "description": "توضیحات",
+      "descriptionPlaceholder": "جزئیات فاکتور را توضیح دهید...",
+      "amount": "مبلغ",
+      "tax": "مالیات (٪)",
+      "discount": "تخفیف",
+      "totalAmount": "مبلغ کل",
       "paymentHistory": "تاریخچه پرداخت",
       "paymentNumber": "پرداخت #{{id}}",
       "downloadPdf": "دانلود PDF",
       "sendEmail": "ارسال ایمیل",
-      "markPaid": "علامت پرداخت شده"
+      "markPaid": "علامت پرداخت شده",
+      "createdSuccessfully": "فاکتور با موفقیت ایجاد شد!",
+      "createFailed": "ایجاد فاکتور ناموفق بود"
     },
     "ledger": {
       "expectedMonthlyRent": "اجاره ماهانه مورد انتظار",
@@ -326,58 +236,6 @@
         "completed": "تکمیل شد"
       }
     },
-    "actions": {
-      "viewInvoice": "مشاهده فاکتور",
-      "editInvoice": "ویرایش فاکتور",
-      "sendInvoice": "ارسال فاکتور"
-    },
-    "messages": {
-      "editInvoice": "ویرایش فاکتور",
-      "invoiceSent": "فاکتور با موفقیت ارسال شد",
-      "invoiceDeleted": "فاکتور حذف شد",
-      "markedPaid": "فاکتور به عنوان پرداخت شده علامت خورد",
-      "exportStarted": "خروجی آغاز شد",
-      "exportedSuccessfully": "با موفقیت خروجی گرفته شد"
-    },
-    "pagination": {
-      "showing": "نمایش {{start}}-{{end}} از {{total}} فاکتور"
-    },
-    "paymentsInvoices": "پرداخت‌ها و فاکتورها",
-    "rentRollLedger": "دفتر اجاره",
-    "transactionHistory": "تاریخچه تراکنش‌ها",
-    "expenses": "هزینه‌ها",
-    "tenants": {
-      "johnSmith": "جان اسمیت",
-      "sarahJohnson": "سارا جانسون",
-      "michaelBrown": "مایکل براون"
-    },
-    "properties": {
-      "sunsetTowers": "برج سانست",
-      "oceanView": "نمای اقیانوس",
-      "gardenHeights": "گاردن هایتس"
-    },
-    "invoice": {
-      "createTitle": "ایجاد فاکتور",
-      "createSubtitle": "یک فاکتور جدید برای مستاجر خود ایجاد کنید",
-      "create": "ایجاد فاکتور",
-      "invoiceNumber": "شماره فاکتور",
-      "invoiceNumberPlaceholder": "INV-2024-001",
-      "tenant": "مستاجر",
-      "selectTenant": "انتخاب مستاجر",
-      "property": "ملک",
-      "selectProperty": "انتخاب ملک",
-      "unit": "واحد",
-      "unitPlaceholder": "A-1201",
-      "dueDate": "تاریخ سررسید",
-      "description": "توضیحات",
-      "descriptionPlaceholder": "جزئیات فاکتور را توضیح دهید...",
-      "amount": "مبلغ",
-      "tax": "مالیات (٪)",
-      "discount": "تخفیف",
-      "totalAmount": "مبلغ کل",
-      "createdSuccessfully": "فاکتور با موفقیت ایجاد شد!",
-      "createFailed": "ایجاد فاکتور ناموفق بود"
-    },
     "payment": {
       "createTitle": "پرداخت جدید",
       "create": "ایجاد پرداخت",
@@ -406,15 +264,143 @@
       "createdSuccessfully": "پرداخت با موفقیت ایجاد شد!",
       "createFailed": "ایجاد پرداخت ناموفق بود"
     },
-    "filters": {
-      "search": "جستجو...",
-      "filters": "فیلترها",
-      "all": "همه",
-      "dateRange": "محدوده تاریخ",
-      "apply": "اعمال فیلترها"
+    "actions": {
+      "viewInvoice": "مشاهده فاکتور",
+      "editInvoice": "ویرایش فاکتور",
+      "sendInvoice": "ارسال فاکتور"
     },
-    "table": {
-      "noData": "داده‌ای موجود نیست"
+    "messages": {
+      "editInvoice": "ویرایش فاکتور",
+      "invoiceSent": "فاکتور با موفقیت ارسال شد",
+      "invoiceDeleted": "فاکتور حذف شد",
+      "markedPaid": "فاکتور به عنوان پرداخت شده علامت خورد",
+      "exportStarted": "خروجی آغاز شد",
+      "exportedSuccessfully": "با موفقیت خروجی گرفته شد"
+    },
+    "pagination": {
+      "showing": "نمایش {{start}}-{{end}} از {{total}} فاکتور"
+    },
+    "expense": {
+      "pageSubtitle": "نظارت بر هزینه‌های سازمانی، تاییدیه‌ها و پرداخت‌های مسئولانه به فروشندگان.",
+      "newExpense": "هزینه جدید",
+      "ledger": "دفتر هزینه",
+      "ledgerDesc": "بررسی هزینه‌ها، تاییدیه‌ها و جریان‌های کاری پرداخت.",
+      "records": "رکورد",
+      "deleteTitle": "حذف هزینه؟",
+      "deleteWarning": "این عمل قابل بازگشت نیست.",
+      "summary": "خلاصه هزینه",
+      "expenseId": "شناسه هزینه",
+      "amount": "مبلغ",
+      "tax": "مالیات",
+      "discount": "تخفیف",
+      "total": "مجموع",
+      "property": "ملک",
+      "unit": "واحد",
+      "vendor": "فروشنده",
+      "paymentDetails": "جزئیات پرداخت",
+      "paymentMethod": "روش پرداخت",
+      "paymentStatus": "وضعیت پرداخت",
+      "approvalTimeline": "جدول زمانی تایید",
+      "downloadPdf": "دانلود PDF",
+      "approve": "تایید",
+      "reject": "رد",
+      "editExpense": "ویرایش هزینه",
+      "updateExpenseDetails": "به‌روزرسانی جزئیات هزینه",
+      "createExpenseRecord": "ایجاد یک رکورد هزینه جدید",
+      "basicInfo": "اطلاعات اساسی",
+      "title": "عنوان هزینه",
+      "titlePlaceholder": "تعمیر و نگهداری HVAC",
+      "category": "دسته‌بندی",
+      "description": "توضیحات",
+      "descriptionPlaceholder": "هزینه، محدوده و زمینه کسب و کار را توضیح دهید",
+      "vendorInfo": "اطلاعات فروشنده",
+      "vendorName": "نام فروشنده",
+      "contact": "تماس",
+      "email": "ایمیل",
+      "phone": "تلفن",
+      "financialInfo": "اطلاعات مالی",
+      "attachments": "پیوست‌ها",
+      "dropFiles": "فایل‌ها را اینجا رها کنید یا مرور کنید",
+      "fileTypes": "فاکتورها، رسیدها، قیمت‌ها، سفارشات خرید",
+      "addFiles": "افزودن فایل‌ها",
+      "saveExpense": "ذخیره هزینه",
+      "intelligence": "هوش هزینه",
+      "intelligenceDesc": "هزینه‌های عملیاتی را با دقت جستجو، فیلتر و صادر کنید.",
+      "advanced": "پیشرفته",
+      "exportExcel": "خروجی اکسل",
+      "searchExpenseId": "جستجوی شناسه هزینه",
+      "searchDescription": "جستجوی توضیحات",
+      "allCategories": "همه دسته‌بندی‌ها",
+      "allProperties": "همه ملک‌ها",
+      "status": "وضعیت",
+      "approval": "تایید",
+      "method": "روش",
+      "date": "تاریخ",
+      "viewAria": "مشاهده {{id}}",
+      "editAria": "ویرایش {{id}}",
+      "duplicateAria": "کپی {{id}}",
+      "approveAria": "تایید {{id}}",
+      "rejectAria": "رد {{id}}",
+      "payAria": "علامت پرداخت {{id}}",
+      "stats": {
+        "totalExpenses": "کل هزینه‌ها",
+        "monthlyExpenses": "هزینه‌های ماهانه",
+        "pendingApprovals": "تاییدیه‌های در انتظار",
+        "vendorPayments": "پرداخت‌های فروشنده",
+        "ytdSpend": "هزینه عملیاتی سال تا به امروز",
+        "currentMonth": "ماه جاری",
+        "awaitingReview": "در انتظار بررسی",
+        "processedThisMonth": "پردازش شده این ماه"
+      },
+      "messages": {
+        "duplicated": "هزینه کپی شد",
+        "approved": "هزینه تایید شد",
+        "rejected": "هزینه رد شد",
+        "paymentCompleted": "پرداخت تکمیل شد",
+        "deleted": "هزینه حذف شد",
+        "exportedReport": "گزارش هزینه صادر شد",
+        "printing": "در حال چاپ هزینه‌ها",
+        "refreshed": "هزینه‌ها بازنشانی شد",
+        "advancedReady": "فیلترهای پیشرفته آماده"
+      },
+      "categories": {
+        "Maintenance": "تعمیر و نگهداری",
+        "Repairs": "تعمیرات",
+        "Utilities": "خدمات عمومی",
+        "Electricity": "برق",
+        "Water": "آب",
+        "Internet": "اینترنت",
+        "Cleaning": "نظافت",
+        "Security": "امنیت",
+        "Staff Salary": "حقوق کارکنان",
+        "Fuel": "سوخت",
+        "Office Supplies": "لوازم اداری",
+        "Property Tax": "مالیات ملک",
+        "Insurance": "بیمه",
+        "Marketing": "بازاریابی",
+        "Legal": "حقوقی",
+        "Equipment": "تجهیزات",
+        "Furniture": "مبلمان",
+        "Miscellaneous": "متفرقه"
+      },
+      "timeline": {
+        "submitted": "هزینه ارسال شد",
+        "submittedDesc": "ارسال شده توسط نادیا برای سرویس HVAC",
+        "awaitingApproval": "در انتظار تایید",
+        "awaitingApprovalDesc": "واگذار شده به مدیر مالی",
+        "approved": "تایید شد",
+        "approvedDesc": "تایید شده توسط عملیات مالی"
+      }
+    },
+    "tenants": {
+      "johnSmith": "جان اسمیت",
+      "sarahJohnson": "سارا جانسون",
+      "michaelBrown": "مایکل براون"
+    },
+    "properties": {
+      "sunsetTowers": "برج سانست",
+      "oceanView": "نمای اقیانوس",
+      "gardenHeights": "گاردن هایتس"
     },
     "validation": {
       "minAmount": "مبلغ باید بیشتر از {{min}} باشد",
@@ -422,7 +408,7 @@
       "negativeDiscount": "تخفیف نمی‌تواند منفی باشد"
     }
   },
-   "dashboard": {
+  "dashboard": {
     "title": "نمای کلی داشبورد",
     "welcome": "خوش آمدید مدیر. این خلاصه عملکرد امروز است.",
     "stats": {
@@ -589,7 +575,7 @@
     "emailSelected": "ایمیل انتخاب شده",
     "clearSelection": "پاک کردن انتخاب",
     "view": "مشاهده",
-     "previous": "قبلی",
+    "previous": "قبلی",
     "filters": "فیلترها",
     "reset": "بازنشانی",
     "resetFilters": "بازنشانی فیلترها",
@@ -908,6 +894,504 @@
       "delete": "حذف",
       "full": "کامل",
       "manage": "مدیریت"
+    }
+  },
+  "settings": {
+    "settingsHub": "مرکز تنظیمات",
+    "localization": {
+      "dari": "دری",
+      "pashto": "پشتو",
+      "english": "انگلیسی",
+      "title": "محلی‌سازی و زبان",
+      "description": "تجربه را برای مخاطبان دری، پشتو و انگلیسی با قالب‌بندی منطقه‌ای انعطاف‌پذیر و پشتیبانی از جهت آماده کنید.",
+      "languageSelection": {
+        "title": "انتخاب زبان",
+        "description": "زبان پیش‌فرض رابط کاربری و تجربه مورد نظر را انتخاب کنید."
+      },
+      "fields": {
+        "defaultSystemLanguage": "زبان پیش‌فرض سیستم",
+        "userPreferredLanguage": "زبان ترجیحی کاربر",
+        "firstDayOfWeek": "اولین روز هفته",
+        "timeZone": "منطقه زمانی",
+        "dateFormat": "قالب تاریخ",
+        "timeFormat": "قالب زمان",
+        "numberFormat": "قالب اعداد",
+        "currency": "واحد پول"
+      },
+      "autoDetect": {
+        "title": "تشخیص خودکار زبان",
+        "description": "در صورت موجود بودن، از تشخیص زبان مبتنی بر مرورگر یا منطقه استفاده کنید."
+      },
+      "rtlSupport": {
+        "title": "پشتیبانی از راست به چپ / چپ به راست",
+        "description": "طرح‌های راست به چپ را برای رابط‌های دری و پشتو فعال کنید."
+      },
+      "regionalFormats": {
+        "title": "قالب‌های منطقه‌ای",
+        "description": "قالب‌های تاریخ، زمان، اعداد و ارز را با منطقه مورد نظر خود هماهنگ کنید."
+      },
+      "days": {
+        "sunday": "یکشنبه",
+        "monday": "دوشنبه"
+      },
+      "timezones": {
+        "kabul": "آسیا/کابل",
+        "utc": "UTC"
+      },
+      "timeFormats": {
+        "24hour": "۲۴ ساعته",
+        "12hour": "۱۲ ساعته"
+      },
+      "currencies": {
+        "afn": "افغانی (AFN)",
+        "usd": "دالر امریکایی (USD)",
+        "eur": "یورو (EUR)"
+      }
+    },
+    "configurableOptions": "گزینه‌های قابل پیکربندی",
+    "badges": {
+      "enterprise": "سازمانی",
+      "premium": "پریمیوم",
+      "standard": "استاندارد",
+      "coreConfiguration": "پیکربندی اصلی",
+      "internationalization": "بین‌المللی‌سازی",
+      "visualSystem": "سیستم بصری",
+      "financeControls": "کنترل‌های مالی",
+      "portfolioControls": "کنترل‌های پرتفولیو",
+      "accessControl": "کنترل دسترسی",
+      "communication": "ارتباطات",
+      "compliance": "انطباق",
+      "recoveryCenter": "مرکز بازیابی",
+      "connectedServices": "خدمات متصل",
+      "securityCenter": "مرکز امنیت"
+    },
+    "sidebar": {
+      "title": "مرکز تنظیمات",
+      "overview": "نمای کلی",
+      "general": "عمومی",
+      "localization": "محلی‌سازی",
+      "appearance": "ظاهر",
+      "usersRoles": "کاربران و نقش‌ها",
+      "properties": "املاک",
+      "financial": "مالی",
+      "notifications": "اعلان‌ها",
+      "security": "امنیت",
+      "backup": "پشتیبان‌گیری",
+      "integrations": "ادغام‌ها",
+      "auditLogs": "گزارش‌های حسابرسی"
+    },
+    "index": {
+      "title": "مرکز تنظیمات سازمانی",
+      "description": "سیاست‌های پلتفرم، ادغام‌ها، کنترل‌های امنیتی و تنظیمات عملیاتی را در یک فضای کاری پریمیوم متمرکز کنید."
+    },
+    "actions": {
+      "exportProfile": "خروجی پروفایل",
+      "syncDefaults": "همگام‌سازی پیش‌فرض‌ها",
+      "saveChanges": "ذخیره تغییرات",
+      "preview": "پیش‌نمایش",
+      "savePreferences": "ذخیره تنظیمات",
+      "previewUI": "پیش‌نمایش رابط کاربری",
+      "applyTheme": "اعمال تم",
+      "livePreview": "پیش‌نمایش زنده",
+      "saveFinanceRules": "ذخیره قوانین مالی",
+      "exportTemplate": "خروجی قالب",
+      "saveCatalog": "ذخیره کاتالوگ",
+      "addTemplate": "افزودن قالب",
+      "savePolicy": "ذخیره سیاست",
+      "inviteUser": "دعوت کاربر",
+      "saveChannels": "ذخیره کانال‌ها",
+      "sendTest": "ارسال آزمایشی",
+      "exportLogs": "خروجی گزارش‌ها",
+      "print": "چاپ",
+      "runBackup": "اجرای پشتیبان‌گیری",
+      "restore": "بازیابی",
+      "saveConnections": "ذخیره اتصالات",
+      "addIntegration": "افزودن ادغام",
+      "saveSecurityRules": "ذخیره قوانین امنیتی",
+      "reviewPolicies": "بررسی سیاست‌ها"
+    },
+    "stats": {
+      "configuredAreas": "بخش‌های پیکربندی شده",
+      "activeIntegrations": "ادغام‌های فعال",
+      "securityStatus": "وضعیت امنیتی",
+      "protected": "محافظت شده"
+    },
+    "cards": {
+      "general": {
+        "title": "تنظیمات عمومی",
+        "description": "جزئیات اصلی شرکت، ساعات کاری و کنترل‌های پیش‌فرض تجربه را مدیریت کنید."
+      },
+      "localization": {
+        "title": "محلی‌سازی و زبان",
+        "description": "دری، پشتو، انگلیسی، مناطق زمانی، ارز و جهت طرح را پیکربندی کنید."
+      },
+      "appearance": {
+        "title": "تم و ظاهر",
+        "description": "تم‌ها، رنگ‌های تأکیدی، طرح‌های نوار کناری، تراکم و زیبایی بصری را تنظیم کنید."
+      },
+      "usersRoles": {
+        "title": "کاربران و نقش‌ها",
+        "description": "دسترسی، بخش‌ها، تیم‌ها، مجوزها و تاریخچه ورود را مدیریت کنید."
+      },
+      "properties": {
+        "title": "تنظیمات املاک",
+        "description": "انواع ملک، واحدها، امکانات، دسته‌بندی‌ها و رفتار اجاره را تنظیم کنید."
+      },
+      "financial": {
+        "title": "تنظیمات مالی",
+        "description": "روش‌های پرداخت، مالیات‌ها، قالب‌های فاکتور، حساب‌های بانکی و تبادلات را کنترل کنید."
+      },
+      "agreement": {
+        "title": "تنظیمات قرارداد",
+        "description": "قالب‌ها، قوانین تمدید، سپرده‌ها، جریمه‌ها و امضاها را استانداردسازی کنید."
+      },
+      "booking": {
+        "title": "تنظیمات رزرو",
+        "description": "قوانین رزرو، لغو، ورود و خروج را مدیریت کنید."
+      },
+      "maintenance": {
+        "title": "تنظیمات نگهداری",
+        "description": "دسته‌بندی‌های نگهداری، دستورات کاری، اولویت‌ها، فروشندگان و خدمات را تعریف کنید."
+      },
+      "notifications": {
+        "title": "تنظیمات اعلان‌ها",
+        "description": "تنظیمات ایمیل، پیامک، اعلان‌های فوری و درون برنامه‌ای را تنظیم کنید."
+      },
+      "security": {
+        "title": "تنظیمات امنیتی",
+        "description": "پلتفرم را با احراز هویت دو مرحله‌ای، سیاست‌ها، محدودیت جلسه و نظارت محافظت کنید."
+      },
+      "backup": {
+        "title": "پشتیبان‌گیری و بازیابی",
+        "description": "پشتیبان‌گیری‌ها را زمان‌بندی کنید، تاریخچه را نظارت کنید و داده‌های حیاتی کسب‌وکار را بازیابی کنید."
+      },
+      "integrations": {
+        "title": "ادغام‌ها",
+        "description": "پرداخت‌ها، تقویم‌ها، نقشه‌ها، وب‌هوک‌ها و خدمات مایکروسافت ۳۶۵ را متصل کنید."
+      },
+      "auditLogs": {
+        "title": "گزارش‌های حسابرسی",
+        "description": "فعالیت سیستم، اقدامات کاربر، داده‌های IP و تحقیقات پشتیبانی را بررسی کنید."
+      }
+    },
+    "general": {
+      "title": "تنظیمات عمومی",
+      "description": "هویت اصلی، برندینگ و زمینه تجاری پلتفرم مدیریت املاک خود را پیکربندی کنید.",
+      "companyInfo": {
+        "title": "اطلاعات شرکت",
+        "description": "پروفایل سازمانی، تماس‌ها و شناسه‌های قانونی خود را مدیریت کنید."
+      },
+      "fields": {
+        "companyName": "نام شرکت",
+        "registrationNumber": "شماره ثبت تجاری",
+        "companyEmail": "ایمیل شرکت",
+        "phoneNumber": "شماره تلفن",
+        "website": "وب‌سایت",
+        "taxNumber": "شماره مالیاتی",
+        "businessHours": "ساعات کاری",
+        "workingDays": "روزهای کاری",
+        "weekendDays": "روزهای آخر هفته",
+        "defaultDashboard": "داشبورد پیش‌فرض",
+        "companyAddress": "آدرس شرکت",
+        "country": "کشور",
+        "province": "ولایت",
+        "postalCode": "کد پستی"
+      },
+      "businessSettings": {
+        "title": "تنظیمات تجاری",
+        "description": "پیش‌فرض‌های منطقه‌ای، زمان‌بندی‌ها و پیش‌فرض‌های فضای کاری را کنترل کنید."
+      },
+      "options": {
+        "executiveOverview": "نمای کلی اجرایی",
+        "operationsHub": "مرکز عملیات"
+      }
+    },
+    "appearance": {
+      "title": "تم و ظاهر",
+      "description": "سیستم بصری پلتفرم، فاصله‌گذاری و سبک‌های سطح تعاملی را بدون تغییر تجربه اصلی تنظیم کنید.",
+      "themePreferences": {
+        "title": "تنظیمات تم",
+        "description": "حالت بصری پیش‌فرض و سبک تأکیدی را انتخاب کنید."
+      },
+      "fields": {
+        "themeMode": "حالت تم",
+        "accentColor": "رنگ تأکیدی",
+        "sidebarStyle": "سبک نوار کناری",
+        "dashboardLayout": "طرح داشبورد",
+        "fontSize": "اندازه قلم",
+        "borderRadius": "شعاع حاشیه",
+        "cardStyle": "سبک کارت",
+        "tableDensity": "تراکم جدول"
+      },
+      "themes": {
+        "light": "حالت روشن",
+        "dark": "حالت تاریک",
+        "system": "تم سیستم"
+      },
+      "sidebarStyles": {
+        "default": "پیش‌فرض",
+        "compact": "فشرده",
+        "modern": "مدرن"
+      },
+      "dashboardLayouts": {
+        "balanced": "متوازن",
+        "compact": "فشرده",
+        "executive": "اجرایی"
+      },
+      "interfaceDensity": {
+        "title": "تراکم رابط",
+        "description": "تایپوگرافی، فاصله‌گذاری و سبک کارت‌ها را برای راحتی و بهره‌وری تنظیم کنید."
+      },
+      "fontSizes": {
+        "small": "کوچک",
+        "medium": "متوسط",
+        "large": "بزرگ"
+      },
+      "borderStyles": {
+        "rounded": "گرد",
+        "sharp": "تیز",
+        "soft": "نرم"
+      },
+      "cardStyles": {
+        "elevated": "برجسته",
+        "outlined": "خط‌دار",
+        "minimal": "حداقل"
+      },
+      "tableDensities": {
+        "compact": "فشرده",
+        "comfortable": "راحت",
+        "spacious": "جادار"
+      }
+    },
+    "financial": {
+      "title": "تنظیمات مالی",
+      "description": "عملیات پرداخت، قالب‌های فاکتور، قوانین مالیاتی و تنظیمات بانکی را با فرآیند حسابداری خود هماهنگ کنید.",
+      "transactions": {
+        "title": "تراکنش‌ها",
+        "description": "روش‌های پرداخت، فاکتورها، رسیدها و هزینه‌ها را پیکربندی کنید."
+      },
+      "fields": {
+        "paymentMethods": "روش‌های پرداخت",
+        "taxSettings": "تنظیمات مالیاتی",
+        "invoiceNumberFormat": "قالب شماره فاکتور",
+        "receiptNumberFormat": "قالب شماره رسید",
+        "expenseCategories": "دسته‌بندی‌های هزینه",
+        "bankAccounts": "حساب‌های بانکی",
+        "financialYear": "سال مالی",
+        "exchangeRates": "نرخ‌های تبادل ارز"
+      },
+      "accounting": {
+        "title": "تنظیمات حسابداری",
+        "description": "دسته‌بندی‌های هزینه، بانک‌ها، سال مالی و پیکربندی تبادل را مدیریت کنید."
+      }
+    },
+    "properties": {
+      "title": "تنظیمات املاک",
+      "description": "طبقه‌بندی‌های املاک، امکانات، قوانین اشغال و ساختارهای اجاره را در سراسر پرتفولیوی خود استانداردسازی کنید.",
+      "catalog": {
+        "title": "کاتالوگ املاک",
+        "description": "انواع املاک، انواع ساختمان و دسته‌بندی‌های واحد را مدیریت کنید."
+      },
+      "fields": {
+        "propertyTypes": "انواع املاک",
+        "buildingTypes": "انواع ساختمان",
+        "unitTypes": "انواع واحد",
+        "amenities": "امکانات",
+        "floorConfiguration": "پیکربندی طبقات",
+        "propertyCategories": "دسته‌بندی‌های املاک",
+        "occupancyStatus": "وضعیت اشغال",
+        "leaseTypes": "انواع اجاره"
+      },
+      "portfolioRules": {
+        "title": "قوانین پرتفولیو",
+        "description": "وضعیت اشغال، مدل‌های اجاره و برنامه‌ریزی طبقات را پیکربندی کنید."
+      },
+      "occupancyStatus": {
+        "vacant": "خالی",
+        "occupied": "اشغال شده",
+        "reserved": "رزرو شده"
+      }
+    },
+    "usersRoles": {
+      "title": "کاربران و نقش‌ها",
+      "description": "حکمرانی، مجوزها، بخش‌ها، تیم‌ها و سیاست‌های امنیتی حساب را با ساختار سازمانی شفاف مدیریت کنید.",
+      "administration": {
+        "title": "مدیریت",
+        "description": "چرخه عمر کاربر و سیاست‌های دسترسی را پیکربندی کنید."
+      },
+      "fields": {
+        "defaultRole": "نقش پیش‌فرض",
+        "departments": "بخش‌ها",
+        "teams": "تیم‌ها",
+        "passwordPolicy": "سیاست رمز عبور",
+        "sessionTimeout": "زمان پایان جلسه",
+        "maxLoginAttempts": "حداکثر تلاش‌های ورود",
+        "trustedDevices": "دستگاه‌های مورد اعتماد",
+        "apiAccess": "دسترسی API"
+      },
+      "roles": {
+        "propertyManager": "مدیر املاک",
+        "financeOfficer": "افسر مالی",
+        "administrator": "مدیر سیستم"
+      },
+      "securityControls": {
+        "title": "کنترل‌های امنیتی",
+        "description": "دسترسی را با قوانین ورود، کنترل جلسه و نظارت محافظت کنید."
+      },
+      "apiAccessLevels": {
+        "enabled": "فعال",
+        "limited": "محدود",
+        "disabled": "غیرفعال"
+      }
+    },
+    "notifications": {
+      "title": "تنظیمات اعلان‌ها",
+      "description": "کانال‌های تحویل، آهنگ یادآوری و فوریت هشدارها را در سراسر پلتفرم کنترل کنید.",
+      "deliveryPreferences": {
+        "title": "تنظیمات تحویل",
+        "description": "هر کانال اعلان را برای سازمان خود فعال یا غیرفعال کنید."
+      },
+      "toggles": {
+        "emailNotifications": "اعلان‌های ایمیل",
+        "smsNotifications": "اعلان‌های پیامکی",
+        "pushNotifications": "اعلان‌های فوری",
+        "inAppNotifications": "اعلان‌های درون برنامه‌ای",
+        "reminderSettings": "تنظیمات یادآوری",
+        "paymentAlerts": "هشدارهای پرداخت",
+        "bookingAlerts": "هشدارهای رزرو",
+        "maintenanceAlerts": "هشدارهای نگهداری"
+      },
+      "descriptions": {
+        "emailNotifications": "هشدارهای ایمیل هفتگی و فوری ارسال کنید.",
+        "smsNotifications": "به‌روزرسانی‌های مهم را از طریق پیامک ارسال کنید.",
+        "pushNotifications": "کاربران را در مرورگر یا برنامه مطلع کنید.",
+        "inAppNotifications": "پیام‌ها را مستقیماً در داشبورد نمایش دهید.",
+        "reminderSettings": "مستأجران و کارکنان را پیش از رویدادها مطلع کنید.",
+        "paymentAlerts": "هنگام تغییر فاکتورها یا پرداخت‌ها هشدار دهید.",
+        "bookingAlerts": "درباره تأیید و تغییرات رزرو اطلاع دهید.",
+        "maintenanceAlerts": "تیم‌ها را هنگام نیاز به توجه مطلع کنید."
+      }
+    },
+    "auditLogs": {
+      "title": "گزارش‌های حسابرسی",
+      "description": "فعالیت‌های مدیریتی، رویدادهای دسترسی و تغییرات عملیاتی را با پشتیبانی از جستجو و خروجی مرور کنید.",
+      "activityLog": {
+        "title": "گزارش فعالیت",
+        "description": "جزئیات حسابرسی را جستجو، فیلتر و خروجی بگیرید."
+      },
+      "placeholders": {
+        "searchLogs": "جستجوی گزارش‌ها"
+      },
+      "actions": {
+        "filter": "فیلتر",
+        "export": "خروجی",
+        "print": "چاپ",
+        "twoFactorEnabled": "احراز هویت دو مرحله‌ای فعال شد",
+        "invoiceCreated": "فاکتور ایجاد شد",
+        "bookingUpdated": "رزرو به‌روزرسانی شد"
+      },
+      "table": {
+        "user": "کاربر",
+        "module": "ماژول",
+        "action": "اقدام",
+        "description": "توضیحات",
+        "ip": "IP",
+        "date": "تاریخ"
+      },
+      "modules": {
+        "security": "امنیت",
+        "financial": "مالی",
+        "booking": "رزرو"
+      }
+    },
+    "backup": {
+      "title": "پشتیبان‌گیری و بازیابی",
+      "description": "تداوم کسب‌وکار را با پشتیبان‌گیری‌های زمان‌بندی شده، جریان‌های بازیابی و تاریخچه بازیابی تأیید شده قوی نگه دارید.",
+      "backupCenter": {
+        "title": "مرکز پشتیبان‌گیری",
+        "description": "پشتیبان‌گیری‌های خودکار، کارهای بازیابی و گزینه‌های دانلود را مدیریت کنید."
+      },
+      "fields": {
+        "manualBackup": "پشتیبان‌گیری دستی",
+        "automaticBackup": "پشتیبان‌گیری خودکار",
+        "backupSchedule": "زمان‌بندی پشتیبان‌گیری",
+        "downloadBackup": "دانلود پشتیبان"
+      },
+      "options": {
+        "enabled": "فعال",
+        "disabled": "غیرفعال"
+      },
+      "schedules": {
+        "daily": "روزانه ساعت ۰۸:۰۰",
+        "hourly": "ساعتی",
+        "weekly": "هفتگی"
+      },
+      "backupHistory": {
+        "title": "تاریخچه پشتیبان‌گیری",
+        "description": "آخرین فعالیت‌های بازیابی و پشتیبان‌گیری را مرور کنید."
+      },
+      "history": {
+        "dailyFull": "پشتیبان‌گیری کامل روزانه",
+        "incremental": "پشتیبان‌گیری افزایشی",
+        "pointInTime": "بازیابی نقطه‌ای در زمان"
+      },
+      "status": {
+        "completed": "تکمیل شد",
+        "pending": "در انتظار"
+      }
+    },
+    "integrations": {
+      "title": "ادغام‌ها",
+      "description": "پلتفرم‌های خارجی اصلی را برای پرداخت، نقشه‌برداری، زمان‌بندی و جریان‌های کاری اتوماسیون متصل کنید.",
+      "platformConnections": {
+        "title": "اتصالات پلتفرم",
+        "description": "ادغام‌های فعلی خود را بررسی و پیکربندی کنید."
+      },
+      "services": {
+        "paymentGateway": "درگاه پرداخت",
+        "googleMaps": "گوگل مپس",
+        "googleCalendar": "تقویم گوگل",
+        "outlookCalendar": "تقویم اوت‌لوک",
+        "microsoft365": "مایکروسافت ۳۶۵",
+        "webhooks": "وب‌هوک‌ها"
+      },
+      "status": {
+        "connected": "متصل",
+        "pending": "در انتظار"
+      },
+      "serviceDescription": "این سرویس را به‌طور امن از مرکز کنترل سازمانی متصل و مدیریت کنید."
+    },
+    "security": {
+      "title": "تنظیمات امنیتی",
+      "description": "عملیات خود را با کنترل‌های دسترسی لایه‌ای، محافظت‌های جلسه و سیاست امنیتی منطبق با انطباق محافظت کنید.",
+      "accessProtection": {
+        "title": "حفاظت از دسترسی",
+        "description": "تنظیمات احراز هویت، پیچیدگی رمز عبور و کنترل‌های اعتماد دستگاه را تنظیم کنید."
+      },
+      "fields": {
+        "twoFactorAuth": "احراز هویت دو مرحله‌ای",
+        "passwordComplexity": "قوانین پیچیدگی رمز عبور",
+        "passwordExpiration": "انقضای رمز عبور",
+        "sessionTimeout": "زمان پایان جلسه",
+        "maxLoginAttempts": "حداکثر تلاش‌های ورود",
+        "ipRestrictions": "محدودیت‌های IP",
+        "trustedDevices": "دستگاه‌های مورد اعتماد",
+        "activityMonitoring": "نظارت بر فعالیت"
+      },
+      "twoFactorOptions": {
+        "required": "الزامی",
+        "optional": "اختیاری",
+        "disabled": "غیرفعال"
+      },
+      "advancedSafety": {
+        "title": "ایمنی پیشرفته",
+        "description": "آستانه‌های تلاش ورود، محدودیت‌ها، دسترسی API و نظارت را تنظیم کنید."
+      },
+      "monitoringOptions": {
+        "enabled": "فعال",
+        "selective": "انتخابی",
+        "disabled": "غیرفعال"
+      }
     }
   }
 }
