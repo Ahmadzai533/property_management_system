@@ -216,22 +216,22 @@ const Sidebar = ({
 ];
 
 const managementItems = [
-  {
-    id: "settings",
-    basePath: "/settings",
-    icon: Settings,
-    label: t("nav.settings"),
-    items: [
-      { to: "/settings", label: t("settings.settingsHub") },
-      { to: "/settings/general", label: "General" },
-      { to: "/settings/localization", label: "Localization" },
-      { to: "/settings/appearance", label: "Appearance" },
-      { to: "/settings/security", label: "Security" },
-      { to: "/settings/backup", label: "Backup" },
-      { to: "/settings/integrations", label: "Integrations" },
-      { to: "/settings/audit-logs", label: "Audit Logs" },
-    ],
-  },
+  // {
+  //   id: "settings",
+  //   basePath: "/settings",
+  //   icon: Settings,
+  //   label: t("nav.settings"),
+  //   items: [
+  //     { to: "/settings", label: t("settings.settingsHub") },
+  //     { to: "/settings/general", label: "General" },
+  //     { to: "/settings/localization", label: "Localization" },
+  //     { to: "/settings/appearance", label: "Appearance" },
+  //     { to: "/settings/security", label: "Security" },
+  //     { to: "/settings/backup", label: "Backup" },
+  //     { to: "/settings/integrations", label: "Integrations" },
+  //     { to: "/settings/audit-logs", label: "Audit Logs" },
+  //   ],
+  // },
   {
     id: "finance",
     basePath: "/finance",
