@@ -68,98 +68,12 @@
     "repairTickets": "د ترمیم تیکټونه",
     "allContractors": "ټول قرارداديان"
   },
-  "settings": {
-    "settingsHub": "د تنظیماتو مرکز"
-  },
   "finance": {
-     "expense": {
-      "deleteTitle": "لګښت ړنګول؟",
-      "deleteWarning": "دا عمل بیرته نه شي اخیستل کیدی.",
-      "summary": "د لګښت لنډیز",
-      "expenseId": "د لګښت پېژند",
-      "amount": "مقدار",
-      "tax": "مالیه",
-      "discount": "تخفیف",
-      "total": "ټول",
-      "property": "ملکیت",
-      "unit": "واحد",
-      "vendor": "پلورونکی",
-      "paymentDetails": "د تادیې جزئیات",
-      "paymentMethod": "د تادیې طریقه",
-      "paymentStatus": "د تادیې حالت",
-      "approvalTimeline": "د تایید مهال ویش",
-      "downloadPdf": "PDF ډاونلوډ",
-      "approve": "تایید",
-      "reject": "رد",
-      "editExpense": "لګښت سمول",
-      "newExpense": "نوی لګښت",
-      "updateExpenseDetails": "د لګښت جزئیات تازه کړئ",
-      "createExpenseRecord": "د لګښت نوی ریکارډ جوړ کړئ",
-      "basicInfo": "اساسي معلومات",
-      "title": "د لګښت عنوان",
-      "titlePlaceholder": "د HVAC ساتنه",
-      "category": "کټګوري",
-      "description": "تشریح",
-      "descriptionPlaceholder": "لګښت، ساحه او سوداګریز شرایط تشریح کړئ",
-      "vendorInfo": "د پلورونکي معلومات",
-      "vendorName": "د پلورونکي نوم",
-      "contact": "اړیکه",
-      "email": "ایمیل",
-      "phone": "تلیفون",
-      "financialInfo": "مالي معلومات",
-      "attachments": "ضمیمې",
-      "dropFiles": "فایلونه دلته وغورځوئ یا وپلټئ",
-      "fileTypes": "انوائسونه، رسیدونه، نرخونه، د پیرود امرونه",
-      "addFiles": "فایلونه اضافه کول",
-      "saveExpense": "لګښت خوندي کول",
-      "intelligence": "د لګښت استخبارات",
-      "intelligenceDesc": "عملیاتي لګښتونه په دقیق ډول ولټوئ، فلټر او صادر کړئ.",
-      "advanced": "پرمختللی",
-      "exportExcel": "ایکسل صادرول",
-      "searchExpenseId": "د لګښت پېژند لټول",
-      "searchDescription": "تشریح لټول",
-      "allCategories": "ټولې کټګورۍ",
-      "allProperties": "ټول ملکیتونه",
-      "status": "حالت",
-      "approval": "تایید",
-      "method": "طریقه",
-      "date": "نیټه",
-      "viewAria": "کتل {{id}}",
-      "editAria": "سمول {{id}}",
-      "duplicateAria": "کاپي {{id}}",
-      "approveAria": "تایید {{id}}",
-      "rejectAria": "رد {{id}}",
-      "payAria": "تادیه شوی نښه {{id}}",
-      "categories": {
-        "Maintenance": "ساتنه",
-        "Repairs": "ترمیمونه",
-        "Utilities": "عامه خدمتونه",
-        "Electricity": "برېښنا",
-        "Water": "اوبه",
-        "Internet": "انټرنېټ",
-        "Cleaning": "پاکول",
-        "Security": "امنیت",
-        "Staff Salary": "د کارکوونکو معاش",
-        "Fuel": "سون توکي",
-        "Office Supplies": "دفتری توکي",
-        "Property Tax": "د ملکیت مالیه",
-        "Insurance": "بیمه",
-        "Marketing": "بازار موندنه",
-        "Legal": "قانوني",
-        "Equipment": "وسایل",
-        "Furniture": "فرنیچر",
-        "Miscellaneous": "متفرقه"
-      },
-      "timeline": {
-        "submitted": "لګښت وسپارل شو",
-        "submittedDesc": "د نادیا لخوا د HVAC خدمت لپاره وسپارل شو",
-        "awaitingApproval": "د تایید په تمه",
-        "awaitingApprovalDesc": "مالي مدیر ته سپارل شوی",
-        "approved": "تایید شو",
-        "approvedDesc": "د مالي عملیاتو لخوا تایید شو"
-      }
-    },
-      "paymentsInvoicesDesc": "د ټولو تادیاتو، انوائسونو او مالي معاملو مدیریت",
+    "paymentsInvoices": "تادیه او فاکتورونه",
+    "rentRollLedger": "دفتر کرایه",
+    "transactionHistory": "د معاملو تاریخچه",
+    "expenses": "لګښتونه",
+    "paymentsInvoicesDesc": "د ټولو تادیاتو، انوائسونو او مالي معاملو مدیریت",
     "rentRollLedgerDesc": "د کرایې د دفتر بشپړ مدیریت او د اجارې تعقیب",
     "transactionHistoryDesc": "د ټولو مالي معاملو بشپړ پلټنه",
     "stats": {
@@ -207,12 +121,18 @@
       "category": "کټګوري",
       "reference": "حواله",
       "paymentMethod": "د تادیې طریقه",
-      "createdBy": "جوړونکی"
+      "createdBy": "جوړونکی",
+      "noData": "هیڅ معلومات نشته"
     },
     "filters": {
       "searchPayments": "د انوائس، کرایه دار، ملکیت له مخې لټون...",
       "searchLedger": "د ملکیت، واحد، کرایه دار له مخې لټون...",
       "searchTransactions": "د معاملې پېژند، کرایه دار، ملکیت له مخې لټون...",
+      "search": "لټون...",
+      "filters": "فلټرونه",
+      "all": "ټول",
+      "dateRange": "د نېټې حدود",
+      "apply": "فلټرونه پلي کول",
       "paymentStatus": "د تادیې حالت",
       "leaseStatus": "د اجارې حالت",
       "property": "ملکیت",
@@ -221,14 +141,34 @@
       "paymentMethod": "د تادیې طریقه"
     },
     "invoice": {
+      "createTitle": "انوائس جوړول",
+      "createSubtitle": "د خپل کرایه دار لپاره نوی انوائس جوړ کړئ",
+      "create": "انوائس جوړول",
       "details": "د انوائس جزئیات",
       "invoiceInfo": "د انوائس معلومات",
+      "invoiceNumber": "د انوائس شمېره",
+      "invoiceNumberPlaceholder": "INV-2024-001",
+      "tenant": "کرایه دار",
+      "selectTenant": "کرایه دار وټاکئ",
       "tenantInfo": "د کرایه دار معلومات",
+      "property": "ملکیت",
+      "selectProperty": "ملکیت وټاکئ",
+      "unit": "واحد",
+      "unitPlaceholder": "A-1201",
+      "dueDate": "د تادیې نېټه",
+      "description": "تشریح",
+      "descriptionPlaceholder": "د انوائس جزیات تشریح کړئ...",
+      "amount": "مقدار",
+      "tax": "مالیه (٪)",
+      "discount": "تخفیف",
+      "totalAmount": "ټول مقدار",
       "paymentHistory": "د تادیې تاریخچه",
       "paymentNumber": "تادیه #{{id}}",
       "downloadPdf": "PDF ډاونلوډ",
       "sendEmail": "ایمیل لیږل",
-      "markPaid": "تادیه شوی نښه"
+      "markPaid": "تادیه شوی نښه",
+      "createdSuccessfully": "انوائس په بریالیتوب سره جوړ شو!",
+      "createFailed": "د انوائس جوړول ناکام شول"
     },
     "ledger": {
       "expectedMonthlyRent": "تمه کېدونکې میاشتنی کرایه",
@@ -296,87 +236,6 @@
         "completed": "بشپړه شوه"
       }
     },
-    "actions": {
-      "viewInvoice": "انوائس کتل",
-      "editInvoice": "انوائس سمول",
-      "sendInvoice": "انوائس لیږل"
-    },
-    "messages": {
-      "editInvoice": "انوائس سمول",
-      "invoiceSent": "انوائس په بریالیتوب سره ولیږل شو",
-      "invoiceDeleted": "انوائس ړنګ شو",
-      "markedPaid": "انوائس د تادیه شوي په توګه نښه شو",
-      "exportStarted": "صادرول پیل شول",
-      "exportedSuccessfully": "په بریالیتوب سره صادر شو"
-    },
-    "pagination": {
-      "showing": "ښودل {{start}}-{{end}} د {{total}} انوائسونو څخه"
-    },
-    "paymentsInvoices": "تادیه او فاکتورونه",
-    "rentRollLedger": "دفتر کرایه",
-    "transactionHistory": "د معاملو تاریخچه",
-    "expenses": "لګښتونه",
-    "tenants": {
-      "johnSmith": "جان سمېت",
-      "sarahJohnson": "سارا جانسن",
-      "michaelBrown": "مایکل براون"
-    },
-    "properties": {
-      "sunsetTowers": "سن سیټ ټاورز",
-      "oceanView": "اوشن ویو",
-      "gardenHeights": "ګارډن هایټس"
-    },
-    "invoice": {
-      "createTitle": "انوائس جوړول",
-      "createSubtitle": "د خپل کرایه دار لپاره نوی انوائس جوړ کړئ",
-      "create": "انوائس جوړول",
-      "invoiceNumber": "د انوائس شمېره",
-      "invoiceNumberPlaceholder": "INV-2024-001",
-      "tenant": "کرایه دار",
-      "selectTenant": "کرایه دار وټاکئ",
-      "property": "ملکیت",
-      "selectProperty": "ملکیت وټاکئ",
-      "unit": "واحد",
-      "unitPlaceholder": "A-1201",
-      "dueDate": "د تادیې نېټه",
-      "description": "تشریح",
-      "descriptionPlaceholder": "د انوائس جزیات تشریح کړئ...",
-      "amount": "مقدار",
-      "tax": "مالیه (٪)",
-      "discount": "تخفیف",
-      "totalAmount": "ټول مقدار",
-      "createdSuccessfully": "انوائس په بریالیتوب سره جوړ شو!",
-      "createFailed": "د انوائس جوړول ناکام شول"
-    },
-     "expenses": "لګښتونه",
-    "expense": {
-      "pageSubtitle": "د تصدۍ لګښتونو څارنه، تاییدونه او پلورونکو ته مسؤلانه تادیات.",
-      "newExpense": "نوی لګښت",
-      "ledger": "د لګښت دفتر",
-      "ledgerDesc": "لګښتونه، تاییدونه او د تادیې کاري جریان بیاکتنه.",
-      "records": "ریکارډونه",
-      "stats": {
-        "totalExpenses": "ټول لګښتونه",
-        "monthlyExpenses": "میاشتني لګښتونه",
-        "pendingApprovals": "په تمه تاییدونه",
-        "vendorPayments": "پلورونکي تادیات",
-        "ytdSpend": "د کال تر ننه عملیاتي لګښت",
-        "currentMonth": "اوسنۍ میاشت",
-        "awaitingReview": "د بیاکتنې په تمه",
-        "processedThisMonth": "دا میاشت پروسس شوی"
-      },
-      "messages": {
-        "duplicated": "لګښت کاپي شو",
-        "approved": "لګښت تایید شو",
-        "rejected": "لګښت رد شو",
-        "paymentCompleted": "تادیه بشپړه شوه",
-        "deleted": "لګښت ړنګ شو",
-        "exportedReport": "د لګښت راپور صادر شو",
-        "printing": "لګښتونه چاپېږي",
-        "refreshed": "لګښتونه تازه شول",
-        "advancedReady": "پرمختللي فلټرونه چمتو دي"
-      }
-    },
     "payment": {
       "createTitle": "نوی تادیه",
       "create": "تادیه جوړول",
@@ -405,15 +264,143 @@
       "createdSuccessfully": "تادیه په بریالیتوب سره جوړه شوه!",
       "createFailed": "د تادیې جوړول ناکام شول"
     },
-    "filters": {
-      "search": "لټون...",
-      "filters": "فلټرونه",
-      "all": "ټول",
-      "dateRange": "د نېټې حدود",
-      "apply": "فلټرونه پلي کول"
+    "actions": {
+      "viewInvoice": "انوائس کتل",
+      "editInvoice": "انوائس سمول",
+      "sendInvoice": "انوائس لیږل"
     },
-    "table": {
-      "noData": "هیڅ معلومات نشته"
+    "messages": {
+      "editInvoice": "انوائس سمول",
+      "invoiceSent": "انوائس په بریالیتوب سره ولیږل شو",
+      "invoiceDeleted": "انوائس ړنګ شو",
+      "markedPaid": "انوائس د تادیه شوي په توګه نښه شو",
+      "exportStarted": "صادرول پیل شول",
+      "exportedSuccessfully": "په بریالیتوب سره صادر شو"
+    },
+    "pagination": {
+      "showing": "ښودل {{start}}-{{end}} د {{total}} انوائسونو څخه"
+    },
+    "expense": {
+      "pageSubtitle": "د تصدۍ لګښتونو څارنه، تاییدونه او پلورونکو ته مسؤلانه تادیات.",
+      "newExpense": "نوی لګښت",
+      "ledger": "د لګښت دفتر",
+      "ledgerDesc": "لګښتونه، تاییدونه او د تادیې کاري جریان بیاکتنه.",
+      "records": "ریکارډونه",
+      "deleteTitle": "لګښت ړنګول؟",
+      "deleteWarning": "دا عمل بیرته نه شي اخیستل کیدی.",
+      "summary": "د لګښت لنډیز",
+      "expenseId": "د لګښت پېژند",
+      "amount": "مقدار",
+      "tax": "مالیه",
+      "discount": "تخفیف",
+      "total": "ټول",
+      "property": "ملکیت",
+      "unit": "واحد",
+      "vendor": "پلورونکی",
+      "paymentDetails": "د تادیې جزئیات",
+      "paymentMethod": "د تادیې طریقه",
+      "paymentStatus": "د تادیې حالت",
+      "approvalTimeline": "د تایید مهال ویش",
+      "downloadPdf": "PDF ډاونلوډ",
+      "approve": "تایید",
+      "reject": "رد",
+      "editExpense": "لګښت سمول",
+      "updateExpenseDetails": "د لګښت جزئیات تازه کړئ",
+      "createExpenseRecord": "د لګښت نوی ریکارډ جوړ کړئ",
+      "basicInfo": "اساسي معلومات",
+      "title": "د لګښت عنوان",
+      "titlePlaceholder": "د HVAC ساتنه",
+      "category": "کټګوري",
+      "description": "تشریح",
+      "descriptionPlaceholder": "لګښت، ساحه او سوداګریز شرایط تشریح کړئ",
+      "vendorInfo": "د پلورونکي معلومات",
+      "vendorName": "د پلورونکي نوم",
+      "contact": "اړیکه",
+      "email": "ایمیل",
+      "phone": "تلیفون",
+      "financialInfo": "مالي معلومات",
+      "attachments": "ضمیمې",
+      "dropFiles": "فایلونه دلته وغورځوئ یا وپلټئ",
+      "fileTypes": "انوائسونه، رسیدونه، نرخونه، د پیرود امرونه",
+      "addFiles": "فایلونه اضافه کول",
+      "saveExpense": "لګښت خوندي کول",
+      "intelligence": "د لګښت استخبارات",
+      "intelligenceDesc": "عملیاتي لګښتونه په دقیق ډول ولټوئ، فلټر او صادر کړئ.",
+      "advanced": "پرمختللی",
+      "exportExcel": "ایکسل صادرول",
+      "searchExpenseId": "د لګښت پېژند لټول",
+      "searchDescription": "تشریح لټول",
+      "allCategories": "ټولې کټګورۍ",
+      "allProperties": "ټول ملکیتونه",
+      "status": "حالت",
+      "approval": "تایید",
+      "method": "طریقه",
+      "date": "نیټه",
+      "viewAria": "کتل {{id}}",
+      "editAria": "سمول {{id}}",
+      "duplicateAria": "کاپي {{id}}",
+      "approveAria": "تایید {{id}}",
+      "rejectAria": "رد {{id}}",
+      "payAria": "تادیه شوی نښه {{id}}",
+      "stats": {
+        "totalExpenses": "ټول لګښتونه",
+        "monthlyExpenses": "میاشتني لګښتونه",
+        "pendingApprovals": "په تمه تاییدونه",
+        "vendorPayments": "پلورونکي تادیات",
+        "ytdSpend": "د کال تر ننه عملیاتي لګښت",
+        "currentMonth": "اوسنۍ میاشت",
+        "awaitingReview": "د بیاکتنې په تمه",
+        "processedThisMonth": "دا میاشت پروسس شوی"
+      },
+      "messages": {
+        "duplicated": "لګښت کاپي شو",
+        "approved": "لګښت تایید شو",
+        "rejected": "لګښت رد شو",
+        "paymentCompleted": "تادیه بشپړه شوه",
+        "deleted": "لګښت ړنګ شو",
+        "exportedReport": "د لګښت راپور صادر شو",
+        "printing": "لګښتونه چاپېږي",
+        "refreshed": "لګښتونه تازه شول",
+        "advancedReady": "پرمختللي فلټرونه چمتو دي"
+      },
+      "categories": {
+        "Maintenance": "ساتنه",
+        "Repairs": "ترمیمونه",
+        "Utilities": "عامه خدمتونه",
+        "Electricity": "برېښنا",
+        "Water": "اوبه",
+        "Internet": "انټرنېټ",
+        "Cleaning": "پاکول",
+        "Security": "امنیت",
+        "Staff Salary": "د کارکوونکو معاش",
+        "Fuel": "سون توکي",
+        "Office Supplies": "دفتری توکي",
+        "Property Tax": "د ملکیت مالیه",
+        "Insurance": "بیمه",
+        "Marketing": "بازار موندنه",
+        "Legal": "قانوني",
+        "Equipment": "وسایل",
+        "Furniture": "فرنیچر",
+        "Miscellaneous": "متفرقه"
+      },
+      "timeline": {
+        "submitted": "لګښت وسپارل شو",
+        "submittedDesc": "د نادیا لخوا د HVAC خدمت لپاره وسپارل شو",
+        "awaitingApproval": "د تایید په تمه",
+        "awaitingApprovalDesc": "مالي مدیر ته سپارل شوی",
+        "approved": "تایید شو",
+        "approvedDesc": "د مالي عملیاتو لخوا تایید شو"
+      }
+    },
+    "tenants": {
+      "johnSmith": "جان سمېت",
+      "sarahJohnson": "سارا جانسن",
+      "michaelBrown": "مایکل براون"
+    },
+    "properties": {
+      "sunsetTowers": "سن سیټ ټاورز",
+      "oceanView": "اوشن ویو",
+      "gardenHeights": "ګارډن هایټس"
     },
     "validation": {
       "minAmount": "مقدار باید له {{min}} څخه زیات وي",
@@ -421,21 +408,7 @@
       "negativeDiscount": "تخفیف منفي کېدای نشي"
     }
   },
-  "bookings": {
-    "bookingList": "د رزرو لیست",
-    "createBooking": "رزرو جوړول",
-    "bookingCalendar": "د رزرو تقویم",
-    "bookingDetails": "د رزرو جزییات"
-  },
-  "feedback": {
-    "tenantSurveys": "د کرایه‌چیانو نظرپوښتنې",
-    "issueReports": "د ستونزو راپورونه"
-  },
-  "notices": {
-    "announcements": "اعلانات",
-    "tenantNoticeLogs": "د کرایه‌چیانو خبرتیا لاګونه"
-  },
-    "dashboard": {
+  "dashboard": {
     "title": "د ډشبورډ عمومي کتنه",
     "welcome": "بیا ښه راغلاست مدیر. دا د نن ورځې د فعالیت لنډیز دی.",
     "stats": {
@@ -543,6 +516,20 @@
       "overdue": "ناوخته"
     }
   },
+  "bookings": {
+    "bookingList": "د رزرو لیست",
+    "createBooking": "رزرو جوړول",
+    "bookingCalendar": "د رزرو تقویم",
+    "bookingDetails": "د رزرو جزییات"
+  },
+  "feedback": {
+    "tenantSurveys": "د کرایه‌چیانو نظرپوښتنې",
+    "issueReports": "د ستونزو راپورونه"
+  },
+  "notices": {
+    "announcements": "اعلانات",
+    "tenantNoticeLogs": "د کرایه‌چیانو خبرتیا لاګونه"
+  },
   "reports": {
     "reportsHub": "د راپورونو مرکز",
     "paymentReports": "د تادیې راپورونه",
@@ -566,7 +553,6 @@
     "remove": "لرې کول",
     "edit": "سمول",
     "delete": "ړنګول",
-    
     "previous": "مخکینی",
     "loading": "بارول",
     "success": "بریالیتوب",
@@ -908,6 +894,504 @@
       "delete": "ړنګول",
       "full": "بشپړ",
       "manage": "اداره کول"
+    }
+  },
+  "settings": {
+    "settingsHub": "د تنظیماتو مرکز",
+    "localization": {
+      "dari": "دري",
+      "pashto": "پښتو",
+      "english": "انګلیسي",
+      "title": "ځایي کول او ژبه",
+      "description": "د دري، پښتو او انګلیسي لیدونکو لپاره د انعطاف وړ سیمه‌ایز فارمیټینګ او لوري ملاتړ سره تجربه چمتو کړئ.",
+      "languageSelection": {
+        "title": "د ژبې انتخاب",
+        "description": "ډیفالټ انٹرفیس ژبه او غوره تجربه انتخاب کړئ."
+      },
+      "fields": {
+        "defaultSystemLanguage": "ډیفالټ سیسټم ژبه",
+        "userPreferredLanguage": "د کاروونکي غوره ژبه",
+        "firstDayOfWeek": "د اونۍ لومړۍ ورځ",
+        "timeZone": "وخت زون",
+        "dateFormat": "د نیټې بڼه",
+        "timeFormat": "د وخت بڼه",
+        "numberFormat": "د شمېرو بڼه",
+        "currency": "اسعار"
+      },
+      "autoDetect": {
+        "title": "اتومات د ژبې تشخیص",
+        "description": "کله چې شتون ولري، د براوزر یا سیمې پر بنسټ د ژبې تشخیص وکاروئ."
+      },
+      "rtlSupport": {
+        "title": "RTL / LTR ملاتړ",
+        "description": "د دري او پښتو انٹرفیسونو لپاره ښي-کیڼ ترتیبونه فعال کړئ."
+      },
+      "regionalFormats": {
+        "title": "سیمه‌ایزې بڼې",
+        "description": "د نیټې، وخت، شمېرو او اسعارو بڼې د خپلې خوښې سیمې سره سمون ورکړئ."
+      },
+      "days": {
+        "sunday": "یکشنبه",
+        "monday": "دوشنبه"
+      },
+      "timezones": {
+        "kabul": "آسیا/کابل",
+        "utc": "UTC"
+      },
+      "timeFormats": {
+        "24hour": "۲۴ ساعته",
+        "12hour": "۱۲ ساعته"
+      },
+      "currencies": {
+        "afn": "افغانۍ (AFN)",
+        "usd": "امریکایي ډالر (USD)",
+        "eur": "یورو (EUR)"
+      }
+    },
+    "configurableOptions": "د تنظیم وړ اختیارونه",
+    "badges": {
+      "enterprise": "تصدۍ",
+      "premium": "پریمیم",
+      "standard": "معیاري",
+      "coreConfiguration": "اصلي تنظیم",
+      "internationalization": "نړیوال کول",
+      "visualSystem": "بصري سیسټم",
+      "financeControls": "مالي کنټرولونه",
+      "portfolioControls": "د پورټ فولیو کنټرولونه",
+      "accessControl": "د لاسرسي کنټرول",
+      "communication": "ارتباطات",
+      "compliance": "اطاعت",
+      "recoveryCenter": "د بیا رغونې مرکز",
+      "connectedServices": "وصل شوي خدمات",
+      "securityCenter": "امنیتي مرکز"
+    },
+    "sidebar": {
+      "title": "د تنظیماتو مرکز",
+      "overview": "عمومي کتنه",
+      "general": "عمومي",
+      "localization": "ځایي کول",
+      "appearance": "بڼه",
+      "usersRoles": "کاروونکي او رولونه",
+      "properties": "ملکیتونه",
+      "financial": "مالي",
+      "notifications": "خبرتیاوې",
+      "security": "امنیت",
+      "backup": "بیک اپ",
+      "integrations": "یوځای کول",
+      "auditLogs": "د پلټنې راپورونه"
+    },
+    "index": {
+      "title": "د تصدۍ تنظیماتو مرکز",
+      "description": "د پلیټ فارم تګلارې، یوځای کول، امنیتي کنټرولونه، او عملیاتي غوره توبونه په یوه پریمیم کاري ځای کې مرکزي کړئ."
+    },
+    "actions": {
+      "exportProfile": "پروفایل صادرول",
+      "syncDefaults": "ډیفالټونه همغږي کول",
+      "saveChanges": "بدلونونه خوندي کول",
+      "preview": "مخکتنه",
+      "savePreferences": "غوره توبونه خوندي کول",
+      "previewUI": "د UI مخکتنه",
+      "applyTheme": "موضوع تطبیق کړئ",
+      "livePreview": "ژوندۍ مخکتنه",
+      "saveFinanceRules": "مالي قواعد خوندي کړئ",
+      "exportTemplate": "کينډۍ صادره کړئ",
+      "saveCatalog": "کټګورۍ خوندي کړئ",
+      "addTemplate": "کينډۍ اضافه کړئ",
+      "savePolicy": "تګلاره خوندي کړئ",
+      "inviteUser": "کاروونکي ته بلنه ورکړئ",
+      "saveChannels": "چینلونه خوندي کړئ",
+      "sendTest": "ازموینه واستوئ",
+      "exportLogs": "راپورونه صادرول",
+      "print": "چاپ",
+      "runBackup": "بیک اپ چلول",
+      "restore": "بیا رغول",
+      "saveConnections": "اتصالات خوندي کول",
+      "addIntegration": "یوځای کول اضافه کول",
+      "saveSecurityRules": "امنیتي قواعد خوندي کول",
+      "reviewPolicies": "تګلارې بیاکتنه"
+    },
+    "stats": {
+      "configuredAreas": "تنظیم شوې برخې",
+      "activeIntegrations": "فعال یوځای کونې",
+      "securityStatus": "امنیتي حالت",
+      "protected": "خوندي شوی"
+    },
+    "cards": {
+      "general": {
+        "title": "عمومي تنظیمات",
+        "description": "د شرکت اصلي جزئیات، کاري ساعتونه، او ډیفالټ تجربې کنټرولونه اداره کړئ."
+      },
+      "localization": {
+        "title": "ځایي کول او ژبه",
+        "description": "دري، پښتو، انګلیسي، وخت زونونه، اسعار، او د ترتیب لوری تنظیم کړئ."
+      },
+      "appearance": {
+        "title": "موضوع او بڼه",
+        "description": "موضوعات، تلفظ رنګونه، د غاړې پټې ترتیبونه، کثافت، او بصري پالش تنظیم کړئ."
+      },
+      "usersRoles": {
+        "title": "کاروونکي او رولونه",
+        "description": "لاسرسی، څانګې، ټیمونه، اجازې، او د ننوتلو تاریخ اداره کړئ."
+      },
+      "properties": {
+        "title": "د ملکیت تنظیمات",
+        "description": "د ملکیت ډولونه، واحدونه، اسانتیاوې، کټګورۍ، او د اجارې چلند تنظیم کړئ."
+      },
+      "financial": {
+        "title": "مالي تنظیمات",
+        "description": "د تادیې میتودونه، مالیات، د رسید بڼې، بانکي حسابونه، او تبادلې کنټرول کړئ."
+      },
+      "agreement": {
+        "title": "د تړون تنظیمات",
+        "description": "کينډۍ، د نوي کولو قواعد، امانتونه، جریمې، او لاسلیکونه معیاري کړئ."
+      },
+      "booking": {
+        "title": "د بکینګ تنظیمات",
+        "description": "د ریزرویشن قواعد، لغوه کول، د ننوتلو او وتلو تګلارې اداره کړئ."
+      },
+      "maintenance": {
+        "title": "د ساتنې تنظیمات",
+        "description": "د ساتنې کټګورۍ، کاري امرونه، لومړیتوبونه، پلورونکي، او خدمات تعریف کړئ."
+      },
+      "notifications": {
+        "title": "د خبرتیاوو تنظیمات",
+        "description": "بریښنالیک، پیغام، پوش، او په اپ کې د خبرتیا غوره توبونه تنظیم کړئ."
+      },
+      "security": {
+        "title": "امنیتي تنظیمات",
+        "description": "پلیټ فارم د 2FA، تګلارو، غونډې محدودیتونو، او څارنې سره خوندي کړئ."
+      },
+      "backup": {
+        "title": "بیک اپ او بیا رغونه",
+        "description": "بیک اپونه مهالویش کړئ، تاریخ وڅارئ، او مهم سوداګریز معلومات بیا رغوئ."
+      },
+      "integrations": {
+        "title": "یوځای کول",
+        "description": "تادیات، تقویمونه، نقشې، ویب هوکس، او مایکروسافټ 365 خدمات وصل کړئ."
+      },
+      "auditLogs": {
+        "title": "د پلټنې راپورونه",
+        "description": "د سیسټم فعالیت، د کاروونکو کړنې، IP ډیټا، او د ملاتړ پلټنې بیاکتنه وکړئ."
+      }
+    },
+    "general": {
+      "title": "عمومي تنظیمات",
+      "description": "د خپل ملکیت مدیریت پلیټ فارم اساسي هویت، برانډینګ، او سوداګریز شرایط تنظیم کړئ.",
+      "companyInfo": {
+        "title": "د شرکت معلومات",
+        "description": "خپل سازماني پروفایل، اړیکې، او قانوني پیژندونکي اداره کړئ."
+      },
+      "fields": {
+        "companyName": "د شرکت نوم",
+        "registrationNumber": "د سوداګرۍ راجسټریشن شمېره",
+        "companyEmail": "د شرکت بریښنالیک",
+        "phoneNumber": "د تلیفون شمېره",
+        "website": "ویب پاڼه",
+        "taxNumber": "مالیاتي شمېره",
+        "businessHours": "کاري ساعتونه",
+        "workingDays": "کاري ورځې",
+        "weekendDays": "د اونۍ پای ورځې",
+        "defaultDashboard": "ډیفالټ ډشبورډ",
+        "companyAddress": "د شرکت پته",
+        "country": "هیواد",
+        "province": "ولایت",
+        "postalCode": "پوستي کوډ"
+      },
+      "businessSettings": {
+        "title": "سوداګریز تنظیمات",
+        "description": "سیمه‌ایز ډیفالټونه، مهالویشونه، او کاري ځای ډیفالټونه کنټرول کړئ."
+      },
+      "options": {
+        "executiveOverview": "اجرایوي عمومي کتنه",
+        "operationsHub": "عملیاتي مرکز"
+      }
+    },
+    "appearance": {
+      "title": "موضوع او بڼه",
+      "description": "د پلیټ فارم بصري سیسټم، فاصله، او متقابل سطحي سټایلونه د اصلي تجربې بدلولو پرته تنظیم کړئ.",
+      "themePreferences": {
+        "title": "د موضوع غوره توبونه",
+        "description": "ډیفالټ بصري حالت او تلفظ سټایل غوره کړئ."
+      },
+      "fields": {
+        "themeMode": "د موضوع حالت",
+        "accentColor": "تلفظ رنګ",
+        "sidebarStyle": "د غاړې پټې سټایل",
+        "dashboardLayout": "د ډشبورډ ترتیب",
+        "fontSize": "د فونټ اندازه",
+        "borderRadius": "د سرحد شعاع",
+        "cardStyle": "د کارت سټایل",
+        "tableDensity": "د جدول کثافت"
+      },
+      "themes": {
+        "light": "روښانه حالت",
+        "dark": "تیاره حالت",
+        "system": "د سیسټم موضوع"
+      },
+      "sidebarStyles": {
+        "default": "ډیفالټ",
+        "compact": "کمپیکټ",
+        "modern": "عصري"
+      },
+      "dashboardLayouts": {
+        "balanced": "متوازن",
+        "compact": "کمپیکټ",
+        "executive": "اجرایوي"
+      },
+      "interfaceDensity": {
+        "title": "د انٹرفیس کثافت",
+        "description": "ټایپوګرافي، فاصله، او د کارت سټایل د آرامۍ او تولید لپاره تنظیم کړئ."
+      },
+      "fontSizes": {
+        "small": "وړوکی",
+        "medium": "منځنی",
+        "large": "لوی"
+      },
+      "borderStyles": {
+        "rounded": "ګرد",
+        "sharp": "تیز",
+        "soft": "نرم"
+      },
+      "cardStyles": {
+        "elevated": "پورته شوی",
+        "outlined": "کرښه لرونکی",
+        "minimal": "لږ تر لږه"
+      },
+      "tableDensities": {
+        "compact": "کمپیکټ",
+        "comfortable": "آرام",
+        "spacious": "پراخه"
+      }
+    },
+    "financial": {
+      "title": "مالي تنظیمات",
+      "description": "د تادیې عملیات، د رسید فارمیټونه، مالیاتي قواعد، او بانکي غوره توبونه د خپل محاسبې پروسې سره سمون ورکړئ.",
+      "transactions": {
+        "title": "معاملې",
+        "description": "د تادیې میتودونه، رسیدونه، رسیدونه، او لګښتونه تنظیم کړئ."
+      },
+      "fields": {
+        "paymentMethods": "د تادیې میتودونه",
+        "taxSettings": "مالیاتي تنظیمات",
+        "invoiceNumberFormat": "د رسید شمیرې بڼه",
+        "receiptNumberFormat": "د رسید شمیرې بڼه",
+        "expenseCategories": "د لګښت کټګورۍ",
+        "bankAccounts": "بانکي حسابونه",
+        "financialYear": "مالي کال",
+        "exchangeRates": "د اسعارو تبادلې نرخونه"
+      },
+      "accounting": {
+        "title": "محاسباتي تنظیم",
+        "description": "د لګښت کټګورۍ، بانکونه، مالي کال، او د تبادلې تشکیل اداره کړئ."
+      }
+    },
+    "properties": {
+      "title": "د ملکیت تنظیمات",
+      "description": "د ملکیت ډلبندۍ، اسانتیاوې، د اشغال قواعد، او د اجارې جوړښتونه په خپل پورټ فولیو کې معیاري کړئ.",
+      "catalog": {
+        "title": "د ملکیت کټګورۍ",
+        "description": "د ملکیت ډولونه، د ودانۍ ډولونه، او د واحد کټګورۍ اداره کړئ."
+      },
+      "fields": {
+        "propertyTypes": "د ملکیت ډولونه",
+        "buildingTypes": "د ودانۍ ډولونه",
+        "unitTypes": "د واحد ډولونه",
+        "amenities": "اسانتیاوې",
+        "floorConfiguration": "د پوړ تشکیل",
+        "propertyCategories": "د ملکیت کټګورۍ",
+        "occupancyStatus": "د اشغال حالت",
+        "leaseTypes": "د اجارې ډولونه"
+      },
+      "portfolioRules": {
+        "title": "د پورټ فولیو قواعد",
+        "description": "د اشغال حالت، د اجارې موډلونه، او د پوړ پلان جوړونه تنظیم کړئ."
+      },
+      "occupancyStatus": {
+        "vacant": "خالي",
+        "occupied": "اشغال شوی",
+        "reserved": "مختص شوی"
+      }
+    },
+    "usersRoles": {
+      "title": "کاروونکي او رولونه",
+      "description": "حکومتداري، اجازې، څانګې، ټیمونه، او د حساب امنیتي تګلارې د روښانه تصدۍ جوړښت سره اداره کړئ.",
+      "administration": {
+        "title": "اداره",
+        "description": "د کاروونکي ژوند دوره او لاسرسي تګلارې تنظیم کړئ."
+      },
+      "fields": {
+        "defaultRole": "ډیفالټ رول",
+        "departments": "څانګې",
+        "teams": "ټیمونه",
+        "passwordPolicy": "د پټ نوم تګلاره",
+        "sessionTimeout": "د غونډې وخت پای",
+        "maxLoginAttempts": "د ننوتلو اعظمي هڅې",
+        "trustedDevices": "باوري وسایل",
+        "apiAccess": "API لاسرسی"
+      },
+      "roles": {
+        "propertyManager": "د ملکیت مدیر",
+        "financeOfficer": "مالي افسر",
+        "administrator": "اداري مدیر"
+      },
+      "securityControls": {
+        "title": "امنیتي کنټرولونه",
+        "description": "د ننوتلو قواعدو، غونډې کنټرول، او څارنې سره لاسرسی خوندي کړئ."
+      },
+      "apiAccessLevels": {
+        "enabled": "فعال",
+        "limited": "محدود",
+        "disabled": "غیر فعال"
+      }
+    },
+    "notifications": {
+      "title": "د خبرتیاوو تنظیمات",
+      "description": "د تحویل چینلونه، د یادونې تال، او په پلیټ فارم کې د خبرتیاوو بیړنی حالت کنټرول کړئ.",
+      "deliveryPreferences": {
+        "title": "د تحویل غوره توبونه",
+        "description": "هر خبرتیا چینل د خپل سازمان لپاره فعال یا غیر فعال کړئ."
+      },
+      "toggles": {
+        "emailNotifications": "بریښنالیکي خبرتیاوې",
+        "smsNotifications": "پیغامي خبرتیاوې",
+        "pushNotifications": "پوش خبرتیاوې",
+        "inAppNotifications": "په اپ کې خبرتیاوې",
+        "reminderSettings": "د یادونې تنظیمات",
+        "paymentAlerts": "د تادیې خبرتیاوې",
+        "bookingAlerts": "د بکینګ خبرتیاوې",
+        "maintenanceAlerts": "د ساتنې خبرتیاوې"
+      },
+      "descriptions": {
+        "emailNotifications": "اوونیز او فوري بریښنالیکي خبرتیاوې واستوئ.",
+        "smsNotifications": "مهم تازه معلومات د پیغام له لارې ورسوئ.",
+        "pushNotifications": "کاروونکو ته په براوزر یا اپ کې خبر ورکړئ.",
+        "inAppNotifications": "پیغامونه مستقیم په ډشبورډ کې ښکاره کړئ.",
+        "reminderSettings": "کرایه کوونکي او کارکوونکي د پیښو دمخه خبر کړئ.",
+        "paymentAlerts": "کله چې رسیدونه یا تادیات بدل شي خبر ورکړئ.",
+        "bookingAlerts": "د بکینګ تایید او بدلونونو په اړه خبر ورکړئ.",
+        "maintenanceAlerts": "ټیمونو ته خبر ورکړئ کله چې ټیکټونو پاملرنې ته اړتیا وي."
+      }
+    },
+    "auditLogs": {
+      "title": "د پلټنې راپورونه",
+      "description": "اداري فعالیتونه، لاسرسي پیښې، او عملیاتي بدلونونه د لټون او صادراتو ملاتړ سره بیاکتنه وکړئ.",
+      "activityLog": {
+        "title": "د فعالیت راپور",
+        "description": "د پلټنې جزئیات لټون، فلټر او صادر کړئ."
+      },
+      "placeholders": {
+        "searchLogs": "راپورونه ولټوئ"
+      },
+      "actions": {
+        "filter": "فلټر",
+        "export": "صادرول",
+        "print": "چاپ",
+        "twoFactorEnabled": "دوه مرحلې تایید فعال شو",
+        "invoiceCreated": "رسید جوړ شو",
+        "bookingUpdated": "بکینګ تازه شو"
+      },
+      "table": {
+        "user": "کاروونکی",
+        "module": "ماډیول",
+        "action": "اقدام",
+        "description": "توضیحات",
+        "ip": "IP",
+        "date": "نیټه"
+      },
+      "modules": {
+        "security": "امنیت",
+        "financial": "مالي",
+        "booking": "بکینګ"
+      }
+    },
+    "backup": {
+      "title": "بیک اپ او بیا رغونه",
+      "description": "د مهالویش شوي بیک اپونو، بیا رغونې کاري جریانونو، او تایید شوي بیا رغونې تاریخ سره د سوداګرۍ دوام قوي وساتئ.",
+      "backupCenter": {
+        "title": "د بیک اپ مرکز",
+        "description": "اتومات بیک اپونه، د بیا رغونې دندې، او ډاونلوډ اختیارونه اداره کړئ."
+      },
+      "fields": {
+        "manualBackup": "لاسي بیک اپ",
+        "automaticBackup": "اتومات بیک اپ",
+        "backupSchedule": "د بیک اپ مهالویش",
+        "downloadBackup": "بیک اپ ډاونلوډ کړئ"
+      },
+      "options": {
+        "enabled": "فعال",
+        "disabled": "غیر فعال"
+      },
+      "schedules": {
+        "daily": "ورځنی په ۰۸:۰۰",
+        "hourly": "ساعت وار",
+        "weekly": "اوونیز"
+      },
+      "backupHistory": {
+        "title": "د بیک اپ تاریخ",
+        "description": "د وروستي بیا رغونې او بیک اپ فعالیتونه بیاکتنه وکړئ."
+      },
+      "history": {
+        "dailyFull": "ورځنی بشپړ بیک اپ",
+        "incremental": "زیاتیدونکی بیک اپ",
+        "pointInTime": "په وخت کې د نقطې بیا رغونه"
+      },
+      "status": {
+        "completed": "بشپړ شو",
+        "pending": "په تمه"
+      }
+    },
+    "integrations": {
+      "title": "یوځای کول",
+      "description": "د تادیاتو، نقشې جوړونې، مهالویش، او اتومات کاري جریانونو لپاره اصلي بهرني پلیټ فارمونه وصل کړئ.",
+      "platformConnections": {
+        "title": "د پلیټ فارم اتصالات",
+        "description": "خپل اوسني یوځای کول بیاکتنه او تنظیم کړئ."
+      },
+      "services": {
+        "paymentGateway": "د تادیې دروازه",
+        "googleMaps": "ګوګل نقشې",
+        "googleCalendar": "ګوګل تقویم",
+        "outlookCalendar": "اوټ لوک تقویم",
+        "microsoft365": "مایکروسافټ ۳۶۵",
+        "webhooks": "ویب هوکس"
+      },
+      "status": {
+        "connected": "وصل شوی",
+        "pending": "په تمه"
+      },
+      "serviceDescription": "دا خدمت په خوندي توګه د تصدۍ کنټرول مرکز څخه وصل او اداره کړئ."
+    },
+    "security": {
+      "title": "امنیتي تنظیمات",
+      "description": "خپل عملیات د پرت لرونکي لاسرسي کنټرولونو، غونډې ساتنې، او اطاعت-مدار امنیتي تګلارې سره خوندي کړئ.",
+      "accessProtection": {
+        "title": "د لاسرسي ساتنه",
+        "description": "تایید، د پټ نوم پیچلتیا، او د وسیلې باور کنټرولونه تنظیم کړئ."
+      },
+      "fields": {
+        "twoFactorAuth": "دوه مرحلې تایید",
+        "passwordComplexity": "د پټ نوم پیچلتیا قواعد",
+        "passwordExpiration": "د پټ نوم ختمیدل",
+        "sessionTimeout": "د غونډې وخت پای",
+        "maxLoginAttempts": "د ننوتلو اعظمي هڅې",
+        "ipRestrictions": "IP محدودیتونه",
+        "trustedDevices": "باوري وسایل",
+        "activityMonitoring": "د فعالیت څارنه"
+      },
+      "twoFactorOptions": {
+        "required": "الزامي",
+        "optional": "اختیاري",
+        "disabled": "غیر فعال"
+      },
+      "advancedSafety": {
+        "title": "پرمختللې خوندیتوب",
+        "description": "د ننوتلو هڅې حدونه، محدودیتونه، API لاسرسی، او څارنه تنظیم کړئ."
+      },
+      "monitoringOptions": {
+        "enabled": "فعال",
+        "selective": "انتخابي",
+        "disabled": "غیر فعال"
+      }
     }
   }
 }
