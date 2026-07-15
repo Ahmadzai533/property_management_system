@@ -9,55 +9,58 @@ import SettingsHeader from "../../components/Settings/SettingsHeader";
 import SettingsSection from "../../components/Settings/SettingsSection";
 import SettingsSidebar from "../../components/Settings/SettingsSidebar";
 import Button from "../../components/common/Button";
-
-const toggles = [
-  {
-    label: "Email Notifications",
-    description: "Send weekly and instant email alerts.",
-  },
-  {
-    label: "SMS Notifications",
-    description: "Deliver critical updates by SMS.",
-  },
-  {
-    label: "Push Notifications",
-    description: "Reach users in the browser or app.",
-  },
-  {
-    label: "In-App Notifications",
-    description: "Surface messages directly in the dashboard.",
-  },
-  {
-    label: "Reminder Settings",
-    description: "Alert tenants and staff ahead of events.",
-  },
-  {
-    label: "Payment Alerts",
-    description: "Trigger when invoices or payments change.",
-  },
-  {
-    label: "Booking Alerts",
-    description: "Notify about booking confirmations and changes.",
-  },
-  {
-    label: "Maintenance Alerts",
-    description: "Notify teams when tickets need attention.",
-  },
-];
+import { useLocalization } from "../../hooks/useLocalization";
 
 export default function NotificationsSettings() {
+  const { t } = useLocalization();
+
+  const toggles = [
+    {
+      labelKey: "settings.notifications.toggles.emailNotifications",
+      descriptionKey: "settings.notifications.descriptions.emailNotifications",
+    },
+    {
+      labelKey: "settings.notifications.toggles.smsNotifications",
+      descriptionKey: "settings.notifications.descriptions.smsNotifications",
+    },
+    {
+      labelKey: "settings.notifications.toggles.pushNotifications",
+      descriptionKey: "settings.notifications.descriptions.pushNotifications",
+    },
+    {
+      labelKey: "settings.notifications.toggles.inAppNotifications",
+      descriptionKey: "settings.notifications.descriptions.inAppNotifications",
+    },
+    {
+      labelKey: "settings.notifications.toggles.reminderSettings",
+      descriptionKey: "settings.notifications.descriptions.reminderSettings",
+    },
+    {
+      labelKey: "settings.notifications.toggles.paymentAlerts",
+      descriptionKey: "settings.notifications.descriptions.paymentAlerts",
+    },
+    {
+      labelKey: "settings.notifications.toggles.bookingAlerts",
+      descriptionKey: "settings.notifications.descriptions.bookingAlerts",
+    },
+    {
+      labelKey: "settings.notifications.toggles.maintenanceAlerts",
+      descriptionKey: "settings.notifications.descriptions.maintenanceAlerts",
+    },
+  ];
+
   return (
     <div className="space-y-6">
       <SettingsHeader
-        title="Notification Settings"
-        description="Control the delivery channels, reminder cadence, and urgency of alerts across the platform."
-        badge="Communication"
+        title={t("settings.notifications.title")}
+        description={t("settings.notifications.description")}
+        badge={t("settings.badges.communication")}
         actions={[
           <Button key="save" variant="success">
-            Save Channels
+            {t("settings.actions.saveChannels")}
           </Button>,
           <Button key="test" variant="secondary">
-            Send Test
+            {t("settings.actions.sendTest")}
           </Button>,
         ]}
       />
@@ -66,22 +69,22 @@ export default function NotificationsSettings() {
         <SettingsSidebar />
         <div className="space-y-6">
           <SettingsSection
-            title="Delivery Preferences"
-            description="Enable or disable each notification channel for your organization."
+            title={t("settings.notifications.deliveryPreferences.title")}
+            description={t("settings.notifications.deliveryPreferences.description")}
             icon={BellRing}
           >
             <div className="space-y-3">
               {toggles.map((toggle) => (
                 <label
-                  key={toggle.label}
+                  key={toggle.labelKey}
                   className="flex items-center justify-between rounded-2xl border border-slate-200 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-800"
                 >
                   <div>
                     <p className="font-semibold text-slate-900 dark:text-white">
-                      {toggle.label}
+                      {t(toggle.labelKey)}
                     </p>
                     <p className="text-sm text-slate-500 dark:text-slate-400">
-                      {toggle.description}
+                      {t(toggle.descriptionKey)}
                     </p>
                   </div>
                   <input
