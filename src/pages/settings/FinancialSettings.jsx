@@ -10,20 +10,23 @@ import SettingsHeader from "../../components/Settings/SettingsHeader";
 import SettingsSection from "../../components/Settings/SettingsSection";
 import SettingsSidebar from "../../components/Settings/SettingsSidebar";
 import Button from "../../components/common/Button";
+import { useLocalization } from "../../hooks/useLocalization";
 
 export default function FinancialSettings() {
+  const { t } = useLocalization();
+
   return (
     <div className="space-y-6">
       <SettingsHeader
-        title="Financial Settings"
-        description="Align payment operations, invoicing formats, tax rules, and banking preferences with your accounting process."
-        badge="Finance Controls"
+        title={t("settings.financial.title")}
+        description={t("settings.financial.description")}
+        badge={t("settings.badges.financeControls")}
         actions={[
           <Button key="save" variant="success">
-            Save Finance Rules
+            {t("settings.actions.saveFinanceRules")}
           </Button>,
           <Button key="export" variant="secondary">
-            Export Template
+            {t("settings.actions.exportTemplate")}
           </Button>,
         ]}
       />
@@ -32,34 +35,34 @@ export default function FinancialSettings() {
         <SettingsSidebar />
         <div className="space-y-6">
           <SettingsSection
-            title="Transactions"
-            description="Configure payment methods, invoices, receipts, and expenses."
+            title={t("settings.financial.transactions.title")}
+            description={t("settings.financial.transactions.description")}
             icon={DollarSign}
           >
             <div className="grid gap-4 md:grid-cols-2">
               <label className="text-sm font-medium text-slate-700 dark:text-slate-300">
-                <span className="mb-2 block">Payment Methods</span>
+                <span className="mb-2 block">{t("settings.financial.fields.paymentMethods")}</span>
                 <input
                   className="w-full rounded-xl border border-slate-200 bg-slate-50 px-3 py-2.5 text-sm outline-none focus:border-violet-500 dark:border-slate-700 dark:bg-slate-800"
                   defaultValue="Cash, Bank Transfer, Card"
                 />
               </label>
               <label className="text-sm font-medium text-slate-700 dark:text-slate-300">
-                <span className="mb-2 block">Tax Settings</span>
+                <span className="mb-2 block">{t("settings.financial.fields.taxSettings")}</span>
                 <input
                   className="w-full rounded-xl border border-slate-200 bg-slate-50 px-3 py-2.5 text-sm outline-none focus:border-violet-500 dark:border-slate-700 dark:bg-slate-800"
                   defaultValue="10% VAT, 2% service fee"
                 />
               </label>
               <label className="text-sm font-medium text-slate-700 dark:text-slate-300">
-                <span className="mb-2 block">Invoice Number Format</span>
+                <span className="mb-2 block">{t("settings.financial.fields.invoiceNumberFormat")}</span>
                 <input
                   className="w-full rounded-xl border border-slate-200 bg-slate-50 px-3 py-2.5 text-sm outline-none focus:border-violet-500 dark:border-slate-700 dark:bg-slate-800"
                   defaultValue="INV-{YYYY}-{MM}-{###}"
                 />
               </label>
               <label className="text-sm font-medium text-slate-700 dark:text-slate-300">
-                <span className="mb-2 block">Receipt Number Format</span>
+                <span className="mb-2 block">{t("settings.financial.fields.receiptNumberFormat")}</span>
                 <input
                   className="w-full rounded-xl border border-slate-200 bg-slate-50 px-3 py-2.5 text-sm outline-none focus:border-violet-500 dark:border-slate-700 dark:bg-slate-800"
                   defaultValue="RCP-{YYYY}-{###}"
@@ -69,34 +72,34 @@ export default function FinancialSettings() {
           </SettingsSection>
 
           <SettingsSection
-            title="Accounting Setup"
-            description="Manage expense categories, banks, fiscal year, and exchange configuration."
+            title={t("settings.financial.accounting.title")}
+            description={t("settings.financial.accounting.description")}
             icon={Landmark}
           >
             <div className="grid gap-4 md:grid-cols-2">
               <label className="text-sm font-medium text-slate-700 dark:text-slate-300">
-                <span className="mb-2 block">Expense Categories</span>
+                <span className="mb-2 block">{t("settings.financial.fields.expenseCategories")}</span>
                 <input
                   className="w-full rounded-xl border border-slate-200 bg-slate-50 px-3 py-2.5 text-sm outline-none focus:border-violet-500 dark:border-slate-700 dark:bg-slate-800"
                   defaultValue="Maintenance, Utilities, Admin"
                 />
               </label>
               <label className="text-sm font-medium text-slate-700 dark:text-slate-300">
-                <span className="mb-2 block">Bank Accounts</span>
+                <span className="mb-2 block">{t("settings.financial.fields.bankAccounts")}</span>
                 <input
                   className="w-full rounded-xl border border-slate-200 bg-slate-50 px-3 py-2.5 text-sm outline-none focus:border-violet-500 dark:border-slate-700 dark:bg-slate-800"
                   defaultValue="Main Operating, Reserve"
                 />
               </label>
               <label className="text-sm font-medium text-slate-700 dark:text-slate-300">
-                <span className="mb-2 block">Financial Year</span>
+                <span className="mb-2 block">{t("settings.financial.fields.financialYear")}</span>
                 <input
                   className="w-full rounded-xl border border-slate-200 bg-slate-50 px-3 py-2.5 text-sm outline-none focus:border-violet-500 dark:border-slate-700 dark:bg-slate-800"
                   defaultValue="March - February"
                 />
               </label>
               <label className="text-sm font-medium text-slate-700 dark:text-slate-300">
-                <span className="mb-2 block">Currency Exchange Rates</span>
+                <span className="mb-2 block">{t("settings.financial.fields.exchangeRates")}</span>
                 <input
                   className="w-full rounded-xl border border-slate-200 bg-slate-50 px-3 py-2.5 text-sm outline-none focus:border-violet-500 dark:border-slate-700 dark:bg-slate-800"
                   defaultValue="1 USD = 70 AFN"
