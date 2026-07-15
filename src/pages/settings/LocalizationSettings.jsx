@@ -12,23 +12,25 @@ import SettingsSection from "../../components/Settings/SettingsSection";
 import SettingsSidebar from "../../components/Settings/SettingsSidebar";
 import LanguageSelector from "../../components/Settings/LanguageSelector";
 import Button from "../../components/common/Button";
+import { useLocalization } from "../../hooks/useLocalization";
 
 export default function LocalizationSettings() {
   const [language, setLanguage] = useState("en");
   const [rtl, setRtl] = useState(false);
+  const { t } = useLocalization();
 
   return (
     <div className="space-y-6">
       <SettingsHeader
-        title="Localization & Language"
-        description="Prepare the experience for Dari, Pashto, and English audiences with flexible regional formatting and direction support."
-        badge="Internationalization"
+        title={t("settings.localization.title")}
+        description={t("settings.localization.description")}
+        badge={t("settings.badges.internationalization")}
         actions={[
           <Button key="save" variant="success">
-            Save Preferences
+            {t("settings.actions.savePreferences")}
           </Button>,
           <Button key="preview" variant="secondary">
-            Preview UI
+            {t("settings.actions.previewUI")}
           </Button>,
         ]}
       />
@@ -37,36 +39,36 @@ export default function LocalizationSettings() {
         <SettingsSidebar />
         <div className="space-y-6">
           <SettingsSection
-            title="Language Selection"
-            description="Choose the default interface language and preferred experience."
+            title={t("settings.localization.languageSelection.title")}
+            description={t("settings.localization.languageSelection.description")}
             icon={Languages}
           >
             <LanguageSelector value={language} onChange={setLanguage} />
             <div className="grid gap-4 md:grid-cols-2">
               <label className="text-sm font-medium text-slate-700 dark:text-slate-300">
-                <span className="mb-2 block">Default System Language</span>
+                <span className="mb-2 block">{t("settings.localization.fields.defaultSystemLanguage")}</span>
                 <select className="w-full rounded-xl border border-slate-200 bg-slate-50 px-3 py-2.5 text-sm outline-none focus:border-violet-500 dark:border-slate-700 dark:bg-slate-800">
-                  <option value="en">English</option>
-                  <option value="fa">Dari</option>
-                  <option value="ps">Pashto</option>
+                  <option value="en">{t("settings.localization.english")}</option>
+                  <option value="fa">{t("settings.localization.dari")}</option>
+                  <option value="ps">{t("settings.localization.pashto")}</option>
                 </select>
               </label>
               <label className="text-sm font-medium text-slate-700 dark:text-slate-300">
-                <span className="mb-2 block">User Preferred Language</span>
+                <span className="mb-2 block">{t("settings.localization.fields.userPreferredLanguage")}</span>
                 <select className="w-full rounded-xl border border-slate-200 bg-slate-50 px-3 py-2.5 text-sm outline-none focus:border-violet-500 dark:border-slate-700 dark:bg-slate-800">
-                  <option value="en">English</option>
-                  <option value="fa">Dari</option>
-                  <option value="ps">Pashto</option>
+                  <option value="en">{t("settings.localization.english")}</option>
+                  <option value="fa">{t("settings.localization.dari")}</option>
+                  <option value="ps">{t("settings.localization.pashto")}</option>
                 </select>
               </label>
             </div>
             <label className="flex items-center justify-between rounded-2xl border border-slate-200 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-800">
               <div>
                 <p className="font-semibold text-slate-900 dark:text-white">
-                  Auto Detect Language
+                  {t("settings.localization.autoDetect.title")}
                 </p>
                 <p className="text-sm text-slate-500 dark:text-slate-400">
-                  Use browser or region-based language detection when available.
+                  {t("settings.localization.autoDetect.description")}
                 </p>
               </div>
               <input
@@ -78,10 +80,10 @@ export default function LocalizationSettings() {
             <label className="flex items-center justify-between rounded-2xl border border-slate-200 bg-slate-50 p-4 dark:border-slate-700 dark:bg-slate-800">
               <div>
                 <p className="font-semibold text-slate-900 dark:text-white">
-                  RTL / LTR Support
+                  {t("settings.localization.rtlSupport.title")}
                 </p>
                 <p className="text-sm text-slate-500 dark:text-slate-400">
-                  Enable right-to-left layouts for Dari and Pashto interfaces.
+                  {t("settings.localization.rtlSupport.description")}
                 </p>
               </div>
               <input
@@ -94,52 +96,52 @@ export default function LocalizationSettings() {
           </SettingsSection>
 
           <SettingsSection
-            title="Regional Formats"
-            description="Align date, time, number, and currency formats to your preferred region."
+            title={t("settings.localization.regionalFormats.title")}
+            description={t("settings.localization.regionalFormats.description")}
             icon={Globe}
           >
             <div className="grid gap-4 md:grid-cols-2">
               <label className="text-sm font-medium text-slate-700 dark:text-slate-300">
-                <span className="mb-2 block">First Day of Week</span>
+                <span className="mb-2 block">{t("settings.localization.fields.firstDayOfWeek")}</span>
                 <select className="w-full rounded-xl border border-slate-200 bg-slate-50 px-3 py-2.5 text-sm outline-none focus:border-violet-500 dark:border-slate-700 dark:bg-slate-800">
-                  <option>Sunday</option>
-                  <option>Monday</option>
+                  <option>{t("settings.localization.days.sunday")}</option>
+                  <option>{t("settings.localization.days.monday")}</option>
                 </select>
               </label>
               <label className="text-sm font-medium text-slate-700 dark:text-slate-300">
-                <span className="mb-2 block">Time Zone</span>
+                <span className="mb-2 block">{t("settings.localization.fields.timeZone")}</span>
                 <select className="w-full rounded-xl border border-slate-200 bg-slate-50 px-3 py-2.5 text-sm outline-none focus:border-violet-500 dark:border-slate-700 dark:bg-slate-800">
-                  <option>Asia/Kabul</option>
-                  <option>UTC</option>
+                  <option>{t("settings.localization.timezones.kabul")}</option>
+                  <option>{t("settings.localization.timezones.utc")}</option>
                 </select>
               </label>
               <label className="text-sm font-medium text-slate-700 dark:text-slate-300">
-                <span className="mb-2 block">Date Format</span>
+                <span className="mb-2 block">{t("settings.localization.fields.dateFormat")}</span>
                 <select className="w-full rounded-xl border border-slate-200 bg-slate-50 px-3 py-2.5 text-sm outline-none focus:border-violet-500 dark:border-slate-700 dark:bg-slate-800">
                   <option>DD/MM/YYYY</option>
                   <option>MM/DD/YYYY</option>
                 </select>
               </label>
               <label className="text-sm font-medium text-slate-700 dark:text-slate-300">
-                <span className="mb-2 block">Time Format</span>
+                <span className="mb-2 block">{t("settings.localization.fields.timeFormat")}</span>
                 <select className="w-full rounded-xl border border-slate-200 bg-slate-50 px-3 py-2.5 text-sm outline-none focus:border-violet-500 dark:border-slate-700 dark:bg-slate-800">
-                  <option>24 Hour</option>
-                  <option>12 Hour</option>
+                  <option>{t("settings.localization.timeFormats.24hour")}</option>
+                  <option>{t("settings.localization.timeFormats.12hour")}</option>
                 </select>
               </label>
               <label className="text-sm font-medium text-slate-700 dark:text-slate-300">
-                <span className="mb-2 block">Number Format</span>
+                <span className="mb-2 block">{t("settings.localization.fields.numberFormat")}</span>
                 <select className="w-full rounded-xl border border-slate-200 bg-slate-50 px-3 py-2.5 text-sm outline-none focus:border-violet-500 dark:border-slate-700 dark:bg-slate-800">
                   <option>1,234.56</option>
                   <option>1.234,56</option>
                 </select>
               </label>
               <label className="text-sm font-medium text-slate-700 dark:text-slate-300">
-                <span className="mb-2 block">Currency</span>
+                <span className="mb-2 block">{t("settings.localization.fields.currency")}</span>
                 <select className="w-full rounded-xl border border-slate-200 bg-slate-50 px-3 py-2.5 text-sm outline-none focus:border-violet-500 dark:border-slate-700 dark:bg-slate-800">
-                  <option>Afghan Afghani (AFN)</option>
-                  <option>US Dollar (USD)</option>
-                  <option>Euro (EUR)</option>
+                  <option>{t("settings.localization.currencies.afn")}</option>
+                  <option>{t("settings.localization.currencies.usd")}</option>
+                  <option>{t("settings.localization.currencies.eur")}</option>
                 </select>
               </label>
             </div>
