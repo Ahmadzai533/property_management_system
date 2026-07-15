@@ -10,22 +10,25 @@ import SettingsHeader from "../../components/Settings/SettingsHeader";
 import SettingsSection from "../../components/Settings/SettingsSection";
 import SettingsSidebar from "../../components/Settings/SettingsSidebar";
 import Button from "../../components/common/Button";
+import { useLocalization } from "../../hooks/useLocalization";
 
 const accentColors = ["#6D28D9", "#2563EB", "#0891B2", "#059669", "#DC2626"];
 
 export default function AppearanceSettings() {
+  const { t } = useLocalization();
+
   return (
     <div className="space-y-6">
       <SettingsHeader
-        title="Theme & Appearance"
-        description="Fine-tune the platform visual system, spacing, and interactive surface styles without changing the core experience."
-        badge="Visual System"
+        title={t("settings.appearance.title")}
+        description={t("settings.appearance.description")}
+        badge={t("settings.badges.visualSystem")}
         actions={[
           <Button key="save" variant="success">
-            Apply Theme
+            {t("settings.actions.applyTheme")}
           </Button>,
           <Button key="preview" variant="secondary">
-            Live Preview
+            {t("settings.actions.livePreview")}
           </Button>,
         ]}
       />
@@ -34,21 +37,21 @@ export default function AppearanceSettings() {
         <SettingsSidebar />
         <div className="space-y-6">
           <SettingsSection
-            title="Theme Preferences"
-            description="Choose the default visual mode and accent styling."
+            title={t("settings.appearance.themePreferences.title")}
+            description={t("settings.appearance.themePreferences.description")}
             icon={Palette}
           >
             <div className="grid gap-4 md:grid-cols-2">
               <label className="text-sm font-medium text-slate-700 dark:text-slate-300">
-                <span className="mb-2 block">Theme Mode</span>
+                <span className="mb-2 block">{t("settings.appearance.fields.themeMode")}</span>
                 <select className="w-full rounded-xl border border-slate-200 bg-slate-50 px-3 py-2.5 text-sm outline-none focus:border-violet-500 dark:border-slate-700 dark:bg-slate-800">
-                  <option>Light Mode</option>
-                  <option>Dark Mode</option>
-                  <option>System Theme</option>
+                  <option>{t("settings.appearance.themes.light")}</option>
+                  <option>{t("settings.appearance.themes.dark")}</option>
+                  <option>{t("settings.appearance.themes.system")}</option>
                 </select>
               </label>
               <label className="text-sm font-medium text-slate-700 dark:text-slate-300">
-                <span className="mb-2 block">Accent Color</span>
+                <span className="mb-2 block">{t("settings.appearance.fields.accentColor")}</span>
                 <div className="flex flex-wrap gap-2">
                   {accentColors.map((color) => (
                     <button
@@ -60,60 +63,60 @@ export default function AppearanceSettings() {
                 </div>
               </label>
               <label className="text-sm font-medium text-slate-700 dark:text-slate-300">
-                <span className="mb-2 block">Sidebar Style</span>
+                <span className="mb-2 block">{t("settings.appearance.fields.sidebarStyle")}</span>
                 <select className="w-full rounded-xl border border-slate-200 bg-slate-50 px-3 py-2.5 text-sm outline-none focus:border-violet-500 dark:border-slate-700 dark:bg-slate-800">
-                  <option>Default</option>
-                  <option>Compact</option>
-                  <option>Modern</option>
+                  <option>{t("settings.appearance.sidebarStyles.default")}</option>
+                  <option>{t("settings.appearance.sidebarStyles.compact")}</option>
+                  <option>{t("settings.appearance.sidebarStyles.modern")}</option>
                 </select>
               </label>
               <label className="text-sm font-medium text-slate-700 dark:text-slate-300">
-                <span className="mb-2 block">Dashboard Layout</span>
+                <span className="mb-2 block">{t("settings.appearance.fields.dashboardLayout")}</span>
                 <select className="w-full rounded-xl border border-slate-200 bg-slate-50 px-3 py-2.5 text-sm outline-none focus:border-violet-500 dark:border-slate-700 dark:bg-slate-800">
-                  <option>Balanced</option>
-                  <option>Compact</option>
-                  <option>Executive</option>
+                  <option>{t("settings.appearance.dashboardLayouts.balanced")}</option>
+                  <option>{t("settings.appearance.dashboardLayouts.compact")}</option>
+                  <option>{t("settings.appearance.dashboardLayouts.executive")}</option>
                 </select>
               </label>
             </div>
           </SettingsSection>
 
           <SettingsSection
-            title="Interface Density"
-            description="Tune typography, spacing, and card styling for comfort and productivity."
+            title={t("settings.appearance.interfaceDensity.title")}
+            description={t("settings.appearance.interfaceDensity.description")}
             icon={LayoutGrid}
           >
             <div className="grid gap-4 md:grid-cols-2">
               <label className="text-sm font-medium text-slate-700 dark:text-slate-300">
-                <span className="mb-2 block">Font Size</span>
+                <span className="mb-2 block">{t("settings.appearance.fields.fontSize")}</span>
                 <select className="w-full rounded-xl border border-slate-200 bg-slate-50 px-3 py-2.5 text-sm outline-none focus:border-violet-500 dark:border-slate-700 dark:bg-slate-800">
-                  <option>Small</option>
-                  <option selected>Medium</option>
-                  <option>Large</option>
+                  <option>{t("settings.appearance.fontSizes.small")}</option>
+                  <option selected>{t("settings.appearance.fontSizes.medium")}</option>
+                  <option>{t("settings.appearance.fontSizes.large")}</option>
                 </select>
               </label>
               <label className="text-sm font-medium text-slate-700 dark:text-slate-300">
-                <span className="mb-2 block">Border Radius</span>
+                <span className="mb-2 block">{t("settings.appearance.fields.borderRadius")}</span>
                 <select className="w-full rounded-xl border border-slate-200 bg-slate-50 px-3 py-2.5 text-sm outline-none focus:border-violet-500 dark:border-slate-700 dark:bg-slate-800">
-                  <option>Rounded</option>
-                  <option>Sharp</option>
-                  <option>Soft</option>
+                  <option>{t("settings.appearance.borderStyles.rounded")}</option>
+                  <option>{t("settings.appearance.borderStyles.sharp")}</option>
+                  <option>{t("settings.appearance.borderStyles.soft")}</option>
                 </select>
               </label>
               <label className="text-sm font-medium text-slate-700 dark:text-slate-300">
-                <span className="mb-2 block">Card Style</span>
+                <span className="mb-2 block">{t("settings.appearance.fields.cardStyle")}</span>
                 <select className="w-full rounded-xl border border-slate-200 bg-slate-50 px-3 py-2.5 text-sm outline-none focus:border-violet-500 dark:border-slate-700 dark:bg-slate-800">
-                  <option>Elevated</option>
-                  <option>Outlined</option>
-                  <option>Minimal</option>
+                  <option>{t("settings.appearance.cardStyles.elevated")}</option>
+                  <option>{t("settings.appearance.cardStyles.outlined")}</option>
+                  <option>{t("settings.appearance.cardStyles.minimal")}</option>
                 </select>
               </label>
               <label className="text-sm font-medium text-slate-700 dark:text-slate-300">
-                <span className="mb-2 block">Table Density</span>
+                <span className="mb-2 block">{t("settings.appearance.fields.tableDensity")}</span>
                 <select className="w-full rounded-xl border border-slate-200 bg-slate-50 px-3 py-2.5 text-sm outline-none focus:border-violet-500 dark:border-slate-700 dark:bg-slate-800">
-                  <option>Compact</option>
-                  <option>Comfortable</option>
-                  <option>Spacious</option>
+                  <option>{t("settings.appearance.tableDensities.compact")}</option>
+                  <option>{t("settings.appearance.tableDensities.comfortable")}</option>
+                  <option>{t("settings.appearance.tableDensities.spacious")}</option>
                 </select>
               </label>
             </div>
