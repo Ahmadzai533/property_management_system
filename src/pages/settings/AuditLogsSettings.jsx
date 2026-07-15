@@ -11,12 +11,13 @@ import SettingsSection from "../../components/Settings/SettingsSection";
 import SettingsSidebar from "../../components/Settings/SettingsSidebar";
 import Button from "../../components/common/Button";
 import DateText from "../../components/common/DateText";
+import { useLocalization } from "../../hooks/useLocalization";
 
 const logs = [
   {
     user: "Amina Khan",
-    module: "Security",
-    action: "2FA Enabled",
+    moduleKey: "settings.auditLogs.modules.security",
+    actionKey: "settings.auditLogs.actions.twoFactorEnabled",
     description: "Enabled MFA for admin account",
     ip: "192.168.1.12",
     browser: "Chrome",
@@ -25,8 +26,8 @@ const logs = [
   },
   {
     user: "Hassan Ali",
-    module: "Financial",
-    action: "Invoice Created",
+    moduleKey: "settings.auditLogs.modules.financial",
+    actionKey: "settings.auditLogs.actions.invoiceCreated",
     description: "Generated invoice INV-00124",
     ip: "10.0.0.5",
     browser: "Edge",
@@ -35,8 +36,8 @@ const logs = [
   },
   {
     user: "Sara Khan",
-    module: "Booking",
-    action: "Booking Updated",
+    moduleKey: "settings.auditLogs.modules.booking",
+    actionKey: "settings.auditLogs.actions.bookingUpdated",
     description: "Adjusted reservation window",
     ip: "172.16.1.8",
     browser: "Firefox",
@@ -46,18 +47,21 @@ const logs = [
 ];
 
 export default function AuditLogsSettings() {
+  const { t, locale } = useLocalization();
+  const isRTL = locale === "fa" || locale === "ps";
+
   return (
     <div className="space-y-6">
       <SettingsHeader
-        title="Audit Logs"
-        description="Review administrative activity, access events, and operational changes with search and export support."
-        badge="Compliance"
+        title={t("settings.auditLogs.title")}
+        description={t("settings.auditLogs.description")}
+        badge={t("settings.badges.compliance")}
         actions={[
           <Button key="export" variant="success">
-            Export Logs
+            {t("settings.actions.exportLogs")}
           </Button>,
           <Button key="print" variant="secondary">
-            Print
+            {t("settings.actions.print")}
           </Button>,
         ]}
       />
@@ -66,8 +70,8 @@ export default function AuditLogsSettings() {
         <SettingsSidebar />
         <div className="space-y-6">
           <SettingsSection
-            title="Activity Log"
-            description="Search, filter, and export audit details."
+            title={t("settings.auditLogs.activityLog.title")}
+            description={t("settings.auditLogs.activityLog.description")}
             icon={FileText}
           >
             <div className="flex flex-wrap gap-2">
@@ -75,52 +79,52 @@ export default function AuditLogsSettings() {
                 <Search className="h-4 w-4 text-slate-400" />
                 <input
                   className="bg-transparent outline-none"
-                  placeholder="Search logs"
+                  placeholder={t("settings.auditLogs.placeholders.searchLogs")}
                 />
               </label>
               <button className="rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm dark:border-slate-700 dark:bg-slate-900">
-                Filter
+                {t("settings.auditLogs.actions.filter")}
               </button>
               <button className="rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm dark:border-slate-700 dark:bg-slate-900">
-                Export
+                {t("settings.auditLogs.actions.export")}
               </button>
               <button className="rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm dark:border-slate-700 dark:bg-slate-900">
-                Print
+                {t("settings.auditLogs.actions.print")}
               </button>
             </div>
             <div className="overflow-hidden rounded-2xl border border-slate-200 dark:border-slate-800">
               <table className="min-w-full divide-y divide-slate-200 text-sm dark:divide-slate-800">
                 <thead className="bg-slate-50 dark:bg-slate-900">
                   <tr>
-                    <th className="px-4 py-3 text-left font-semibold text-slate-700 dark:text-slate-300">
-                      User
+                    <th className={`px-4 py-3 font-semibold text-slate-700 dark:text-slate-300 ${isRTL ? "text-right" : "text-left"}`}>
+                      {t("settings.auditLogs.table.user")}
                     </th>
-                    <th className="px-4 py-3 text-left font-semibold text-slate-700 dark:text-slate-300">
-                      Module
+                    <th className={`px-4 py-3 font-semibold text-slate-700 dark:text-slate-300 ${isRTL ? "text-right" : "text-left"}`}>
+                      {t("settings.auditLogs.table.module")}
                     </th>
-                    <th className="px-4 py-3 text-left font-semibold text-slate-700 dark:text-slate-300">
-                      Action
+                    <th className={`px-4 py-3 font-semibold text-slate-700 dark:text-slate-300 ${isRTL ? "text-right" : "text-left"}`}>
+                      {t("settings.auditLogs.table.action")}
                     </th>
-                    <th className="px-4 py-3 text-left font-semibold text-slate-700 dark:text-slate-300">
-                      Description
+                    <th className={`px-4 py-3 font-semibold text-slate-700 dark:text-slate-300 ${isRTL ? "text-right" : "text-left"}`}>
+                      {t("settings.auditLogs.table.description")}
                     </th>
-                    <th className="px-4 py-3 text-left font-semibold text-slate-700 dark:text-slate-300">
-                      IP
+                    <th className={`px-4 py-3 font-semibold text-slate-700 dark:text-slate-300 ${isRTL ? "text-right" : "text-left"}`}>
+                      {t("settings.auditLogs.table.ip")}
                     </th>
-                    <th className="px-4 py-3 text-left font-semibold text-slate-700 dark:text-slate-300">
-                      Date
+                    <th className={`px-4 py-3 font-semibold text-slate-700 dark:text-slate-300 ${isRTL ? "text-right" : "text-left"}`}>
+                      {t("settings.auditLogs.table.date")}
                     </th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-slate-200 bg-white dark:divide-slate-800 dark:bg-slate-950">
                   {logs.map((log) => (
                     <tr key={log.user + log.date}>
-                      <td className="px-4 py-3">{log.user}</td>
-                      <td className="px-4 py-3">{log.module}</td>
-                      <td className="px-4 py-3">{log.action}</td>
-                      <td className="px-4 py-3">{log.description}</td>
-                      <td className="px-4 py-3">{log.ip}</td>
-                      <td className="px-4 py-3">
+                      <td className={`px-4 py-3 ${isRTL ? "text-right" : "text-left"}`}>{log.user}</td>
+                      <td className={`px-4 py-3 ${isRTL ? "text-right" : "text-left"}`}>{t(log.moduleKey)}</td>
+                      <td className={`px-4 py-3 ${isRTL ? "text-right" : "text-left"}`}>{t(log.actionKey)}</td>
+                      <td className={`px-4 py-3 ${isRTL ? "text-right" : "text-left"}`}>{log.description}</td>
+                      <td className={`px-4 py-3 ${isRTL ? "text-right" : "text-left"}`}>{log.ip}</td>
+                      <td className={`px-4 py-3 ${isRTL ? "text-right" : "text-left"}`}>
                         <DateText value={log.date} showTime />
                       </td>
                     </tr>
