@@ -28,7 +28,7 @@ import FeedbackEdit from "../pages/Feedback/FeedbackEdit";
 import OwnerProfile from "../pages/profile/OwnerProfile";
 
 // Import Properties
-import PropertyList from "../pages/Properties/AllPropertyPages/PropertyList";
+import PropertyList from "../pages/properties/AllPropertyPages/PropertyList";
 import OwnProperties from "../pages/properties/OwnPropertyPages/OwnProperties";
 import OwnPropertyDetails from "../pages/properties/OwnPropertyPages/OwnPropertyDetails";
 import AddOwnProperty from "../pages/properties/OwnPropertyPages/AddOwnProperty";
