@@ -9,7 +9,7 @@ import {
   Home,
   ShieldCheck,
 } from "lucide-react";
-import PageHeader from "../../components/shared/PageHeader";
+import PageHeader from "../../components/Shared/PageHeader";
 import Button from "../../components/common/Button";
 import { useToast } from "../../hooks/useToast";
 import DateText from "../../components/common/DateText";
@@ -23,11 +23,31 @@ const CreateBookingPage = () => {
   const steps = [
     { key: "customer", label: t("booking.form.steps.customer"), icon: User },
     { key: "property", label: t("booking.form.steps.property"), icon: Home },
-    { key: "details", label: t("booking.form.steps.details"), icon: CalendarDays },
-    { key: "pricing", label: t("booking.form.steps.pricing"), icon: CreditCard },
-    { key: "payment", label: t("booking.form.steps.payment"), icon: ShieldCheck },
-    { key: "documents", label: t("booking.form.steps.documents"), icon: FileText },
-    { key: "review", label: t("booking.form.steps.review"), icon: CheckCircle2 },
+    {
+      key: "details",
+      label: t("booking.form.steps.details"),
+      icon: CalendarDays,
+    },
+    {
+      key: "pricing",
+      label: t("booking.form.steps.pricing"),
+      icon: CreditCard,
+    },
+    {
+      key: "payment",
+      label: t("booking.form.steps.payment"),
+      icon: ShieldCheck,
+    },
+    {
+      key: "documents",
+      label: t("booking.form.steps.documents"),
+      icon: FileText,
+    },
+    {
+      key: "review",
+      label: t("booking.form.steps.review"),
+      icon: CheckCircle2,
+    },
   ];
 
   const nextStep = () =>
@@ -83,41 +103,41 @@ const CreateBookingPage = () => {
                   <div className="grid gap-4 md:grid-cols-2">
                     <label className="text-sm font-medium text-slate-700 dark:text-slate-300">
                       {t("booking.form.fullName")}
-                      <input 
+                      <input
                         placeholder={t("booking.form.fullNamePlaceholder")}
-                        className="mt-2 w-full rounded-xl border border-slate-200 bg-white px-3 py-2.5 text-sm outline-none focus:border-[#6D28D9] dark:border-slate-700 dark:bg-slate-900" 
+                        className="mt-2 w-full rounded-xl border border-slate-200 bg-white px-3 py-2.5 text-sm outline-none focus:border-[#6D28D9] dark:border-slate-700 dark:bg-slate-900"
                       />
                     </label>
                     <label className="text-sm font-medium text-slate-700 dark:text-slate-300">
                       {t("booking.form.phone")}
-                      <input 
+                      <input
                         placeholder={t("booking.form.phonePlaceholder")}
-                        className="mt-2 w-full rounded-xl border border-slate-200 bg-white px-3 py-2.5 text-sm outline-none focus:border-[#6D28D9] dark:border-slate-700 dark:bg-slate-900" 
+                        className="mt-2 w-full rounded-xl border border-slate-200 bg-white px-3 py-2.5 text-sm outline-none focus:border-[#6D28D9] dark:border-slate-700 dark:bg-slate-900"
                       />
                     </label>
                   </div>
                   <div className="grid gap-4 md:grid-cols-2">
                     <label className="text-sm font-medium text-slate-700 dark:text-slate-300">
                       {t("booking.form.email")}
-                      <input 
+                      <input
                         type="email"
                         placeholder={t("booking.form.emailPlaceholder")}
-                        className="mt-2 w-full rounded-xl border border-slate-200 bg-white px-3 py-2.5 text-sm outline-none focus:border-[#6D28D9] dark:border-slate-700 dark:bg-slate-900" 
+                        className="mt-2 w-full rounded-xl border border-slate-200 bg-white px-3 py-2.5 text-sm outline-none focus:border-[#6D28D9] dark:border-slate-700 dark:bg-slate-900"
                       />
                     </label>
                     <label className="text-sm font-medium text-slate-700 dark:text-slate-300">
                       {t("booking.form.nationalId")}
-                      <input 
+                      <input
                         placeholder={t("booking.form.nationalIdPlaceholder")}
-                        className="mt-2 w-full rounded-xl border border-slate-200 bg-white px-3 py-2.5 text-sm outline-none focus:border-[#6D28D9] dark:border-slate-700 dark:bg-slate-900" 
+                        className="mt-2 w-full rounded-xl border border-slate-200 bg-white px-3 py-2.5 text-sm outline-none focus:border-[#6D28D9] dark:border-slate-700 dark:bg-slate-900"
                       />
                     </label>
                   </div>
                   <label className="text-sm font-medium text-slate-700 dark:text-slate-300">
                     {t("booking.form.address")}
-                    <textarea 
+                    <textarea
                       placeholder={t("booking.form.addressPlaceholder")}
-                      className="mt-2 min-h-[96px] w-full rounded-xl border border-slate-200 bg-white px-3 py-2.5 text-sm outline-none focus:border-[#6D28D9] dark:border-slate-700 dark:bg-slate-900" 
+                      className="mt-2 min-h-[96px] w-full rounded-xl border border-slate-200 bg-white px-3 py-2.5 text-sm outline-none focus:border-[#6D28D9] dark:border-slate-700 dark:bg-slate-900"
                     />
                   </label>
                 </>
@@ -128,10 +148,18 @@ const CreateBookingPage = () => {
                     <label className="text-sm font-medium text-slate-700 dark:text-slate-300">
                       {t("booking.form.property")}
                       <select className="mt-2 w-full rounded-xl border border-slate-200 bg-white px-3 py-2.5 text-sm outline-none focus:border-[#6D28D9] dark:border-slate-700 dark:bg-slate-900">
-                        <option value="">{t("booking.form.selectProperty")}</option>
-                        <option value="Sunset Residence">{t("booking.properties.sunsetResidence")}</option>
-                        <option value="Marina Bay">{t("booking.properties.marinaBay")}</option>
-                        <option value="Rosewood Villa">{t("booking.properties.rosewoodVilla")}</option>
+                        <option value="">
+                          {t("booking.form.selectProperty")}
+                        </option>
+                        <option value="Sunset Residence">
+                          {t("booking.properties.sunsetResidence")}
+                        </option>
+                        <option value="Marina Bay">
+                          {t("booking.properties.marinaBay")}
+                        </option>
+                        <option value="Rosewood Villa">
+                          {t("booking.properties.rosewoodVilla")}
+                        </option>
                       </select>
                     </label>
                     <label className="text-sm font-medium text-slate-700 dark:text-slate-300">
@@ -186,9 +214,9 @@ const CreateBookingPage = () => {
                   </div>
                   <label className="text-sm font-medium text-slate-700 dark:text-slate-300">
                     {t("booking.form.specialRequests")}
-                    <textarea 
+                    <textarea
                       placeholder={t("booking.form.specialRequestsPlaceholder")}
-                      className="mt-2 min-h-[96px] w-full rounded-xl border border-slate-200 bg-white px-3 py-2.5 text-sm outline-none focus:border-[#6D28D9] dark:border-slate-700 dark:bg-slate-900" 
+                      className="mt-2 min-h-[96px] w-full rounded-xl border border-slate-200 bg-white px-3 py-2.5 text-sm outline-none focus:border-[#6D28D9] dark:border-slate-700 dark:bg-slate-900"
                     />
                   </label>
                 </>
@@ -239,27 +267,45 @@ const CreateBookingPage = () => {
                     <label className="text-sm font-medium text-slate-700 dark:text-slate-300">
                       {t("booking.form.paymentMethod")}
                       <select className="mt-2 w-full rounded-xl border border-slate-200 bg-white px-3 py-2.5 text-sm outline-none focus:border-[#6D28D9] dark:border-slate-700 dark:bg-slate-900">
-                        <option value="">{t("booking.form.selectPaymentMethod")}</option>
-                        <option value="Card">{t("booking.payment.card")}</option>
-                        <option value="Bank Transfer">{t("booking.payment.bankTransfer")}</option>
-                        <option value="Cash">{t("booking.payment.cash")}</option>
+                        <option value="">
+                          {t("booking.form.selectPaymentMethod")}
+                        </option>
+                        <option value="Card">
+                          {t("booking.payment.card")}
+                        </option>
+                        <option value="Bank Transfer">
+                          {t("booking.payment.bankTransfer")}
+                        </option>
+                        <option value="Cash">
+                          {t("booking.payment.cash")}
+                        </option>
                       </select>
                     </label>
                     <label className="text-sm font-medium text-slate-700 dark:text-slate-300">
                       {t("booking.form.paymentStatus")}
                       <select className="mt-2 w-full rounded-xl border border-slate-200 bg-white px-3 py-2.5 text-sm outline-none focus:border-[#6D28D9] dark:border-slate-700 dark:bg-slate-900">
-                        <option value="">{t("booking.form.selectPaymentStatus")}</option>
-                        <option value="Pending">{t("booking.payment.pending")}</option>
-                        <option value="Paid">{t("booking.payment.paid")}</option>
-                        <option value="Partial">{t("booking.payment.partial")}</option>
+                        <option value="">
+                          {t("booking.form.selectPaymentStatus")}
+                        </option>
+                        <option value="Pending">
+                          {t("booking.payment.pending")}
+                        </option>
+                        <option value="Paid">
+                          {t("booking.payment.paid")}
+                        </option>
+                        <option value="Partial">
+                          {t("booking.payment.partial")}
+                        </option>
                       </select>
                     </label>
                   </div>
                   <label className="text-sm font-medium text-slate-700 dark:text-slate-300">
                     {t("booking.form.transactionReference")}
-                    <input 
-                      placeholder={t("booking.form.transactionReferencePlaceholder")}
-                      className="mt-2 w-full rounded-xl border border-slate-200 bg-white px-3 py-2.5 text-sm outline-none focus:border-[#6D28D9] dark:border-slate-700 dark:bg-slate-900" 
+                    <input
+                      placeholder={t(
+                        "booking.form.transactionReferencePlaceholder",
+                      )}
+                      className="mt-2 w-full rounded-xl border border-slate-200 bg-white px-3 py-2.5 text-sm outline-none focus:border-[#6D28D9] dark:border-slate-700 dark:bg-slate-900"
                     />
                   </label>
                 </>
@@ -276,7 +322,10 @@ const CreateBookingPage = () => {
                   </h3>
                   <ul className="mt-3 space-y-2 text-sm text-slate-600 dark:text-slate-300">
                     <li>{t("booking.summary.guest")}: Ava Thompson</li>
-                    <li>{t("booking.summary.property")}: Sunset Residence • Unit A-204</li>
+                    <li>
+                      {t("booking.summary.property")}: Sunset Residence • Unit
+                      A-204
+                    </li>
                     <li>{t("booking.summary.stay")}: July 8 - July 12</li>
                     <li>{t("booking.summary.total")}: $3,700</li>
                   </ul>
@@ -292,7 +341,9 @@ const CreateBookingPage = () => {
             <div className="mt-4 space-y-3 text-sm text-slate-600 dark:text-slate-300">
               <div className="flex items-center justify-between rounded-xl bg-slate-50 p-3 dark:bg-slate-800">
                 <span>{t("booking.create.reservationStatus")}</span>
-                <span className="font-semibold text-[#6D28D9]">{t("booking.status.draft")}</span>
+                <span className="font-semibold text-[#6D28D9]">
+                  {t("booking.status.draft")}
+                </span>
               </div>
               <div className="flex items-center justify-between rounded-xl bg-slate-50 p-3 dark:bg-slate-800">
                 <span>{t("booking.form.checkIn")}</span>
@@ -323,9 +374,7 @@ const CreateBookingPage = () => {
                 </Button>
               ) : (
                 <Button
-                  onClick={() =>
-                    toast.success(t("booking.messages.submitted"))
-                  }
+                  onClick={() => toast.success(t("booking.messages.submitted"))}
                 >
                   {t("booking.actions.submitBooking")}
                 </Button>

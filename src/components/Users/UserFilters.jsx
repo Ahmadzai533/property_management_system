@@ -1,6 +1,6 @@
-// src/components/users/UserFilters.jsx
+// src/components/Users/UserFilters.jsx
 import { useLocalization } from "../../hooks/useLocalization";
-import SearchBar from '../shared/SearchBar';
+import SearchBar from "../shared/SearchBar";
 
 export default function UserFilters({
   searchTerm,
@@ -29,7 +29,9 @@ export default function UserFilters({
           >
             <option value="">{t("users.allRoles")}</option>
             {roles.map((role) => (
-              <option key={role} value={role}>{role}</option>
+              <option key={role} value={role}>
+                {role}
+              </option>
             ))}
           </select>
           <select
@@ -44,5 +46,5 @@ export default function UserFilters({
         </div>
       </div>
     </div>
-  );  
+  );
 }

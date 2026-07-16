@@ -1,4 +1,4 @@
-// src/components/shared/SearchBar.jsx
+// src/components/Shared/SearchBar.jsx
 import { Search } from "lucide-react";
 
 export default function SearchBar({

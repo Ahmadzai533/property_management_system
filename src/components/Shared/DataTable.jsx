@@ -1,4 +1,4 @@
-// src/components/shared/DataTable.jsx
+// src/components/Shared/DataTable.jsx
 import { motion } from "framer-motion";
 
 export default function DataTable({

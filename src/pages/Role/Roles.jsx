@@ -2,10 +2,10 @@
 import { useState, useEffect, useMemo } from "react";
 import { useToast } from "../../hooks/useToast";
 import { useLocalization } from "../../hooks/useLocalization";
-import PageHeader from "../../components/shared/PageHeader";
+import PageHeader from "../../components/Shared/PageHeader";
 import RoleTable from "../../components/roles/RoleTable";
 import RoleFormModal from "../../components/roles/RoleFormModal";
-import ConfirmDialog from "../../components/shared/ConfirmDialog";
+import ConfirmDialog from "../../components/Shared/ConfirmDialog";
 
 export default function Roles() {
   const [isLoading, setIsLoading] = useState(true);
@@ -17,10 +17,13 @@ export default function Roles() {
   const { toast } = useToast();
   const { t } = useLocalization();
 
-  const breadcrumbItems = useMemo(() => [
-    { label: t("breadcrumb.dashboard"), href: "/" },
-    { label: t("users.rolesPermissions") }
-  ], [t]);
+  const breadcrumbItems = useMemo(
+    () => [
+      { label: t("breadcrumb.dashboard"), href: "/" },
+      { label: t("users.rolesPermissions") },
+    ],
+    [t],
+  );
 
   // Sample data
   const rolesData = [

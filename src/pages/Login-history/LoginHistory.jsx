@@ -2,7 +2,7 @@
 import { useState, useEffect, useMemo } from "react";
 import { useToast } from "../../hooks/useToast";
 import { useLocalization } from "../../hooks/useLocalization";
-import PageHeader from "../../components/shared/PageHeader";
+import PageHeader from "../../components/Shared/PageHeader";
 import LoginHistoryFilters from "../../components/layout/Logs/LoginHistoryFilters";
 import LoginHistoryTable from "../../components/layout/Logs/LoginHistoryTable";
 
@@ -13,7 +13,7 @@ const logsData = [
     user: "John Admin",
     action: "Login",
     ipAddress: "192.168.1.100",
-    device: "Chrome on Windows",  
+    device: "Chrome on Windows",
     date: "2024-01-28T14:30:00",
     status: "Success",
   },
@@ -63,10 +63,13 @@ export default function LoginHistory() {
   const { toast } = useToast();
   const { t } = useLocalization();
 
-  const breadcrumbItems = useMemo(() => [
-    { label: t("breadcrumb.dashboard"), href: "/" },
-    { label: t("users.loggedHistory") },
-  ], [t]);
+  const breadcrumbItems = useMemo(
+    () => [
+      { label: t("breadcrumb.dashboard"), href: "/" },
+      { label: t("users.loggedHistory") },
+    ],
+    [t],
+  );
 
   useEffect(() => {
     const timer = setTimeout(() => {

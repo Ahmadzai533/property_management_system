@@ -1,4 +1,4 @@
-// src/components/shared/ConfirmDialog.jsx
+// src/components/Shared/ConfirmDialog.jsx
 import { motion, AnimatePresence } from "framer-motion";
 import { AlertCircle, X } from "lucide-react";
 

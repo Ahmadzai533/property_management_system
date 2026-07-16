@@ -7,7 +7,7 @@ import {
   SlidersHorizontal,
   Search,
 } from "lucide-react";
-import PageHeader from "../../components/shared/PageHeader";
+import PageHeader from "../../components/Shared/PageHeader";
 import Button from "../../components/common/Button";
 import BookingStatusBadge from "../../components/Booking/BookingStatusBadge";
 import { useLocalization } from "../../hooks/useLocalization";
@@ -15,6 +15,7 @@ import { useLocalization } from "../../hooks/useLocalization";
 const calendarEvents = [
   {
     id: 1,
+
     guest: "Ava Thompson",
     property: "Sunset Residence",
     unit: "A-204",
@@ -113,7 +114,8 @@ const BookingCalendarPage = () => {
                   {t("booking.calendar.months.july")} 2026
                 </p>
                 <p className="text-sm text-slate-500 dark:text-slate-400">
-                  {t(`booking.calendar.views.${view}`).toUpperCase()} {t("booking.calendar.view")}
+                  {t(`booking.calendar.views.${view}`).toUpperCase()}{" "}
+                  {t("booking.calendar.view")}
                 </p>
               </div>
               <div className="rounded-2xl bg-white p-2 shadow-sm dark:bg-slate-900">
@@ -171,8 +173,12 @@ const BookingCalendarPage = () => {
                     <BookingStatusBadge status={event.status} />
                   </div>
                   <div className="mt-3 flex items-center justify-between text-sm text-slate-500 dark:text-slate-400">
-                    <span>{t("booking.calendar.checkIn")} {event.checkIn}</span>
-                    <span>{t("booking.calendar.checkOut")} {event.checkOut}</span>
+                    <span>
+                      {t("booking.calendar.checkIn")} {event.checkIn}
+                    </span>
+                    <span>
+                      {t("booking.calendar.checkOut")} {event.checkOut}
+                    </span>
                   </div>
                 </div>
               </motion.div>

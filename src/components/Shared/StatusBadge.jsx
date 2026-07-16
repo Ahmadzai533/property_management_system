@@ -1,4 +1,4 @@
-// src/components/shared/StatusBadge.jsx
+// src/components/Shared/StatusBadge.jsx
 import { CheckCircle, XCircle, Clock, AlertTriangle } from "lucide-react";
 
 const statusConfig = {

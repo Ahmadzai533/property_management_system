@@ -1,4 +1,4 @@
-// src/components/shared/PageHeader.jsx
+// src/components/Shared/PageHeader.jsx
 import Breadcrumb from "../common/Breadcrumb";
 import Button from "../common/Button";
 import { Plus } from "lucide-react";
