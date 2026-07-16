@@ -37,7 +37,7 @@ import LeaseProperties from "../pages/properties/LeasePropertyPages/LeasePropert
 import LeasePropertyDetails from "../pages/properties/LeasePropertyPages/LeasePropertyDetails";
 import AddLeaseProperty from "../pages/properties/LeasePropertyPages/AddLeaseProperty";
 import EditLeaseProperty from "../pages/properties/LeasePropertyPages/EditLeaseProperty";
-import AllUnits from "../pages/Properties/AllUnitPages/AllUnits";
+import AllUnits from "../pages/properties/AllUnitPages/AllUnits";
 import UnitDetails from "../pages/properties/AllUnitPages/UnitDetails";
 import AddUnit from "../pages/properties/AllUnitPages/AddUnit";
 import EditUnit from "../pages/properties/AllUnitPages/EditUnit";
