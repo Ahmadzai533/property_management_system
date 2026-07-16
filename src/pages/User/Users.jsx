@@ -3,7 +3,7 @@ import { useState, useEffect, useMemo } from 'react';
 import { useToast } from '../../hooks/useToast';
 import { useLocalization } from '../../hooks/useLocalization';
 import PageHeader from '../../components/shared/PageHeader';
-import UserFilters from '../../components/users/UserFilters';
+import UserFilters from "../../components/Users/UserFilters";
 import UserTable from '../../components/users/UserTable';
 import UserFormModal from '../../components/users/UserFormModal';
 import ConfirmDialog from '../../components/shared/ConfirmDialog';
