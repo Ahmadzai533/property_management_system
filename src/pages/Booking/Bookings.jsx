@@ -12,7 +12,7 @@ import {
   FileDown,
   Trash2,
 } from "lucide-react";
-import PageHeader from "../../components/shared/PageHeader";
+import PageHeader from "../../components/Shared/PageHeader";
 import BookingStats from "../../components/Booking/BookingStats";
 import BookingFilters from "../../components/Booking/BookingFilters";
 import BookingTable from "../../components/Booking/BookingTable";
