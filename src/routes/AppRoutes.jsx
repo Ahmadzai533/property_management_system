@@ -1,7 +1,7 @@
 import { Routes, Route, Navigate } from "react-router-dom";
 import DashboardLayout from "../components/layout/DashboardLayout";
 import Dashboard from "../Dashboard/Dashboard";
-import Properties from "../pages/Properties";
+import Properties from "../pages/properties";
 
 // Import Tenant Routes
 import TenantForm from "../pages/tenants/tanants";
