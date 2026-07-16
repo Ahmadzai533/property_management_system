@@ -1,5 +1,6 @@
 import { Download, Printer, FileSpreadsheet, FileText } from "lucide-react";
 import Button from "../common/Button";
+import { useLocalization } from "../../hooks/useLocalization"; // Adjust path as needed
 
 export function ExportMenu({
   onExportPdf,
@@ -7,6 +8,8 @@ export function ExportMenu({
   onExportCsv,
   onPrint,
 }) {
+  const { t } = useLocalization();
+  
   return (
     <div className="flex flex-wrap gap-2">
       <Button
@@ -15,7 +18,7 @@ export function ExportMenu({
         icon={FileText}
         onClick={onExportPdf}
       >
-        PDF
+        {t("reports.export.pdf")}
       </Button>
       <Button
         variant="secondary"
@@ -23,7 +26,7 @@ export function ExportMenu({
         icon={FileSpreadsheet}
         onClick={onExportExcel}
       >
-        Excel
+        {t("reports.export.excel")}
       </Button>
       <Button
         variant="secondary"
@@ -31,10 +34,10 @@ export function ExportMenu({
         icon={Download}
         onClick={onExportCsv}
       >
-        CSV
+        {t("reports.export.csv")}
       </Button>
       <Button variant="secondary" size="sm" icon={Printer} onClick={onPrint}>
-        Print
+        {t("reports.actions.print")}
       </Button>
     </div>
   );

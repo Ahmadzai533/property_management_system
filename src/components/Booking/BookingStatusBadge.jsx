@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import { useLocalization } from "../../hooks/useLocalization";
 
 const statusStyles = {
   Confirmed:
@@ -22,11 +23,26 @@ const paymentStyles = {
     "bg-fuchsia-100 text-fuchsia-700 dark:bg-fuchsia-900/30 dark:text-fuchsia-300",
 };
 
+const statusTranslationMap = {
+  Confirmed: "booking.status.confirmed",
+  Pending: "booking.status.pending",
+  "Checked In": "booking.status.checkedIn",
+  "Checked Out": "booking.status.checkedOut",
+  Cancelled: "booking.status.cancelled",
+  Draft: "booking.status.draft",
+  Paid: "booking.payment.paid",
+  Partial: "booking.payment.partial",
+  Refunded: "booking.payment.refunded",
+};
+
 const BookingStatusBadge = ({ status, type = "status" }) => {
+  const { t } = useLocalization();
   const styles = type === "payment" ? paymentStyles : statusStyles;
   const tone =
     styles[status] ||
     "bg-slate-100 text-slate-700 dark:bg-slate-800 dark:text-slate-300";
+  const translationKey = statusTranslationMap[status];
+  const displayText = translationKey ? t(translationKey) : status;
 
   return (
     <motion.span
@@ -34,7 +50,7 @@ const BookingStatusBadge = ({ status, type = "status" }) => {
       animate={{ opacity: 1, scale: 1 }}
       className={`inline-flex items-center rounded-full px-2.5 py-1 text-xs font-semibold ${tone}`}
     >
-      {status}
+      {displayText}
     </motion.span>
   );
 };

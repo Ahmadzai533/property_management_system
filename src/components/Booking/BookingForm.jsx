@@ -1,23 +1,25 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import Button from "../common/Button";
+import { useLocalization } from "../../hooks/useLocalization";
 
 const BookingForm = ({ onClose }) => {
   const [step, setStep] = useState(1);
+  const { t } = useLocalization();
 
   return (
     <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm dark:border-slate-800 dark:bg-slate-900">
       <div className="flex items-center justify-between">
         <div>
           <h3 className="text-lg font-semibold text-slate-900 dark:text-white">
-            Quick Booking
+            {t("booking.form.quickBooking")}
           </h3>
           <p className="text-sm text-slate-500 dark:text-slate-400">
-            Capture a reservation quickly in a guided flow.
+            {t("booking.form.quickBookingDescription")}
           </p>
         </div>
         <div className="rounded-full bg-[#6D28D9]/10 px-3 py-1 text-sm font-semibold text-[#6D28D9]">
-          Step {step} / 4
+          {t("booking.form.step")} {step} / 4
         </div>
       </div>
 
@@ -29,29 +31,38 @@ const BookingForm = ({ onClose }) => {
         {step === 1 && (
           <>
             <label className="text-sm font-medium text-slate-700 dark:text-slate-300">
-              Guest Name
-              <input className="mt-2 w-full rounded-xl border border-slate-200 bg-slate-50 px-3 py-2.5 text-sm outline-none focus:border-[#6D28D9] dark:border-slate-700 dark:bg-slate-800" />
+              {t("booking.form.guestName")}
+              <input
+                placeholder={t("booking.form.guestNamePlaceholder")}
+                className="mt-2 w-full rounded-xl border border-slate-200 bg-slate-50 px-3 py-2.5 text-sm outline-none focus:border-[#6D28D9] dark:border-slate-700 dark:bg-slate-800"
+              />
             </label>
             <label className="text-sm font-medium text-slate-700 dark:text-slate-300">
-              Email
-              <input className="mt-2 w-full rounded-xl border border-slate-200 bg-slate-50 px-3 py-2.5 text-sm outline-none focus:border-[#6D28D9] dark:border-slate-700 dark:bg-slate-800" />
+              {t("booking.form.email")}
+              <input
+                type="email"
+                placeholder={t("booking.form.emailPlaceholder")}
+                className="mt-2 w-full rounded-xl border border-slate-200 bg-slate-50 px-3 py-2.5 text-sm outline-none focus:border-[#6D28D9] dark:border-slate-700 dark:bg-slate-800"
+              />
             </label>
           </>
         )}
         {step === 2 && (
           <>
             <label className="text-sm font-medium text-slate-700 dark:text-slate-300">
-              Property
+              {t("booking.form.property")}
               <select className="mt-2 w-full rounded-xl border border-slate-200 bg-slate-50 px-3 py-2.5 text-sm outline-none focus:border-[#6D28D9] dark:border-slate-700 dark:bg-slate-800">
-                <option>Sunset Residence</option>
-                <option>Marina Bay</option>
+                <option value="">{t("booking.form.selectProperty")}</option>
+                <option value="Sunset Residence">{t("booking.properties.sunsetResidence")}</option>
+                <option value="Marina Bay">{t("booking.properties.marinaBay")}</option>
               </select>
             </label>
             <label className="text-sm font-medium text-slate-700 dark:text-slate-300">
-              Unit
+              {t("booking.form.unit")}
               <select className="mt-2 w-full rounded-xl border border-slate-200 bg-slate-50 px-3 py-2.5 text-sm outline-none focus:border-[#6D28D9] dark:border-slate-700 dark:bg-slate-800">
-                <option>A-204</option>
-                <option>P-101</option>
+                <option value="">{t("booking.form.selectUnit")}</option>
+                <option value="A-204">A-204</option>
+                <option value="P-101">P-101</option>
               </select>
             </label>
           </>
@@ -59,14 +70,14 @@ const BookingForm = ({ onClose }) => {
         {step === 3 && (
           <>
             <label className="text-sm font-medium text-slate-700 dark:text-slate-300">
-              Check-in
+              {t("booking.form.checkIn")}
               <input
                 type="date"
                 className="mt-2 w-full rounded-xl border border-slate-200 bg-slate-50 px-3 py-2.5 text-sm outline-none focus:border-[#6D28D9] dark:border-slate-700 dark:bg-slate-800"
               />
             </label>
             <label className="text-sm font-medium text-slate-700 dark:text-slate-300">
-              Check-out
+              {t("booking.form.checkOut")}
               <input
                 type="date"
                 className="mt-2 w-full rounded-xl border border-slate-200 bg-slate-50 px-3 py-2.5 text-sm outline-none focus:border-[#6D28D9] dark:border-slate-700 dark:bg-slate-800"
@@ -76,7 +87,7 @@ const BookingForm = ({ onClose }) => {
         )}
         {step === 4 && (
           <div className="rounded-xl border border-slate-200 bg-slate-50 p-4 text-sm text-slate-600 dark:border-slate-700 dark:bg-slate-800 dark:text-slate-300">
-            Review the reservation summary and submit it for confirmation.
+            {t("booking.form.reviewSummary")}
           </div>
         )}
       </motion.div>
@@ -86,14 +97,14 @@ const BookingForm = ({ onClose }) => {
           variant="secondary"
           onClick={() => setStep((current) => Math.max(1, current - 1))}
         >
-          Back
+          {t("booking.actions.back")}
         </Button>
         <Button
           onClick={() =>
             step < 4 ? setStep((current) => current + 1) : onClose()
           }
         >
-          Continue
+          {step < 4 ? t("booking.actions.continue") : t("booking.actions.submit")}
         </Button>
       </div>
     </div>

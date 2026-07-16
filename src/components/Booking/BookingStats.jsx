@@ -9,6 +9,7 @@ import {
   BedDouble,
   ArrowRightLeft,
 } from "lucide-react";
+import { useLocalization } from "../../hooks/useLocalization";
 
 const iconMap = {
   bookings: CalendarDays,
@@ -24,6 +25,8 @@ const iconMap = {
 };
 
 const BookingStats = ({ stats, isLoading = false }) => {
+  const { t } = useLocalization();
+
   if (isLoading) {
     return (
       <div className="mt-6 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
@@ -58,7 +61,7 @@ const BookingStats = ({ stats, isLoading = false }) => {
             <div className="flex items-start justify-between gap-3">
               <div>
                 <p className="text-sm font-medium text-slate-500 dark:text-slate-400">
-                  {stat.label}
+                  {t(`booking.stats.${stat.key}`, stat.label)}
                 </p>
                 <p className="mt-2 text-2xl font-semibold text-slate-900 dark:text-white">
                   {stat.value}

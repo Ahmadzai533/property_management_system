@@ -280,18 +280,18 @@ const communicationItems = [
     icon: Bell,
     label: t("nav.notices"),
   },
-  {
-    id: "reports",
-    basePath: "/reports",
-    icon: BarChart3,
-    label: t("nav.reports"),
-    items: [
-      { to: "/reports/hub", label: t("reports.reportsHub") },
-      { to: "/reports/payments", label: t("reports.paymentReports") },
-      { to: "/reports/invoices", label: t("reports.invoiceReports") },
-      { to: "/reports/financial", label: t("reports.financialReports") },
-    ],
-  },
+ {
+  id: "reports",
+  basePath: "/reports",
+  icon: BarChart3,
+  label: t("nav.reports"),
+  items: [
+    { to: "/reports/hub", label: t("reports.reportsHub") },
+    { to: "/reports/payments", label: t("reports.paymentReports.title") },
+    { to: "/reports/invoices", label: t("reports.invoiceReports.title") },
+    { to: "/reports/financial", label: t("reports.financialReports.title") },
+  ],
+}
 ];
   const bottomItems = [
     { to: "/settings", icon: Settings, label: t("nav.settings") },

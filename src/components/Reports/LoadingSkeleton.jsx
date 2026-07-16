@@ -1,8 +1,11 @@
 import { motion } from "framer-motion";
+import { useLocalization } from "../../hooks/useLocalization"; // Adjust path as needed
 
 export function LoadingSkeleton() {
+  const { t } = useLocalization();
+  
   return (
-    <div className="space-y-6">
+    <div className="space-y-6" role="status" aria-label={t("reports.loading.title")}>
       <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
         {Array.from({ length: 4 }).map((_, index) => (
           <div
@@ -20,6 +23,7 @@ export function LoadingSkeleton() {
         <div className="h-72 animate-pulse rounded-2xl border border-slate-200 bg-white dark:border-slate-800 dark:bg-slate-900" />
       </div>
       <div className="h-72 animate-pulse rounded-2xl border border-slate-200 bg-white dark:border-slate-800 dark:bg-slate-900" />
+      <span className="sr-only">{t("reports.loading.title")}</span>
     </div>
   );
 }

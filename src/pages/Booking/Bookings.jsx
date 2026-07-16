@@ -19,6 +19,7 @@ import BookingTable from "../../components/Booking/BookingTable";
 import BookingDrawer from "../../components/Booking/BookingDrawer";
 import DeleteBookingModal from "../../components/Booking/DeleteBookingModal";
 import { useToast } from "../../hooks/useToast";
+import { useLocalization } from "../../hooks/useLocalization";
 
 const bookingSeed = [
   {
@@ -99,50 +100,8 @@ const bookingSeed = [
   },
 ];
 
-const stats = [
-  {
-    key: "bookings",
-    label: "Total Bookings",
-    value: "128",
-    trend: 12,
-    caption: "vs last month",
-    progress: 88,
-  },
-  {
-    key: "active",
-    label: "Active Bookings",
-    value: "47",
-    trend: 8,
-    caption: "in progress",
-    progress: 74,
-  },
-  {
-    key: "pending",
-    label: "Pending Bookings",
-    value: "18",
-    trend: -3,
-    caption: "awaiting review",
-    progress: 48,
-  },
-  {
-    key: "confirmed",
-    label: "Confirmed",
-    value: "86",
-    trend: 10,
-    caption: "guaranteed stays",
-    progress: 82,
-  },
-  {
-    key: "checkedIn",
-    label: "Checked In",
-    value: "22",
-    trend: 5,
-    caption: "today",
-    progress: 65,
-  },
-];
-
 const BookingListPage = () => {
+  const { t } = useLocalization();
   const [bookings, setBookings] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [propertyFilter, setPropertyFilter] = useState("");
@@ -202,31 +161,31 @@ const BookingListPage = () => {
     setSelectedBooking(booking);
     switch (type) {
       case "view":
-        toast.info(`Viewing ${booking.bookingNumber}`);
+        toast.info(t("booking.messages.viewingBooking", { bookingNumber: booking.bookingNumber }));
         break;
       case "edit":
-        toast.info(`Editing ${booking.bookingNumber}`);
+        toast.info(t("booking.messages.editingBooking", { bookingNumber: booking.bookingNumber }));
         break;
       case "checkin":
-        toast.success(`Checked in ${booking.bookingNumber}`);
+        toast.success(t("booking.messages.checkedIn", { bookingNumber: booking.bookingNumber }));
         break;
       case "checkout":
-        toast.success(`Checked out ${booking.bookingNumber}`);
+        toast.success(t("booking.messages.checkedOut", { bookingNumber: booking.bookingNumber }));
         break;
       case "confirm":
-        toast.success(`Confirmed ${booking.bookingNumber}`);
+        toast.success(t("booking.messages.confirmed", { bookingNumber: booking.bookingNumber }));
         break;
       case "cancel":
-        toast.warning(`Cancelled ${booking.bookingNumber}`);
+        toast.warning(t("booking.messages.cancelled", { bookingNumber: booking.bookingNumber }));
         break;
       case "duplicate":
-        toast.info(`Duplicated ${booking.bookingNumber}`);
+        toast.info(t("booking.messages.duplicated", { bookingNumber: booking.bookingNumber }));
         break;
       case "print":
-        toast.info(`Preparing print for ${booking.bookingNumber}`);
+        toast.info(t("booking.messages.preparingPrint", { bookingNumber: booking.bookingNumber }));
         break;
       case "pdf":
-        toast.success(`Downloading PDF for ${booking.bookingNumber}`);
+        toast.success(t("booking.messages.downloadingPdf", { bookingNumber: booking.bookingNumber }));
         break;
       case "delete":
         setDeleteTarget(booking);
@@ -240,21 +199,64 @@ const BookingListPage = () => {
     setBookings((current) =>
       current.filter((item) => item.id !== deleteTarget.id),
     );
+    toast.success(t("booking.messages.deleted", { bookingNumber: deleteTarget.bookingNumber }));
     setDeleteTarget(null);
-    toast.success(`Deleted ${deleteTarget.bookingNumber}`);
   };
+
+  const stats = useMemo(() => [
+    {
+      key: "bookings",
+      label: t("booking.stats.bookings"),
+      value: "128",
+      trend: 12,
+      caption: t("booking.stats.vsLastMonth"),
+      progress: 88,
+    },
+    {
+      key: "active",
+      label: t("booking.stats.active"),
+      value: "47",
+      trend: 8,
+      caption: t("booking.stats.inProgress"),
+      progress: 74,
+    },
+    {
+      key: "pending",
+      label: t("booking.stats.pending"),
+      value: "18",
+      trend: -3,
+      caption: t("booking.stats.awaitingReview"),
+      progress: 48,
+    },
+    {
+      key: "confirmed",
+      label: t("booking.stats.confirmed"),
+      value: "86",
+      trend: 10,
+      caption: t("booking.stats.guaranteedStays"),
+      progress: 82,
+    },
+    {
+      key: "checkedIn",
+      label: t("booking.stats.checkedIn"),
+      value: "22",
+      trend: 5,
+      caption: t("booking.stats.today"),
+      progress: 65,
+    },
+  ], [t]);
 
   return (
     <div className="px-2 sm:px-2 lg:px-2 max-w-7xl mx-auto">
       <PageHeader
         breadcrumbItems={[
-          { label: "Dashboard", href: "/" },
-          { label: "Bookings" },
+          { label: t("navigation.dashboard"), href: "/" },
+          { label: t("navigation.bookings") },
         ]}
-        title="Booking Management"
-        subtitle="Manage reservations, arrivals, departures, and guest stays from one premium workspace."
-        buttonText="Create Booking"
-        onButtonClick={() => toast.info("Create booking form opened")}
+        title={t("booking.title")}
+        subtitle={t("booking.subtitle")}
+        buttonText={t("booking.actions.create")}
+        onButtonClick={() => toast.info(t("booking.messages.createFormOpened"))}
       />
 
       <BookingStats stats={stats} isLoading={isLoading} />
@@ -272,9 +274,9 @@ const BookingListPage = () => {
           sourceFilter={sourceFilter}
           onSourceFilterChange={setSourceFilter}
           onReset={handleReset}
-          onExport={() => toast.success("Bookings exported successfully")}
-          onPrint={() => toast.info("Print view opened")}
-          onRefresh={() => toast.info("Bookings refreshed")}
+          onExport={() => toast.success(t("booking.messages.exported"))}
+          onPrint={() => toast.info(t("booking.messages.printViewOpened"))}
+          onRefresh={() => toast.info(t("booking.messages.refreshed"))}
         />
 
         <BookingTable

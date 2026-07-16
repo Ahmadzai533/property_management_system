@@ -22,6 +22,7 @@ import { PaymentMethodChart } from "../../components/Reports/PaymentMethodChart"
 import { EmptyState } from "../../components/Reports/EmptyState";
 import { useToast } from "../../hooks/useToast";
 import DateText from "../../components/common/DateText";
+import { useLocalization } from "../../hooks/useLocalization"; // Adjust path as needed
 
 const paymentRows = [
   {
@@ -79,58 +80,60 @@ const paymentRows = [
 
 export default function PaymentReportsPage() {
   const { toast } = useToast();
+  const { t, locale } = useLocalization();
+  const isRTL = locale === "fa" || locale === "ps";
   const [isLoading, setIsLoading] = useState(false);
   const [showAdvanced, setShowAdvanced] = useState(false);
 
   const stats = useMemo(
     () => [
       {
-        title: "Total Payments",
+        title: t("reports.stats.totalPayments"),
         value: 1842,
         prefix: "$",
         trend: 12.4,
-        subtitle: "Monthly collections",
+        subtitle: t("reports.stats.monthlyCollections"),
         icon: Wallet,
         iconClassName:
           "bg-violet-100 text-violet-700 dark:bg-violet-900/30 dark:text-violet-300",
       },
       {
-        title: "Paid Amount",
+        title: t("reports.stats.paidAmount"),
         value: 1245000,
         prefix: "$",
         trend: 9.8,
-        subtitle: "Collected this period",
+        subtitle: t("reports.stats.collectedThisPeriod"),
         icon: CheckCircle2,
         iconClassName:
           "bg-emerald-100 text-emerald-700 dark:bg-emerald-900/20 dark:text-emerald-400",
       },
       {
-        title: "Pending Payments",
+        title: t("reports.stats.pendingPayments"),
         value: 128,
         trend: -3.1,
-        subtitle: "Awaiting settlement",
+        subtitle: t("reports.stats.awaitingSettlement"),
         icon: AlertCircle,
         iconClassName:
           "bg-amber-100 text-amber-700 dark:bg-amber-900/20 dark:text-amber-400",
       },
       {
-        title: "Failed Payments",
+        title: t("reports.stats.failedPayments"),
         value: 26,
         trend: -2.5,
-        subtitle: "Requires follow-up",
+        subtitle: t("reports.stats.requiresFollowUp"),
         icon: CircleDollarSign,
         iconClassName:
           "bg-rose-100 text-rose-700 dark:bg-rose-900/20 dark:text-rose-400",
       },
     ],
-    [],
+    [t],
   );
 
   const handleGenerate = () => {
     setIsLoading(true);
     setTimeout(() => {
       setIsLoading(false);
-      toast.success("Payment report generated");
+      toast.success(t("reports.messages.paymentReportGenerated"));
     }, 700);
   };
 
@@ -138,30 +141,29 @@ export default function PaymentReportsPage() {
     <div className="mx-auto max-w-7xl px-2 sm:px-2 lg:px-2">
       <div className="rounded-2xl bg-gradient-to-r from-[#6D28D9] via-[#7C3AED] to-[#8B5CF6] p-6 text-white shadow-lg dark:from-[#4C1D95] dark:to-[#7C3AED]">
         <Breadcrumb white={true} />
-        <div className="mt-4 flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
-          <div>
-            <h1 className="text-3xl font-semibold">Payment Reports</h1>
+        <div className={`mt-4 flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between ${isRTL ? "lg:flex-row-reverse" : ""}`}>
+          <div className={isRTL ? "text-right" : "text-left"}>
+            <h1 className="text-3xl font-semibold">{t("reports.paymentReports.title")}</h1>
             <p className="mt-2 max-w-2xl text-sm text-white/80 sm:text-base">
-              Track payer activity, collection performance, outstanding
-              balances, and payment success across your portfolio.
+              {t("reports.paymentReports.pageDescription")}
             </p>
           </div>
-          <div className="flex flex-wrap gap-2">
+          <div className={`flex flex-wrap gap-2 ${isRTL ? "lg:flex-row-reverse" : ""}`}>
             <Button
               variant="secondary"
               className="border-white/30 bg-white/20 text-white hover:bg-white/30"
-              onClick={() => toast.info("Export queued")}
+              onClick={() => toast.info(t("reports.messages.exportQueued"))}
             >
-              {" "}
-              <Download className="h-4 w-4" /> Export
+              <Download className={`h-4 w-4 ${isRTL ? "ms-2" : "me-2"}`} />
+              {t("reports.actions.export")}
             </Button>
             <Button
               variant="secondary"
               className="border-white/30 bg-white/20 text-white hover:bg-white/30"
-              onClick={() => toast.info("Print started")}
+              onClick={() => toast.info(t("reports.messages.printStarted"))}
             >
-              {" "}
-              <Printer className="h-4 w-4" /> Print
+              <Printer className={`h-4 w-4 ${isRTL ? "ms-2" : "me-2"}`} />
+              {t("reports.actions.print")}
             </Button>
           </div>
         </div>
@@ -170,12 +172,12 @@ export default function PaymentReportsPage() {
       <div className="mt-6 space-y-6">
         <ReportStats stats={stats} isLoading={isLoading} />
         <ReportFilters
-          title="Payment report filters"
+          title={t("reports.paymentReports.filtersTitle")}
           onGenerate={handleGenerate}
-          onReset={() => toast.warning("Filters reset")}
-          onExport={() => toast.success("Excel export completed")}
-          onPrint={() => toast.info("Print preview opened")}
-          onRefresh={() => toast.success("Payment data refreshed")}
+          onReset={() => toast.warning(t("reports.messages.filtersReset"))}
+          onExport={() => toast.success(t("reports.messages.excelExportCompleted"))}
+          onPrint={() => toast.info(t("reports.messages.printPreviewOpened"))}
+          onRefresh={() => toast.success(t("reports.messages.paymentDataRefreshed"))}
           onToggleAdvanced={() => setShowAdvanced((prev) => !prev)}
         />
 
@@ -186,39 +188,39 @@ export default function PaymentReportsPage() {
             className="grid gap-3 rounded-2xl border border-slate-200 bg-white p-4 shadow-sm dark:border-slate-800 dark:bg-slate-900 md:grid-cols-2 xl:grid-cols-4"
           >
             <label className="rounded-xl border border-slate-200 p-3 dark:border-slate-700">
-              <span className="mb-2 block text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">
-                Amount Range
+              <span className={`mb-2 block text-xs font-semibold uppercase tracking-[0.2em] text-slate-500 ${isRTL ? "text-right" : "text-left"}`}>
+                {t("reports.filters.amountRange")}
               </span>
               <input
-                className="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm outline-none dark:border-slate-700 dark:bg-slate-800"
-                placeholder="$1,000 - $5,000"
+                className={`w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm outline-none dark:border-slate-700 dark:bg-slate-800 ${isRTL ? "text-right" : "text-left"}`}
+                placeholder={t("reports.filters.amountRangePlaceholder")}
               />
             </label>
             <label className="rounded-xl border border-slate-200 p-3 dark:border-slate-700">
-              <span className="mb-2 block text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">
-                Currency
+              <span className={`mb-2 block text-xs font-semibold uppercase tracking-[0.2em] text-slate-500 ${isRTL ? "text-right" : "text-left"}`}>
+                {t("reports.filters.currency")}
               </span>
-              <select className="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm outline-none dark:border-slate-700 dark:bg-slate-800">
-                <option>USD</option>
-                <option>EUR</option>
+              <select className={`w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm outline-none dark:border-slate-700 dark:bg-slate-800 ${isRTL ? "text-right" : "text-left"}`}>
+                <option>{t("reports.filters.usd")}</option>
+                <option>{t("reports.filters.eur")}</option>
               </select>
             </label>
             <label className="rounded-xl border border-slate-200 p-3 dark:border-slate-700">
-              <span className="mb-2 block text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">
-                Created By
+              <span className={`mb-2 block text-xs font-semibold uppercase tracking-[0.2em] text-slate-500 ${isRTL ? "text-right" : "text-left"}`}>
+                {t("reports.filters.createdBy")}
               </span>
               <input
-                className="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm outline-none dark:border-slate-700 dark:bg-slate-800"
-                placeholder="Finance Admin"
+                className={`w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm outline-none dark:border-slate-700 dark:bg-slate-800 ${isRTL ? "text-right" : "text-left"}`}
+                placeholder={t("reports.filters.financeAdmin")}
               />
             </label>
             <label className="rounded-xl border border-slate-200 p-3 dark:border-slate-700">
-              <span className="mb-2 block text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">
-                Approval Status
+              <span className={`mb-2 block text-xs font-semibold uppercase tracking-[0.2em] text-slate-500 ${isRTL ? "text-right" : "text-left"}`}>
+                {t("reports.filters.approvalStatus")}
               </span>
-              <select className="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm outline-none dark:border-slate-700 dark:bg-slate-800">
-                <option>Approved</option>
-                <option>Pending</option>
+              <select className={`w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm outline-none dark:border-slate-700 dark:bg-slate-800 ${isRTL ? "text-right" : "text-left"}`}>
+                <option>{t("reports.filters.approved")}</option>
+                <option>{t("reports.filters.pending")}</option>
               </select>
             </label>
           </motion.div>
@@ -229,54 +231,53 @@ export default function PaymentReportsPage() {
           <PaymentMethodChart />
         </div>
 
-        <ReportViewer title="Payment Performance Report" />
+        <ReportViewer title={t("reports.paymentReports.performanceReport")} />
         <ReportSummary
-          title="Payment Summary"
+          title={t("reports.summary.paymentSummary")}
           items={[
-            { label: "Collection Rate", value: "94.8%" },
-            { label: "Refunds", value: "2.1%" },
-            { label: "Outstanding", value: "$184K" },
+            { label: t("reports.summary.collectionRate"), value: "94.8%" },
+            { label: t("reports.summary.refunds"), value: "2.1%" },
+            { label: t("reports.summary.outstanding"), value: "$184K" },
           ]}
         />
 
         <div className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm dark:border-slate-800 dark:bg-slate-900">
-          <div className="mb-4 flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
-            <div>
+          <div className={`mb-4 flex flex-col gap-3 md:flex-row md:items-center md:justify-between ${isRTL ? "md:flex-row-reverse" : ""}`}>
+            <div className={isRTL ? "text-right" : "text-left"}>
               <h3 className="text-lg font-semibold text-slate-900 dark:text-white">
-                Payments Ledger
+                {t("reports.paymentReports.ledger")}
               </h3>
               <p className="text-sm text-slate-500 dark:text-slate-400">
-                A detailed view of recent payment activity and settlement
-                status.
+                {t("reports.paymentReports.ledgerDescription")}
               </p>
             </div>
-            <div className="flex flex-wrap gap-2">
+            <div className={`flex flex-wrap gap-2 ${isRTL ? "md:flex-row-reverse" : ""}`}>
               <Button variant="secondary" size="sm" icon={FileText}>
-                View Details
+                {t("reports.actions.viewDetails")}
               </Button>
               <Button variant="secondary" size="sm" icon={Printer}>
-                Print Receipt
+                {t("reports.actions.printReceipt")}
               </Button>
               <Button variant="secondary" size="sm" icon={Download}>
-                Export CSV
+                {t("reports.export.csv")}
               </Button>
             </div>
           </div>
 
           {paymentRows.length > 0 ? (
-            <div className="overflow-x-auto">
+            <div className="overflow-x-auto" dir={isRTL ? "rtl" : "ltr"}>
               <table className="min-w-full text-sm">
-                <thead className="bg-slate-50 text-left text-slate-600 dark:bg-slate-800 dark:text-slate-300">
+                <thead className={`bg-slate-50 text-slate-600 dark:bg-slate-800 dark:text-slate-300 ${isRTL ? "text-right" : "text-left"}`}>
                   <tr>
-                    <th className="px-3 py-3 font-semibold">Payment ID</th>
-                    <th className="px-3 py-3 font-semibold">Receipt</th>
-                    <th className="px-3 py-3 font-semibold">Tenant</th>
-                    <th className="px-3 py-3 font-semibold">Property</th>
-                    <th className="px-3 py-3 font-semibold">Unit</th>
-                    <th className="px-3 py-3 font-semibold">Payment Date</th>
-                    <th className="px-3 py-3 font-semibold">Method</th>
-                    <th className="px-3 py-3 font-semibold">Total</th>
-                    <th className="px-3 py-3 font-semibold">Status</th>
+                    <th className="px-3 py-3 font-semibold">{t("reports.table.paymentId")}</th>
+                    <th className="px-3 py-3 font-semibold">{t("reports.table.receipt")}</th>
+                    <th className="px-3 py-3 font-semibold">{t("reports.table.tenant")}</th>
+                    <th className="px-3 py-3 font-semibold">{t("reports.table.property")}</th>
+                    <th className="px-3 py-3 font-semibold">{t("reports.table.unit")}</th>
+                    <th className="px-3 py-3 font-semibold">{t("reports.table.paymentDate")}</th>
+                    <th className="px-3 py-3 font-semibold">{t("reports.table.method")}</th>
+                    <th className="px-3 py-3 font-semibold">{t("reports.table.total")}</th>
+                    <th className="px-3 py-3 font-semibold">{t("reports.table.status")}</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -306,14 +307,20 @@ export default function PaymentReportsPage() {
                       <td className="px-3 py-3 text-slate-600 dark:text-slate-300">
                         {row.method}
                       </td>
-                      <td className="px-3 py-3 font-semibold text-slate-900 dark:text-white">
+                      <td className="px-3 py-3 font-semibold text-slate-900 dark:text-white" dir="ltr">
                         ${row.total.toLocaleString()}
                       </td>
                       <td className="px-3 py-3">
                         <span
-                          className={`rounded-full px-2.5 py-1 text-xs font-semibold ${row.status === "Completed" ? "bg-emerald-100 text-emerald-700 dark:bg-emerald-900/20 dark:text-emerald-400" : row.status === "Pending" ? "bg-amber-100 text-amber-700 dark:bg-amber-900/20 dark:text-amber-400" : "bg-rose-100 text-rose-700 dark:bg-rose-900/20 dark:text-rose-400"}`}
+                          className={`rounded-full px-2.5 py-1 text-xs font-semibold ${
+                            row.status === "Completed" 
+                              ? "bg-emerald-100 text-emerald-700 dark:bg-emerald-900/20 dark:text-emerald-400" 
+                              : row.status === "Pending" 
+                                ? "bg-amber-100 text-amber-700 dark:bg-amber-900/20 dark:text-amber-400" 
+                                : "bg-rose-100 text-rose-700 dark:bg-rose-900/20 dark:text-rose-400"
+                          }`}
                         >
-                          {row.status}
+                          {t(`reports.status.${row.status.toLowerCase()}`)}
                         </span>
                       </td>
                     </tr>
@@ -323,9 +330,9 @@ export default function PaymentReportsPage() {
             </div>
           ) : (
             <EmptyState
-              title="No payment records found"
-              description="Try broadening the date range or removing a filter to surface complete payment history."
-              onRefresh={() => toast.success("Payment list refreshed")}
+              title={t("reports.empty.noPaymentRecords")}
+              description={t("reports.empty.noPaymentRecordsDescription")}
+              onRefresh={() => toast.success(t("reports.messages.paymentListRefreshed"))}
             />
           )}
         </div>

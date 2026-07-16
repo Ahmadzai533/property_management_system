@@ -1,8 +1,20 @@
+import { useLocalization } from "../../hooks/useLocalization";
+
 const BookingTimeline = ({ items = [] }) => {
+  const { t, isRTL } = useLocalization();
+
+  if (!items || items.length === 0) {
+    return (
+      <div className="py-8 text-center text-sm text-slate-500 dark:text-slate-400">
+        {t("booking.messages.noTimelineItems")}
+      </div>
+    );
+  }
+
   return (
     <div className="space-y-4">
       {items.map((item, index) => (
-        <div key={index} className="flex gap-3">
+        <div key={index} className={`flex gap-3 ${isRTL ? "flex-row-reverse" : ""}`}>
           <div className="flex flex-col items-center">
             <div className="mt-1 h-2.5 w-2.5 rounded-full bg-[#6D28D9]" />
             {index < items.length - 1 && (

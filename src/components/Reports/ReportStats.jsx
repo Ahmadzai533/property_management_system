@@ -1,7 +1,11 @@
 import { motion } from "framer-motion";
 import { ArrowUp, ArrowDown } from "lucide-react";
+import { useLocalization } from "../../hooks/useLocalization"; // Adjust path as needed
 
 export function ReportStats({ stats, isLoading = false }) {
+  const { t, locale } = useLocalization();
+  const isRTL = locale === "fa" || locale === "ps";
+  
   if (isLoading) {
     return (
       <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
@@ -35,10 +39,10 @@ export function ReportStats({ stats, isLoading = false }) {
               <p className="text-sm font-medium text-slate-500 dark:text-slate-400">
                 {stat.title}
               </p>
-              <p className="mt-3 text-2xl font-semibold text-slate-900 dark:text-white">
+              <p className="mt-3 text-2xl font-semibold text-slate-900 dark:text-white" dir="ltr">
                 {stat.prefix || ""}
                 {typeof stat.value === "number"
-                  ? stat.value.toLocaleString()
+                  ? stat.value.toLocaleString(isRTL ? "fa-AF" : "en-US")
                   : stat.value}
                 {stat.suffix || ""}
               </p>
@@ -49,17 +53,22 @@ export function ReportStats({ stats, isLoading = false }) {
               <stat.icon className="h-5 w-5" />
             </div>
           </div>
-          <div className="mt-4 flex items-center justify-between">
+          <div className={`mt-4 flex items-center justify-between ${isRTL ? "flex-row-reverse" : ""}`}>
             <span className="text-sm text-slate-500 dark:text-slate-400">
               {stat.subtitle}
             </span>
             <span
-              className={`inline-flex items-center rounded-full px-2.5 py-1 text-xs font-semibold ${stat.trend >= 0 ? "bg-emerald-100 text-emerald-700 dark:bg-emerald-900/20 dark:text-emerald-400" : "bg-rose-100 text-rose-700 dark:bg-rose-900/20 dark:text-rose-400"}`}
+              className={`inline-flex items-center rounded-full px-2.5 py-1 text-xs font-semibold ${
+                stat.trend >= 0 
+                  ? "bg-emerald-100 text-emerald-700 dark:bg-emerald-900/20 dark:text-emerald-400" 
+                  : "bg-rose-100 text-rose-700 dark:bg-rose-900/20 dark:text-rose-400"
+              }`}
+              dir="ltr"
             >
               {stat.trend >= 0 ? (
-                <ArrowUp className="mr-1 h-3.5 w-3.5" />
+                <ArrowUp className={`${isRTL ? "ms-1" : "me-1"} h-3.5 w-3.5`} />
               ) : (
-                <ArrowDown className="mr-1 h-3.5 w-3.5" />
+                <ArrowDown className={`${isRTL ? "ms-1" : "me-1"} h-3.5 w-3.5`} />
               )}
               {Math.abs(stat.trend)}%
             </span>

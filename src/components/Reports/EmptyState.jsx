@@ -1,12 +1,15 @@
 import { motion } from "framer-motion";
 import { FileSpreadsheet, RefreshCw } from "lucide-react";
 import Button from "../common/Button";
+import { useLocalization } from "../../hooks/useLocalization"; // Adjust path as needed
 
 export function EmptyState({
-  title = "No report data available",
-  description = "Adjust your filters or generate a fresh report to see live analytics.",
+  title,
+  description,
   onRefresh,
 }) {
+  const { t } = useLocalization();
+  
   return (
     <motion.div
       initial={{ opacity: 0, y: 10 }}
@@ -17,10 +20,10 @@ export function EmptyState({
         <FileSpreadsheet className="h-7 w-7" />
       </div>
       <h3 className="mt-4 text-lg font-semibold text-slate-900 dark:text-white">
-        {title}
+        {title || t("reports.empty.title")}
       </h3>
       <p className="mx-auto mt-2 max-w-md text-sm text-slate-500 dark:text-slate-400">
-        {description}
+        {description || t("reports.empty.description")}
       </p>
       {onRefresh && (
         <div className="mt-6 flex justify-center">
@@ -30,7 +33,7 @@ export function EmptyState({
             icon={RefreshCw}
             onClick={onRefresh}
           >
-            Refresh
+            {t("reports.actions.refresh")}
           </Button>
         </div>
       )}

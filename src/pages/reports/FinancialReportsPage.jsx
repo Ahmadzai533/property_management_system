@@ -22,6 +22,7 @@ import { CashFlowChart } from "../../components/Reports/CashFlowChart";
 import { EmptyState } from "../../components/Reports/EmptyState";
 import { useToast } from "../../hooks/useToast";
 import DateText from "../../components/common/DateText";
+import { useLocalization } from "../../hooks/useLocalization"; // Adjust path as needed
 
 const financialRows = [
   {
@@ -61,60 +62,62 @@ const financialRows = [
 
 export default function FinancialReportsPage() {
   const { toast } = useToast();
+  const { t, locale } = useLocalization();
+  const isRTL = locale === "fa" || locale === "ps";
   const [isLoading, setIsLoading] = useState(false);
   const [showAdvanced, setShowAdvanced] = useState(false);
 
   const stats = useMemo(
     () => [
       {
-        title: "Total Income",
+        title: t("reports.stats.totalIncome"),
         value: 1845000,
         prefix: "$",
         trend: 15.2,
-        subtitle: "Year to date",
+        subtitle: t("reports.stats.yearToDate"),
         icon: DollarSign,
         iconClassName:
           "bg-violet-100 text-violet-700 dark:bg-violet-900/30 dark:text-violet-300",
       },
       {
-        title: "Total Expenses",
+        title: t("reports.stats.totalExpenses"),
         value: 654000,
         prefix: "$",
         trend: 4.4,
-        subtitle: "Operating costs",
+        subtitle: t("reports.stats.operatingCosts"),
         icon: FileText,
         iconClassName:
           "bg-emerald-100 text-emerald-700 dark:bg-emerald-900/20 dark:text-emerald-400",
       },
       {
-        title: "Net Profit",
+        title: t("reports.stats.netProfit"),
         value: 1191000,
         prefix: "$",
         trend: 11.7,
-        subtitle: "After overhead",
+        subtitle: t("reports.stats.afterOverhead"),
         icon: TrendingUp,
         iconClassName:
           "bg-sky-100 text-sky-700 dark:bg-sky-900/20 dark:text-sky-400",
       },
       {
-        title: "Cash Flow",
+        title: t("reports.stats.cashFlow"),
         value: 840000,
         prefix: "$",
         trend: 7.8,
-        subtitle: "Liquid reserves",
+        subtitle: t("reports.stats.liquidReserves"),
         icon: Wallet,
         iconClassName:
           "bg-amber-100 text-amber-700 dark:bg-amber-900/20 dark:text-amber-400",
       },
     ],
-    [],
+    [t],
   );
 
   const handleGenerate = () => {
     setIsLoading(true);
     setTimeout(() => {
       setIsLoading(false);
-      toast.success("Financial report generated");
+      toast.success(t("reports.messages.financialReportGenerated"));
     }, 700);
   };
 
@@ -122,30 +125,29 @@ export default function FinancialReportsPage() {
     <div className="mx-auto max-w-7xl px-2 sm:px-2 lg:px-2">
       <div className="rounded-2xl bg-gradient-to-r from-[#6D28D9] via-[#7C3AED] to-[#8B5CF6] p-6 text-white shadow-lg dark:from-[#4C1D95] dark:to-[#7C3AED]">
         <Breadcrumb white={true} />
-        <div className="mt-4 flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
-          <div>
-            <h1 className="text-3xl font-semibold">Financial Reports</h1>
+        <div className={`mt-4 flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between ${isRTL ? "lg:flex-row-reverse" : ""}`}>
+          <div className={isRTL ? "text-right" : "text-left"}>
+            <h1 className="text-3xl font-semibold">{t("reports.financialReports.title")}</h1>
             <p className="mt-2 max-w-2xl text-sm text-white/80 sm:text-base">
-              Analyze revenue, spending, profit margins, and cash positions with
-              executive-level reporting tools.
+              {t("reports.financialReports.pageDescription")}
             </p>
           </div>
-          <div className="flex flex-wrap gap-2">
+          <div className={`flex flex-wrap gap-2 ${isRTL ? "lg:flex-row-reverse" : ""}`}>
             <Button
               variant="secondary"
               className="border-white/30 bg-white/20 text-white hover:bg-white/30"
-              onClick={() => toast.info("Financial export queued")}
+              onClick={() => toast.info(t("reports.messages.financialExportQueued"))}
             >
-              {" "}
-              <Download className="h-4 w-4" /> Export
+              <Download className={`h-4 w-4 ${isRTL ? "ms-2" : "me-2"}`} />
+              {t("reports.actions.export")}
             </Button>
             <Button
               variant="secondary"
               className="border-white/30 bg-white/20 text-white hover:bg-white/30"
-              onClick={() => toast.info("Financial print started")}
+              onClick={() => toast.info(t("reports.messages.financialPrintStarted"))}
             >
-              {" "}
-              <Printer className="h-4 w-4" /> Print
+              <Printer className={`h-4 w-4 ${isRTL ? "ms-2" : "me-2"}`} />
+              {t("reports.actions.print")}
             </Button>
           </div>
         </div>
@@ -154,12 +156,12 @@ export default function FinancialReportsPage() {
       <div className="mt-6 space-y-6">
         <ReportStats stats={stats} isLoading={isLoading} />
         <ReportFilters
-          title="Financial report filters"
+          title={t("reports.financialReports.filtersTitle")}
           onGenerate={handleGenerate}
-          onReset={() => toast.warning("Filters reset")}
-          onExport={() => toast.success("Excel export completed")}
-          onPrint={() => toast.info("Print preview opened")}
-          onRefresh={() => toast.success("Financial data refreshed")}
+          onReset={() => toast.warning(t("reports.messages.filtersReset"))}
+          onExport={() => toast.success(t("reports.messages.excelExportCompleted"))}
+          onPrint={() => toast.info(t("reports.messages.printPreviewOpened"))}
+          onRefresh={() => toast.success(t("reports.messages.financialDataRefreshed"))}
           onToggleAdvanced={() => setShowAdvanced((prev) => !prev)}
         />
 
@@ -170,40 +172,40 @@ export default function FinancialReportsPage() {
             className="grid gap-3 rounded-2xl border border-slate-200 bg-white p-4 shadow-sm dark:border-slate-800 dark:bg-slate-900 md:grid-cols-2 xl:grid-cols-4"
           >
             <label className="rounded-xl border border-slate-200 p-3 dark:border-slate-700">
-              <span className="mb-2 block text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">
-                Amount Range
+              <span className={`mb-2 block text-xs font-semibold uppercase tracking-[0.2em] text-slate-500 ${isRTL ? "text-right" : "text-left"}`}>
+                {t("reports.filters.amountRange")}
               </span>
               <input
-                className="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm outline-none dark:border-slate-700 dark:bg-slate-800"
-                placeholder="$5,000 - $50,000"
+                className={`w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm outline-none dark:border-slate-700 dark:bg-slate-800 ${isRTL ? "text-right" : "text-left"}`}
+                placeholder={t("reports.filters.financialAmountRangePlaceholder")}
               />
             </label>
             <label className="rounded-xl border border-slate-200 p-3 dark:border-slate-700">
-              <span className="mb-2 block text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">
-                Currency
+              <span className={`mb-2 block text-xs font-semibold uppercase tracking-[0.2em] text-slate-500 ${isRTL ? "text-right" : "text-left"}`}>
+                {t("reports.filters.currency")}
               </span>
-              <select className="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm outline-none dark:border-slate-700 dark:bg-slate-800">
-                <option>USD</option>
-                <option>EUR</option>
+              <select className={`w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm outline-none dark:border-slate-700 dark:bg-slate-800 ${isRTL ? "text-right" : "text-left"}`}>
+                <option>{t("reports.filters.usd")}</option>
+                <option>{t("reports.filters.eur")}</option>
               </select>
             </label>
             <label className="rounded-xl border border-slate-200 p-3 dark:border-slate-700">
-              <span className="mb-2 block text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">
-                Financial Category
+              <span className={`mb-2 block text-xs font-semibold uppercase tracking-[0.2em] text-slate-500 ${isRTL ? "text-right" : "text-left"}`}>
+                {t("reports.filters.financialCategory")}
               </span>
-              <select className="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm outline-none dark:border-slate-700 dark:bg-slate-800">
-                <option>All</option>
-                <option>Rent</option>
-                <option>Maintenance</option>
+              <select className={`w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm outline-none dark:border-slate-700 dark:bg-slate-800 ${isRTL ? "text-right" : "text-left"}`}>
+                <option>{t("reports.filters.all")}</option>
+                <option>{t("reports.filters.rent")}</option>
+                <option>{t("reports.filters.maintenance")}</option>
               </select>
             </label>
             <label className="rounded-xl border border-slate-200 p-3 dark:border-slate-700">
-              <span className="mb-2 block text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">
-                Approval Status
+              <span className={`mb-2 block text-xs font-semibold uppercase tracking-[0.2em] text-slate-500 ${isRTL ? "text-right" : "text-left"}`}>
+                {t("reports.filters.approvalStatus")}
               </span>
-              <select className="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm outline-none dark:border-slate-700 dark:bg-slate-800">
-                <option>Approved</option>
-                <option>Pending</option>
+              <select className={`w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm outline-none dark:border-slate-700 dark:bg-slate-800 ${isRTL ? "text-right" : "text-left"}`}>
+                <option>{t("reports.filters.approved")}</option>
+                <option>{t("reports.filters.pending")}</option>
               </select>
             </label>
           </motion.div>
@@ -215,49 +217,49 @@ export default function FinancialReportsPage() {
         </div>
         <CashFlowChart />
 
-        <ReportViewer title="Executive Financial Report" />
+        <ReportViewer title={t("reports.financialReports.executiveReport")} />
         <ReportSummary
-          title="Performance Snapshot"
+          title={t("reports.summary.performanceSnapshot")}
           items={[
-            { label: "Profit Margin", value: "64.5%" },
-            { label: "Expense Ratio", value: "35.4%" },
-            { label: "Annual Growth", value: "+18.2%" },
+            { label: t("reports.summary.profitMargin"), value: "64.5%" },
+            { label: t("reports.summary.expenseRatio"), value: "35.4%" },
+            { label: t("reports.summary.annualGrowth"), value: "+18.2%" },
           ]}
         />
 
         <div className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm dark:border-slate-800 dark:bg-slate-900">
-          <div className="mb-4 flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
-            <div>
+          <div className={`mb-4 flex flex-col gap-3 md:flex-row md:items-center md:justify-between ${isRTL ? "md:flex-row-reverse" : ""}`}>
+            <div className={isRTL ? "text-right" : "text-left"}>
               <h3 className="text-lg font-semibold text-slate-900 dark:text-white">
-                Transaction Ledger
+                {t("reports.financialReports.transactionLedger")}
               </h3>
               <p className="text-sm text-slate-500 dark:text-slate-400">
-                A concise ledger of financial activity with balance movement.
+                {t("reports.financialReports.transactionLedgerDescription")}
               </p>
             </div>
-            <div className="flex flex-wrap gap-2">
+            <div className={`flex flex-wrap gap-2 ${isRTL ? "md:flex-row-reverse" : ""}`}>
               <Button variant="secondary" size="sm" icon={ArrowUpRight}>
-                Export PDF
+                {t("reports.export.pdf")}
               </Button>
               <Button variant="secondary" size="sm" icon={Download}>
-                Export CSV
+                {t("reports.export.csv")}
               </Button>
             </div>
           </div>
 
           {financialRows.length > 0 ? (
-            <div className="overflow-x-auto">
+            <div className="overflow-x-auto" dir={isRTL ? "rtl" : "ltr"}>
               <table className="min-w-full text-sm">
-                <thead className="bg-slate-50 text-left text-slate-600 dark:bg-slate-800 dark:text-slate-300">
+                <thead className={`bg-slate-50 text-slate-600 dark:bg-slate-800 dark:text-slate-300 ${isRTL ? "text-right" : "text-left"}`}>
                   <tr>
-                    <th className="px-3 py-3 font-semibold">Transaction ID</th>
-                    <th className="px-3 py-3 font-semibold">Account</th>
-                    <th className="px-3 py-3 font-semibold">Category</th>
-                    <th className="px-3 py-3 font-semibold">Income</th>
-                    <th className="px-3 py-3 font-semibold">Expense</th>
-                    <th className="px-3 py-3 font-semibold">Net Balance</th>
-                    <th className="px-3 py-3 font-semibold">Date</th>
-                    <th className="px-3 py-3 font-semibold">Status</th>
+                    <th className="px-3 py-3 font-semibold">{t("reports.table.transactionId")}</th>
+                    <th className="px-3 py-3 font-semibold">{t("reports.table.account")}</th>
+                    <th className="px-3 py-3 font-semibold">{t("reports.table.category")}</th>
+                    <th className="px-3 py-3 font-semibold">{t("reports.table.income")}</th>
+                    <th className="px-3 py-3 font-semibold">{t("reports.table.expense")}</th>
+                    <th className="px-3 py-3 font-semibold">{t("reports.table.netBalance")}</th>
+                    <th className="px-3 py-3 font-semibold">{t("reports.table.date")}</th>
+                    <th className="px-3 py-3 font-semibold">{t("reports.table.status")}</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -275,14 +277,15 @@ export default function FinancialReportsPage() {
                       <td className="px-3 py-3 text-slate-600 dark:text-slate-300">
                         {row.category}
                       </td>
-                      <td className="px-3 py-3 text-emerald-600 dark:text-emerald-400">
+                      <td className="px-3 py-3 text-emerald-600 dark:text-emerald-400" dir="ltr">
                         ${row.income.toLocaleString()}
                       </td>
-                      <td className="px-3 py-3 text-rose-600 dark:text-rose-400">
+                      <td className="px-3 py-3 text-rose-600 dark:text-rose-400" dir="ltr">
                         ${row.expense.toLocaleString()}
                       </td>
                       <td
                         className={`px-3 py-3 font-semibold ${row.balance >= 0 ? "text-emerald-600 dark:text-emerald-400" : "text-rose-600 dark:text-rose-400"}`}
+                        dir="ltr"
                       >
                         ${row.balance.toLocaleString()}
                       </td>
@@ -291,9 +294,13 @@ export default function FinancialReportsPage() {
                       </td>
                       <td className="px-3 py-3">
                         <span
-                          className={`rounded-full px-2.5 py-1 text-xs font-semibold ${row.status === "Cleared" ? "bg-emerald-100 text-emerald-700 dark:bg-emerald-900/20 dark:text-emerald-400" : "bg-amber-100 text-amber-700 dark:bg-amber-900/20 dark:text-amber-400"}`}
+                          className={`rounded-full px-2.5 py-1 text-xs font-semibold ${
+                            row.status === "Cleared" 
+                              ? "bg-emerald-100 text-emerald-700 dark:bg-emerald-900/20 dark:text-emerald-400" 
+                              : "bg-amber-100 text-amber-700 dark:bg-amber-900/20 dark:text-amber-400"
+                          }`}
                         >
-                          {row.status}
+                          {t(`reports.financialStatus.${row.status.toLowerCase()}`)}
                         </span>
                       </td>
                     </tr>
@@ -303,9 +310,9 @@ export default function FinancialReportsPage() {
             </div>
           ) : (
             <EmptyState
-              title="No financial transactions found"
-              description="Broaden your filters to reveal ledger entries for the selected period."
-              onRefresh={() => toast.success("Ledger refreshed")}
+              title={t("reports.empty.noFinancialTransactions")}
+              description={t("reports.empty.noFinancialTransactionsDescription")}
+              onRefresh={() => toast.success(t("reports.messages.ledgerRefreshed"))}
             />
           )}
         </div>

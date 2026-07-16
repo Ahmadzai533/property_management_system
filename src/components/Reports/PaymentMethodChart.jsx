@@ -1,3 +1,4 @@
+import { useLocalization } from "../../hooks/useLocalization"; // Adjust path as needed
 import {
   ResponsiveContainer,
   PieChart,
@@ -17,14 +18,16 @@ const data = [
 const colors = ["#6D28D9", "#10B981", "#F59E0B", "#3B82F6"];
 
 export function PaymentMethodChart() {
+  const { t } = useLocalization();
+  
   return (
     <div className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm dark:border-slate-800 dark:bg-slate-900">
       <div className="mb-3">
         <h3 className="text-lg font-semibold text-slate-900 dark:text-white">
-          Payment Methods
+          {t("reports.charts.paymentMethods")}
         </h3>
         <p className="text-sm text-slate-500 dark:text-slate-400">
-          Distribution across settlement channels.
+          {t("reports.charts.paymentMethodsDescription")}
         </p>
       </div>
       <div className="h-72">

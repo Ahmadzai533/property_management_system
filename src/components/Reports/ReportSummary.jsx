@@ -1,6 +1,9 @@
 import { motion } from "framer-motion";
+import { useLocalization } from "../../hooks/useLocalization"; // Adjust path as needed
 
-export function ReportSummary({ title = "Report Summary", items = [] }) {
+export function ReportSummary({ title, items = [] }) {
+  const { t } = useLocalization();
+  
   return (
     <motion.div
       initial={{ opacity: 0, y: 12 }}
@@ -10,10 +13,10 @@ export function ReportSummary({ title = "Report Summary", items = [] }) {
       <div className="flex items-center justify-between">
         <div>
           <p className="text-sm uppercase tracking-[0.2em] text-slate-500">
-            Insights
+            {t("reports.summary.insights")}
           </p>
           <h3 className="text-xl font-semibold text-slate-900 dark:text-white">
-            {title}
+            {title || t("reports.summary.title")}
           </h3>
         </div>
       </div>

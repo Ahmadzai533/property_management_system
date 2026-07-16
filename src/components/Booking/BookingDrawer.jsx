@@ -13,8 +13,11 @@ import {
 } from "lucide-react";
 import Button from "../common/Button";
 import BookingStatusBadge from "./BookingStatusBadge";
+import { useLocalization } from "../../hooks/useLocalization";
 
 const BookingDrawer = ({ isOpen, onClose, booking }) => {
+  const { t, isRTL } = useLocalization();
+
   if (!booking) return null;
 
   return (
@@ -29,16 +32,20 @@ const BookingDrawer = ({ isOpen, onClose, booking }) => {
             onClick={onClose}
           />
           <motion.aside
-            initial={{ x: "100%" }}
+            initial={{ x: isRTL ? "-100%" : "100%" }}
             animate={{ x: 0 }}
-            exit={{ x: "100%" }}
+            exit={{ x: isRTL ? "-100%" : "100%" }}
             transition={{ type: "spring", stiffness: 220, damping: 24 }}
-            className="fixed right-0 top-0 z-50 flex h-full w-full max-w-xl flex-col border-l border-slate-200 bg-white shadow-2xl dark:border-slate-800 dark:bg-slate-900"
+            className={`fixed top-0 z-50 flex h-full w-full max-w-xl flex-col border-slate-200 bg-white shadow-2xl dark:border-slate-800 dark:bg-slate-900 ${
+              isRTL
+                ? "left-0 border-r"
+                : "right-0 border-l"
+            }`}
           >
             <div className="flex items-center justify-between border-b border-slate-200 p-4 dark:border-slate-800">
               <div>
                 <p className="text-sm font-semibold uppercase tracking-[0.2em] text-slate-400">
-                  Booking Details
+                  {t("booking.drawer.bookingDetails")}
                 </p>
                 <h2 className="text-lg font-semibold text-slate-900 dark:text-white">
                   {booking.bookingNumber}
@@ -47,7 +54,7 @@ const BookingDrawer = ({ isOpen, onClose, booking }) => {
               <button
                 onClick={onClose}
                 className="rounded-lg p-2 text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800"
-                aria-label="Close drawer"
+                aria-label={t("booking.actions.close")}
               >
                 <X className="h-5 w-5" />
               </button>
@@ -69,7 +76,7 @@ const BookingDrawer = ({ isOpen, onClose, booking }) => {
                 <div className="mt-4 grid gap-3 sm:grid-cols-2">
                   <div className="rounded-xl bg-white p-3 dark:bg-slate-900">
                     <p className="text-xs uppercase tracking-[0.2em] text-slate-400">
-                      Check-in
+                      {t("booking.table.checkIn")}
                     </p>
                     <p className="mt-1 font-semibold text-slate-900 dark:text-white">
                       {booking.checkIn}
@@ -77,7 +84,7 @@ const BookingDrawer = ({ isOpen, onClose, booking }) => {
                   </div>
                   <div className="rounded-xl bg-white p-3 dark:bg-slate-900">
                     <p className="text-xs uppercase tracking-[0.2em] text-slate-400">
-                      Check-out
+                      {t("booking.table.checkOut")}
                     </p>
                     <p className="mt-1 font-semibold text-slate-900 dark:text-white">
                       {booking.checkOut}
@@ -88,19 +95,19 @@ const BookingDrawer = ({ isOpen, onClose, booking }) => {
 
               <div className="rounded-2xl border border-slate-200 p-4 dark:border-slate-800">
                 <h3 className="text-sm font-semibold text-slate-900 dark:text-white">
-                  Booking Information
+                  {t("booking.drawer.bookingInformation")}
                 </h3>
                 <div className="mt-3 space-y-2 text-sm text-slate-600 dark:text-slate-300">
                   <div className="flex items-center justify-between">
-                    <span>Source</span>
+                    <span>{t("booking.drawer.source")}</span>
                     <span>{booking.source}</span>
                   </div>
                   <div className="flex items-center justify-between">
-                    <span>Assigned Staff</span>
+                    <span>{t("booking.drawer.assignedStaff")}</span>
                     <span>{booking.assignedStaff}</span>
                   </div>
                   <div className="flex items-center justify-between">
-                    <span>Payment</span>
+                    <span>{t("booking.table.payment")}</span>
                     <span>
                       <BookingStatusBadge
                         status={booking.paymentStatus}
@@ -109,7 +116,7 @@ const BookingDrawer = ({ isOpen, onClose, booking }) => {
                     </span>
                   </div>
                   <div className="flex items-center justify-between">
-                    <span>Amount</span>
+                    <span>{t("booking.table.amount")}</span>
                     <span className="font-semibold text-slate-900 dark:text-white">
                       ${booking.amount.toLocaleString()}
                     </span>
@@ -119,17 +126,17 @@ const BookingDrawer = ({ isOpen, onClose, booking }) => {
 
               <div className="rounded-2xl border border-slate-200 p-4 dark:border-slate-800">
                 <h3 className="text-sm font-semibold text-slate-900 dark:text-white">
-                  Activity Timeline
+                  {t("booking.drawer.activityTimeline")}
                 </h3>
                 <div className="mt-3 space-y-3 text-sm text-slate-600 dark:text-slate-300">
                   <div className="rounded-xl bg-slate-50 p-3 dark:bg-slate-800/60">
-                    Booking created · {booking.createdBy}
+                    {t("booking.drawer.bookingCreated")} · {booking.createdBy}
                   </div>
                   <div className="rounded-xl bg-slate-50 p-3 dark:bg-slate-800/60">
-                    Guest confirmed stay preferences
+                    {t("booking.drawer.guestConfirmedPreferences")}
                   </div>
                   <div className="rounded-xl bg-slate-50 p-3 dark:bg-slate-800/60">
-                    Payment status updated to {booking.paymentStatus}
+                    {t("booking.drawer.paymentUpdated", { status: booking.paymentStatus })}
                   </div>
                 </div>
               </div>
@@ -137,14 +144,14 @@ const BookingDrawer = ({ isOpen, onClose, booking }) => {
 
             <div className="flex flex-wrap gap-2 border-t border-slate-200 p-4 dark:border-slate-800">
               <Button variant="secondary" icon={Printer}>
-                Print
+                {t("booking.actions.print")}
               </Button>
               <Button variant="secondary" icon={Download}>
-                PDF
+                {t("booking.actions.pdf")}
               </Button>
-              <Button icon={CheckCircle2}>Check In</Button>
+              <Button icon={CheckCircle2}>{t("booking.actions.checkIn")}</Button>
               <Button variant="danger" icon={LogOut}>
-                Check Out
+                {t("booking.actions.checkOut")}
               </Button>
             </div>
           </motion.aside>

@@ -10,6 +10,7 @@ import {
 import PageHeader from "../../components/shared/PageHeader";
 import Button from "../../components/common/Button";
 import BookingStatusBadge from "../../components/Booking/BookingStatusBadge";
+import { useLocalization } from "../../hooks/useLocalization";
 
 const calendarEvents = [
   {
@@ -46,29 +47,47 @@ const calendarEvents = [
 
 const BookingCalendarPage = () => {
   const [view, setView] = useState("month");
+  const { t, isRTL } = useLocalization();
+
+  const viewOptions = [
+    { key: "day", label: t("booking.calendar.views.day") },
+    { key: "week", label: t("booking.calendar.views.week") },
+    { key: "month", label: t("booking.calendar.views.month") },
+    { key: "timeline", label: t("booking.calendar.views.timeline") },
+  ];
+
+  const weekDays = [
+    t("booking.calendar.days.sun"),
+    t("booking.calendar.days.mon"),
+    t("booking.calendar.days.tue"),
+    t("booking.calendar.days.wed"),
+    t("booking.calendar.days.thu"),
+    t("booking.calendar.days.fri"),
+    t("booking.calendar.days.sat"),
+  ];
 
   return (
     <div className="px-2 sm:px-2 lg:px-2 max-w-7xl mx-auto">
       <PageHeader
         breadcrumbItems={[
-          { label: "Dashboard", href: "/" },
-          { label: "Bookings", href: "/bookings/list" },
-          { label: "Calendar" },
+          { label: t("navigation.dashboard"), href: "/" },
+          { label: t("navigation.bookings"), href: "/bookings/list" },
+          { label: t("booking.calendar.title") },
         ]}
-        title="Booking Calendar"
-        subtitle="Visualize arrivals, departures, and stay activity across the portfolio."
+        title={t("booking.calendar.heading")}
+        subtitle={t("booking.calendar.subtitle")}
       />
 
       <div className="mt-6 rounded-2xl border border-slate-200/80 bg-white/80 p-4 shadow-sm dark:border-slate-800 dark:bg-slate-900/70">
         <div className="flex flex-wrap items-center justify-between gap-3">
           <div className="flex items-center gap-2">
-            {["day", "week", "month", "timeline"].map((item) => (
+            {viewOptions.map((item) => (
               <button
-                key={item}
-                onClick={() => setView(item)}
-                className={`rounded-xl px-3 py-2 text-sm capitalize ${view === item ? "bg-[#6D28D9] text-white" : "bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-300"}`}
+                key={item.key}
+                onClick={() => setView(item.key)}
+                className={`rounded-xl px-3 py-2 text-sm capitalize ${view === item.key ? "bg-[#6D28D9] text-white" : "bg-slate-100 text-slate-600 dark:bg-slate-800 dark:text-slate-300"}`}
               >
-                {item}
+                {item.label}
               </button>
             ))}
           </div>
@@ -76,12 +95,12 @@ const BookingCalendarPage = () => {
             <label className="flex items-center gap-2 rounded-xl border border-slate-200 bg-slate-50 px-3 py-2 text-sm dark:border-slate-700 dark:bg-slate-800">
               <Search className="h-4 w-4 text-slate-400" />
               <input
-                placeholder="Search bookings"
+                placeholder={t("booking.calendar.searchPlaceholder")}
                 className="bg-transparent outline-none"
               />
             </label>
             <Button variant="secondary" size="sm" icon={SlidersHorizontal}>
-              Filter
+              {t("booking.actions.filter")}
             </Button>
           </div>
         </div>
@@ -91,10 +110,10 @@ const BookingCalendarPage = () => {
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm font-semibold text-slate-900 dark:text-white">
-                  July 2026
+                  {t("booking.calendar.months.july")} 2026
                 </p>
                 <p className="text-sm text-slate-500 dark:text-slate-400">
-                  {view.toUpperCase()} view
+                  {t(`booking.calendar.views.${view}`).toUpperCase()} {t("booking.calendar.view")}
                 </p>
               </div>
               <div className="rounded-2xl bg-white p-2 shadow-sm dark:bg-slate-900">
@@ -102,7 +121,7 @@ const BookingCalendarPage = () => {
               </div>
             </div>
             <div className="mt-4 grid grid-cols-7 gap-2 text-center text-xs font-semibold uppercase tracking-[0.2em] text-slate-400">
-              {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map((day) => (
+              {weekDays.map((day) => (
                 <div key={day}>{day}</div>
               ))}
             </div>
@@ -111,17 +130,19 @@ const BookingCalendarPage = () => {
                 <motion.div
                   key={index}
                   whileHover={{ y: -2 }}
-                  className="flex h-20 flex-col rounded-xl border border-slate-200 bg-white p-2 text-left text-sm shadow-sm dark:border-slate-700 dark:bg-slate-900"
+                  className={`flex h-20 flex-col rounded-xl border border-slate-200 bg-white p-2 text-sm shadow-sm dark:border-slate-700 dark:bg-slate-900 ${
+                    isRTL ? "text-right" : "text-left"
+                  }`}
                 >
                   <span className="text-xs text-slate-400">{index + 1}</span>
                   {index === 7 && (
                     <div className="mt-2 rounded-lg bg-gradient-to-r from-emerald-500 to-emerald-600 p-1 text-[10px] text-white">
-                      Ava
+                      {t("booking.calendar.guestAbbr.ava")}
                     </div>
                   )}
                   {index === 9 && (
                     <div className="mt-1 rounded-lg bg-gradient-to-r from-amber-500 to-orange-500 p-1 text-[10px] text-white">
-                      Liam
+                      {t("booking.calendar.guestAbbr.liam")}
                     </div>
                   )}
                 </motion.div>
@@ -150,8 +171,8 @@ const BookingCalendarPage = () => {
                     <BookingStatusBadge status={event.status} />
                   </div>
                   <div className="mt-3 flex items-center justify-between text-sm text-slate-500 dark:text-slate-400">
-                    <span>Check-in {event.checkIn}</span>
-                    <span>Check-out {event.checkOut}</span>
+                    <span>{t("booking.calendar.checkIn")} {event.checkIn}</span>
+                    <span>{t("booking.calendar.checkOut")} {event.checkOut}</span>
                   </div>
                 </div>
               </motion.div>

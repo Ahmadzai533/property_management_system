@@ -1,8 +1,11 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { AlertTriangle, X } from "lucide-react";
 import Button from "../common/Button";
+import { useLocalization } from "../../hooks/useLocalization";
 
 const DeleteBookingModal = ({ isOpen, onClose, onConfirm, booking }) => {
+  const { t } = useLocalization();
+
   if (!isOpen) return null;
 
   return (
@@ -26,17 +29,17 @@ const DeleteBookingModal = ({ isOpen, onClose, onConfirm, booking }) => {
               </div>
               <div>
                 <h3 className="text-lg font-semibold text-slate-900 dark:text-white">
-                  Delete Booking
+                  {t("booking.modal.deleteTitle")}
                 </h3>
                 <p className="text-sm text-slate-500 dark:text-slate-400">
-                  This action cannot be undone.
+                  {t("booking.modal.deleteWarning")}
                 </p>
               </div>
             </div>
             <button
               onClick={onClose}
               className="rounded-lg p-2 text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800"
-              aria-label="Close"
+              aria-label={t("booking.actions.close")}
             >
               <X className="h-5 w-5" />
             </button>
@@ -44,28 +47,22 @@ const DeleteBookingModal = ({ isOpen, onClose, onConfirm, booking }) => {
 
           <div className="mt-5 rounded-2xl border border-slate-200 bg-slate-50 p-4 dark:border-slate-800 dark:bg-slate-800/60">
             <p className="text-sm text-slate-600 dark:text-slate-300">
-              You are about to remove{" "}
-              <span className="font-semibold text-slate-900 dark:text-white">
-                {booking?.bookingNumber}
-              </span>{" "}
-              for{" "}
-              <span className="font-semibold text-slate-900 dark:text-white">
-                {booking?.guest}
-              </span>
-              .
+              {t("booking.modal.deleteConfirmation", {
+                bookingNumber: booking?.bookingNumber,
+                guestName: booking?.guest,
+              })}
             </p>
             <p className="mt-2 text-sm text-slate-500 dark:text-slate-400">
-              The booking history and linked documents will be detached from the
-              reservation record.
+              {t("booking.modal.deleteConsequences")}
             </p>
           </div>
 
           <div className="mt-6 flex justify-end gap-2">
             <Button variant="secondary" onClick={onClose}>
-              Cancel
+              {t("booking.actions.cancel")}
             </Button>
             <Button variant="danger" onClick={onConfirm}>
-              Delete Booking
+              {t("booking.actions.delete")}
             </Button>
           </div>
         </motion.div>

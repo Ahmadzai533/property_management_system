@@ -20,6 +20,7 @@ import { RevenueChart } from "../../components/Reports/RevenueChart";
 import { EmptyState } from "../../components/Reports/EmptyState";
 import { useToast } from "../../hooks/useToast";
 import DateText from "../../components/common/DateText";
+import { useLocalization } from "../../hooks/useLocalization"; // Adjust path as needed
 
 const invoiceRows = [
   {
@@ -71,56 +72,58 @@ const invoiceRows = [
 
 export default function InvoiceReportsPage() {
   const { toast } = useToast();
+  const { t, locale } = useLocalization();
+  const isRTL = locale === "fa" || locale === "ps";
   const [isLoading, setIsLoading] = useState(false);
   const [showAdvanced, setShowAdvanced] = useState(false);
 
   const stats = useMemo(
     () => [
       {
-        title: "Total Invoices",
+        title: t("reports.stats.totalInvoices"),
         value: 1284,
         trend: 9.3,
-        subtitle: "Issued across portfolio",
+        subtitle: t("reports.stats.issuedAcrossPortfolio"),
         icon: FileText,
         iconClassName:
           "bg-violet-100 text-violet-700 dark:bg-violet-900/30 dark:text-violet-300",
       },
       {
-        title: "Paid Invoices",
+        title: t("reports.stats.paidInvoices"),
         value: 1120,
         trend: 8.2,
-        subtitle: "Settled successfully",
+        subtitle: t("reports.stats.settledSuccessfully"),
         icon: CheckCircle2,
         iconClassName:
           "bg-emerald-100 text-emerald-700 dark:bg-emerald-900/20 dark:text-emerald-400",
       },
       {
-        title: "Unpaid Invoices",
+        title: t("reports.stats.unpaidInvoices"),
         value: 98,
         trend: -2.1,
-        subtitle: "Awaiting payment",
+        subtitle: t("reports.stats.awaitingPayment"),
         icon: AlertCircle,
         iconClassName:
           "bg-amber-100 text-amber-700 dark:bg-amber-900/20 dark:text-amber-400",
       },
       {
-        title: "Overdue Invoices",
+        title: t("reports.stats.overdueInvoices"),
         value: 66,
         trend: -4.8,
-        subtitle: "Past due",
+        subtitle: t("reports.stats.pastDue"),
         icon: Clock3,
         iconClassName:
           "bg-rose-100 text-rose-700 dark:bg-rose-900/20 dark:text-rose-400",
       },
     ],
-    [],
+    [t],
   );
 
   const handleGenerate = () => {
     setIsLoading(true);
     setTimeout(() => {
       setIsLoading(false);
-      toast.success("Invoice report generated");
+      toast.success(t("reports.messages.invoiceReportGenerated"));
     }, 700);
   };
 
@@ -128,30 +131,29 @@ export default function InvoiceReportsPage() {
     <div className="mx-auto max-w-7xl px-2 sm:px-2 lg:px-2">
       <div className="rounded-2xl bg-gradient-to-r from-[#6D28D9] via-[#7C3AED] to-[#8B5CF6] p-6 text-white shadow-lg dark:from-[#4C1D95] dark:to-[#7C3AED]">
         <Breadcrumb white={true} />
-        <div className="mt-4 flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
-          <div>
-            <h1 className="text-3xl font-semibold">Invoice Reports</h1>
+        <div className={`mt-4 flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between ${isRTL ? "lg:flex-row-reverse" : ""}`}>
+          <div className={isRTL ? "text-right" : "text-left"}>
+            <h1 className="text-3xl font-semibold">{t("reports.invoiceReports.title")}</h1>
             <p className="mt-2 max-w-2xl text-sm text-white/80 sm:text-base">
-              Monitor invoices, overdue balances, issuance trends, and payment
-              outcomes for each tenant and property.
+              {t("reports.invoiceReports.pageDescription")}
             </p>
           </div>
-          <div className="flex flex-wrap gap-2">
+          <div className={`flex flex-wrap gap-2 ${isRTL ? "lg:flex-row-reverse" : ""}`}>
             <Button
               variant="secondary"
               className="border-white/30 bg-white/20 text-white hover:bg-white/30"
-              onClick={() => toast.info("Invoice export queued")}
+              onClick={() => toast.info(t("reports.messages.invoiceExportQueued"))}
             >
-              {" "}
-              <Download className="h-4 w-4" /> Export
+              <Download className={`h-4 w-4 ${isRTL ? "ms-2" : "me-2"}`} />
+              {t("reports.actions.export")}
             </Button>
             <Button
               variant="secondary"
               className="border-white/30 bg-white/20 text-white hover:bg-white/30"
-              onClick={() => toast.info("Invoice print started")}
+              onClick={() => toast.info(t("reports.messages.invoicePrintStarted"))}
             >
-              {" "}
-              <Printer className="h-4 w-4" /> Print
+              <Printer className={`h-4 w-4 ${isRTL ? "ms-2" : "me-2"}`} />
+              {t("reports.actions.print")}
             </Button>
           </div>
         </div>
@@ -160,12 +162,12 @@ export default function InvoiceReportsPage() {
       <div className="mt-6 space-y-6">
         <ReportStats stats={stats} isLoading={isLoading} />
         <ReportFilters
-          title="Invoice report filters"
+          title={t("reports.invoiceReports.filtersTitle")}
           onGenerate={handleGenerate}
-          onReset={() => toast.warning("Filters reset")}
-          onExport={() => toast.success("Excel export completed")}
-          onPrint={() => toast.info("Print preview opened")}
-          onRefresh={() => toast.success("Invoice data refreshed")}
+          onReset={() => toast.warning(t("reports.messages.filtersReset"))}
+          onExport={() => toast.success(t("reports.messages.excelExportCompleted"))}
+          onPrint={() => toast.info(t("reports.messages.printPreviewOpened"))}
+          onRefresh={() => toast.success(t("reports.messages.invoiceDataRefreshed"))}
           onToggleAdvanced={() => setShowAdvanced((prev) => !prev)}
         />
 
@@ -176,41 +178,41 @@ export default function InvoiceReportsPage() {
             className="grid gap-3 rounded-2xl border border-slate-200 bg-white p-4 shadow-sm dark:border-slate-800 dark:bg-slate-900 md:grid-cols-2 xl:grid-cols-4"
           >
             <label className="rounded-xl border border-slate-200 p-3 dark:border-slate-700">
-              <span className="mb-2 block text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">
-                Invoice Status
+              <span className={`mb-2 block text-xs font-semibold uppercase tracking-[0.2em] text-slate-500 ${isRTL ? "text-right" : "text-left"}`}>
+                {t("reports.filters.invoiceStatus")}
               </span>
-              <select className="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm outline-none dark:border-slate-700 dark:bg-slate-800">
-                <option>All</option>
-                <option>Issued</option>
-                <option>Overdue</option>
+              <select className={`w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm outline-none dark:border-slate-700 dark:bg-slate-800 ${isRTL ? "text-right" : "text-left"}`}>
+                <option>{t("reports.filters.all")}</option>
+                <option>{t("reports.filters.issued")}</option>
+                <option>{t("reports.filters.overdue")}</option>
               </select>
             </label>
             <label className="rounded-xl border border-slate-200 p-3 dark:border-slate-700">
-              <span className="mb-2 block text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">
-                Payment Status
+              <span className={`mb-2 block text-xs font-semibold uppercase tracking-[0.2em] text-slate-500 ${isRTL ? "text-right" : "text-left"}`}>
+                {t("reports.filters.paymentStatus")}
               </span>
-              <select className="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm outline-none dark:border-slate-700 dark:bg-slate-800">
-                <option>All</option>
-                <option>Paid</option>
-                <option>Pending</option>
+              <select className={`w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm outline-none dark:border-slate-700 dark:bg-slate-800 ${isRTL ? "text-right" : "text-left"}`}>
+                <option>{t("reports.filters.all")}</option>
+                <option>{t("reports.filters.paid")}</option>
+                <option>{t("reports.filters.pending")}</option>
               </select>
             </label>
             <label className="rounded-xl border border-slate-200 p-3 dark:border-slate-700">
-              <span className="mb-2 block text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">
-                Created By
+              <span className={`mb-2 block text-xs font-semibold uppercase tracking-[0.2em] text-slate-500 ${isRTL ? "text-right" : "text-left"}`}>
+                {t("reports.filters.createdBy")}
               </span>
               <input
-                className="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm outline-none dark:border-slate-700 dark:bg-slate-800"
-                placeholder="Finance Admin"
+                className={`w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm outline-none dark:border-slate-700 dark:bg-slate-800 ${isRTL ? "text-right" : "text-left"}`}
+                placeholder={t("reports.filters.financeAdmin")}
               />
             </label>
             <label className="rounded-xl border border-slate-200 p-3 dark:border-slate-700">
-              <span className="mb-2 block text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">
-                Approval Status
+              <span className={`mb-2 block text-xs font-semibold uppercase tracking-[0.2em] text-slate-500 ${isRTL ? "text-right" : "text-left"}`}>
+                {t("reports.filters.approvalStatus")}
               </span>
-              <select className="w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm outline-none dark:border-slate-700 dark:bg-slate-800">
-                <option>Approved</option>
-                <option>Pending</option>
+              <select className={`w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-sm outline-none dark:border-slate-700 dark:bg-slate-800 ${isRTL ? "text-right" : "text-left"}`}>
+                <option>{t("reports.filters.approved")}</option>
+                <option>{t("reports.filters.pending")}</option>
               </select>
             </label>
           </motion.div>
@@ -221,66 +223,66 @@ export default function InvoiceReportsPage() {
           <div className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm dark:border-slate-800 dark:bg-slate-900">
             <div className="mb-3">
               <h3 className="text-lg font-semibold text-slate-900 dark:text-white">
-                Invoice Status Breakdown
+                {t("reports.charts.invoiceStatusBreakdown")}
               </h3>
               <p className="text-sm text-slate-500 dark:text-slate-400">
-                Issued, paid, and overdue balances.
+                {t("reports.charts.invoiceStatusBreakdownDescription")}
               </p>
             </div>
             <div className="h-72">
               <div className="flex h-full items-center justify-center rounded-2xl bg-slate-50 text-sm text-slate-500 dark:bg-slate-800/70 dark:text-slate-400">
-                Interactive chart placeholder for invoice status distribution.
+                {t("reports.charts.invoiceChartPlaceholder")}
               </div>
             </div>
           </div>
         </div>
 
-        <ReportViewer title="Invoice Portfolio Report" />
+        <ReportViewer title={t("reports.invoiceReports.portfolioReport")} />
         <ReportSummary
-          title="Invoice Summary"
+          title={t("reports.summary.invoiceSummary")}
           items={[
-            { label: "Average Invoice", value: "$2,480" },
-            { label: "Overdue Rate", value: "5.1%" },
-            { label: "Draft Count", value: "34" },
+            { label: t("reports.summary.averageInvoice"), value: "$2,480" },
+            { label: t("reports.summary.overdueRate"), value: "5.1%" },
+            { label: t("reports.summary.draftCount"), value: "34" },
           ]}
         />
 
         <div className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm dark:border-slate-800 dark:bg-slate-900">
-          <div className="mb-4 flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
-            <div>
+          <div className={`mb-4 flex flex-col gap-3 md:flex-row md:items-center md:justify-between ${isRTL ? "md:flex-row-reverse" : ""}`}>
+            <div className={isRTL ? "text-right" : "text-left"}>
               <h3 className="text-lg font-semibold text-slate-900 dark:text-white">
-                Invoice Ledger
+                {t("reports.invoiceReports.ledger")}
               </h3>
               <p className="text-sm text-slate-500 dark:text-slate-400">
-                Manage recent invoices and monitor billing health.
+                {t("reports.invoiceReports.ledgerDescription")}
               </p>
             </div>
-            <div className="flex flex-wrap gap-2">
+            <div className={`flex flex-wrap gap-2 ${isRTL ? "md:flex-row-reverse" : ""}`}>
               <Button variant="secondary" size="sm" icon={FileText}>
-                View Invoice
+                {t("reports.actions.viewInvoice")}
               </Button>
               <Button variant="secondary" size="sm" icon={Printer}>
-                Print
+                {t("reports.actions.print")}
               </Button>
               <Button variant="secondary" size="sm" icon={Download}>
-                Export Excel
+                {t("reports.export.excel")}
               </Button>
             </div>
           </div>
 
           {invoiceRows.length > 0 ? (
-            <div className="overflow-x-auto">
+            <div className="overflow-x-auto" dir={isRTL ? "rtl" : "ltr"}>
               <table className="min-w-full text-sm">
-                <thead className="bg-slate-50 text-left text-slate-600 dark:bg-slate-800 dark:text-slate-300">
+                <thead className={`bg-slate-50 text-slate-600 dark:bg-slate-800 dark:text-slate-300 ${isRTL ? "text-right" : "text-left"}`}>
                   <tr>
-                    <th className="px-3 py-3 font-semibold">Invoice Number</th>
-                    <th className="px-3 py-3 font-semibold">Customer</th>
-                    <th className="px-3 py-3 font-semibold">Property</th>
-                    <th className="px-3 py-3 font-semibold">Unit</th>
-                    <th className="px-3 py-3 font-semibold">Invoice Date</th>
-                    <th className="px-3 py-3 font-semibold">Due Date</th>
-                    <th className="px-3 py-3 font-semibold">Total</th>
-                    <th className="px-3 py-3 font-semibold">Status</th>
+                    <th className="px-3 py-3 font-semibold">{t("reports.table.invoiceNumber")}</th>
+                    <th className="px-3 py-3 font-semibold">{t("reports.table.customer")}</th>
+                    <th className="px-3 py-3 font-semibold">{t("reports.table.property")}</th>
+                    <th className="px-3 py-3 font-semibold">{t("reports.table.unit")}</th>
+                    <th className="px-3 py-3 font-semibold">{t("reports.table.invoiceDate")}</th>
+                    <th className="px-3 py-3 font-semibold">{t("reports.table.dueDate")}</th>
+                    <th className="px-3 py-3 font-semibold">{t("reports.table.total")}</th>
+                    <th className="px-3 py-3 font-semibold">{t("reports.table.status")}</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -307,14 +309,20 @@ export default function InvoiceReportsPage() {
                       <td className="px-3 py-3 text-slate-600 dark:text-slate-300">
                         <DateText value={row.dueDate} />
                       </td>
-                      <td className="px-3 py-3 font-semibold text-slate-900 dark:text-white">
+                      <td className="px-3 py-3 font-semibold text-slate-900 dark:text-white" dir="ltr">
                         ${row.total.toLocaleString()}
                       </td>
                       <td className="px-3 py-3">
                         <span
-                          className={`rounded-full px-2.5 py-1 text-xs font-semibold ${row.invoiceStatus === "Issued" ? "bg-emerald-100 text-emerald-700 dark:bg-emerald-900/20 dark:text-emerald-400" : row.invoiceStatus === "Overdue" ? "bg-rose-100 text-rose-700 dark:bg-rose-900/20 dark:text-rose-400" : "bg-amber-100 text-amber-700 dark:bg-amber-900/20 dark:text-amber-400"}`}
+                          className={`rounded-full px-2.5 py-1 text-xs font-semibold ${
+                            row.invoiceStatus === "Issued" 
+                              ? "bg-emerald-100 text-emerald-700 dark:bg-emerald-900/20 dark:text-emerald-400" 
+                              : row.invoiceStatus === "Overdue" 
+                                ? "bg-rose-100 text-rose-700 dark:bg-rose-900/20 dark:text-rose-400" 
+                                : "bg-amber-100 text-amber-700 dark:bg-amber-900/20 dark:text-amber-400"
+                          }`}
                         >
-                          {row.invoiceStatus}
+                          {t(`reports.invoiceStatus.${row.invoiceStatus.toLowerCase()}`)}
                         </span>
                       </td>
                     </tr>
@@ -324,9 +332,9 @@ export default function InvoiceReportsPage() {
             </div>
           ) : (
             <EmptyState
-              title="No invoices found"
-              description="Adjust the date or invoice status filters to reveal billing records."
-              onRefresh={() => toast.success("Invoice list refreshed")}
+              title={t("reports.empty.noInvoicesFound")}
+              description={t("reports.empty.noInvoicesFoundDescription")}
+              onRefresh={() => toast.success(t("reports.messages.invoiceListRefreshed"))}
             />
           )}
         </div>

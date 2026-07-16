@@ -1,3 +1,4 @@
+import { useLocalization } from "../../hooks/useLocalization"; // Adjust path as needed
 import {
   ResponsiveContainer,
   LineChart,
@@ -20,15 +21,17 @@ const data = [
 ];
 
 export function CashFlowChart() {
+  const { t } = useLocalization();
+  
   return (
     <div className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm dark:border-slate-800 dark:bg-slate-900">
       <div className="mb-3 flex items-center justify-between">
         <div>
           <h3 className="text-lg font-semibold text-slate-900 dark:text-white">
-            Cash Flow
+            {t("reports.charts.cashFlow")}
           </h3>
           <p className="text-sm text-slate-500 dark:text-slate-400">
-            Operating liquidity over the reporting period.
+            {t("reports.charts.cashFlowDescription")}
           </p>
         </div>
       </div>
